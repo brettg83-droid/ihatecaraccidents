@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IHateCarAccidents.com | Live Crash Reports & Accident News</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --red: #c8102e; --red-dark: #a00d25; --black: #111; --gray-dark: #222;
+    --gray: #444; --gray-mid: #777; --gray-light: #e8e8e8; --gray-bg: #f5f5f5; --white: #fff;
+  }
+  body { font-family: 'Barlow', sans-serif; color: var(--black); background: var(--white); font-size: 15px; line-height: 1.6; }
+  a { color: inherit; text-decoration: none; } a:hover { color: var(--red); }
+
+  .top-bar { background: var(--red); color: var(--white); text-align: center; font-size: 13px; font-weight: 500; padding: 8px 16px; letter-spacing: 0.03em; }
+  .top-bar a { color: #fff; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.5); }
+
+  header { background: var(--white); border-bottom: 3px solid var(--red); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  .header-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; gap: 20px; }
+  .logo { font-family: 'Bebas Neue', sans-serif; line-height: 1; flex-shrink: 0; cursor: pointer; display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo-icon { width: 38px; height: 38px; background: var(--red); border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative; overflow: hidden; transform: rotate(-2deg); box-shadow: 3px 3px 0 #7a0a1a; }
+  .logo-icon::after { content: '💥'; font-size: 20px; line-height: 1; }
+  .logo-text { display: flex; flex-direction: column; gap: 0px; }
+  .logo-line1 { font-size: 13px; letter-spacing: 0.22em; color: var(--gray-mid); line-height: 1; font-family: 'Barlow', sans-serif; font-weight: 700; text-transform: uppercase; }
+  .logo-line2 { font-size: 28px; letter-spacing: 0.04em; line-height: 0.95; background: linear-gradient(90deg, #fff 0%, #c8102e 40%, #ff3355 70%, #fff 100%); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: shimmer 4s linear infinite; }
+  .logo-line2 .crash { color: var(--red); -webkit-text-fill-color: var(--red); font-style: normal; }
+  @keyframes shimmer { 0% { background-position: 0% center; } 100% { background-position: 200% center; } }
+  .logo small { display: block; font-size: 10px; letter-spacing: 0.15em; color: var(--gray-mid); font-weight: 400; text-transform: uppercase; margin-top: 2px; }
+
+  nav { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+  .nav-item { position: relative; }
+  .nav-link { display: flex; align-items: center; gap: 4px; padding: 8px 12px; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gray-dark); border-radius: 3px; transition: background 0.15s, color 0.15s; cursor: pointer; }
+  .nav-link:hover, .nav-item:hover > .nav-link { background: var(--red); color: var(--white); }
+  .nav-link svg { width: 10px; height: 10px; flex-shrink: 0; transition: transform 0.15s; }
+  .nav-item:hover > .nav-link svg { transform: rotate(180deg); }
+  .dropdown { display: none; position: absolute; top: 100%; left: 0; background: var(--white); border: 1px solid var(--gray-light); border-top: 3px solid var(--red); min-width: 200px; box-shadow: 0 6px 20px rgba(0,0,0,0.12); z-index: 200; }
+  .nav-item:hover .dropdown { display: block; }
+  .dropdown a { display: block; padding: 9px 16px; font-size: 13px; color: var(--gray-dark); border-bottom: 1px solid var(--gray-light); transition: background 0.1s, color 0.1s; }
+  .dropdown a:last-child { border-bottom: none; }
+  .dropdown a:hover { background: var(--gray-bg); color: var(--red); }
+  .search-btn { background: none; border: 1.5px solid var(--gray-light); border-radius: 3px; padding: 7px 10px; cursor: pointer; color: var(--gray-mid); transition: border-color 0.15s, color 0.15s; }
+  .search-btn:hover { border-color: var(--red); color: var(--red); }
+
+  .hero { background: linear-gradient(135deg, #0d0d0d 0%, #1a0008 50%, #0d0d0d 100%); color: var(--white); padding: 52px 20px 48px; text-align: center; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(-45deg, transparent, transparent 40px, rgba(200,16,46,0.04) 40px, rgba(200,16,46,0.04) 80px); }
+  .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--red); color: white; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 4px 12px; border-radius: 2px; margin-bottom: 18px; }
+  .hero-badge::before { content: ''; width: 7px; height: 7px; background: white; border-radius: 50%; animation: blink 1.5s infinite; }
+  @keyframes blink { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.7); } }
+  .hero h1 { font-family: 'Oswald', sans-serif; font-size: clamp(28px, 5vw, 52px); font-weight: 700; line-height: 1.1; letter-spacing: -0.01em; margin-bottom: 16px; }
+  .hero h1 em { color: var(--red); font-style: normal; }
+  .hero p { font-size: 16px; color: rgba(255,255,255,0.72); max-width: 580px; margin: 0 auto 28px; line-height: 1.65; }
+  .hero-cta { display: inline-flex; align-items: center; gap: 8px; background: var(--red); color: white; padding: 14px 28px; font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 3px; transition: background 0.15s, transform 0.15s; box-shadow: 0 4px 16px rgba(200,16,46,0.4); }
+  .hero-cta:hover { background: var(--red-dark); color: white; transform: translateY(-1px); }
+
+  .stats-bar { background: var(--black); color: var(--white); padding: 14px 20px; }
+  .stats-inner { max-width: 1200px; margin: 0 auto; display: flex; gap: 32px; align-items: center; flex-wrap: wrap; justify-content: center; }
+  .stat { display: flex; align-items: center; gap: 10px; }
+  .stat-num { font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700; color: var(--red); }
+  .stat-label { font-size: 12px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.08em; line-height: 1.4; }
+  .stat-divider { width: 1px; height: 32px; background: rgba(255,255,255,0.12); }
+
+  .breaking-banner { background: var(--red); color: white; padding: 10px 20px; display: flex; align-items: center; gap: 12px; overflow: hidden; }
+  .breaking-label { font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; background: rgba(0,0,0,0.25); padding: 3px 10px; border-radius: 2px; white-space: nowrap; flex-shrink: 0; }
+  .ticker-wrap { overflow: hidden; flex: 1; }
+  .ticker-track { display: inline-block; white-space: nowrap; font-size: 13px; font-weight: 500; animation: ticker 50s linear infinite; }
+  @keyframes ticker { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
+
+  .search-section { background: var(--gray-bg); border-bottom: 1px solid var(--gray-light); padding: 14px 20px; }
+  .search-inner { max-width: 1200px; margin: 0 auto; display: flex; gap: 10px; align-items: center; }
+  .search-input { flex: 1; padding: 10px 14px; border: 1.5px solid var(--gray-light); border-radius: 3px; font-size: 14px; font-family: 'Barlow', sans-serif; outline: none; transition: border-color 0.15s; }
+  .search-input:focus { border-color: var(--red); }
+  .btn-red { background: var(--red); color: white; border: none; padding: 10px 20px; border-radius: 3px; font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; cursor: pointer; transition: background 0.15s; }
+  .btn-red:hover { background: var(--red-dark); }
+  .btn-gray { background: var(--gray-light); color: var(--gray-dark); border: none; padding: 10px 14px; border-radius: 3px; font-size: 13px; cursor: pointer; }
+
+  .main-wrap { max-width: 1200px; margin: 0 auto; padding: 36px 20px; display: grid; grid-template-columns: 1fr 340px; gap: 40px; align-items: start; }
+  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 3px solid var(--red); }
+  .section-title { font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  /* Loading */
+  .feed-loading { padding: 40px 0; text-align: center; color: var(--gray-mid); }
+  .spinner { width: 36px; height: 36px; border: 3px solid var(--gray-light); border-top-color: var(--red); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 14px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .feed-error { padding: 20px; background: #fff8f8; border: 1px solid #fcc; border-left: 4px solid var(--red); border-radius: 4px; color: var(--gray-dark); font-size: 14px; line-height: 1.65; }
+  .feed-error strong { color: var(--red); }
+
+  /* Article cards */
+  .article-card { display: grid; grid-template-columns: 110px 1fr; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--gray-light); }
+  .article-card:last-of-type { border-bottom: none; }
+  .article-icon { width: 110px; height: 74px; background: linear-gradient(135deg, #1a1a2e, #2d1020); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; overflow: hidden; position: relative; }
+  .article-icon img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 4px; }
+  .article-meta { display: flex; flex-direction: column; gap: 4px; }
+  .article-source { font-size: 11px; font-weight: 700; color: var(--red); text-transform: uppercase; letter-spacing: 0.1em; }
+  .article-title { font-family: 'Source Serif 4', serif; font-size: 15px; font-weight: 600; line-height: 1.35; color: var(--black); display: block; }
+  .article-title:hover { color: var(--red); }
+  .article-date { font-size: 12px; color: var(--gray-mid); }
+
+  /* Featured */
+  .featured-article { margin-bottom: 28px; padding-bottom: 28px; border-bottom: 1px solid var(--gray-light); }
+  .featured-img-box { width: 100%; height: 260px; background: linear-gradient(145deg,#1a1a2e,#2d1020); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 80px; margin-bottom: 14px; overflow: hidden; position: relative; }
+  .featured-img-box img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 6px; }
+  .featured-badge { display: inline-block; background: var(--red); color: white; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; border-radius: 2px; margin-bottom: 8px; }
+  .featured-source { font-size: 12px; font-weight: 700; color: var(--gray-mid); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+  .featured-title { font-family: 'Source Serif 4', serif; font-size: 24px; font-weight: 600; line-height: 1.25; margin-bottom: 10px; }
+  .featured-title a { color: var(--black); } .featured-title a:hover { color: var(--red); }
+  .featured-excerpt { font-size: 14px; color: var(--gray); line-height: 1.65; margin-bottom: 10px; }
+  .featured-date { font-size: 12px; color: var(--gray-mid); }
+
+  .live-status { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--gray-mid); }
+  .live-dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; animation: blink 2s infinite; flex-shrink: 0; }
+
+  /* Sidebar */
+  .sidebar { display: flex; flex-direction: column; gap: 28px; }
+  .sidebar-card { background: var(--gray-bg); border-radius: 4px; border: 1px solid var(--gray-light); overflow: hidden; }
+  .sidebar-card-header { background: var(--black); color: white; font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 10px 16px; border-left: 4px solid var(--red); }
+  .sidebar-card-body { padding: 16px; }
+  .report-cta { background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%); color: white; padding: 22px 20px; text-align: center; border-radius: 4px; }
+  .report-cta h3 { font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+  .report-cta p { font-size: 13px; opacity: 0.9; margin-bottom: 16px; line-height: 1.5; }
+  .report-cta a { display: inline-block; background: white; color: var(--red); font-weight: 700; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; padding: 11px 22px; border-radius: 3px; }
+  .sidebar-item { padding: 12px 16px; border-bottom: 1px solid var(--gray-light); }
+  .sidebar-item:last-child { border-bottom: none; }
+  .sidebar-item-src { font-size: 11px; color: var(--red); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 4px; }
+  .sidebar-item-title { font-size: 13px; font-weight: 600; color: var(--black); line-height: 1.4; display: block; }
+  .sidebar-item-title:hover { color: var(--red); }
+  .sidebar-item-date { font-size: 11px; color: var(--gray-mid); margin-top: 3px; }
+  .state-region { font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray-mid); padding: 10px 0 4px; border-bottom: 1px solid var(--gray-light); }
+  .state-list { columns: 2; }
+  .state-list a { display: block; padding: 5px 0; font-size: 13px; color: var(--gray-dark); border-bottom: 1px solid var(--gray-light); transition: color 0.1s, padding-left 0.1s; }
+  .state-list a:hover { color: var(--red); padding-left: 4px; }
+
+  footer { background: var(--gray-dark); color: rgba(255,255,255,0.65); padding: 40px 20px 24px; margin-top: 48px; }
+  .footer-inner { max-width: 1200px; margin: 0 auto; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 36px; margin-bottom: 32px; }
+  .footer-logo { font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700; color: white; margin-bottom: 12px; }
+  .footer-logo em { color: var(--red); font-style: normal; }
+  .footer-col h4 { font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: white; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid var(--red); }
+  .footer-col a { display: block; font-size: 13px; color: rgba(255,255,255,0.55); padding: 4px 0; transition: color 0.1s; }
+  .footer-col a:hover { color: white; }
+  .footer-bottom { padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+
+  @media (max-width: 900px) { .main-wrap { grid-template-columns: 1fr; } .footer-grid { grid-template-columns: 1fr 1fr; } nav { display: none; } }
+  @media (max-width: 600px) { .footer-grid { grid-template-columns: 1fr; } .stats-inner { gap: 16px; } .stat-divider { display: none; } }
+</style>
+</head>
+<body id="top">
+
+<div class="top-bar">
+  Injured in an accident? <a href="#contact-section" onclick="document.getElementById('contact-section').scrollIntoView({behavior:'smooth'});return false;">Tell Us About Your Accident</a> — No Cost, No Obligation
+</div>
+
+<header>
+  <div class="header-inner">
+    <a class="logo" href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">
+      <div class="logo-icon"></div>
+      <div class="logo-text">
+        <span class="logo-line1">I Hate</span>
+        <span class="logo-line2">CAR ACCIDENTS</span>
+      </div>
+    </a>
+    <nav>
+      <div class="nav-item">
+        <div class="nav-link">News by State <svg viewBox="0 0 10 6" fill="currentColor"><path d="M0 0l5 6 5-6z"/></svg></div>
+        <div class="dropdown" style="min-width:560px;">
+          <div style="display:grid;grid-template-columns:repeat(5,1fr);padding:16px;gap:8px;">
+            <div>
+              <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:var(--gray-mid);letter-spacing:.1em;margin-bottom:6px;">Southeast</div>
+              <a href="#" onclick="filterByState('Alabama');return false;">Alabama</a>
+              <a href="#" onclick="filterByState('Arkansas');return false;">Arkansas</a>
+              <a href="#" onclick="filterByState('Florida');return false;">Florida</a>
+              <a href="#" onclick="filterByState('Georgia');return false;">Georgia</a>
+              <a href="#" onclick="filterByState('Kentucky');return false;">Kentucky</a>
+              <a href="#" onclick="filterByState('Louisiana');return false;">Louisiana</a>
+              <a href="#" onclick="filterByState('Mississippi');return false;">Mississippi</a>
+              <a href="#" onclick="filterByState('North Carolina');return false;">North Carolina</a>
+              <a href="#" onclick="filterByState('South Carolina');return false;">South Carolina</a>
+              <a href="#" onclick="filterByState('Tennessee');return false;">Tennessee</a>
+              <a href="#" onclick="filterByState('Virginia');return false;">Virginia</a>
+              <a href="#" onclick="filterByState('West Virginia');return false;">West Virginia</a>
+            </div>
+            <div>
+              <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:var(--gray-mid);letter-spacing:.1em;margin-bottom:6px;">Northeast</div>
+              <a href="#" onclick="filterByState('Connecticut');return false;">Connecticut</a>
+              <a href="#" onclick="filterByState('Delaware');return false;">Delaware</a>
+              <a href="#" onclick="filterByState('Maine');return false;">Maine</a>
+              <a href="#" onclick="filterByState('Maryland');return false;">Maryland</a>
+              <a href="#" onclick="filterByState('Massachusetts');return false;">Massachusetts</a>
+              <a href="#" onclick="filterByState('New Hampshire');return false;">New Hampshire</a>
+              <a href="#" onclick="filterByState('New Jersey');return false;">New Jersey</a>
+              <a href="#" onclick="filterByState('New York');return false;">New York</a>
+              <a href="#" onclick="filterByState('Pennsylvania');return false;">Pennsylvania</a>
+              <a href="#" onclick="filterByState('Rhode Island');return false;">Rhode Island</a>
+              <a href="#" onclick="filterByState('Vermont');return false;">Vermont</a>
+            </div>
+            <div>
+              <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:var(--gray-mid);letter-spacing:.1em;margin-bottom:6px;">Midwest</div>
+              <a href="#" onclick="filterByState('Illinois');return false;">Illinois</a>
+              <a href="#" onclick="filterByState('Indiana');return false;">Indiana</a>
+              <a href="#" onclick="filterByState('Iowa');return false;">Iowa</a>
+              <a href="#" onclick="filterByState('Kansas');return false;">Kansas</a>
+              <a href="#" onclick="filterByState('Michigan');return false;">Michigan</a>
+              <a href="#" onclick="filterByState('Minnesota');return false;">Minnesota</a>
+              <a href="#" onclick="filterByState('Missouri');return false;">Missouri</a>
+              <a href="#" onclick="filterByState('Nebraska');return false;">Nebraska</a>
+              <a href="#" onclick="filterByState('North Dakota');return false;">North Dakota</a>
+              <a href="#" onclick="filterByState('Ohio');return false;">Ohio</a>
+              <a href="#" onclick="filterByState('South Dakota');return false;">South Dakota</a>
+              <a href="#" onclick="filterByState('Wisconsin');return false;">Wisconsin</a>
+            </div>
+            <div>
+              <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:var(--gray-mid);letter-spacing:.1em;margin-bottom:6px;">Southwest</div>
+              <a href="#" onclick="filterByState('Arizona');return false;">Arizona</a>
+              <a href="#" onclick="filterByState('New Mexico');return false;">New Mexico</a>
+              <a href="#" onclick="filterByState('Oklahoma');return false;">Oklahoma</a>
+              <a href="#" onclick="filterByState('Texas');return false;">Texas</a>
+            </div>
+            <div>
+              <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:var(--gray-mid);letter-spacing:.1em;margin-bottom:6px;">West</div>
+              <a href="#" onclick="filterByState('Alaska');return false;">Alaska</a>
+              <a href="#" onclick="filterByState('California');return false;">California</a>
+              <a href="#" onclick="filterByState('Colorado');return false;">Colorado</a>
+              <a href="#" onclick="filterByState('Hawaii');return false;">Hawaii</a>
+              <a href="#" onclick="filterByState('Idaho');return false;">Idaho</a>
+              <a href="#" onclick="filterByState('Montana');return false;">Montana</a>
+              <a href="#" onclick="filterByState('Nevada');return false;">Nevada</a>
+              <a href="#" onclick="filterByState('Oregon');return false;">Oregon</a>
+              <a href="#" onclick="filterByState('Utah');return false;">Utah</a>
+              <a href="#" onclick="filterByState('Washington');return false;">Washington</a>
+              <a href="#" onclick="filterByState('Wyoming');return false;">Wyoming</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="nav-item"><a class="nav-link" href="#top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Home</a></div>
+      <div class="nav-item"><a class="nav-link" href="#feed-container" onclick="document.getElementById('feed-container').scrollIntoView({behavior:'smooth'});return false;" style="color:var(--red);">Breaking News</a></div>
+      <div class="nav-item">
+        <div class="nav-link">Resources <svg viewBox="0 0 10 6" fill="currentColor"><path d="M0 0l5 6 5-6z"/></svg></div>
+        <div class="dropdown">
+          <a href="#about-section" onclick="document.getElementById('about-section').scrollIntoView({behavior:'smooth'});return false;">Local Resources</a>
+          <a href="#" onclick="showModal('hotspots');return false;">Crash Hot Spots</a>
+          <a href="#about-section" onclick="document.getElementById('about-section').scrollIntoView({behavior:'smooth'});return false;">State Guides</a>
+        </div>
+      </div>
+      <div class="nav-item"><a class="nav-link" href="#faq-section" onclick="document.getElementById('faq-section').scrollIntoView({behavior:'smooth'});return false;">FAQ</a></div>
+      <div class="nav-item"><a class="nav-link" href="#contact-section" onclick="document.getElementById('contact-section').scrollIntoView({behavior:'smooth'});return false;">Contact Us</a></div>
+    </nav>
+    <button class="search-btn" onclick="document.getElementById('search-section').scrollIntoView({behavior:'smooth'})">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="breaking-banner">
+  <span class="breaking-label">Live</span>
+  <div class="ticker-wrap"><span class="ticker-track" id="ticker-text">Fetching live accident reports...</span></div>
+</div>
+
+<div class="hero">
+  <div class="hero-badge">Live Updates</div>
+  <h1>Recent Car Accidents<br><em>Near You</em> — Updated Daily</h1>
+  <p>Real-time crash reports and breaking accident news pulled from local sources across all 50 states.</p>
+  <a href="#contact-section" onclick="document.getElementById('contact-section').scrollIntoView({behavior:'smooth'});return false;" class="hero-cta">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+    Tell Us About Your Accident
+  </a>
+</div>
+
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat"><div class="stat-num">6M+</div><div class="stat-label">Crashes/Year<br>in the U.S.</div></div>
+    <div class="stat-divider"></div>
+    <div class="stat"><div class="stat-num">38,000</div><div class="stat-label">Traffic Fatalities<br>Annually</div></div>
+    <div class="stat-divider"></div>
+    <div class="stat"><div class="stat-num">50</div><div class="stat-label">States<br>Covered</div></div>
+    <div class="stat-divider"></div>
+    <div class="stat"><div class="stat-num" id="article-count">—</div><div class="stat-label">Live Articles<br>Loaded</div></div>
+  </div>
+</div>
+
+<div class="search-section" id="search-section">
+  <div class="search-inner">
+    <input class="search-input" id="state-filter" type="text" placeholder="Filter by state or keyword (e.g. Florida, fatal, highway, semi-truck)...">
+    <button class="btn-red" onclick="applyFilter()">Search</button>
+    <button class="btn-gray" onclick="clearFilter()">Clear</button>
+  </div>
+</div>
+
+<div class="main-wrap">
+  <main>
+    <div class="section-header">
+      <h2 class="section-title">Latest Crash Reports</h2>
+      <div class="live-status"><span class="live-dot"></span><span id="update-time">Fetching live data...</span></div>
+    </div>
+    <div id="feed-container">
+      <div class="feed-loading"><div class="spinner"></div>Fetching latest accident reports from Google News...</div>
+    </div>
+
+    <div class="section-header" style="margin-top:44px;">
+      <h2 class="section-title">Accident Guides</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+      <a href="#" onclick="showModal('accidentreport');return false;" style="background:var(--gray-bg);border:1px solid var(--gray-light);border-radius:4px;padding:18px;display:block;">
+        <div style="width:36px;height:36px;border-radius:50%;background:var(--red);margin:0 auto 10px;display:flex;align-items:center;justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div style="font-family:'Oswald',sans-serif;font-size:15px;font-weight:600;margin-bottom:6px;">What Is an Accident Report?</div>
+        <div style="font-size:13px;color:var(--gray-mid);line-height:1.55;">How to obtain and understand police crash reports after an accident.</div>
+      </a>
+      <a href="#" onclick="showModal('causes');return false;" style="background:var(--gray-bg);border:1px solid var(--gray-light);border-radius:4px;padding:18px;display:block;">
+        <div style="width:36px;height:36px;border-radius:50%;background:var(--red);margin:0 auto 10px;display:flex;align-items:center;justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div style="font-family:'Oswald',sans-serif;font-size:15px;font-weight:600;margin-bottom:6px;">Causes of Car Accidents</div>
+        <div style="font-size:13px;color:var(--gray-mid);line-height:1.55;">The most common causes of crashes in America and how to stay safe.</div>
+      </a>
+      <a href="#" onclick="showModal('injuries');return false;" style="background:var(--gray-bg);border:1px solid var(--gray-light);border-radius:4px;padding:18px;display:block;">
+        <div style="width:36px;height:36px;border-radius:50%;background:var(--red);margin:0 auto 10px;display:flex;align-items:center;justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <div style="font-family:'Oswald',sans-serif;font-size:15px;font-weight:600;margin-bottom:6px;">Common Accident Injuries</div>
+        <div style="font-size:13px;color:var(--gray-mid);line-height:1.55;">Common car accident injuries and how they are medically treated.</div>
+      </a>
+    </div>
+  </main>
+
+  <aside class="sidebar">
+    <div class="report-cta">
+      <h3>Were You Injured?</h3>
+      <p>Request a complimentary police accident report — typically within 24 hours, at no cost to you.</p>
+      <a href="#contact-section" onclick="document.getElementById('contact-section').scrollIntoView({behavior:'smooth'});return false;">Tell Us About Your Accident</a>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-header">Recent Headlines</div>
+      <div id="sidebar-feed">
+        <div style="padding:20px;text-align:center;color:var(--gray-mid);font-size:13px;">
+          <div class="spinner" style="width:24px;height:24px;border-width:2px;margin:0 auto 10px;"></div>Loading...
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-header">News by State</div>
+      <div class="sidebar-card-body">
+        <div class="state-region">Southeast</div>
+        <div class="state-list">
+          <a href="#" onclick="filterByState('Alabama');return false;">Alabama</a>
+          <a href="#" onclick="filterByState('Arkansas');return false;">Arkansas</a>
+          <a href="#" onclick="filterByState('Florida');return false;">Florida</a>
+          <a href="#" onclick="filterByState('Georgia');return false;">Georgia</a>
+          <a href="#" onclick="filterByState('Kentucky');return false;">Kentucky</a>
+          <a href="#" onclick="filterByState('Louisiana');return false;">Louisiana</a>
+          <a href="#" onclick="filterByState('Mississippi');return false;">Mississippi</a>
+          <a href="#" onclick="filterByState('North Carolina');return false;">North Carolina</a>
+          <a href="#" onclick="filterByState('South Carolina');return false;">South Carolina</a>
+          <a href="#" onclick="filterByState('Tennessee');return false;">Tennessee</a>
+          <a href="#" onclick="filterByState('Virginia');return false;">Virginia</a>
+          <a href="#" onclick="filterByState('West Virginia');return false;">West Virginia</a>
+        </div>
+        <div class="state-region">Northeast</div>
+        <div class="state-list">
+          <a href="#" onclick="filterByState('Connecticut');return false;">Connecticut</a>
+          <a href="#" onclick="filterByState('Delaware');return false;">Delaware</a>
+          <a href="#" onclick="filterByState('Maine');return false;">Maine</a>
+          <a href="#" onclick="filterByState('Maryland');return false;">Maryland</a>
+          <a href="#" onclick="filterByState('Massachusetts');return false;">Massachusetts</a>
+          <a href="#" onclick="filterByState('New Hampshire');return false;">New Hampshire</a>
+          <a href="#" onclick="filterByState('New Jersey');return false;">New Jersey</a>
+          <a href="#" onclick="filterByState('New York');return false;">New York</a>
+          <a href="#" onclick="filterByState('Pennsylvania');return false;">Pennsylvania</a>
+          <a href="#" onclick="filterByState('Rhode Island');return false;">Rhode Island</a>
+          <a href="#" onclick="filterByState('Vermont');return false;">Vermont</a>
+        </div>
+        <div class="state-region">Midwest</div>
+        <div class="state-list">
+          <a href="#" onclick="filterByState('Illinois');return false;">Illinois</a>
+          <a href="#" onclick="filterByState('Indiana');return false;">Indiana</a>
+          <a href="#" onclick="filterByState('Iowa');return false;">Iowa</a>
+          <a href="#" onclick="filterByState('Kansas');return false;">Kansas</a>
+          <a href="#" onclick="filterByState('Michigan');return false;">Michigan</a>
+          <a href="#" onclick="filterByState('Minnesota');return false;">Minnesota</a>
+          <a href="#" onclick="filterByState('Missouri');return false;">Missouri</a>
+          <a href="#" onclick="filterByState('Nebraska');return false;">Nebraska</a>
+          <a href="#" onclick="filterByState('North Dakota');return false;">North Dakota</a>
+          <a href="#" onclick="filterByState('Ohio');return false;">Ohio</a>
+          <a href="#" onclick="filterByState('South Dakota');return false;">South Dakota</a>
+          <a href="#" onclick="filterByState('Wisconsin');return false;">Wisconsin</a>
+        </div>
+        <div class="state-region">Southwest</div>
+        <div class="state-list">
+          <a href="#" onclick="filterByState('Arizona');return false;">Arizona</a>
+          <a href="#" onclick="filterByState('New Mexico');return false;">New Mexico</a>
+          <a href="#" onclick="filterByState('Oklahoma');return false;">Oklahoma</a>
+          <a href="#" onclick="filterByState('Texas');return false;">Texas</a>
+        </div>
+        <div class="state-region">West</div>
+        <div class="state-list">
+          <a href="#" onclick="filterByState('Alaska');return false;">Alaska</a>
+          <a href="#" onclick="filterByState('California');return false;">California</a>
+          <a href="#" onclick="filterByState('Colorado');return false;">Colorado</a>
+          <a href="#" onclick="filterByState('Hawaii');return false;">Hawaii</a>
+          <a href="#" onclick="filterByState('Idaho');return false;">Idaho</a>
+          <a href="#" onclick="filterByState('Montana');return false;">Montana</a>
+          <a href="#" onclick="filterByState('Nevada');return false;">Nevada</a>
+          <a href="#" onclick="filterByState('Oregon');return false;">Oregon</a>
+          <a href="#" onclick="filterByState('Utah');return false;">Utah</a>
+          <a href="#" onclick="filterByState('Washington');return false;">Washington</a>
+          <a href="#" onclick="filterByState('Wyoming');return false;">Wyoming</a>
+        </div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<!-- ABOUT SECTION -->
+<div id="about-section" style="background:var(--gray-bg);border-top:3px solid var(--red);padding:52px 20px;">
+  <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;">
+    <div>
+      <div style="font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:10px;">About Us</div>
+      <h2 style="font-family:'Oswald',sans-serif;font-size:34px;font-weight:700;line-height:1.1;margin-bottom:16px;">Why We Built<br>IHateCarAccidents</h2>
+      <p style="font-size:15px;color:var(--gray);line-height:1.7;margin-bottom:14px;">Car accidents happen every 60 seconds in America. Most go unreported by major media. We built IHateCarAccidents.com because communities deserve to know what's happening on their roads — in real time.</p>
+      <p style="font-size:15px;color:var(--gray);line-height:1.7;margin-bottom:20px;">Our platform aggregates breaking accident news from local sources across all 50 states, updated continuously so you're always informed.</p>
+      <a href="#contact-section" onclick="document.getElementById('contact-section').scrollIntoView({behavior:'smooth'});return false;" style="display:inline-block;background:var(--red);color:white;font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:12px 24px;border-radius:3px;">Tell Us About Your Accident</a>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <div style="background:white;border:1px solid var(--gray-light);border-radius:4px;padding:24px;text-align:center;">
+        <div style="font-family:'Oswald',sans-serif;font-size:36px;font-weight:700;color:var(--red);">6M+</div>
+        <div style="font-size:13px;color:var(--gray);margin-top:4px;">Car crashes per year in the U.S.</div>
+      </div>
+      <div style="background:white;border:1px solid var(--gray-light);border-radius:4px;padding:24px;text-align:center;">
+        <div style="font-family:'Oswald',sans-serif;font-size:36px;font-weight:700;color:var(--red);">38K</div>
+        <div style="font-size:13px;color:var(--gray);margin-top:4px;">Traffic fatalities annually</div>
+      </div>
+      <div style="background:white;border:1px solid var(--gray-light);border-radius:4px;padding:24px;text-align:center;">
+        <div style="font-family:'Oswald',sans-serif;font-size:36px;font-weight:700;color:var(--red);">50</div>
+        <div style="font-size:13px;color:var(--gray);margin-top:4px;">States covered daily</div>
+      </div>
+      <div style="background:white;border:1px solid var(--gray-light);border-radius:4px;padding:24px;text-align:center;">
+        <div style="font-family:'Oswald',sans-serif;font-size:36px;font-weight:700;color:var(--red);">24/7</div>
+        <div style="font-size:13px;color:var(--gray);margin-top:4px;">Live news monitoring</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ SECTION -->
+<div id="faq-section" style="padding:52px 20px;background:white;">
+  <div style="max-width:800px;margin:0 auto;">
+    <div style="font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:10px;text-align:center;">FAQ</div>
+    <h2 style="font-family:'Oswald',sans-serif;font-size:34px;font-weight:700;text-align:center;margin-bottom:36px;">Frequently Asked Questions</h2>
+    <div style="display:flex;flex-direction:column;gap:0;">
+      <details style="border:1px solid var(--gray-light);border-radius:4px;margin-bottom:8px;overflow:hidden;">
+        <summary style="padding:16px 20px;font-family:'Oswald',sans-serif;font-size:16px;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--gray-bg);">How do I get a free accident report? <span style="color:var(--red);font-size:20px;">+</span></summary>
+        <div style="padding:16px 20px;font-size:14px;color:var(--gray);line-height:1.7;">Click any "Tell Us About Your Accident" button on this site. You'll be taken to a form where you can provide details about your accident. A representative will help obtain your official police report — at no cost to you.</div>
+      </details>
+      <details style="border:1px solid var(--gray-light);border-radius:4px;margin-bottom:8px;overflow:hidden;">
+        <summary style="padding:16px 20px;font-family:'Oswald',sans-serif;font-size:16px;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--gray-bg);">How often is the news feed updated? <span style="color:var(--red);font-size:20px;">+</span></summary>
+        <div style="padding:16px 20px;font-size:14px;color:var(--gray);line-height:1.7;">The live feed automatically refreshes every 15 minutes pulling the latest accident news from Google News. Simply reload the page at any time to see the most current reports.</div>
+      </details>
+      <details style="border:1px solid var(--gray-light);border-radius:4px;margin-bottom:8px;overflow:hidden;">
+        <summary style="padding:16px 20px;font-family:'Oswald',sans-serif;font-size:16px;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--gray-bg);">Can I filter news by my state? <span style="color:var(--red);font-size:20px;">+</span></summary>
+        <div style="padding:16px 20px;font-size:14px;color:var(--gray);line-height:1.7;">Yes! Use the search bar at the top of the news feed, or click any state name in the sidebar or navigation menu. You can also type any keyword like "highway," "fatal," or a city name to narrow results.</div>
+      </details>
+      <details style="border:1px solid var(--gray-light);border-radius:4px;margin-bottom:8px;overflow:hidden;">
+        <summary style="padding:16px 20px;font-family:'Oswald',sans-serif;font-size:16px;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--gray-bg);">What should I do immediately after a car accident? <span style="color:var(--red);font-size:20px;">+</span></summary>
+        <div style="padding:16px 20px;font-size:14px;color:var(--gray);line-height:1.7;">1. Check for injuries and call 911. 2. Move to safety if possible. 3. Exchange insurance and contact information. 4. Document the scene with photos. 5. File a police report. 6. Contact your insurance company. 7. Request a copy of the official police report.</div>
+      </details>
+      <details style="border:1px solid var(--gray-light);border-radius:4px;overflow:hidden;">
+        <summary style="padding:16px 20px;font-family:'Oswald',sans-serif;font-size:16px;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--gray-bg);">Is this site free to use? <span style="color:var(--red);font-size:20px;">+</span></summary>
+        <div style="padding:16px 20px;font-size:14px;color:var(--gray);line-height:1.7;">Yes, IHateCarAccidents.com is completely free to use. All accident news, resources, and guides are available at no charge. The free accident report request service is also provided at no cost to you.</div>
+      </details>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT SECTION -->
+<div id="contact-section" style="background:var(--black);color:white;padding:52px 20px;">
+  <div style="max-width:700px;margin:0 auto;text-align:center;">
+    <div style="font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:10px;">Contact Us</div>
+    <h2 style="font-family:'Oswald',sans-serif;font-size:34px;font-weight:700;margin-bottom:16px;">Get In Touch</h2>
+    <p style="font-size:15px;color:rgba(255,255,255,0.65);line-height:1.7;margin-bottom:36px;">Have a tip about a recent accident? Want to report a correction? Need help obtaining your accident report? Reach out below.</p>
+    <div id="contact-form-wrap" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:6px;padding:32px;text-align:left;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+        <div>
+          <label style="display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,0.5);margin-bottom:6px;">First Name</label>
+          <input id="cf-fname" type="text" name="first_name" placeholder="John" style="width:100%;padding:10px 14px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:3px;color:white;font-size:14px;font-family:'Barlow',sans-serif;outline:none;">
+        </div>
+        <div>
+          <label style="display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,0.5);margin-bottom:6px;">Last Name</label>
+          <input id="cf-lname" type="text" name="last_name" placeholder="Doe" style="width:100%;padding:10px 14px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:3px;color:white;font-size:14px;font-family:'Barlow',sans-serif;outline:none;">
+        </div>
+      </div>
+      <div style="margin-bottom:16px;">
+        <label style="display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,0.5);margin-bottom:6px;">Email Address</label>
+        <input id="cf-email" type="email" name="email" placeholder="you@example.com" style="width:100%;padding:10px 14px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:3px;color:white;font-size:14px;font-family:'Barlow',sans-serif;outline:none;">
+      </div>
+      <div style="margin-bottom:16px;">
+        <label style="display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,0.5);margin-bottom:6px;">Subject</label>
+        <select id="cf-subject" name="subject" style="width:100%;padding:10px 14px;background:#222;border:1px solid rgba(255,255,255,0.15);border-radius:3px;color:white;font-size:14px;font-family:'Barlow',sans-serif;outline:none;">
+          <option value="">Select a topic...</option>
+          <option value="Submit an Accident Tip">Submit an Accident Tip</option>
+          <option value="Request an Accident Report">Request an Accident Report</option>
+          <option value="Report a Correction">Report a Correction</option>
+          <option value="General Inquiry">General Inquiry</option>
+        </select>
+      </div>
+      <div style="margin-bottom:20px;">
+        <label style="display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,0.5);margin-bottom:6px;">Message</label>
+        <textarea id="cf-message" name="message" rows="4" placeholder="Tell us more..." style="width:100%;padding:10px 14px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:3px;color:white;font-size:14px;font-family:'Barlow',sans-serif;outline:none;resize:vertical;"></textarea>
+      </div>
+      <div id="cf-error" style="display:none;background:rgba(200,16,46,0.2);border:1px solid var(--red);border-radius:3px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:#ffaaaa;">Please fill in all fields before submitting.</div>
+      <button onclick="handleContactSubmit(this)" style="width:100%;background:var(--red);color:white;border:none;padding:14px;border-radius:3px;font-family:'Oswald',sans-serif;font-size:16px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:background .15s;">Send Message</button>
+    </div>
+    <div id="contact-success" style="display:none;background:rgba(22,163,74,0.15);border:1px solid #16a34a;border-radius:6px;padding:40px 32px;text-align:center;">
+      <div style="width:64px;height:64px;background:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <h3 style="font-family:'Oswald',sans-serif;font-size:24px;font-weight:700;margin-bottom:8px;">Message Sent!</h3>
+      <p style="font-size:15px;color:rgba(255,255,255,0.7);">Thanks for reaching out. We'll get back to you soon.</p>
+    </div>
+  </div>
+</div>
+
+
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo" style="font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.04em;display:flex;align-items:center;gap:10px;">
+          <div style="width:32px;height:32px;background:var(--red);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:16px;transform:rotate(-2deg);flex-shrink:0;">💥</div>
+          <span style="color:rgba(255,255,255,0.5);font-size:13px;font-family:'Barlow',sans-serif;font-weight:700;letter-spacing:.2em;text-transform:uppercase;line-height:1;">I Hate<br><span style="font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.04em;color:white;">CAR ACCIDENTS</span></span>
+        </div>
+        <p style="font-size:13px;line-height:1.65;color:rgba(255,255,255,0.55);margin-bottom:12px;">Live accident news and crash reports updated continuously from real local news sources across all 50 states.</p>
+        <p style="font-size:11px;color:rgba(255,255,255,0.3);">Powered by Google News RSS</p>
+      </div>
+      <div class="footer-col"><h4>Quick Links</h4>
+        <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Home</a>
+        <a href="#" onclick="document.getElementById('feed-container').scrollIntoView({behavior:'smooth'});return false;">Breaking News</a>
+        <a href="#contact-section" onclick="document.getElementById('contact-section').scrollIntoView({behavior:'smooth'});return false;">Tell Us About Your Accident</a>
+        <a href="#" onclick="document.getElementById('about-section').scrollIntoView({behavior:'smooth'});return false;">About Us</a>
+        <a href="#" onclick="document.getElementById('contact-section').scrollIntoView({behavior:'smooth'});return false;">Contact</a>
+        <a href="#" onclick="document.getElementById('faq-section').scrollIntoView({behavior:'smooth'});return false;">FAQ</a>
+      </div>
+      <div class="footer-col"><h4>Resources</h4>
+        <a href="#" onclick="showModal('accidentreport');return false;">Accident Reports</a>
+        <a href="#" onclick="showModal('causes');return false;">Common Causes</a>
+        <a href="#" onclick="showModal('injuries');return false;">Injury Guide</a>
+        <a href="#" onclick="showModal('motorcycle');return false;">Motorcycle Guide</a>
+        <a href="#" onclick="showModal('hotspots');return false;">Crash Hot Spots</a>
+      </div>
+      <div class="footer-col"><h4>All States</h4>
+        <a href="#" onclick="filterByState('Alabama');return false;">Alabama</a>
+        <a href="#" onclick="filterByState('Alaska');return false;">Alaska</a>
+        <a href="#" onclick="filterByState('Arizona');return false;">Arizona</a>
+        <a href="#" onclick="filterByState('Arkansas');return false;">Arkansas</a>
+        <a href="#" onclick="filterByState('California');return false;">California</a>
+        <a href="#" onclick="filterByState('Colorado');return false;">Colorado</a>
+        <a href="#" onclick="filterByState('Connecticut');return false;">Connecticut</a>
+        <a href="#" onclick="filterByState('Delaware');return false;">Delaware</a>
+        <a href="#" onclick="filterByState('Florida');return false;">Florida</a>
+        <a href="#" onclick="filterByState('Georgia');return false;">Georgia</a>
+        <a href="#" onclick="filterByState('Hawaii');return false;">Hawaii</a>
+        <a href="#" onclick="filterByState('Idaho');return false;">Idaho</a>
+        <a href="#" onclick="filterByState('Illinois');return false;">Illinois</a>
+        <a href="#" onclick="filterByState('Indiana');return false;">Indiana</a>
+        <a href="#" onclick="filterByState('Iowa');return false;">Iowa</a>
+        <a href="#" onclick="filterByState('Kansas');return false;">Kansas</a>
+        <a href="#" onclick="filterByState('Kentucky');return false;">Kentucky</a>
+        <a href="#" onclick="filterByState('Louisiana');return false;">Louisiana</a>
+        <a href="#" onclick="filterByState('Maine');return false;">Maine</a>
+        <a href="#" onclick="filterByState('Maryland');return false;">Maryland</a>
+        <a href="#" onclick="filterByState('Massachusetts');return false;">Massachusetts</a>
+        <a href="#" onclick="filterByState('Michigan');return false;">Michigan</a>
+        <a href="#" onclick="filterByState('Minnesota');return false;">Minnesota</a>
+        <a href="#" onclick="filterByState('Mississippi');return false;">Mississippi</a>
+        <a href="#" onclick="filterByState('Missouri');return false;">Missouri</a>
+        <a href="#" onclick="filterByState('Montana');return false;">Montana</a>
+        <a href="#" onclick="filterByState('Nebraska');return false;">Nebraska</a>
+        <a href="#" onclick="filterByState('Nevada');return false;">Nevada</a>
+        <a href="#" onclick="filterByState('New Hampshire');return false;">New Hampshire</a>
+        <a href="#" onclick="filterByState('New Jersey');return false;">New Jersey</a>
+        <a href="#" onclick="filterByState('New Mexico');return false;">New Mexico</a>
+        <a href="#" onclick="filterByState('New York');return false;">New York</a>
+        <a href="#" onclick="filterByState('North Carolina');return false;">North Carolina</a>
+        <a href="#" onclick="filterByState('North Dakota');return false;">North Dakota</a>
+        <a href="#" onclick="filterByState('Ohio');return false;">Ohio</a>
+        <a href="#" onclick="filterByState('Oklahoma');return false;">Oklahoma</a>
+        <a href="#" onclick="filterByState('Oregon');return false;">Oregon</a>
+        <a href="#" onclick="filterByState('Pennsylvania');return false;">Pennsylvania</a>
+        <a href="#" onclick="filterByState('Rhode Island');return false;">Rhode Island</a>
+        <a href="#" onclick="filterByState('South Carolina');return false;">South Carolina</a>
+        <a href="#" onclick="filterByState('South Dakota');return false;">South Dakota</a>
+        <a href="#" onclick="filterByState('Tennessee');return false;">Tennessee</a>
+        <a href="#" onclick="filterByState('Texas');return false;">Texas</a>
+        <a href="#" onclick="filterByState('Utah');return false;">Utah</a>
+        <a href="#" onclick="filterByState('Vermont');return false;">Vermont</a>
+        <a href="#" onclick="filterByState('Virginia');return false;">Virginia</a>
+        <a href="#" onclick="filterByState('Washington');return false;">Washington</a>
+        <a href="#" onclick="filterByState('West Virginia');return false;">West Virginia</a>
+        <a href="#" onclick="filterByState('Wisconsin');return false;">Wisconsin</a>
+        <a href="#" onclick="filterByState('Wyoming');return false;">Wyoming</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 IHateCarAccidents.com — Powered by Google News RSS</span>
+    <span>
+        <a href="#" onclick="showModal('privacy')" style="color:rgba(255,255,255,.4);margin-right:16px;">Privacy Policy</a>
+        <a href="#" onclick="showModal('disclaimer')" style="color:rgba(255,255,255,.4);">Disclaimer</a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const REFRESH_MS = 15 * 60 * 1000; // 15 minutes
+
+
+const US_STATES = ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut',
+  'Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky',
+  'Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri',
+  'Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York',
+  'North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island',
+  'South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia',
+  'Washington','West Virginia','Wisconsin','Wyoming'];
+
+const ACCIDENT_KEYWORDS = ['accident','crash','collision','fatality','fatal','killed','injured','wreck','rollover','hit-and-run','highway','freeway','interstate','vehicle','pedestrian','motorcycl','semi','truck'];
+
+const ICONS = ['','','','','','','','','',''];
+
+let allArticles = [];
+let filteredArticles = [];
+
+function detectState(text) {
+  for (const s of US_STATES) {
+    if (text.includes(s)) return s;
+  }
+  return null;
+}
+
+function isAccidentRelated(text) {
+  const t = text.toLowerCase();
+  return ACCIDENT_KEYWORDS.some(k => t.includes(k));
+}
+
+function formatDate(dateStr) {
+  try {
+    const d = new Date(dateStr);
+    const diff = Math.floor((Date.now() - d) / 60000);
+    if (diff < 2) return 'Just now';
+    if (diff < 60) return `${diff}m ago`;
+    if (diff < 1440) return `${Math.floor(diff / 60)}h ago`;
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  } catch(e) { return ''; }
+}
+
+function stripHtml(html) {
+  const d = document.createElement('div');
+  d.innerHTML = html || '';
+  return (d.textContent || d.innerText || '').replace(/\s+/g, ' ').trim();
+}
+
+function icon() {
+  return ICONS[Math.floor(Math.random() * ICONS.length)];
+}
+
+function extractSource(title) {
+  const m = title.match(/ - ([^-]{2,40})$/);
+  return m ? m[1].trim() : '';
+}
+
+function cleanTitle(title) {
+  return title.replace(/ - [^-]{2,40}$/, '').trim();
+}
+
+// ── GOOGLE MAPS THUMBNAILS ───────────────────────────────────────────────
+const MAPS_KEY = 'AIzaSyDdFLFeWjIOAQSRy9zbrwx6QUZg6ucpfds';
+
+// Extract best location string from article title + description
+function extractLocation(article) {
+  const text = cleanTitle(article.title) + ' ' + stripHtml(article.description);
+
+  // Try to find "City, ST" or "City, State" patterns
+  const cityState = text.match(/\b([A-Z][a-zA-Z\s]+),\s*(AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY)\b/);
+  if (cityState) return cityState[0];
+
+  // Try "on [Highway/Interstate/Route]... in [City]"
+  const inCity = text.match(/\bin ([A-Z][a-zA-Z\s]+(?:County|Township)?),?\s*(AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY)/);
+  if (inCity) return inCity[1] + ', ' + inCity[2];
+
+  // Fall back to just the state name if we find one
+  const state = detectState(text);
+  if (state) return state + ', USA';
+
+  return null;
+}
+
+function mapsThumbUrl(location, w, h) {
+  const q = encodeURIComponent(location);
+  return 'https://maps.googleapis.com/maps/api/staticmap?center=' + q + '&zoom=12&size=' + w + 'x' + h + '&scale=2&maptype=roadmap&markers=color:red%7Csize:mid%7C' + q + '&key=' + MAPS_KEY;
+}
+
+function thumbHtml(article, idx, isFeatured) {
+  const img = article.image || '';
+  if (isFeatured) {
+    if (img) return `<div id="thumb-${idx}" class="featured-img-box" style="padding:0;background:#111;">
+      <img src="${img}" alt="" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.innerHTML=featuredPlaceholder()">
+    </div>`;
+    return `<div id="thumb-${idx}" class="featured-img-box" style="background:${placeholderBg()};">${placeholderSvg('large')}</div>`;
+  }
+  if (img) return `<div id="thumb-${idx}" class="article-icon" style="padding:0;background:#111;">
+    <img src="${img}" alt="" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.innerHTML=cardPlaceholder()">
+  </div>`;
+  return `<div id="thumb-${idx}" class="article-icon" style="background:${placeholderBg()};">${placeholderSvg('small')}</div>`;
+}
+
+const BG_COLORS = ['#1a0a0a','#0a1a0a','#0a0a1a','#1a1a0a','#1a0a1a'];
+let bgIdx = 0;
+function placeholderBg() { return BG_COLORS[bgIdx++ % BG_COLORS.length]; }
+
+function placeholderSvg(size) {
+  const s = size === 'large' ? 64 : 28;
+  return `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:0.25">
+    <path d="M3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12Z" stroke="#c8102e" stroke-width="1.5"/>
+    <path d="M12 8V12L15 15" stroke="#c8102e" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M5 5L3 3M19 5L21 3M5 19L3 21M19 19L21 21" stroke="#c8102e" stroke-width="1.5" stroke-linecap="round"/>
+  </svg>`;
+}
+
+function featuredPlaceholder() { return `<div style="width:100%;height:100%;background:#1a0a0a;display:flex;align-items:center;justify-content:center;">${placeholderSvg('large')}</div>`; }
+function cardPlaceholder() { return `<div style="width:100%;height:100%;background:#1a0a0a;display:flex;align-items:center;justify-content:center;">${placeholderSvg('small')}</div>`; }
+
+function lazyLoadThumbs() {}
+
+// ── ARTICLE VIEWER ───────────────────────────────────────────────────────
+let previewArticles = [];
+
+function showArticlePreview(idx) {
+  const a = previewArticles[idx];
+  if (!a) return;
+  const existing = document.getElementById('article-preview-panel');
+  if (existing) existing.remove();
+
+  const location = extractLocation(a);
+  const src = a.source || extractSource(a.title);
+  const title = cleanTitle(a.title);
+  const desc = stripHtml(a.description || '').replace(/\[\+\d+ chars\]$/, '').trim();
+
+  const mapImg = location ? `
+    <div style="margin-bottom:24px;border-radius:6px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);position:relative;">
+      <img src="${mapsThumbUrl(location, 680, 220)}" alt="${location}" style="width:100%;display:block;max-height:220px;object-fit:cover;" onerror="this.parentElement.remove()">
+      <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.7));padding:8px 12px;font-size:12px;font-weight:700;color:white;">${location}</div>
+    </div>` : '';
+
+  const sentences = desc ? (desc.match(/[^.!?]+[.!?]+/g) || [desc]) : [];
+  let bodyHtml = '';
+  for (let i = 0; i < sentences.length; i += 2) {
+    const para = sentences.slice(i, i+2).join(' ').trim();
+    if (para) bodyHtml += `<p style="margin-bottom:18px;font-size:15px;color:rgba(255,255,255,0.78);line-height:1.85;">${para}</p>`;
+  }
+  if (!bodyHtml && desc) bodyHtml = `<p style="margin-bottom:18px;font-size:15px;color:rgba(255,255,255,0.78);line-height:1.85;">${desc}</p>`;
+  if (!bodyHtml) bodyHtml = '<p style="color:#555;font-style:italic;">No further details available.</p>';
+
+  const stateCtx = location ? ` in the ${location} area` : '';
+  bodyHtml += `<p style="margin-bottom:18px;font-size:15px;color:rgba(255,255,255,0.78);line-height:1.85;">Authorities are urging all drivers${stateCtx} to exercise caution. If you or someone you know was involved in this accident, our team can help you obtain the official police report and connect you with local resources at no cost.</p>`;
+
+  const panel = document.createElement('div');
+  panel.id = 'article-preview-panel';
+  panel.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:9999;display:flex;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto;';
+  panel.innerHTML = `
+    <div style="background:#111;border:1px solid rgba(255,255,255,0.1);border-radius:10px;max-width:720px;width:100%;padding:40px;position:relative;margin:20px auto;box-shadow:0 24px 64px rgba(0,0,0,0.7);">
+      <button onclick="document.getElementById('article-preview-panel').remove()" style="position:absolute;top:16px;right:18px;background:none;border:none;font-size:28px;cursor:pointer;color:#444;line-height:1;">×</button>
+      ${src ? `<div style="font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:12px;">${src}</div>` : ''}
+      <h1 style="font-family:'Oswald',sans-serif;font-size:28px;font-weight:700;color:white;line-height:1.25;margin-bottom:10px;padding-right:32px;">${title}</h1>
+      <div style="font-size:12px;color:#555;margin-bottom:24px;display:flex;gap:16px;">
+        <span>${formatDate(a.pubDate)}</span>
+        ${location ? `<span>${location}</span>` : ''}
+      </div>
+      ${mapImg}
+      <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:24px;margin-bottom:24px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,0.2);margin-bottom:20px;">FULL REPORT</div>
+        ${bodyHtml}
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;padding-top:20px;border-top:1px solid rgba(255,255,255,0.08);">
+        <a href="#contact-section" onclick="document.getElementById('article-preview-panel').remove();setTimeout(()=>document.getElementById('contact-section').scrollIntoView({behavior:'smooth'}),100);return false;" style="display:inline-block;background:var(--red);color:white;padding:11px 22px;border-radius:3px;font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;">Were You Involved? Get Help</a>
+        <a href="https://news.google.com/search?q=\${encodeURIComponent(title)}" target="_blank" rel="noopener" style="display:inline-block;background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.12);padding:11px 22px;border-radius:3px;font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;">Find Full Story</a>
+        <button onclick="document.getElementById('article-preview-panel').remove()" style="background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.12);padding:11px 22px;border-radius:3px;font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;">Close</button>
+      </div>
+      <div style="margin-top:16px;font-size:11px;color:#333;font-style:italic;">Originally reported by ${src || 'national news'} · Published on IHateCarAccidents.com</div>
+    </div>`;
+  panel.addEventListener('click', ev => { if (ev.target === panel) panel.remove(); });
+  document.body.appendChild(panel);
+}
+
+// ── RENDER MAIN FEED ─────────────────────────────────────────────────────
+function renderFeed(articles) {
+  previewArticles = articles;
+  const el = document.getElementById('feed-container');
+  if (!articles.length) {
+    el.innerHTML = `<div class="feed-error">No articles match that filter. <button onclick="clearFilter()" style="color:var(--red);background:none;border:none;cursor:pointer;font-weight:600;text-decoration:underline;">Clear</button></div>`;
+    return;
+  }
+  const [top, ...rest] = articles;
+  const topState  = detectState(top.title + ' ' + (top.description || ''));
+  const topDesc   = stripHtml(top.description).slice(0, 240);
+  const topSource = top.source || extractSource(top.title);
+  const topTitle  = cleanTitle(top.title);
+
+  let html = `
+    <div class="featured-article" onclick="showArticlePreview(0)" style="cursor:pointer;">
+      ${thumbHtml(top, 0, true)}
+      ${topState ? `<span class="featured-badge">${topState}</span>` : ''}
+      ${topSource ? `<div class="featured-source">${topSource}</div>` : ''}
+      <h2 class="featured-title" style="cursor:pointer;">${topTitle}</h2>
+      ${topDesc ? `<p class="featured-excerpt">${topDesc}…</p>` : ''}
+      <span class="featured-date">${formatDate(top.pubDate)}</span>
+      <span style="display:inline-block;margin-top:10px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--red);">Read More →</span>
+    </div>`;
+
+  rest.slice(0, 50).forEach((item, i) => {
+    const state = detectState(item.title + ' ' + (item.description || ''));
+    const src   = item.source || extractSource(item.title);
+    const title = cleanTitle(item.title);
+    html += `
+      <div class="article-card" onclick="showArticlePreview(${i + 1})" style="cursor:pointer;">
+        ${thumbHtml(item, i + 1, false)}
+        <div class="article-meta">
+          <span class="article-source">${state || src || 'National'}</span>
+          <span class="article-title" style="cursor:pointer;">${title}</span>
+          <span class="article-date">${formatDate(item.pubDate)}</span>
+        </div>
+      </div>`;
+  });
+
+  el.innerHTML = html;
+  document.getElementById('article-count').textContent = articles.length;
+}
+
+// ── RENDER SIDEBAR ───────────────────────────────────────────────────────
+function renderSidebar(articles) {
+  const el = document.getElementById('sidebar-feed');
+  const items = articles.slice(0, 6);
+  if (!items.length) { el.innerHTML = '<div style="padding:16px;font-size:13px;color:var(--gray-mid);">No items.</div>'; return; }
+  el.innerHTML = items.map(item => {
+    const state = detectState(item.title + ' ' + (item.description || ''));
+    const src   = item.source || extractSource(item.title);
+    const searchUrl = 'https://news.google.com/search?q=' + encodeURIComponent(cleanTitle(item.title));
+    return `
+      <div class="sidebar-item">
+        <div class="sidebar-item-src">${state || src || 'News'}</div>
+        <a href="${searchUrl}" target="_blank" rel="noopener" class="sidebar-item-title">${cleanTitle(item.title)}</a>
+        <div class="sidebar-item-date">${formatDate(item.pubDate)}</div>
+      </div>`;
+  }).join('');
+}
+
+// ── RENDER TICKER ────────────────────────────────────────────────────────
+function renderTicker(articles) {
+  const text = articles.slice(0, 8).map(a => cleanTitle(a.title)).join('   ·   ');
+  document.getElementById('ticker-text').textContent = text || 'No recent reports.';
+}
+
+// ── FETCH LIVE ACCIDENT NEWS ─────────────────────────────────────────────
+const SERP_KEY = '60d34da0e21307ce726fd9ec4cade0d738852ea37f79329d09a98f0e43f2f9a4';
+const PROXY = 'https://api.allorigins.win/get?url=';
+
+async function fetchSerpQuery(q) {
+  const serpUrl = 'https://serpapi.com/search.json?engine=google_news&q=' + encodeURIComponent(q) + '&api_key=' + SERP_KEY + '&num=20&gl=us&hl=en';
+  const res = await fetch(PROXY + encodeURIComponent(serpUrl));
+  if (!res.ok) throw new Error('Proxy error ' + res.status);
+  const wrapper = await res.json();
+  if (!wrapper.contents) throw new Error('No contents');
+  const data = JSON.parse(wrapper.contents);
+  return (data.news_results || []).map(item => ({
+    title:       item.title || '',
+    link:        item.link || '#',
+    description: item.snippet || item.title || '',
+    pubDate:     item.date || '',
+    source:      (item.source && item.source.name) ? item.source.name : (item.source || ''),
+    image:       item.thumbnail || (item.source && item.source.icon) || ''
+  })).filter(i => i.title);
+}
+
+async function fetchFeed() {
+  const queries = [
+    'car accident crash fatal highway',
+    'car crash killed injured police',
+    'traffic collision fatal road',
+    'pedestrian struck killed driver',
+    'drunk driving DUI crash accident',
+    'hit and run crash fatal',
+    'motorcycle accident crash injured',
+    'truck accident highway fatal',
+  ];
+
+  // Run in batches of 3 to avoid hammering allorigins
+  let all = [];
+  for (let i = 0; i < queries.length; i += 3) {
+    const batch = queries.slice(i, i + 3);
+    const results = await Promise.allSettled(batch.map(q => fetchSerpQuery(q)));
+    all = all.concat(results.flatMap(r => r.status === 'fulfilled' ? r.value : []));
+  }
+
+  const seen = new Set();
+  const unique = all.filter(a => {
+    const key = a.title.slice(0, 60).toLowerCase();
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+
+  unique.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+  if (!unique.length) throw new Error('No articles returned');
+  return unique;
+}
+
+// ── FILTER ───────────────────────────────────────────────────────────────
+function applyFilter() {
+  const val = document.getElementById('state-filter').value.trim().toLowerCase();
+  filteredArticles = val
+    ? allArticles.filter(a => (a.title + ' ' + a.description).toLowerCase().includes(val))
+    : allArticles;
+  renderFeed(filteredArticles);
+  document.getElementById('feed-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function clearFilter() {
+  document.getElementById('state-filter').value = '';
+  filteredArticles = allArticles;
+  renderFeed(filteredArticles);
+}
+
+async function filterByState(state) {
+  document.getElementById('state-filter').value = state;
+  document.getElementById('feed-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  const existing = allArticles.filter(a => (a.title + ' ' + (a.description||'')).toLowerCase().includes(state.toLowerCase()));
+  renderFeed(existing.length ? existing : allArticles);
+
+  const el = document.getElementById('feed-container');
+  el.insertAdjacentHTML('afterbegin', `<div id="state-loading" style="background:rgba(200,16,46,0.1);border:1px solid var(--red);border-radius:4px;padding:10px 16px;margin-bottom:16px;font-size:13px;font-weight:600;color:var(--red);">Loading latest ${state} accidents...</div>`);
+
+  try {
+    const [r1, r2] = await Promise.allSettled([
+      fetchSerpQuery(state + ' car accident crash'),
+      fetchSerpQuery(state + ' crash fatal killed')
+    ]);
+    let fresh = [...(r1.value||[]), ...(r2.value||[])];
+    const combined = [...fresh, ...allArticles.filter(a => (a.title+' '+(a.description||'')).toLowerCase().includes(state.toLowerCase()))];
+    const seen = new Set();
+    const unique = combined.filter(a => { const k = a.title.slice(0,60).toLowerCase(); if(seen.has(k)) return false; seen.add(k); return true; });
+    unique.sort((a,b) => new Date(b.pubDate) - new Date(a.pubDate));
+    document.getElementById('state-loading')?.remove();
+    renderFeed(unique.length ? unique : allArticles);
+  } catch(err) {
+    document.getElementById('state-loading')?.remove();
+    const filt = allArticles.filter(a => (a.title+' '+(a.description||'')).toLowerCase().includes(state.toLowerCase()));
+    renderFeed(filt.length ? filt : allArticles);
+  }
+}
+
+// ── INIT ─────────────────────────────────────────────────────────────────
+async function loadAll() {
+  try {
+    const articles = await fetchFeed();
+    allArticles      = articles;
+    filteredArticles = articles;
+    renderFeed(articles);
+    renderSidebar(articles);
+    renderTicker(articles);
+    const t = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    document.getElementById('update-time').textContent = `Updated ${t} · ${articles.length} articles`;
+  } catch (err) {
+    console.error(err);
+    document.getElementById('feed-container').innerHTML = `
+      <div class="feed-error">
+        <strong>Could not load live feed.</strong><br><br>
+        The news feed proxy may be temporarily unavailable. The page will automatically retry in 15 minutes.<br><br>
+        <button onclick="loadAll()" style="background:var(--red);color:white;border:none;padding:10px 20px;border-radius:3px;font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;">↺ Retry Now</button>
+        &nbsp;&nbsp;
+        <a href="https://news.google.com/search?q=car+accident+crash" target="_blank" style="color:var(--red);font-weight:600;">View on Google News →</a>
+      </div>`;
+    document.getElementById('sidebar-feed').innerHTML = '<div style="padding:16px;font-size:13px;color:var(--gray-mid);">Feed temporarily unavailable.</div>';
+    document.getElementById('update-time').textContent = 'Feed error — retrying in 15 min';
+  }
+}
+
+loadAll();
+setInterval(loadAll, REFRESH_MS);
+async function handleContactSubmit(btn) {
+  const fname   = document.getElementById('cf-fname').value.trim();
+  const lname   = document.getElementById('cf-lname').value.trim();
+  const email   = document.getElementById('cf-email').value.trim();
+  const subject = document.getElementById('cf-subject').value;
+  const message = document.getElementById('cf-message').value.trim();
+  const errEl   = document.getElementById('cf-error');
+
+  if (!fname || !email || !message) {
+    errEl.textContent = 'Please fill in your name, email, and message.';
+    errEl.style.display = 'block';
+    return;
+  }
+  errEl.style.display = 'none';
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('https://formspree.io/f/xlgpjyga', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ first_name: fname, last_name: lname, email, subject, message })
+    });
+    if (!res.ok) throw new Error('Server error');
+    document.getElementById('contact-form-wrap').style.display = 'none';
+    document.getElementById('contact-success').style.display = 'block';
+  } catch(e) {
+    btn.textContent = 'Send Message';
+    btn.disabled = false;
+    errEl.textContent = 'Something went wrong. Please try again.';
+    errEl.style.display = 'block';
+  }
+}
+
+function showModal(type) {
+  const content = {
+    privacy: { title: 'Privacy Policy', body: 'IHateCarAccidents.com does not collect personal data beyond what you voluntarily submit via our contact form. We do not sell or share your information with third parties. News articles are sourced from public RSS feeds and link to their original sources. Cookies may be used for basic site functionality only.' },
+    disclaimer: { title: 'Disclaimer', body: 'IHateCarAccidents.com aggregates publicly available accident news for informational purposes only. We do not guarantee the accuracy, completeness, or timeliness of any news article. Content is sourced from third-party news outlets. Nothing on this site constitutes legal or medical advice. Always consult a licensed professional for legal or medical guidance.' },
+    accidentreport: { title: 'What Is an Accident Report?', body: `<p>An accident report (also called a police crash report or traffic collision report) is an official document filed by law enforcement after responding to a vehicle crash. It contains critical details including:</p><ul style="margin:12px 0 12px 20px;line-height:2;"><li>Date, time, and location of the crash</li><li>Names and contact info of all parties involved</li><li>Insurance information</li><li>Officer's assessment of fault and contributing factors</li><li>Witness statements</li><li>Diagram of the scene</li></ul><p><strong>Why do you need one?</strong> Accident reports are essential for filing insurance claims, pursuing legal action, and documenting injuries. Insurance companies almost always require one before processing a claim.</p><p style="margin-top:12px;"><strong>How to get yours:</strong> You can request a copy from the local police department or sheriff's office that responded to the crash, usually within 3–10 business days. Use our free report request form on this site and we'll help track it down for you.</p>` },
+    causes: { title: 'Most Common Causes of Car Accidents', body: `<p>Understanding why crashes happen is the first step to preventing them. The leading causes of car accidents in the U.S. are:</p><ol style="margin:12px 0 12px 20px;line-height:2.2;"><li><strong>Distracted Driving</strong> — texting, eating, or using GPS while driving. Accounts for ~25% of all crashes.</li><li><strong>Speeding</strong> — driving above the posted limit or too fast for conditions.</li><li><strong>Drunk or Impaired Driving</strong> — alcohol or drugs impair reaction time and judgment.</li><li><strong>Reckless Driving</strong> — aggressive lane changes, tailgating, running red lights.</li><li><strong>Weather Conditions</strong> — rain, ice, fog, and snow reduce visibility and traction.</li><li><strong>Running Stop Signs & Red Lights</strong> — a leading cause of intersection crashes.</li><li><strong>Teen Drivers</strong> — lack of experience leads to higher crash rates among 16–19 year olds.</li><li><strong>Night Driving</strong> — reduced visibility significantly increases risk after dark.</li><li><strong>Defective Vehicles</strong> — brake failures, tire blowouts, steering issues.</li><li><strong>Wrong-Way Driving</strong> — often fatal, frequently linked to impairment.</li></ol><p>If you've been involved in a crash caused by any of these factors, documenting the cause is critical for any insurance or legal claim.</p>` },
+    injuries: { title: 'Common Car Accident Injuries', body: `<p>Car accidents can cause a wide range of injuries — from minor to life-threatening. The most common include:</p><ul style="margin:12px 0 12px 20px;line-height:2.2;"><li><strong>Whiplash</strong> — the most common crash injury; neck strain from sudden head movement. Symptoms can appear days later.</li><li><strong>Head & Brain Injuries</strong> — concussions, traumatic brain injuries (TBI) from impact. Symptoms include headaches, confusion, memory loss.</li><li><strong>Broken Bones</strong> — ribs, arms, legs, and collarbones are most frequently fractured.</li><li><strong>Spinal Cord Injuries</strong> — can cause partial or full paralysis. Rear-end crashes are a common cause.</li><li><strong>Internal Bleeding</strong> — often not immediately visible; requires emergency evaluation.</li><li><strong>Soft Tissue Injuries</strong> — damage to muscles, tendons, and ligaments.</li><li><strong>Lacerations & Burns</strong> — from broken glass, airbag deployment, or fire.</li><li><strong>PTSD & Psychological Trauma</strong> — anxiety, depression, and fear of driving after a crash are common.</li></ul><p style="margin-top:8px;"><strong>Important:</strong> Always seek medical attention after any accident, even if you feel fine. Many injuries have delayed symptoms. Medical documentation is also critical for any insurance or legal claim.</p>` },
+    motorcycle: { title: 'Motorcycle Accident Guide', body: `<p>Motorcyclists are among the most vulnerable road users. In a crash, motorcyclists are <strong>28x more likely</strong> to die than passenger car occupants per mile traveled.</p><h4 style="margin:14px 0 8px;font-family:'Oswald',sans-serif;">Common Causes of Motorcycle Crashes</h4><ul style="margin-bottom:12px 0 12px 20px;line-height:2;"><li>Cars turning left in front of a motorcycle</li><li>Lane splitting in heavy traffic</li><li>Speeding or alcohol impairment</li><li>Road hazards (gravel, potholes, wet pavement)</li><li>Fixed-object collisions</li></ul><h4 style="margin:14px 0 8px;font-family:'Oswald',sans-serif;">What To Do After a Motorcycle Crash</h4><ol style="margin:0 0 12px 20px;line-height:2;"><li>Get to safety and call 911 immediately</li><li>Do not remove your helmet if you suspect a head or neck injury</li><li>Document the scene with photos before anything is moved</li><li>Get witness names and contact info</li><li>Seek medical attention even for minor injuries — adrenaline masks pain</li><li>File a police report and request a copy</li><li>Contact your insurance company</li></ol><p><strong>Safety tip:</strong> Always wear a DOT-approved helmet, jacket with armor, gloves, and boots — gear can mean the difference between life and death.</p>` },
+    hotspots: { title: 'Crash Hot Spots', body: `<p>Certain roads and intersections across the U.S. have significantly higher crash rates than average. These are commonly referred to as "crash hot spots" or high-injury networks.</p><h4 style="margin:14px 0 8px;font-family:'Oswald',sans-serif;">What Makes a Location a Hot Spot?</h4><ul style="margin:0 0 12px 20px;line-height:2;"><li>High traffic volume with poor signal timing</li><li>Confusing or missing signage</li><li>Poor lighting at night</li><li>High-speed limits near pedestrian areas</li><li>Frequent road construction or lane changes</li><li>Intersections with poor sight lines</li></ul><h4 style="margin:14px 0 8px;font-family:'Oswald',sans-serif;">Most Dangerous States for Driving</h4><p style="line-height:1.9;">Based on fatality rates per mile driven, the most dangerous states are consistently <strong>Mississippi, Wyoming, South Carolina, Montana, and Arkansas</strong>. Urban hot spots include stretches of I-95 in Florida, I-10 in Texas, and I-5 in California.</p><p style="margin-top:12px;"><strong>Tip:</strong> Use our state filter above to search for recent accidents in your area and identify patterns on roads near you.</p>` },
+  };
+  const { title, body } = content[type] || content['disclaimer'];
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto;';
+  overlay.innerHTML = `<div style="background:white;border-radius:6px;max-width:600px;width:100%;padding:36px;position:relative;max-height:90vh;overflow-y:auto;">
+    <button onclick="this.closest('div').parentElement.remove()" style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:26px;cursor:pointer;color:#999;line-height:1;">×</button>
+    <h3 style="font-family:'Oswald',sans-serif;font-size:24px;font-weight:700;margin-bottom:18px;color:#111;padding-right:32px;">${title}</h3>
+    <div style="font-size:14px;color:#444;line-height:1.75;">${body}</div>
+    <button onclick="this.closest('div').parentElement.remove()" style="margin-top:28px;background:var(--red);color:white;border:none;padding:11px 28px;border-radius:3px;font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;">Close</button>
+  </div>`;
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+  document.body.appendChild(overlay);
+}
+
+
+// ── ACCIDENT CHAT WIDGET ─────────────────────────────────────────────────
+(function() {
+  const CHAT_FORMSPREE = 'https://formspree.io/f/xlgpjyga';
+
+  // Chat messages state
+  let chatMessages = [];
+  let chatStep = 0;
+  let chatData = {};
+
+  const steps = [
+    { key: 'intro',    bot: "Hi, we're here to help with your accident. Can you tell us — were you recently in a car accident?", type: 'buttons', options: ['Yes, I was', 'Someone I know was', 'Just browsing'] },
+    { key: 'when',     bot: "We're sorry to hear that. When did the accident happen?", type: 'buttons', options: ['Today', 'This week', 'This month', 'More than a month ago'] },
+    { key: 'injuries', bot: "Were there any injuries?", type: 'buttons', options: ['Yes, I was injured', 'Minor injuries only', 'No injuries', 'Not sure yet'] },
+    { key: 'details',  bot: "Can you briefly describe what happened? (location, what type of crash, who was involved)", type: 'text', placeholder: 'e.g. Rear-ended on I-95 in Miami, FL...' },
+    { key: 'name',     bot: "Thank you for sharing that. What's your name?", type: 'text', placeholder: 'Your full name' },
+    { key: 'email',    bot: "And the best email to reach you?", type: 'text', placeholder: 'your@email.com' },
+    { key: 'phone',    bot: "Last one — a phone number where we can reach you? (optional)", type: 'text', placeholder: 'Phone number (optional)' },
+  ];
+
+  function createWidget() {
+    const widget = document.createElement('div');
+    widget.id = 'chat-widget';
+    widget.innerHTML = `
+      <style>
+        #chat-bubble { position:fixed; bottom:24px; right:24px; width:56px; height:56px; background:var(--red); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 4px 20px rgba(200,16,46,0.5); z-index:8888; transition:transform 0.2s; animation:chatPulse 2.5s ease-in-out infinite; }
+        #chat-bubble:hover { transform:scale(1.1); }
+        @keyframes chatPulse { 0%,100%{box-shadow:0 4px 20px rgba(200,16,46,0.5)} 50%{box-shadow:0 4px 32px rgba(200,16,46,0.85),0 0 0 8px rgba(200,16,46,0.15)} }
+        #chat-bubble svg { width:26px; height:26px; fill:white; }
+        #chat-badge { position:absolute; top:-3px; right:-3px; background:#22c55e; color:white; border-radius:50%; width:18px; height:18px; font-size:10px; font-weight:700; display:flex; align-items:center; justify-content:center; border:2px solid white; }
+        #chat-box { position:fixed; bottom:92px; right:24px; width:340px; max-height:520px; background:#111; border:1px solid rgba(255,255,255,0.12); border-radius:16px; box-shadow:0 16px 48px rgba(0,0,0,0.6); z-index:8888; display:none; flex-direction:column; overflow:hidden; }
+        #chat-header { background:var(--red); padding:14px 18px; display:flex; align-items:center; gap:10px; }
+        #chat-header .avatar { width:36px; height:36px; background:rgba(255,255,255,0.2); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+        #chat-header .info { flex:1; }
+        #chat-header .name { font-family:'Oswald',sans-serif; font-size:15px; font-weight:700; color:white; }
+        #chat-header .status { font-size:11px; color:rgba(255,255,255,0.75); display:flex; align-items:center; gap:4px; }
+        #chat-header .status::before { content:''; width:7px; height:7px; background:#22c55e; border-radius:50%; display:inline-block; }
+        #chat-header .close-chat { background:none; border:none; color:rgba(255,255,255,0.7); font-size:22px; cursor:pointer; line-height:1; padding:0; }
+        #chat-messages { flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:10px; max-height:320px; }
+        .chat-msg { max-width:85%; padding:10px 14px; border-radius:16px; font-size:13px; line-height:1.5; }
+        .chat-msg.bot { background:rgba(255,255,255,0.08); color:rgba(255,255,255,0.85); border-bottom-left-radius:4px; align-self:flex-start; }
+        .chat-msg.user { background:var(--red); color:white; border-bottom-right-radius:4px; align-self:flex-end; }
+        #chat-input-area { padding:12px; border-top:1px solid rgba(255,255,255,0.08); }
+        .chat-buttons { display:flex; flex-wrap:wrap; gap:6px; }
+        .chat-btn { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:rgba(255,255,255,0.8); padding:7px 12px; border-radius:20px; font-size:12px; cursor:pointer; font-family:'Barlow',sans-serif; transition:all 0.15s; }
+        .chat-btn:hover { background:var(--red); border-color:var(--red); color:white; }
+        .chat-text-input { display:flex; gap:8px; }
+        .chat-text-input input { flex:1; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.15); border-radius:20px; padding:8px 14px; color:white; font-size:13px; font-family:'Barlow',sans-serif; outline:none; }
+        .chat-text-input input::placeholder { color:rgba(255,255,255,0.3); }
+        .chat-text-input input:focus { border-color:var(--red); }
+        .chat-text-input button { background:var(--red); border:none; color:white; width:34px; height:34px; border-radius:50%; cursor:pointer; font-size:16px; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
+        #chat-done { padding:20px; text-align:center; display:none; }
+        #chat-done .checkmark { font-size:36px; margin-bottom:10px; }
+        #chat-done p { font-size:13px; color:rgba(255,255,255,0.7); line-height:1.6; }
+        @media(max-width:400px){ #chat-box{width:calc(100vw - 32px);right:16px;} #chat-bubble{right:16px;bottom:16px;} }
+      </style>
+
+      <div id="chat-bubble" onclick="toggleChat()">
+        <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+        <div id="chat-badge">1</div>
+      </div>
+
+      <div id="chat-box">
+        <div id="chat-header">
+          <div class="avatar" style="background:var(--red);display:flex;align-items:center;justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M16 3H8L3 10v4h18v-4L16 3zM3 14v4a1 1 0 001 1h2a1 1 0 001-1v-1h10v1a1 1 0 001 1h2a1 1 0 001-1v-4" stroke="white" stroke-width="1.5" stroke-linejoin="round"/><circle cx="7.5" cy="14.5" r="1" fill="white"/><circle cx="16.5" cy="14.5" r="1" fill="white"/></svg></div>
+          <div class="info">
+            <div class="name">IHateCarAccidents</div>
+            <div class="status">We can help you</div>
+          </div>
+          <button class="close-chat" onclick="toggleChat()">×</button>
+        </div>
+        <div id="chat-messages"></div>
+        <div id="chat-input-area"></div>
+        <div id="chat-done">
+          <div class="checkmark" style="font-size:0;width:48px;height:48px;background:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <p><strong style="color:white;">Got it! We'll be in touch soon.</strong><br>Someone from our team will reach out to help with your accident case.</p>
+        </div>
+      </div>`;
+    document.body.appendChild(widget);
+  }
+
+  window.toggleChat = function() {
+    const box = document.getElementById('chat-box');
+    const badge = document.getElementById('chat-badge');
+    const isOpen = box.style.display === 'flex';
+    box.style.display = isOpen ? 'none' : 'flex';
+    if (!isOpen) {
+      badge.style.display = 'none';
+      if (chatMessages.length === 0) {
+        setTimeout(() => addBotMessage(steps[0].bot, steps[0]), 400);
+      }
+    }
+  };
+
+  function addBotMessage(text, step) {
+    const msgs = document.getElementById('chat-messages');
+    const msg = document.createElement('div');
+    msg.className = 'chat-msg bot';
+    msg.textContent = text;
+    msgs.appendChild(msg);
+    msgs.scrollTop = msgs.scrollHeight;
+    chatMessages.push({ role: 'bot', text });
+
+    if (step) renderInput(step);
+  }
+
+  function addUserMessage(text) {
+    const msgs = document.getElementById('chat-messages');
+    const msg = document.createElement('div');
+    msg.className = 'chat-msg user';
+    msg.textContent = text;
+    msgs.appendChild(msg);
+    msgs.scrollTop = msgs.scrollHeight;
+    chatMessages.push({ role: 'user', text });
+  }
+
+  function renderInput(step) {
+    const area = document.getElementById('chat-input-area');
+    if (step.type === 'buttons') {
+      area.innerHTML = `<div class="chat-buttons">${step.options.map(o => `<button class="chat-btn" onclick="chatAnswer('${o.replace(/'/g,"\\'")}','${step.key}')">${o}</button>`).join('')}</div>`;
+    } else {
+      area.innerHTML = `<div class="chat-text-input"><input id="chat-txt" type="text" placeholder="${step.placeholder}" onkeydown="if(event.key==='Enter')submitChatText('${step.key}')"><button onclick="submitChatText('${step.key}')">&#9658;</button></div>`;
+      setTimeout(() => { const el = document.getElementById('chat-txt'); if(el) el.focus(); }, 100);
+    }
+  }
+
+  window.chatAnswer = function(answer, key) {
+    if (answer === 'Just browsing') {
+      addUserMessage(answer);
+      document.getElementById('chat-input-area').innerHTML = '';
+      setTimeout(() => addBotMessage("No problem! Browse away. We're here if you ever need help.", null), 400);
+      return;
+    }
+    addUserMessage(answer);
+    chatData[key] = answer;
+    nextStep();
+  };
+
+  window.submitChatText = function(key) {
+    const input = document.getElementById('chat-txt');
+    if (!input) return;
+    const val = input.value.trim();
+    if (!val) return;
+    addUserMessage(val);
+    chatData[key] = val;
+    nextStep();
+  };
+
+  function nextStep() {
+    chatStep++;
+    document.getElementById('chat-input-area').innerHTML = '';
+    if (chatStep >= steps.length) {
+      // All done — submit to Formspree
+      setTimeout(() => submitChat(), 500);
+      return;
+    }
+    setTimeout(() => {
+      addBotMessage(steps[chatStep].bot, steps[chatStep]);
+    }, 500);
+  }
+
+  async function submitChat() {
+    const msgs = document.getElementById('chat-messages');
+    const typing = document.createElement('div');
+    typing.className = 'chat-msg bot';
+    typing.innerHTML = '<span style="opacity:0.5;font-style:italic;">Sending your info...</span>';
+    msgs.appendChild(typing);
+    msgs.scrollTop = msgs.scrollHeight;
+
+    const summary = Object.entries(chatData).map(([k,v]) => `${k}: ${v}`).join('\n');
+    try {
+      await fetch(CHAT_FORMSPREE, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          subject: '🚨 New Accident Chat Lead',
+          name: chatData.name || 'Unknown',
+          email: chatData.email || 'Not provided',
+          phone: chatData.phone || 'Not provided',
+          accident_details: chatData.details || 'Not provided',
+          when: chatData.when || '',
+          injuries: chatData.injuries || '',
+          message: `New accident chat submission:\n\n${summary}`
+        })
+      });
+    } catch(e) {}
+
+    document.getElementById('chat-messages').style.display = 'none';
+    document.getElementById('chat-input-area').style.display = 'none';
+    document.getElementById('chat-done').style.display = 'block';
+  }
+
+  // Init
+  document.addEventListener('DOMContentLoaded', () => {
+    createWidget();
+    // Show the bubble after 3 seconds with a gentle bounce
+    setTimeout(() => {
+      const bubble = document.getElementById('chat-bubble');
+      if (bubble) bubble.style.display = 'flex';
+    }, 3000);
+  });
+})();
+
+const backToTop = document.createElement('button');
+backToTop.innerHTML = '↑';
+backToTop.style.cssText = 'position:fixed;bottom:24px;right:24px;width:44px;height:44px;background:var(--red);color:white;border:none;border-radius:50%;font-size:20px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.2);opacity:0;transition:opacity 0.3s;z-index:500;';
+backToTop.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+document.body.appendChild(backToTop);
+window.addEventListener('scroll', () => {
+  backToTop.style.opacity = window.scrollY > 400 ? '1' : '0';
+});
+
+
+</script>
+</body>
+</html>
