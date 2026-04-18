@@ -259,7 +259,7 @@
 
 <div class="hero">
   <div class="hero-badge">Live Updates</div>
-  <h1>Recent Car Accidents<br><em>Near You</em> — Updated Daily</h1>
+  <h1>Find a Medical Provider<br>for Your <em>Car Accident</em> Injuries</h1>
   <p>Real-time crash reports and breaking accident news pulled from local sources across all 50 states.</p>
   <a href="#contact-section" onclick="document.getElementById('contact-section').scrollIntoView({behavior:'smooth'});return false;" class="hero-cta">
     <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
@@ -267,6 +267,10 @@
   </a>
 </div>
 
+
+<div style="width:100%;line-height:0;border-bottom:3px solid var(--red);">
+  <iframe src="https://www.google.com/maps/d/u/2/embed?mid=1BWkyFg3T09Ks7TguFycu5n_qr_2K9VQ&ehbc=2E312F" width="100%" height="500" style="border:0;display:block;" allowfullscreen loading="lazy"></iframe>
+</div>
 <div class="stats-bar">
   <div class="stats-inner">
     <div class="stat"><div class="stat-num">6M+</div><div class="stat-label">Crashes/Year<br>in the U.S.</div></div>
@@ -471,6 +475,7 @@
 
 <!-- CONTACT SECTION -->
 
+
 <div style="background:#f8f8f8;border-top:3px solid var(--red);padding:48px 0;margin-top:40px;" id="florida-locations">
   <div style="max-width:1100px;margin:0 auto;padding:0 20px;">
     <div style="text-align:center;margin-bottom:36px;">
@@ -478,27 +483,8 @@
       <h2 style="font-family:'Oswald',sans-serif;font-size:32px;font-weight:700;color:#111;margin-bottom:10px;">Florida Clinic Locations</h2>
       <p style="font-size:15px;color:#666;max-width:600px;margin:0 auto;">Physician-owned chiropractic and injury clinics across Florida. Walk-ins welcome. PIP insurance accepted.</p>
     </div>
-    <div style="background:white;border-radius:10px;border:1px solid #e5e5e5;overflow:hidden;margin-bottom:40px;display:flex;flex-wrap:wrap;min-height:520px;">
-      <div style="flex:1;min-width:280px;background:#e8f4f8;display:flex;flex-direction:column;">
-        <div style="display:flex;gap:6px;padding:8px 12px;background:#f5f5f5;border-bottom:1px solid #e5e5e5;">
-          <button id="fl-btn-view" onclick="flSetMode('view')" style="flex:1;padding:6px;font-size:12px;font-weight:700;border-radius:6px;cursor:pointer;border:1px solid #ddd;background:#c8102e;color:white;">View / Edit</button>
-          <button id="fl-btn-add" onclick="flSetMode('add')" style="flex:1;padding:6px;font-size:12px;font-weight:700;border-radius:6px;cursor:pointer;border:1px solid #ddd;background:white;color:#333;">+ Add Clinic</button>
-        </div>
-        <div id="fl-map-container" style="flex:1;min-height:480px;">
-          <iframe src="https://www.google.com/maps/d/u/2/embed?mid=1BWkyFg3T09Ks7TguFycu5n_qr_2K9VQ&ehbc=2E312F" width="100%" height="100%" style="border:0;min-height:480px;display:block;" allowfullscreen loading="lazy"></iframe>
-        </div>
-      </div>
-      <div style="width:280px;flex-shrink:0;background:white;border-left:1px solid #e5e5e5;display:flex;flex-direction:column;">
-        <div style="background:#c8102e;color:white;padding:14px 16px;">
-          <div id="fl-panel-title" style="font-family:'Oswald',sans-serif;font-size:16px;font-weight:700;margin-bottom:2px;">Select a clinic</div>
-          <div id="fl-panel-sub" style="font-size:11px;opacity:0.85;">Click any red pin on the map</div>
-        </div>
-        <div id="fl-panel-body" style="flex:1;overflow-y:auto;padding:12px;">
-          <div id="fl-placeholder" style="color:#999;font-size:13px;padding:20px 0;text-align:center;">Click a pin to view and edit clinic details.</div>
-          <div id="fl-clinic-form" style="display:none;"></div>
-          <div id="fl-add-form" style="display:none;"></div>
-        </div>
-      </div>
+    <div style="border-radius:10px;overflow:hidden;border:1px solid #e5e5e5;margin-bottom:40px;">
+      <iframe src="https://www.google.com/maps/d/u/2/embed?mid=1BWkyFg3T09Ks7TguFycu5n_qr_2K9VQ&ehbc=2E312F" width="100%" height="520" style="border:0;display:block;" allowfullscreen loading="lazy"></iframe>
     </div>
     <div id="fl-cards-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-bottom:40px;"></div>
     <div style="background:var(--red);border-radius:6px;padding:28px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
