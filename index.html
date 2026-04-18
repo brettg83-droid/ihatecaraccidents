@@ -148,7 +148,7 @@
 <body id="top">
 
 <div class="top-bar">
-  🚨 Injured in an accident? <a href="#contact-section" onclick="document.getElementById('contact-section').scrollIntoView({behavior:'smooth'});return false;">Tell Us About Your Accident</a> — No Cost, No Obligation
+  🚨 Injured in an accident? <a href="#" onclick="document.getElementById('car-popup').style.display='flex';return false;">Report Your Accident</a> — No Cost, No Obligation
 </div>
 
 <header>
@@ -257,20 +257,28 @@
   <div class="ticker-wrap"><span class="ticker-track" id="ticker-text">Fetching live accident reports...</span></div>
 </div>
 
-<div class="hero">
-  <div class="hero-badge">Live Updates</div>
-  <h1>Find a Medical Provider<br>for Your <em>Car Accident</em> Injuries</h1>
-  <p>Real-time crash reports and breaking accident news pulled from local sources across all 50 states.</p>
-  <a href="#contact-section" onclick="document.getElementById('contact-section').scrollIntoView({behavior:'smooth'});return false;" class="hero-cta">
-    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-    Tell Us About Your Accident
-  </a>
+<div class="hero" style="padding:0;text-align:left;">
+  <div style="display:flex;flex-wrap:wrap;min-height:500px;">
+    <!-- Left: text -->
+    <div style="flex:1;min-width:300px;padding:52px 48px;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:1;">
+      <div class="hero-badge" style="align-self:flex-start;">Live Updates</div>
+      <h1 style="font-family:'Oswald',sans-serif;font-size:clamp(28px,4vw,48px);font-weight:700;line-height:1.1;letter-spacing:-0.01em;margin-bottom:16px;margin-top:12px;">Find a Medical Provider<br>for Your <em style="color:var(--red);font-style:normal;">Car Accident</em> Injuries</h1>
+      <p style="font-size:16px;color:rgba(255,255,255,0.72);max-width:480px;margin:0 0 28px;line-height:1.65;">Physician-owned clinics across Florida ready to see you today. Walk-ins welcome. PIP insurance accepted.</p>
+      <div>
+        <a href="#" onclick="document.getElementById('car-popup').style.display='flex';return false;" class="hero-cta">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Report Your Accident
+        </a>
+      </div>
+    </div>
+    <!-- Right: map -->
+    <div style="flex:1;min-width:300px;min-height:500px;line-height:0;">
+      <iframe src="https://www.google.com/maps/d/u/2/embed?mid=1BWkyFg3T09Ks7TguFycu5n_qr_2K9VQ&ehbc=2E312F" width="100%" height="100%" style="border:0;display:block;min-height:500px;" allowfullscreen loading="lazy"></iframe>
+    </div>
+  </div>
 </div>
 
 
-<div style="width:100%;line-height:0;border-bottom:3px solid var(--red);">
-  <iframe src="https://www.google.com/maps/d/u/2/embed?mid=1BWkyFg3T09Ks7TguFycu5n_qr_2K9VQ&ehbc=2E312F" width="100%" height="500" style="border:0;display:block;" allowfullscreen loading="lazy"></iframe>
-</div>
 <div class="stats-bar">
   <div class="stats-inner">
     <div class="stat"><div class="stat-num">6M+</div><div class="stat-label">Crashes/Year<br>in the U.S.</div></div>
@@ -327,7 +335,7 @@
     <div class="report-cta">
       <h3>🚨 Were You Injured?</h3>
       <p>Request a complimentary police accident report — typically within 24 hours, at no cost to you.</p>
-      <a href="#contact-section" onclick="document.getElementById('contact-section').scrollIntoView({behavior:'smooth'});return false;">Tell Us About Your Accident</a>
+      <a href="#" onclick="document.getElementById('car-popup').style.display='flex';return false;">Report Your Accident</a>
     </div>
 
     <div class="sidebar-card">
@@ -420,7 +428,7 @@
       <h2 style="font-family:'Oswald',sans-serif;font-size:34px;font-weight:700;line-height:1.1;margin-bottom:16px;">Why We Built<br>IHateCarAccidents</h2>
       <p style="font-size:15px;color:var(--gray);line-height:1.7;margin-bottom:14px;">Car accidents happen every 60 seconds in America. Most go unreported by major media. We built IHateCarAccidents.com because communities deserve to know what's happening on their roads — in real time.</p>
       <p style="font-size:15px;color:var(--gray);line-height:1.7;margin-bottom:20px;">Our platform aggregates breaking accident news from local sources across all 50 states, updated continuously so you're always informed.</p>
-      <a href="#contact-section" onclick="document.getElementById('contact-section').scrollIntoView({behavior:'smooth'});return false;" style="display:inline-block;background:var(--red);color:white;font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:12px 24px;border-radius:3px;">Tell Us About Your Accident</a>
+      <a href="#" onclick="document.getElementById('car-popup').style.display='flex';return false;" style="display:inline-block;background:var(--red);color:white;font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:12px 24px;border-radius:3px;">Report Your Accident</a>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
       <div style="background:white;border:1px solid var(--gray-light);border-radius:4px;padding:24px;text-align:center;">
@@ -451,7 +459,7 @@
     <div style="display:flex;flex-direction:column;gap:0;">
       <details style="border:1px solid var(--gray-light);border-radius:4px;margin-bottom:8px;overflow:hidden;">
         <summary style="padding:16px 20px;font-family:'Oswald',sans-serif;font-size:16px;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--gray-bg);">How do I get a free accident report? <span style="color:var(--red);font-size:20px;">+</span></summary>
-        <div style="padding:16px 20px;font-size:14px;color:var(--gray);line-height:1.7;">Click any "Tell Us About Your Accident" button on this site. You'll be taken to a form where you can provide details about your accident. A representative will help obtain your official police report — at no cost to you.</div>
+        <div style="padding:16px 20px;font-size:14px;color:var(--gray);line-height:1.7;">Click any "Report Your Accident" button on this site. You'll be taken to a form where you can provide details about your accident. A representative will help obtain your official police report — at no cost to you.</div>
       </details>
       <details style="border:1px solid var(--gray-light);border-radius:4px;margin-bottom:8px;overflow:hidden;">
         <summary style="padding:16px 20px;font-family:'Oswald',sans-serif;font-size:16px;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--gray-bg);">How often is the news feed updated? <span style="color:var(--red);font-size:20px;">+</span></summary>
@@ -556,7 +564,7 @@
       <div class="footer-col"><h4>Quick Links</h4>
         <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Home</a>
         <a href="#" onclick="document.getElementById('feed-container').scrollIntoView({behavior:'smooth'});return false;">Breaking News</a>
-        <a href="#contact-section" onclick="document.getElementById('contact-section').scrollIntoView({behavior:'smooth'});return false;">Tell Us About Your Accident</a>
+        <a href="#contact-section" onclick="document.getElementById('contact-section').scrollIntoView({behavior:'smooth'});return false;">Report Your Accident</a>
         <a href="#" onclick="document.getElementById('about-section').scrollIntoView({behavior:'smooth'});return false;">About Us</a>
         <a href="#" onclick="document.getElementById('contact-section').scrollIntoView({behavior:'smooth'});return false;">Contact</a>
         <a href="#" onclick="document.getElementById('faq-section').scrollIntoView({behavior:'smooth'});return false;">FAQ</a>
