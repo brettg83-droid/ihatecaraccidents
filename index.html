@@ -476,19 +476,110 @@
     <div style="text-align:center;margin-bottom:36px;">
       <div style="display:inline-block;background:var(--red);color:white;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:5px 14px;border-radius:2px;margin-bottom:12px;">Our Network</div>
       <h2 style="font-family:'Oswald',sans-serif;font-size:32px;font-weight:700;color:#111;margin-bottom:10px;">Florida Clinic Locations</h2>
-      <p style="font-size:15px;color:#666;max-width:600px;margin:0 auto;">We have physician-owned chiropractic and injury clinics across Florida ready to help accident victims. Walk-ins welcome. Most insurance accepted.</p>
+      <p style="font-size:15px;color:#666;max-width:600px;margin:0 auto;">Physician-owned chiropractic and injury clinics across Florida. Walk-ins welcome. PIP insurance accepted.</p>
     </div>
-
-    <div style="background:white;border-radius:10px;border:1px solid #e5e5e5;overflow:hidden;margin-bottom:40px;display:flex;flex-wrap:wrap;min-height:560px;">
-      <div id="fl-map-side" style="flex:1;min-width:280px;background:#e8f4f8;position:relative;display:flex;flex-direction:column;">
+    <div style="background:white;border-radius:10px;border:1px solid #e5e5e5;overflow:hidden;margin-bottom:40px;display:flex;flex-wrap:wrap;min-height:520px;">
+      <div style="flex:1;min-width:280px;background:#e8f4f8;display:flex;flex-direction:column;">
         <div style="display:flex;gap:6px;padding:8px 12px;background:#f5f5f5;border-bottom:1px solid #e5e5e5;">
           <button id="fl-btn-view" onclick="flSetMode('view')" style="flex:1;padding:6px;font-size:12px;font-weight:700;border-radius:6px;cursor:pointer;border:1px solid #ddd;background:#c8102e;color:white;">View / Edit</button>
           <button id="fl-btn-add" onclick="flSetMode('add')" style="flex:1;padding:6px;font-size:12px;font-weight:700;border-radius:6px;cursor:pointer;border:1px solid #ddd;background:white;color:#333;">+ Add Clinic</button>
         </div>
-        <div id="fl-map-container" style="flex:1;min-height:480px;"></div>
+        <div id="fl-map-container" style="flex:1;padding:8px;"><svg id="fl-svg" viewBox="0 0 500 520" style="width:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+  <path d="M161.2,70.2 L162.7,74.3 L165.6,77.2 L166.2,81.5 L168.0,85.6 L170.9,87.8 L246.1,82.7 L266.5,81.4 L317.1,77.8 L316.2,79.5 L318.6,83.0 L318.7,87.0 L321.5,90.9 L328.2,89.6 L328.8,82.0 L328.6,76.5 L325.3,71.0 L325.5,62.4 L328.3,62.5 L329.1,59.2 L332.1,59.1 L333.9,60.7 L337.3,60.4 L342.5,62.6 L346.2,62.2 L352.5,63.1 L355.2,61.9 L357.8,62.5 L358.9,63.1 L359.0,69.4 L360.2,74.4 L361.9,76.7 L365.3,89.8 L372.6,108.5 L376.1,115.2 L377.2,119.8 L384.7,133.6 L393.6,148.3 L399.7,157.7 L418.0,180.2 L427.3,189.9 L431.3,197.4 L428.4,201.0 L428.2,207.5 L430.7,215.8 L432.8,220.8 L437.4,228.2 L446.8,241.6 L454.4,255.9 L457.9,263.1 L465.2,274.0 L465.6,275.9 L470.8,284.3 L476.8,297.8 L478.8,312.1 L478.9,320.2 L479.7,331.7 L479.8,343.1 L481.9,358.7 L481.7,370.1 L480.6,366.6 L478.4,365.5 L476.0,367.7 L474.9,373.0 L473.8,374.8 L474.2,377.6 L473.0,380.1 L473.3,384.4 L474.6,388.5 L475.9,389.2 L474.7,392.3 L472.7,394.0 L473.5,396.0 L477.5,393.1 L482.0,379.3 L481.5,386.3 L476.4,399.5 L475.3,404.2 L464.9,418.7 L460.5,423.1 L459.8,422.5 L468.3,412.2 L469.5,409.1 L470.0,402.7 L464.0,402.6 L457.2,405.0 L452.7,408.3 L448.6,406.4 L445.0,407.8 L443.9,410.2 L433.7,413.1 L429.7,410.9 L427.3,407.5 L427.6,400.3 L429.1,399.7 L425.1,392.3 L422.4,390.1 L422.4,388.2 L419.6,384.4 L417.7,383.8 L415.8,379.3 L412.3,379.7 L409.6,374.6 L404.4,373.6 L394.6,369.1 L391.2,372.5 L386.7,366.2 L382.5,358.6 L378.7,345.9 L375.8,340.9 L372.9,338.2 L366.5,335.0 L366.0,332.6 L363.0,333.0 L363.9,335.2 L361.2,336.2 L358.0,326.8 L355.1,324.4 L358.1,322.8 L360.3,324.7 L361.2,315.7 L360.3,311.1 L358.3,310.5 L358.5,306.0 L356.2,306.6 L353.2,309.5 L356.0,317.3 L350.4,319.8 L349.8,322.7 L349.1,318.6 L347.6,316.1 L343.3,311.5 L336.5,302.6 L334.0,297.8 L327.3,288.6 L319.1,280.3 L315.3,274.7 L317.9,277.0 L320.7,275.0 L323.7,269.8 L328.4,259.5 L330.7,258.0 L332.4,253.0 L330.7,249.1 L326.2,248.6 L328.1,254.6 L323.2,253.6 L324.3,251.6 L322.1,246.1 L313.9,243.3 L314.7,246.8 L312.7,248.6 L316.0,250.4 L318.5,250.3 L321.6,255.9 L319.9,258.5 L319.9,263.0 L315.5,264.4 L316.7,269.0 L315.2,270.0 L314.1,264.1 L310.4,259.1 L307.9,257.4 L306.1,253.6 L306.2,244.9 L304.6,241.5 L302.6,232.6 L304.3,232.3 L305.0,237.4 L306.7,242.1 L308.4,242.2 L307.9,237.7 L306.1,236.2 L308.1,231.7 L311.0,217.4 L310.9,207.3 L309.2,203.8 L309.1,200.7 L306.4,199.5 L306.9,197.0 L304.3,191.4 L306.1,187.5 L301.1,182.1 L301.4,180.3 L299.5,177.5 L297.4,177.7 L297.5,173.1 L296.1,172.5 L286.6,172.6 L283.8,176.0 L281.1,170.8 L280.6,167.7 L275.9,166.7 L275.1,163.3 L272.1,158.8 L267.7,158.3 L266.4,156.0 L261.2,154.0 L260.4,147.9 L259.1,144.3 L256.8,144.3 L251.8,141.9 L248.6,138.3 L248.4,136.6 L244.9,132.2 L241.9,130.2 L235.8,127.5 L227.5,124.5 L221.8,121.1 L216.4,122.6 L214.7,124.0 L208.3,123.1 L208.5,125.0 L203.7,129.5 L206.2,134.7 L205.5,136.5 L200.7,136.5 L199.6,135.2 L195.1,136.9 L188.3,143.0 L187.1,143.2 L176.8,151.3 L177.3,148.0 L175.1,147.5 L171.2,152.4 L164.1,153.2 L167.0,155.6 L167.5,157.6 L170.9,158.4 L182.1,152.0 L187.0,146.7 L187.5,147.4 L183.4,152.5 L169.3,160.9 L158.8,156.2 L155.0,156.3 L151.7,158.2 L148.6,153.3 L146.9,147.8 L148.2,144.4 L148.9,150.2 L150.6,155.1 L152.2,156.1 L153.8,153.8 L153.5,149.1 L149.4,143.0 L146.8,140.7 L142.1,139.8 L138.9,137.9 L135.1,134.4 L129.5,132.4 L124.8,129.0 L118.7,125.8 L111.6,123.0 L98.9,119.6 L90.8,118.4 L75.9,118.5 L69.4,119.5 L60.3,121.7 L47.5,125.7 L41.4,127.1 L39.8,126.7 L27.8,130.6 L30.5,128.9 L28.8,128.1 L31.1,126.0 L32.1,121.8 L35.0,120.2 L32.4,118.7 L30.3,115.5 L32.6,107.5 L31.6,104.7 L24.3,100.9 L23.0,98.3 L18.0,93.6 L19.9,87.0 L19.2,84.9 L44.3,82.5 L78.3,79.6 L112.5,76.1 L161.2,70.2 Z" fill="#ffe8e8" stroke="#c8102e" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M396.2,454.3 L399.3,448.0 L408.0,441.7 L412.5,437.4 L415.5,435.6 L424.1,438.0 L425.3,440.7 L428.5,442.6 L419.8,447.2 L418.9,445.8 L413.3,447.0 L413.0,448.4 L403.8,453.8 L396.4,455.7 L396.2,454.3 Z" fill="#ffe8e8" stroke="#c8102e" stroke-width="1"/>
+<path d="M350.2,324.0 L351.3,324.8 L357.0,335.7 L362.5,337.9 L363.9,336.8 L366.8,337.5 L362.2,339.9 L356.0,336.5 L350.5,326.8 L350.2,324.0 Z" fill="#ffe8e8" stroke="#c8102e" stroke-width="1"/>
+<path d="M455.4,426.5 L458.0,422.7 L459.1,424.4 L456.8,427.2 L455.4,426.5 Z" fill="#ffe8e8" stroke="#c8102e" stroke-width="1"/>
+<path d="M435.1,439.4 L445.3,432.8 L446.8,434.2 L438.1,440.0 L435.1,439.4 Z" fill="#ffe8e8" stroke="#c8102e" stroke-width="1"/>
+<path d="M384.6,457.7 L391.8,454.7 L390.8,457.8 L384.7,459.0 L384.6,457.7 Z" fill="#ffe8e8" stroke="#c8102e" stroke-width="1"/>
+<path d="M375.6,457.7 L376.6,455.6 L378.9,455.6 L378.5,458.2 L375.6,457.7 Z" fill="#ffe8e8" stroke="#c8102e" stroke-width="1"/>
+<path d="M329.8,459.8 L332.9,458.6 L334.0,459.7 L329.9,460.9 L329.8,459.8 Z" fill="#ffe8e8" stroke="#c8102e" stroke-width="1"/>
+<path d="M188.6,145.2 L194.1,141.9 L193.3,144.7 L189.1,146.5 L188.6,145.2 Z" fill="#ffe8e8" stroke="#c8102e" stroke-width="1"/>
+<path d="M450.2,430.8 L451.8,428.4 L453.3,429.8 L450.2,430.8 Z" fill="#ffe8e8" stroke="#c8102e" stroke-width="1"/>
+  <text x="260" y="300" text-anchor="middle" font-family="Oswald,Arial,sans-serif" font-size="28" font-weight="900" fill="rgba(200,16,46,0.07)" letter-spacing="5">FLORIDA</text>
+  <g class="fl-pin" data-id="1" style="cursor:pointer" onclick="flOpenClinic(1)">
+    <circle id="fl-dot-1" cx="459.4" cy="348.7" r="8" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="448.4" y="352.7" text-anchor="end" font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#222" pointer-events="none">Miami</text>
+  </g>
+<g class="fl-pin" data-id="2" style="cursor:pointer" onclick="flOpenClinic(2)">
+    <circle id="fl-dot-2" cx="462.3" cy="329.7" r="6" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="451.3" y="333.7" text-anchor="end" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#222" pointer-events="none">Fort Lauderdale</text>
+  </g>
+<g class="fl-pin" data-id="3" style="cursor:pointer" onclick="flOpenClinic(3)">
+    <circle id="fl-dot-3" cx="463.4" cy="323.1" r="6" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="452.4" y="327.1" text-anchor="end" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#222" pointer-events="none">Pompano Beach</text>
+  </g>
+<g class="fl-pin" data-id="4" style="cursor:pointer" onclick="flOpenClinic(4)">
+    <circle id="fl-dot-4" cx="465.8" cy="317.2" r="6" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="454.8" y="321.2" text-anchor="end" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#222" pointer-events="none">Boca Raton</text>
+  </g>
+<g class="fl-pin" data-id="5" style="cursor:pointer" onclick="flOpenClinic(5)">
+    <circle id="fl-dot-5" cx="467.5" cy="297.6" r="6" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="456.5" y="301.6" text-anchor="end" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#222" pointer-events="none">West Palm Beach</text>
+  </g>
+<g class="fl-pin" data-id="6" style="cursor:pointer" onclick="flOpenClinic(6)">
+    <circle id="fl-dot-6" cx="450.1" cy="266.1" r="6" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="439.1" y="270.1" text-anchor="end" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#222" pointer-events="none">Port St. Lucie</text>
+  </g>
+<g class="fl-pin" data-id="7" style="cursor:pointer" onclick="flOpenClinic(7)">
+    <circle id="fl-dot-7" cx="323.7" cy="263.4" r="6" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="312.7" y="267.4" text-anchor="end" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#222" pointer-events="none">Sarasota</text>
+  </g>
+<g class="fl-pin" data-id="8" style="cursor:pointer" onclick="flOpenClinic(8)">
+    <circle id="fl-dot-8" cx="327.7" cy="230.2" r="8" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="316.7" y="234.2" text-anchor="end" font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#222" pointer-events="none">Tampa</text>
+  </g>
+<g class="fl-pin" data-id="9" style="cursor:pointer" onclick="flOpenClinic(9)">
+    <circle id="fl-dot-9" cx="308.0" cy="229.1" r="6" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="297.0" y="233.1" text-anchor="end" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#222" pointer-events="none">Clearwater</text>
+  </g>
+<g class="fl-pin" data-id="10" style="cursor:pointer" onclick="flOpenClinic(10)">
+    <circle id="fl-dot-10" cx="357.3" cy="225.3" r="6" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="346.3" y="229.3" text-anchor="end" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#222" pointer-events="none">Lakeland</text>
+  </g>
+<g class="fl-pin" data-id="11" style="cursor:pointer" onclick="flOpenClinic(11)">
+    <circle id="fl-dot-11" cx="390.4" cy="198.2" r="8" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="379.4" y="202.2" text-anchor="end" font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#222" pointer-events="none">Orlando</text>
+  </g>
+<g class="fl-pin" data-id="12" style="cursor:pointer" onclick="flOpenClinic(12)">
+    <circle id="fl-dot-12" cx="388.6" cy="211.8" r="6" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="377.6" y="215.8" text-anchor="end" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#222" pointer-events="none">Kissimmee</text>
+  </g>
+<g class="fl-pin" data-id="13" style="cursor:pointer" onclick="flOpenClinic(13)">
+    <circle id="fl-dot-13" cx="411.2" cy="161.8" r="6" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="400.2" y="165.8" text-anchor="end" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#222" pointer-events="none">Daytona Beach</text>
+  </g>
+<g class="fl-pin" data-id="14" style="cursor:pointer" onclick="flOpenClinic(14)">
+    <circle id="fl-dot-14" cx="346.9" cy="162.9" r="6" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="335.9" y="166.9" text-anchor="end" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#222" pointer-events="none">Ocala</text>
+  </g>
+<g class="fl-pin" data-id="15" style="cursor:pointer" onclick="flOpenClinic(15)">
+    <circle id="fl-dot-15" cx="335.3" cy="137.9" r="6" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="324.3" y="141.9" text-anchor="end" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#222" pointer-events="none">Gainesville</text>
+  </g>
+<g class="fl-pin" data-id="16" style="cursor:pointer" onclick="flOpenClinic(16)">
+    <circle id="fl-dot-16" cx="374.1" cy="100.9" r="8" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="363.1" y="104.9" text-anchor="end" font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#222" pointer-events="none">Jacksonville</text>
+  </g>
+<g class="fl-pin" data-id="17" style="cursor:pointer" onclick="flOpenClinic(17)">
+    <circle id="fl-dot-17" cx="222.2" cy="95.0" r="6" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="233.2" y="99.0" text-anchor="start" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#222" pointer-events="none">Tallahassee</text>
+  </g>
+<g class="fl-pin" data-id="18" style="cursor:pointer" onclick="flOpenClinic(18)">
+    <circle id="fl-dot-18" cx="51.6" cy="96.0" r="6" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="62.6" y="100.0" text-anchor="start" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#222" pointer-events="none">Pensacola</text>
+  </g>
+<g class="fl-pin" data-id="19" style="cursor:pointer" onclick="flOpenClinic(19)">
+    <circle id="fl-dot-19" cx="357.3" cy="305.8" r="6" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="346.3" y="309.8" text-anchor="end" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#222" pointer-events="none">Cape Coral</text>
+  </g>
+<g class="fl-pin" data-id="20" style="cursor:pointer" onclick="flOpenClinic(20)">
+    <circle id="fl-dot-20" cx="366.6" cy="328.6" r="6" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="355.6" y="332.6" text-anchor="end" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#222" pointer-events="none">Naples</text>
+  </g>
+</svg></div>
       </div>
       <div style="width:280px;flex-shrink:0;background:white;border-left:1px solid #e5e5e5;display:flex;flex-direction:column;">
-        <div id="fl-panel-header" style="background:#c8102e;color:white;padding:14px 16px;">
+        <div style="background:#c8102e;color:white;padding:14px 16px;">
           <div id="fl-panel-title" style="font-family:'Oswald',sans-serif;font-size:16px;font-weight:700;margin-bottom:2px;">Select a clinic</div>
           <div id="fl-panel-sub" style="font-size:11px;opacity:0.85;">Click any red pin on the map</div>
         </div>
@@ -499,9 +590,7 @@
         </div>
       </div>
     </div>
-
     <div id="fl-cards-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-bottom:40px;"></div>
-
     <div style="background:var(--red);border-radius:6px;padding:28px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
       <div>
         <div style="font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:white;margin-bottom:4px;">Attorney Referral Network</div>
@@ -557,6 +646,7 @@
 </div>
 
 
+  <footer>
   <div class="footer-inner">
     <div class="footer-grid">
       <div>
@@ -707,7 +797,6 @@ function cleanTitle(title) {
 }
 
 // ── GOOGLE MAPS THUMBNAILS ───────────────────────────────────────────────
-const MAPS_KEY = 'AIzaSyDdFLFeWjIOAQSRy9zbrwx6QUZg6ucpfds';
 
 // Extract best location string from article title + description
 function extractLocation(article) {
@@ -839,7 +928,7 @@ ${a.pubDate ? `Date: ${a.pubDate}` : ''}`;
       <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:24px;">
         <p style="font-size:15px;color:rgba(255,255,255,0.6);line-height:1.8;margin-bottom:16px;">${desc || 'No additional details available for this article.'}</p>
         <div style="margin-top:20px;">
-          <a href="${a.link}" target="_blank" rel="noopener" style="display:inline-block;background:var(--red);color:white;padding:11px 24px;border-radius:3px;font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;">Read Original Article →</a>
+          <a href="https://www.google.com/search?q=${encodeURIComponent(title)}" target="_blank" rel="noopener" style="display:inline-block;background:var(--red);color:white;padding:11px 24px;border-radius:3px;font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;">Find Full Story</a>
         </div>
       </div>`;
   }
@@ -978,23 +1067,23 @@ async function fetchFeed() {
     'Wyoming+car+accident+crash+fatal',
   ];
 
-  const proxyBase = 'https://api.allorigins.win/get?url=';
-
   async function fetchQuery(q) {
-    const googleUrl = `https://news.google.com/rss/search?q=${q}&hl=en-US&gl=US&ceid=US:en`;
-    const res = await fetch(proxyBase + encodeURIComponent(googleUrl));
+    const googleUrl = 'https://news.google.com/rss/search?q=' + q + '&hl=en-US&gl=US&ceid=US:en';
+    const apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(googleUrl);
+    const res = await fetch(apiUrl);
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
-    if (!data.contents) return [];
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(data.contents, 'text/xml');
-    return Array.from(doc.querySelectorAll('item')).map(item => ({
-      title:    item.querySelector('title')?.textContent || '',
-      link:     item.querySelector('link')?.nextSibling?.nodeValue?.trim() || item.querySelector('guid')?.textContent || '#',
-      description: item.querySelector('description')?.textContent || '',
-      pubDate:  item.querySelector('pubDate')?.textContent || '',
-      source:   item.querySelector('source')?.textContent || ''
-    })).filter(i => i.title);
+    if (!data.items || !data.items.length) return [];
+    return data.items.map(function(item) {
+      return {
+        title:       item.title || '',
+        link:        item.link || '#',
+        description: item.description || item.content || '',
+        pubDate:     item.pubDate || '',
+        source:      item.author || '',
+        image:       item.thumbnail || ''
+      };
+    }).filter(function(i){ return i.title; });
   }
 
   // Fire all queries in parallel
@@ -1046,30 +1135,13 @@ async function filterByState(state) {
   el.insertAdjacentHTML('afterbegin', `<div id="state-loading" style="background:rgba(200,16,46,0.1);border:1px solid var(--red);border-radius:4px;padding:10px 16px;margin-bottom:16px;font-size:13px;font-weight:600;color:var(--red);">🔍 Loading latest ${state} accidents...</div>`);
 
   try {
-    const proxyBase = 'https://api.allorigins.win/get?url=';
-    const stateQuery = encodeURIComponent(state.replace(/ /g, '+') + '+car+accident+crash');
-    const stateQuery2 = encodeURIComponent(state.replace(/ /g, '+') + '+crash+fatal+killed');
-    const [r1, r2] = await Promise.allSettled([
-      fetch(proxyBase + encodeURIComponent(`https://news.google.com/rss/search?q=${stateQuery}&hl=en-US&gl=US&ceid=US:en`)),
-      fetch(proxyBase + encodeURIComponent(`https://news.google.com/rss/search?q=${stateQuery2}&hl=en-US&gl=US&ceid=US:en`))
-    ]);
-    const parser = new DOMParser();
-    let fresh = [];
-    for (const r of [r1, r2]) {
-      if (r.status !== 'fulfilled' || !r.value.ok) continue;
-      const data = await r.value.json();
-      if (!data.contents) continue;
-      const doc = parser.parseFromString(data.contents, 'text/xml');
-      Array.from(doc.querySelectorAll('item')).forEach(item => {
-        fresh.push({
-          title:       item.querySelector('title')?.textContent || '',
-          link:        item.querySelector('link')?.nextSibling?.nodeValue?.trim() || item.querySelector('guid')?.textContent || '#',
-          description: item.querySelector('description')?.textContent || '',
-          pubDate:     item.querySelector('pubDate')?.textContent || '',
-          source:      item.querySelector('source')?.textContent || ''
-        });
-      });
-    }
+    const q = state.replace(/ /g,'+') + '+car+accident+crash+fatal';
+    const apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent('https://news.google.com/rss/search?q=' + q + '&hl=en-US&gl=US&ceid=US:en');
+    const res = await fetch(apiUrl);
+    const data = res.ok ? await res.json() : {items:[]};
+    let fresh = (data.items||[]).map(function(item) {
+      return { title:item.title||'', link:item.link||'#', description:item.description||'', pubDate:item.pubDate||'', source:item.author||'', image:item.thumbnail||'' };
+    }).filter(function(i){return i.title;});
     // Merge fresh + existing, dedupe, sort
     const combined = [...fresh, ...allArticles.filter(a => (a.title + ' ' + a.description).toLowerCase().includes(state.toLowerCase()))];
     const seen = new Set();
@@ -1391,94 +1463,75 @@ window.addEventListener('scroll', () => {
 </script>
 
 <div id="car-popup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:99999;align-items:center;justify-content:center;padding:20px;">
-  <div style="background:white;border-radius:10px;max-width:560px;width:100%;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,0.5);position:relative;">
+  <div style="background:white;border-radius:10px;max-width:540px;width:100%;overflow:hidden;">
     <div style="background:var(--red);padding:20px 28px;display:flex;align-items:center;justify-content:space-between;">
-      <div>
-        <div style="font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:white;">BEEN IN AN ACCIDENT?</div>
-        <div style="font-size:13px;color:rgba(255,255,255,0.85);margin-top:2px;">Our clinics can see you today — no out-of-pocket cost with PIP insurance</div>
-      </div>
-      <button onclick="document.getElementById('car-popup').style.display='none'" style="background:rgba(255,255,255,0.2);border:none;color:white;width:32px;height:32px;border-radius:50%;font-size:20px;cursor:pointer;line-height:1;flex-shrink:0;">×</button>
+      <div><div style="font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:white;">BEEN IN AN ACCIDENT?</div><div style="font-size:13px;color:rgba(255,255,255,0.85);margin-top:2px;">Our clinics can see you today — no out-of-pocket cost with PIP</div></div>
+      <button onclick="document.getElementById('car-popup').style.display='none'" style="background:rgba(255,255,255,0.2);border:none;color:white;width:32px;height:32px;border-radius:50%;font-size:20px;cursor:pointer;flex-shrink:0;">x</button>
     </div>
-    <div id="popup-form-wrap" style="padding:28px;">
+    <div id="popup-form-wrap" style="padding:24px;max-height:75vh;overflow-y:auto;">
       <form id="popup-intake-form" onsubmit="submitIntake(event)">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
-          <div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:5px;text-transform:uppercase;">First Name *</label><input name="firstName" required style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="John"></div>
-          <div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:5px;text-transform:uppercase;">Last Name *</label><input name="lastName" required style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="Smith"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+          <div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">First Name *</label><input name="firstName" required style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="John"></div>
+          <div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Last Name *</label><input name="lastName" required style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="Smith"></div>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
-          <div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:5px;text-transform:uppercase;">Phone *</label><input name="phone" type="tel" required style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="(555) 000-0000"></div>
-          <div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:5px;text-transform:uppercase;">Email *</label><input name="email" type="email" required style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="john@email.com"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+          <div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Phone *</label><input name="phone" type="tel" required style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="(555) 000-0000"></div>
+          <div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Email *</label><input name="email" type="email" required style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="john@email.com"></div>
         </div>
-        <div style="margin-bottom:14px;"><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:5px;text-transform:uppercase;">Date of Accident *</label><input name="accidentDate" type="date" required style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;"></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
-          <div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:5px;text-transform:uppercase;">Nearest City *</label>
-            <select name="city" required style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;background:white;">
-              <option value="">Select city...</option>
-              <option>Miami</option><option>Orlando</option><option>Tampa</option><option>Jacksonville</option><option>Fort Lauderdale</option><option>Boca Raton</option><option>Sarasota</option><option>Naples</option><option>Gainesville</option><option>Tallahassee</option><option>Clearwater</option><option>Pensacola</option><option>Port St. Lucie</option><option>Cape Coral</option><option>Ocala</option><option>Daytona Beach</option><option>Lakeland</option><option>Pompano Beach</option><option>West Palm Beach</option><option>Kissimmee</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-          <div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:5px;text-transform:uppercase;">Have an Attorney?</label>
-            <select name="hasAttorney" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;background:white;">
-              <option value="No">No</option><option value="Yes">Yes</option><option value="Looking">Looking for one</option>
-            </select>
-          </div>
+        <div style="margin-bottom:12px;"><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Date of Accident *</label><input name="accidentDate" type="date" required style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;"></div>
+        <div style="margin-bottom:12px;"><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Nearest City</label>
+          <select name="city" style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;background:white;"><option value="">Select...</option><option>Miami</option><option>Orlando</option><option>Tampa</option><option>Jacksonville</option><option>Fort Lauderdale</option><option>Boca Raton</option><option>Sarasota</option><option>Naples</option><option>Gainesville</option><option>Tallahassee</option><option>Clearwater</option><option>Pensacola</option><option>Port St. Lucie</option><option>Cape Coral</option><option>Ocala</option><option>Daytona Beach</option><option>Lakeland</option><option>Pompano Beach</option><option>West Palm Beach</option><option>Kissimmee</option><option>Other</option></select>
         </div>
-        <div style="margin-bottom:14px;"><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:5px;text-transform:uppercase;">Injuries / Symptoms</label>
-          <div style="display:flex;flex-wrap:wrap;gap:8px;">
-            <label style="display:flex;align-items:center;gap:5px;font-size:13px;color:#444;cursor:pointer;"><input type="checkbox" name="injury" value="Neck Pain" style="accent-color:#c8102e;"> Neck Pain</label><label style="display:flex;align-items:center;gap:5px;font-size:13px;color:#444;cursor:pointer;"><input type="checkbox" name="injury" value="Back Pain" style="accent-color:#c8102e;"> Back Pain</label><label style="display:flex;align-items:center;gap:5px;font-size:13px;color:#444;cursor:pointer;"><input type="checkbox" name="injury" value="Headaches" style="accent-color:#c8102e;"> Headaches</label><label style="display:flex;align-items:center;gap:5px;font-size:13px;color:#444;cursor:pointer;"><input type="checkbox" name="injury" value="Whiplash" style="accent-color:#c8102e;"> Whiplash</label><label style="display:flex;align-items:center;gap:5px;font-size:13px;color:#444;cursor:pointer;"><input type="checkbox" name="injury" value="Dizziness" style="accent-color:#c8102e;"> Dizziness</label><label style="display:flex;align-items:center;gap:5px;font-size:13px;color:#444;cursor:pointer;"><input type="checkbox" name="injury" value="Shoulder Pain" style="accent-color:#c8102e;"> Shoulder Pain</label><label style="display:flex;align-items:center;gap:5px;font-size:13px;color:#444;cursor:pointer;"><input type="checkbox" name="injury" value="Knee Pain" style="accent-color:#c8102e;"> Knee Pain</label><label style="display:flex;align-items:center;gap:5px;font-size:13px;color:#444;cursor:pointer;"><input type="checkbox" name="injury" value="Other" style="accent-color:#c8102e;"> Other</label>
-          </div>
+        <div style="margin-bottom:12px;"><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Injuries</label>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;"><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" name="injury" value="Neck Pain"> Neck Pain</label><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" name="injury" value="Back Pain"> Back Pain</label><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" name="injury" value="Headaches"> Headaches</label><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" name="injury" value="Whiplash"> Whiplash</label><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" name="injury" value="Dizziness"> Dizziness</label><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" name="injury" value="Other"> Other</label></div>
         </div>
-        <div style="margin-bottom:20px;"><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:5px;text-transform:uppercase;">Brief Description</label><textarea name="description" rows="3" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;resize:vertical;" placeholder="Tell us briefly what happened..."></textarea></div>
-        <button type="submit" id="popup-submit-btn" style="width:100%;background:#c8102e;color:white;border:none;padding:14px;border-radius:4px;font-family:'Oswald',sans-serif;font-size:16px;font-weight:700;cursor:pointer;">Get Free Consultation</button>
-        <div style="font-size:11px;color:#999;text-align:center;margin-top:10px;">No cost to you · Confidential · We respond within 1 hour</div>
+        <div style="margin-bottom:18px;"><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">What Happened?</label><textarea name="description" rows="3" style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;resize:vertical;" placeholder="Briefly describe the accident..."></textarea></div>
+        <button type="submit" id="popup-submit-btn" style="width:100%;background:#c8102e;color:white;border:none;padding:13px;border-radius:4px;font-family:'Oswald',sans-serif;font-size:16px;font-weight:700;cursor:pointer;">Get Free Consultation</button>
+        <div style="font-size:11px;color:#999;text-align:center;margin-top:8px;">No cost · Confidential · We respond within 1 hour</div>
       </form>
     </div>
     <div id="popup-success" style="display:none;padding:48px 28px;text-align:center;">
-      <div style="width:64px;height:64px;background:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div style="font-family:'Oswald',sans-serif;font-size:24px;font-weight:700;color:#111;margin-bottom:8px;">We'll Be In Touch Soon!</div>
-      <div style="font-size:14px;color:#666;line-height:1.7;margin-bottom:24px;">Thank you for reaching out. One of our patient coordinators will contact you within the hour.</div>
-      <button onclick="document.getElementById('car-popup').style.display='none'" style="background:#c8102e;color:white;border:none;padding:12px 32px;border-radius:4px;font-family:'Oswald',sans-serif;font-size:15px;font-weight:700;cursor:pointer;">Close</button>
+      <div style="width:60px;height:60px;background:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div style="font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:#111;margin-bottom:8px;">We'll Be In Touch!</div>
+      <div style="font-size:14px;color:#666;margin-bottom:20px;">A coordinator will contact you within the hour.</div>
+      <button onclick="document.getElementById('car-popup').style.display='none'" style="background:#c8102e;color:white;border:none;padding:11px 28px;border-radius:4px;font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;cursor:pointer;">Close</button>
     </div>
   </div>
 </div>
-
 <div id="car-banner" style="position:fixed;bottom:80px;left:0;right:0;z-index:9998;pointer-events:none;display:none;">
-  <div id="car-anim" style="position:absolute;bottom:0;left:-300px;pointer-events:all;cursor:pointer;" onclick="document.getElementById('car-banner').style.display='none';document.getElementById('car-popup').style.display='flex';">
-    <div style="background:#c8102e;color:white;padding:10px 18px;border-radius:6px;font-family:'Oswald',sans-serif;font-size:15px;font-weight:700;letter-spacing:.06em;white-space:nowrap;display:flex;align-items:center;gap:12px;">
-      <svg width="32" height="20" viewBox="0 0 48 28" fill="white"><path d="M40 10H35L30 4H18L13 10H8C5.8 10 4 11.8 4 14v6c0 1.1.9 2 2 2h2c0 2.2 1.8 4 4 4s4-1.8 4-4h16c0 2.2 1.8 4 4 4s4-1.8 4-4h2c1.1 0 2-.9 2-2v-6c0-3.3-2.7-6-6-6z"/><circle cx="12" cy="22" r="3" fill="#111"/><circle cx="36" cy="22" r="3" fill="#111"/></svg>
+  <div id="car-anim" style="position:absolute;bottom:0;left:-320px;pointer-events:all;cursor:pointer;" onclick="document.getElementById('car-banner').style.display='none';document.getElementById('car-popup').style.display='flex';">
+    <div style="background:#c8102e;color:white;padding:10px 18px;border-radius:6px;font-family:'Oswald',sans-serif;font-size:15px;font-weight:700;white-space:nowrap;display:flex;align-items:center;gap:10px;box-shadow:0 4px 20px rgba(200,16,46,0.5);">
+      <svg width="30" height="18" viewBox="0 0 48 28" fill="white"><path d="M40 10H35L30 4H18L13 10H8C5.8 10 4 11.8 4 14v6c0 1.1.9 2 2 2h2c0 2.2 1.8 4 4 4s4-1.8 4-4h16c0 2.2 1.8 4 4 4s4-1.8 4-4h2c1.1 0 2-.9 2-2v-6c0-3.3-2.7-6-6-6z"/><circle cx="12" cy="22" r="3" fill="#111"/><circle cx="36" cy="22" r="3" fill="#111"/></svg>
       BEEN IN AN ACCIDENT? CLICK HERE
     </div>
   </div>
 </div>
 
 <style>@keyframes carPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}</style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
 <script>
 var flClinics=[
-  {id:1,name:"Miami Injury Clinic",city:"Miami",lat:25.77,lng:-80.19,physician:"Dr. James Rivera, DC",hours:"Mon-Fri 9am-6pm",insurance:"PIP, Auto, Most Major",address:"",phone:"",notes:"Walk-ins welcome",lg:true},
-  {id:2,name:"Fort Lauderdale Clinic",city:"Fort Lauderdale",lat:26.12,lng:-80.14,physician:"Dr. Marcus Webb, DC",hours:"Mon-Fri 9am-6pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
-  {id:3,name:"Pompano Beach Clinic",city:"Pompano Beach",lat:26.24,lng:-80.12,physician:"Dr. Nicole Adams, DC",hours:"Mon-Sat 8am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
-  {id:4,name:"Boca Raton Clinic",city:"Boca Raton",lat:26.35,lng:-80.08,physician:"Dr. Angela Torres, DC",hours:"Mon-Fri 9am-6pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
-  {id:5,name:"West Palm Beach Clinic",city:"West Palm Beach",lat:26.71,lng:-80.05,physician:"Dr. Andrew Scott, DC",hours:"Mon-Fri 9am-6pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
-  {id:6,name:"Port St. Lucie Clinic",city:"Port St. Lucie",lat:27.29,lng:-80.35,physician:"Dr. Jennifer Ross, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
-  {id:7,name:"Sarasota Clinic",city:"Sarasota",lat:27.34,lng:-82.53,physician:"Dr. David Park, DC",hours:"Mon-Fri 9am-6pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
-  {id:8,name:"Tampa Injury Clinic",city:"Tampa",lat:27.95,lng:-82.46,physician:"Dr. Kevin Brooks, DC",hours:"Mon-Sat 8am-6pm",insurance:"PIP, Auto, Most Major",address:"",phone:"",notes:"Walk-ins welcome",lg:true},
-  {id:9,name:"Clearwater Clinic",city:"Clearwater",lat:27.97,lng:-82.80,physician:"Dr. Steven Yates, DC",hours:"Mon-Fri 9am-6pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
-  {id:10,name:"Lakeland Clinic",city:"Lakeland",lat:28.04,lng:-81.95,physician:"Dr. Christopher Diaz, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
-  {id:11,name:"Orlando Injury Clinic",city:"Orlando",lat:28.54,lng:-81.38,physician:"Dr. Sarah Mitchell, DC",hours:"Mon-Sat 8am-6pm",insurance:"PIP, Auto, Most Major",address:"",phone:"",notes:"Walk-ins welcome",lg:true},
-  {id:12,name:"Kissimmee Clinic",city:"Kissimmee",lat:28.29,lng:-81.41,physician:"Dr. Maria Gomez, DC",hours:"Mon-Fri 9am-6pm",insurance:"PIP, Auto",address:"",phone:"",notes:"Bilingual staff"},
-  {id:13,name:"Daytona Beach Clinic",city:"Daytona Beach",lat:29.21,lng:-81.02,physician:"Dr. Sandra Price, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
-  {id:14,name:"Ocala Clinic",city:"Ocala",lat:29.19,lng:-82.13,physician:"Dr. Brian Foster, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
-  {id:15,name:"Gainesville Clinic",city:"Gainesville",lat:29.65,lng:-82.33,physician:"Dr. Robert Kim, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
-  {id:16,name:"Jacksonville Clinic",city:"Jacksonville",lat:30.33,lng:-81.66,physician:"Dr. Lisa Chen, DC",hours:"Mon-Sat 8am-6pm",insurance:"PIP, Auto, Most Major",address:"",phone:"",notes:"Walk-ins welcome",lg:true},
-  {id:17,name:"Tallahassee Clinic",city:"Tallahassee",lat:30.44,lng:-84.28,physician:"Dr. Patricia Moore, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
-  {id:18,name:"Pensacola Clinic",city:"Pensacola",lat:30.42,lng:-87.22,physician:"Dr. Michelle Grant, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
-  {id:19,name:"Cape Coral Clinic",city:"Cape Coral",lat:26.56,lng:-81.95,physician:"Dr. Thomas Bell, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
-  {id:20,name:"Naples Clinic",city:"Naples",lat:26.14,lng:-81.79,physician:"Dr. Christine Hall, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""}
+  {id:1,name:"Miami Injury Clinic",city:"Miami",physician:"Dr. James Rivera, DC",hours:"Mon-Fri 9am-6pm",insurance:"PIP, Auto, Most Major",address:"",phone:"",notes:"Walk-ins welcome",lg:true},
+  {id:2,name:"Fort Lauderdale Clinic",city:"Fort Lauderdale",physician:"Dr. Marcus Webb, DC",hours:"Mon-Fri 9am-6pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:3,name:"Pompano Beach Clinic",city:"Pompano Beach",physician:"Dr. Nicole Adams, DC",hours:"Mon-Sat 8am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:4,name:"Boca Raton Clinic",city:"Boca Raton",physician:"Dr. Angela Torres, DC",hours:"Mon-Fri 9am-6pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:5,name:"West Palm Beach Clinic",city:"West Palm Beach",physician:"Dr. Andrew Scott, DC",hours:"Mon-Fri 9am-6pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:6,name:"Port St. Lucie Clinic",city:"Port St. Lucie",physician:"Dr. Jennifer Ross, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:7,name:"Sarasota Clinic",city:"Sarasota",physician:"Dr. David Park, DC",hours:"Mon-Fri 9am-6pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:8,name:"Tampa Injury Clinic",city:"Tampa",physician:"Dr. Kevin Brooks, DC",hours:"Mon-Sat 8am-6pm",insurance:"PIP, Auto, Most Major",address:"",phone:"",notes:"Walk-ins welcome",lg:true},
+  {id:9,name:"Clearwater Clinic",city:"Clearwater",physician:"Dr. Steven Yates, DC",hours:"Mon-Fri 9am-6pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:10,name:"Lakeland Clinic",city:"Lakeland",physician:"Dr. Christopher Diaz, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:11,name:"Orlando Injury Clinic",city:"Orlando",physician:"Dr. Sarah Mitchell, DC",hours:"Mon-Sat 8am-6pm",insurance:"PIP, Auto, Most Major",address:"",phone:"",notes:"Walk-ins welcome",lg:true},
+  {id:12,name:"Kissimmee Clinic",city:"Kissimmee",physician:"Dr. Maria Gomez, DC",hours:"Mon-Fri 9am-6pm",insurance:"PIP, Auto",address:"",phone:"",notes:"Bilingual staff"},
+  {id:13,name:"Daytona Beach Clinic",city:"Daytona Beach",physician:"Dr. Sandra Price, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:14,name:"Ocala Clinic",city:"Ocala",physician:"Dr. Brian Foster, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:15,name:"Gainesville Clinic",city:"Gainesville",physician:"Dr. Robert Kim, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:16,name:"Jacksonville Clinic",city:"Jacksonville",physician:"Dr. Lisa Chen, DC",hours:"Mon-Sat 8am-6pm",insurance:"PIP, Auto, Most Major",address:"",phone:"",notes:"Walk-ins welcome",lg:true},
+  {id:17,name:"Tallahassee Clinic",city:"Tallahassee",physician:"Dr. Patricia Moore, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:18,name:"Pensacola Clinic",city:"Pensacola",physician:"Dr. Michelle Grant, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:19,name:"Cape Coral Clinic",city:"Cape Coral",physician:"Dr. Thomas Bell, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:20,name:"Naples Clinic",city:"Naples",physician:"Dr. Christine Hall, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""}
 ];
-var flNextId=21,flSelectedId=null,flMode='view',flPlacing=false,flSvg=null,flProj=null,flDots=null;
+var flNextId=21,flSelectedId=null,flMode='view';
 
 function flSetMode(m){
   flMode=m;
@@ -1496,13 +1549,20 @@ function flShowAddForm(){
   document.getElementById('fl-clinic-form').style.display='none';
   document.getElementById('fl-add-form').style.display='block';
   document.getElementById('fl-panel-title').textContent='Add New Clinic';
-  document.getElementById('fl-panel-sub').textContent='Fill details then place pin';
-  document.getElementById('fl-add-form').innerHTML=flFld('fa-name','Clinic Name','')+flFld('fa-city','City','')+flFld('fa-address','Address','')+flFld('fa-phone','Phone','')+flFld('fa-physician','Physician','')+flFld('fa-hours','Hours','')+flFld('fa-insurance','Insurance','PIP, Auto')+flFld('fa-notes','Notes','',true)+'<p style="font-size:12px;color:#999;margin:8px 0 6px">Click on the map to place the pin.</p><button onclick="flStartPlacing()" style="width:100%;background:#c8102e;color:white;border:none;padding:9px;border-radius:6px;font-weight:700;font-size:13px;cursor:pointer;margin-bottom:6px">Place Pin on Map</button><button onclick="flSetMode('view')" style="width:100%;background:#f5f5f5;color:#333;border:1px solid #ddd;padding:9px;border-radius:6px;font-size:13px;cursor:pointer">Cancel</button>';
+  document.getElementById('fl-panel-sub').textContent='Fill details below';
+  document.getElementById('fl-add-form').innerHTML=flFld('fa-name','Clinic Name','')+flFld('fa-city','City','')+flFld('fa-address','Address','')+flFld('fa-phone','Phone','')+flFld('fa-physician','Physician','')+flFld('fa-hours','Hours','')+flFld('fa-insurance','Insurance','PIP, Auto')+flFld('fa-notes','Notes','',true)+'<button onclick="flSaveNew()" style="width:100%;background:#c8102e;color:white;border:none;padding:9px;border-radius:6px;font-weight:700;font-size:13px;cursor:pointer;margin-bottom:6px">Add Clinic</button><button onclick="flSetMode('view')" style="width:100%;background:#f5f5f5;color:#333;border:1px solid #ddd;padding:9px;border-radius:6px;font-size:13px;cursor:pointer">Cancel</button>';
 }
-function flStartPlacing(){flPlacing=true;document.getElementById('fl-map-container').style.cursor='crosshair';document.getElementById('fl-panel-sub').textContent='Click on the map to place pin';}
+function flSaveNew(){
+  var name=document.getElementById('fa-name').value.trim();
+  var city=document.getElementById('fa-city').value.trim();
+  if(!name||!city){alert('Name and city required');return;}
+  var nc={id:flNextId++,name:name,city:city,address:document.getElementById('fa-address').value,phone:document.getElementById('fa-phone').value,physician:document.getElementById('fa-physician').value,hours:document.getElementById('fa-hours').value,insurance:document.getElementById('fa-insurance').value||'PIP, Auto',notes:document.getElementById('fa-notes').value};
+  flClinics.push(nc);
+  flSetMode('view');
+  flRenderCards();
+}
 function flClosePanel(){
-  flSelectedId=null;flPlacing=false;
-  document.getElementById('fl-map-container').style.cursor='default';
+  flSelectedId=null;
   document.getElementById('fl-placeholder').style.display='block';
   document.getElementById('fl-clinic-form').style.display='none';
   document.getElementById('fl-add-form').style.display='none';
@@ -1520,7 +1580,7 @@ function flOpenClinic(id){
   document.getElementById('fl-clinic-form').style.display='block';
   document.getElementById('fl-panel-title').textContent=c.city;
   document.getElementById('fl-panel-sub').textContent='Physician-owned clinic';
-  document.getElementById('fl-clinic-form').innerHTML=flFld('fe-name','Clinic Name',c.name||'')+flFld('fe-city','City',c.city||'')+flFld('fe-address','Address',c.address||'')+flFld('fe-phone','Phone',c.phone||'')+flFld('fe-physician','Physician',c.physician||'')+flFld('fe-hours','Hours',c.hours||'')+flFld('fe-insurance','Insurance',c.insurance||'')+flFld('fe-notes','Notes',c.notes||'',true)+'<button onclick="flSaveClinic()" style="width:100%;background:#c8102e;color:white;border:none;padding:9px;border-radius:6px;font-weight:700;font-size:13px;cursor:pointer;margin-bottom:6px">Save Changes</button><button onclick="flDeleteClinic()" style="width:100%;background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;padding:9px;border-radius:6px;font-size:13px;cursor:pointer;margin-bottom:6px">Delete This Clinic</button><button onclick="flClosePanel()" style="width:100%;background:#f5f5f5;color:#333;border:1px solid #ddd;padding:9px;border-radius:6px;font-size:13px;cursor:pointer">Close</button>';
+  document.getElementById('fl-clinic-form').innerHTML=flFld('fe-name','Clinic Name',c.name||'')+flFld('fe-city','City',c.city||'')+flFld('fe-address','Address',c.address||'')+flFld('fe-phone','Phone',c.phone||'')+flFld('fe-physician','Physician',c.physician||'')+flFld('fe-hours','Hours',c.hours||'')+flFld('fe-insurance','Insurance',c.insurance||'')+flFld('fe-notes','Notes',c.notes||'',true)+'<button onclick="flSaveClinic()" style="width:100%;background:#c8102e;color:white;border:none;padding:9px;border-radius:6px;font-weight:700;font-size:13px;cursor:pointer;margin-bottom:6px">Save Changes</button><button onclick="flDeleteClinic()" style="width:100%;background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;padding:9px;border-radius:6px;font-size:13px;cursor:pointer;margin-bottom:6px">Delete Clinic</button><button onclick="flClosePanel()" style="width:100%;background:#f5f5f5;color:#333;border:1px solid #ddd;padding:9px;border-radius:6px;font-size:13px;cursor:pointer">Close</button>';
   flRenderDots();
 }
 function flSaveClinic(){
@@ -1538,80 +1598,42 @@ function flDeleteClinic(){
   flClosePanel();flRenderCards();
 }
 function flRenderCards(){
-  var g=document.getElementById('fl-cards-grid');if(!g) return;
+  var g=document.getElementById('fl-cards-grid');if(!g)return;
   g.innerHTML=flClinics.map(function(c){
     return '<div style="background:white;border:1px solid #e5e5e5;border-radius:6px;padding:18px;border-top:3px solid #c8102e"><div style="font-family:Oswald,sans-serif;font-size:16px;font-weight:700;color:#111;margin-bottom:2px">'+c.city+'</div><div style="font-size:11px;font-weight:700;color:#c8102e;margin-bottom:8px;text-transform:uppercase">Physician Owned</div>'+(c.physician?'<div style="font-size:12px;color:#555;margin-bottom:4px">'+c.physician+'</div>':'')+(c.phone?'<div style="font-size:12px;color:#555;margin-bottom:4px">'+c.phone+'</div>':'')+(c.hours?'<div style="font-size:12px;color:#777;margin-bottom:10px">'+c.hours+'</div>':'')+'<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px"><span style="font-size:10px;background:#fff0f0;color:#c8102e;border:1px solid #fcc;padding:2px 8px;border-radius:20px;font-weight:600">PIP Accepted</span><span style="font-size:10px;background:#f0f7ff;color:#1a6fbc;border:1px solid #c0d8f5;padding:2px 8px;border-radius:20px;font-weight:600">Walk-Ins Welcome</span></div><button onclick="document.getElementById('car-popup').style.display='flex'" style="width:100%;background:#c8102e;color:white;border:none;padding:8px;border-radius:3px;font-family:Oswald,sans-serif;font-size:13px;font-weight:600;cursor:pointer">Get Help Now</button></div>';
   }).join('');
 }
 function flRenderDots(){
-  if(!flDots||!flProj) return;
-  flDots.selectAll('*').remove();
   flClinics.forEach(function(c){
-    var p=flProj([c.lng,c.lat]);
-    var g=flDots.append('g').style('cursor','pointer').on('click',function(e){e.stopPropagation();flOpenClinic(c.id);});
-    g.append('circle').attr('cx',p[0]).attr('cy',p[1]).attr('r',c.id===flSelectedId?9:(c.lg?8:6)).attr('fill',c.id===flSelectedId?'white':'#c8102e').attr('stroke','#c8102e').attr('stroke-width',c.id===flSelectedId?3:2);
-    g.append('text').attr('x',p[0]+(c.lng<-83?-10:10)).attr('y',p[1]+4).attr('text-anchor',c.lng<-83?'end':'start').attr('font-family','Arial,sans-serif').attr('font-size',c.lg?12:10).attr('font-weight',700).attr('fill','#222').attr('pointer-events','none').text(c.city);
+    var d=document.getElementById('fl-dot-'+c.id);
+    if(!d)return;
+    d.setAttribute('fill',c.id===flSelectedId?'white':'#c8102e');
+    d.setAttribute('r',c.id===flSelectedId?9:(c.lg?8:6));
+    d.setAttribute('stroke-width',c.id===flSelectedId?3:2);
   });
 }
-function flBuildMap(us){
-  var el=document.getElementById('fl-map-container');if(!el) return;
-  var W=el.offsetWidth||500,H=480;
-  var states=topojson.feature(us,us.objects.states);
-  var florida=states.features.find(function(f){return f.id==='12';});
-  flProj=d3.geoAlbers().rotate([84,0]).center([2,28.5]).parallels([25,31.5]).scale(W*5.5).translate([W*0.45,H*0.48]);
-  var pg=d3.geoPath().projection(flProj);
-  flSvg=d3.select('#fl-map-container').append('svg').attr('width','100%').attr('height',H).style('display','block');
-  flSvg.append('path').datum(florida).attr('d',pg).attr('fill','#fff0f0').attr('stroke','#c8102e').attr('stroke-width',2);
-  flSvg.append('text').attr('x',W*0.38).attr('y',H*0.44).attr('text-anchor','middle').attr('font-family','Oswald,Arial,sans-serif').attr('font-size',28).attr('font-weight',900).attr('fill','rgba(200,16,46,0.07)').attr('letter-spacing',5).text('FLORIDA');
-  flDots=flSvg.append('g');
-  flSvg.on('click',function(event){
-    if(!flPlacing) return;
-    var coords=flProj.invert(d3.pointer(event));
-    var fa=function(id){var el=document.getElementById(id);return el?el.value:'';};
-    var nc={id:flNextId++,name:fa('fa-name')||'New Clinic',city:fa('fa-city')||'New City',address:fa('fa-address'),phone:fa('fa-phone'),physician:fa('fa-physician'),hours:fa('fa-hours'),insurance:fa('fa-insurance')||'PIP, Auto',notes:fa('fa-notes'),lat:coords[1],lng:coords[0]};
-    flClinics.push(nc);flPlacing=false;
-    document.getElementById('fl-map-container').style.cursor='default';
-    flSetMode('view');flOpenClinic(nc.id);flRenderCards();
-  });
-  flRenderDots();flRenderCards();
-}
+document.addEventListener('DOMContentLoaded',function(){flRenderCards();});
 
-fetch('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json')
-  .then(function(r){return r.json();})
-  .then(function(us){flBuildMap(us);})
-  .catch(function(){
-    fetch('https://unpkg.com/us-atlas@3/states-10m.json')
-      .then(function(r){return r.json();})
-      .then(function(us){flBuildMap(us);});
-  });
-
-// Car animation
 function startCarAnimation(){
-  var banner=document.getElementById('car-banner');
-  var car=document.getElementById('car-anim');
-  if(!banner||!car) return;
+  var banner=document.getElementById('car-banner'),car=document.getElementById('car-anim');
+  if(!banner||!car)return;
   banner.style.display='block';
-  car.style.transition='none';car.style.left='-300px';
+  car.style.transition='none';car.style.left='-320px';
   setTimeout(function(){
-    car.style.transition='left 2.8s cubic-bezier(0.25,0.1,0.25,1)';
-    car.style.left='30px';
+    car.style.transition='left 2.8s cubic-bezier(0.25,0.1,0.25,1)';car.style.left='30px';
     setTimeout(function(){car.style.animation='carPulse 1s ease-in-out infinite';},3000);
   },100);
 }
 setTimeout(startCarAnimation,4000);
-setInterval(function(){
-  var p=document.getElementById('car-popup');
-  if(!p||p.style.display==='none'||p.style.display==='') startCarAnimation();
-},90000);
+setInterval(function(){var p=document.getElementById('car-popup');if(!p||p.style.display==='none'||p.style.display==='')startCarAnimation();},90000);
 
-// Intake form submit
 async function submitIntake(e){
   e.preventDefault();
   var btn=document.getElementById('popup-submit-btn');
   btn.textContent='Sending...';btn.disabled=true;
   var form=e.target;
-  var injuries=[...form.querySelectorAll('input[name="injury"]:checked')].map(i=>i.value).join(', ');
-  var body={firstName:form.firstName.value,lastName:form.lastName.value,phone:form.phone.value,email:form.email.value,accidentDate:form.accidentDate.value,city:form.city.value,hasAttorney:form.hasAttorney.value,injuries:injuries||'Not specified',description:form.description.value,subject:'New Accident Intake - '+form.firstName.value+' '+form.lastName.value+' - '+form.city.value};
+  var injuries=[...form.querySelectorAll('input[name="injury"]:checked')].map(function(i){return i.value;}).join(', ');
+  var body={firstName:form.firstName.value,lastName:form.lastName.value,phone:form.phone.value,email:form.email.value,accidentDate:form.accidentDate.value,city:form.city.value,injuries:injuries||'Not specified',description:form.description.value,subject:'New Accident Intake - '+form.firstName.value+' '+form.lastName.value};
   try{
     var res=await fetch('https://formspree.io/f/xlgpjyga',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(body)});
     if(res.ok){document.getElementById('popup-form-wrap').style.display='none';document.getElementById('popup-success').style.display='block';document.getElementById('car-banner').style.display='none';}
