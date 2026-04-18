@@ -347,71 +347,60 @@
     <div class="sidebar-card">
       <div class="sidebar-card-header">🗺️ News by State</div>
       <div class="sidebar-card-body">
-        <div class="state-region">Southeast</div>
-        <div class="state-list">
-          <a href="#" onclick="filterByState('Alabama');return false;">Alabama</a>
-          <a href="#" onclick="filterByState('Arkansas');return false;">Arkansas</a>
-          <a href="#" onclick="filterByState('Florida');return false;">Florida</a>
-          <a href="#" onclick="filterByState('Georgia');return false;">Georgia</a>
-          <a href="#" onclick="filterByState('Kentucky');return false;">Kentucky</a>
-          <a href="#" onclick="filterByState('Louisiana');return false;">Louisiana</a>
-          <a href="#" onclick="filterByState('Mississippi');return false;">Mississippi</a>
-          <a href="#" onclick="filterByState('North Carolina');return false;">North Carolina</a>
-          <a href="#" onclick="filterByState('South Carolina');return false;">South Carolina</a>
-          <a href="#" onclick="filterByState('Tennessee');return false;">Tennessee</a>
-          <a href="#" onclick="filterByState('Virginia');return false;">Virginia</a>
-          <a href="#" onclick="filterByState('West Virginia');return false;">West Virginia</a>
-        </div>
-        <div class="state-region">Northeast</div>
-        <div class="state-list">
-          <a href="#" onclick="filterByState('Connecticut');return false;">Connecticut</a>
-          <a href="#" onclick="filterByState('Delaware');return false;">Delaware</a>
-          <a href="#" onclick="filterByState('Maine');return false;">Maine</a>
-          <a href="#" onclick="filterByState('Maryland');return false;">Maryland</a>
-          <a href="#" onclick="filterByState('Massachusetts');return false;">Massachusetts</a>
-          <a href="#" onclick="filterByState('New Hampshire');return false;">New Hampshire</a>
-          <a href="#" onclick="filterByState('New Jersey');return false;">New Jersey</a>
-          <a href="#" onclick="filterByState('New York');return false;">New York</a>
-          <a href="#" onclick="filterByState('Pennsylvania');return false;">Pennsylvania</a>
-          <a href="#" onclick="filterByState('Rhode Island');return false;">Rhode Island</a>
-          <a href="#" onclick="filterByState('Vermont');return false;">Vermont</a>
-        </div>
-        <div class="state-region">Midwest</div>
-        <div class="state-list">
-          <a href="#" onclick="filterByState('Illinois');return false;">Illinois</a>
-          <a href="#" onclick="filterByState('Indiana');return false;">Indiana</a>
-          <a href="#" onclick="filterByState('Iowa');return false;">Iowa</a>
-          <a href="#" onclick="filterByState('Kansas');return false;">Kansas</a>
-          <a href="#" onclick="filterByState('Michigan');return false;">Michigan</a>
-          <a href="#" onclick="filterByState('Minnesota');return false;">Minnesota</a>
-          <a href="#" onclick="filterByState('Missouri');return false;">Missouri</a>
-          <a href="#" onclick="filterByState('Nebraska');return false;">Nebraska</a>
-          <a href="#" onclick="filterByState('North Dakota');return false;">North Dakota</a>
-          <a href="#" onclick="filterByState('Ohio');return false;">Ohio</a>
-          <a href="#" onclick="filterByState('South Dakota');return false;">South Dakota</a>
-          <a href="#" onclick="filterByState('Wisconsin');return false;">Wisconsin</a>
-        </div>
-        <div class="state-region">Southwest</div>
-        <div class="state-list">
-          <a href="#" onclick="filterByState('Arizona');return false;">Arizona</a>
-          <a href="#" onclick="filterByState('New Mexico');return false;">New Mexico</a>
-          <a href="#" onclick="filterByState('Oklahoma');return false;">Oklahoma</a>
-          <a href="#" onclick="filterByState('Texas');return false;">Texas</a>
-        </div>
-        <div class="state-region">West</div>
-        <div class="state-list">
-          <a href="#" onclick="filterByState('Alaska');return false;">Alaska</a>
-          <a href="#" onclick="filterByState('California');return false;">California</a>
-          <a href="#" onclick="filterByState('Colorado');return false;">Colorado</a>
-          <a href="#" onclick="filterByState('Hawaii');return false;">Hawaii</a>
-          <a href="#" onclick="filterByState('Idaho');return false;">Idaho</a>
-          <a href="#" onclick="filterByState('Montana');return false;">Montana</a>
-          <a href="#" onclick="filterByState('Nevada');return false;">Nevada</a>
-          <a href="#" onclick="filterByState('Oregon');return false;">Oregon</a>
-          <a href="#" onclick="filterByState('Utah');return false;">Utah</a>
-          <a href="#" onclick="filterByState('Washington');return false;">Washington</a>
-          <a href="#" onclick="filterByState('Wyoming');return false;">Wyoming</a>
-        </div>
+        <select onchange="if(this.value){filterByState(this.value);this.value='';}" style="width:100%;padding:10px 12px;border:1px solid var(--gray-light);border-radius:3px;font-size:14px;font-family:'Barlow',sans-serif;background:white;color:var(--gray-dark);cursor:pointer;outline:none;">
+          <option value="">Select a state...</option>
+          <option value="Alabama">Alabama</option>
+          <option value="Alaska">Alaska</option>
+          <option value="Arizona">Arizona</option>
+          <option value="Arkansas">Arkansas</option>
+          <option value="California">California</option>
+          <option value="Colorado">Colorado</option>
+          <option value="Connecticut">Connecticut</option>
+          <option value="Delaware">Delaware</option>
+          <option value="Florida">Florida</option>
+          <option value="Georgia">Georgia</option>
+          <option value="Hawaii">Hawaii</option>
+          <option value="Idaho">Idaho</option>
+          <option value="Illinois">Illinois</option>
+          <option value="Indiana">Indiana</option>
+          <option value="Iowa">Iowa</option>
+          <option value="Kansas">Kansas</option>
+          <option value="Kentucky">Kentucky</option>
+          <option value="Louisiana">Louisiana</option>
+          <option value="Maine">Maine</option>
+          <option value="Maryland">Maryland</option>
+          <option value="Massachusetts">Massachusetts</option>
+          <option value="Michigan">Michigan</option>
+          <option value="Minnesota">Minnesota</option>
+          <option value="Mississippi">Mississippi</option>
+          <option value="Missouri">Missouri</option>
+          <option value="Montana">Montana</option>
+          <option value="Nebraska">Nebraska</option>
+          <option value="Nevada">Nevada</option>
+          <option value="New Hampshire">New Hampshire</option>
+          <option value="New Jersey">New Jersey</option>
+          <option value="New Mexico">New Mexico</option>
+          <option value="New York">New York</option>
+          <option value="North Carolina">North Carolina</option>
+          <option value="North Dakota">North Dakota</option>
+          <option value="Ohio">Ohio</option>
+          <option value="Oklahoma">Oklahoma</option>
+          <option value="Oregon">Oregon</option>
+          <option value="Pennsylvania">Pennsylvania</option>
+          <option value="Rhode Island">Rhode Island</option>
+          <option value="South Carolina">South Carolina</option>
+          <option value="South Dakota">South Dakota</option>
+          <option value="Tennessee">Tennessee</option>
+          <option value="Texas">Texas</option>
+          <option value="Utah">Utah</option>
+          <option value="Vermont">Vermont</option>
+          <option value="Virginia">Virginia</option>
+          <option value="Washington">Washington</option>
+          <option value="West Virginia">West Virginia</option>
+          <option value="Wisconsin">Wisconsin</option>
+          <option value="Wyoming">Wyoming</option>
+        </select>
+        <p style="font-size:12px;color:var(--gray-mid);margin-top:10px;">Select a state to filter accident news for that region.</p>
       </div>
     </div>
   </aside>
@@ -818,100 +807,44 @@ function renderTicker(articles) {
 // ── FETCH LIVE ACCIDENT NEWS — multiple parallel queries for max coverage ─
 async function fetchFeed() {
   const queries = [
-    'car+accident+crash+fatal+highway',
-    'car+crash+killed+injured+police',
-    'traffic+collision+dead+road',
-    'fatal+crash+truck+highway+interstate',
-    'pedestrian+struck+killed+driver',
-    'motorcycle+crash+accident+injured',
-    'drunk+driving+crash+DUI+accident',
-    'hit+and+run+accident+crash',
-    'rollover+crash+vehicle+highway',
-    'multi+vehicle+crash+pileup+road',
-    'Alabama+car+accident+crash+fatal',
-    'Alaska+car+accident+crash+fatal',
-    'Arizona+car+accident+crash+fatal',
-    'Arkansas+car+accident+crash+fatal',
-    'California+car+accident+crash+fatal',
-    'Colorado+car+accident+crash+fatal',
-    'Connecticut+car+accident+crash+fatal',
-    'Delaware+car+accident+crash+fatal',
-    'Florida+car+accident+crash+fatal',
-    'Georgia+car+accident+crash+fatal',
-    'Hawaii+car+accident+crash+fatal',
-    'Idaho+car+accident+crash+fatal',
-    'Illinois+car+accident+crash+fatal',
-    'Indiana+car+accident+crash+fatal',
-    'Iowa+car+accident+crash+fatal',
-    'Kansas+car+accident+crash+fatal',
-    'Kentucky+car+accident+crash+fatal',
-    'Louisiana+car+accident+crash+fatal',
-    'Maine+car+accident+crash+fatal',
-    'Maryland+car+accident+crash+fatal',
-    'Massachusetts+car+accident+crash+fatal',
-    'Michigan+car+accident+crash+fatal',
-    'Minnesota+car+accident+crash+fatal',
-    'Mississippi+car+accident+crash+fatal',
-    'Missouri+car+accident+crash+fatal',
-    'Montana+car+accident+crash+fatal',
-    'Nebraska+car+accident+crash+fatal',
-    'Nevada+car+accident+crash+fatal',
-    'New+Hampshire+car+accident+crash',
-    'New+Jersey+car+accident+crash+fatal',
-    'New+Mexico+car+accident+crash+fatal',
-    'New+York+car+accident+crash+fatal',
-    'North+Carolina+car+accident+crash',
-    'North+Dakota+car+accident+crash',
-    'Ohio+car+accident+crash+fatal',
-    'Oklahoma+car+accident+crash+fatal',
-    'Oregon+car+accident+crash+fatal',
-    'Pennsylvania+car+accident+crash+fatal',
-    'Rhode+Island+car+accident+crash',
-    'South+Carolina+car+accident+crash',
-    'South+Dakota+car+accident+crash',
-    'Tennessee+car+accident+crash+fatal',
-    'Texas+car+accident+crash+fatal',
-    'Utah+car+accident+crash+fatal',
-    'Vermont+car+accident+crash+fatal',
-    'Virginia+car+accident+crash+fatal',
-    'Washington+car+accident+crash+fatal',
-    'West+Virginia+car+accident+crash',
-    'Wisconsin+car+accident+crash+fatal',
-    'Wyoming+car+accident+crash+fatal',
+    'car+accident+crash+fatal+USA',
+    'traffic+crash+killed+injured+highway',
+    'car+accident+crash+police+report',
+    'drunk+driving+crash+hit+run',
+    'Florida+car+accident+crash'
   ];
 
-  
-
   async function fetchQuery(q) {
-    const googleUrl = `https://news.google.com/rss/search?q=${q}&hl=en-US&gl=US&ceid=US:en`;
+    const googleUrl = 'https://news.google.com/rss/search?q=' + q + '&hl=en-US&gl=US&ceid=US:en';
     const apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(googleUrl);
     const res = await fetch(apiUrl);
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
     if (!data.items || !data.items.length) return [];
-    return data.items.map(item => ({
-      title: item.title || '', link: item.link || '#',
-      description: item.description || item.content || '',
-      pubDate: item.pubDate || '', source: item.author || '', image: item.thumbnail || ''
-    })).filter(i => i.title);
+    return data.items.map(function(item) {
+      return {
+        title: item.title || '',
+        link: item.link || '#',
+        description: item.description || item.content || '',
+        pubDate: item.pubDate || '',
+        source: item.author || '',
+        image: item.thumbnail || ''
+      };
+    }).filter(function(i) { return i.title; });
   }
 
-  // Fire all queries in parallel
-  const results = await Promise.allSettled(queries.map(q => fetchQuery(q)));
-  const all = results.flatMap(r => r.status === 'fulfilled' ? r.value : []);
+  const results = await Promise.allSettled(queries.map(function(q) { return fetchQuery(q); }));
+  const all = results.flatMap(function(r) { return r.status === 'fulfilled' ? r.value : []; });
 
-  // Deduplicate by title
   const seen = new Set();
-  const unique = all.filter(a => {
+  const unique = all.filter(function(a) {
     const key = a.title.slice(0, 60).toLowerCase();
     if (seen.has(key)) return false;
     seen.add(key);
     return true;
   });
 
-  // Sort newest first
-  unique.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-
+  unique.sort(function(a, b) { return new Date(b.pubDate) - new Date(a.pubDate); });
   if (!unique.length) throw new Error('No articles returned');
   return unique;
 }
@@ -1285,7 +1218,7 @@ window.addEventListener('scroll', () => {
       <button onclick="document.getElementById('car-popup').style.display='none'" style="background:rgba(255,255,255,0.2);border:none;color:white;width:32px;height:32px;border-radius:50%;font-size:20px;cursor:pointer;flex-shrink:0;">x</button>
     </div>
     <div id="popup-form-wrap" style="padding:24px;max-height:75vh;overflow-y:auto;">
-      <form id="popup-intake-form" onsubmit="submitIntake(event)">
+      <form id="popup-intake-form" onsubmit="return false;">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
           <div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">First Name *</label><input name="firstName" required style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="John"></div>
           <div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Last Name *</label><input name="lastName" required style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="Smith"></div>
@@ -1302,7 +1235,7 @@ window.addEventListener('scroll', () => {
           <div style="display:flex;flex-wrap:wrap;gap:8px;"><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" name="injury" value="Neck Pain"> Neck Pain</label><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" name="injury" value="Back Pain"> Back Pain</label><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" name="injury" value="Headaches"> Headaches</label><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" name="injury" value="Whiplash"> Whiplash</label><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" name="injury" value="Dizziness"> Dizziness</label><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" name="injury" value="Other"> Other</label></div>
         </div>
         <div style="margin-bottom:18px;"><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">What Happened?</label><textarea name="description" rows="3" style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;resize:vertical;" placeholder="Briefly describe the accident..."></textarea></div>
-        <button type="submit" id="popup-submit-btn" style="width:100%;background:#c8102e;color:white;border:none;padding:13px;border-radius:4px;font-family:'Oswald',sans-serif;font-size:16px;font-weight:700;cursor:pointer;">Get Free Consultation</button>
+        <button type="button" id="popup-submit-btn" onclick="submitIntake(event)" style="width:100%;background:#c8102e;color:white;border:none;padding:13px;border-radius:4px;font-family:'Oswald',sans-serif;font-size:16px;font-weight:700;cursor:pointer;">Get Free Consultation</button>
         <div style="font-size:11px;color:#999;text-align:center;margin-top:8px;">No cost · Confidential · We respond within 1 hour</div>
       </form>
     </div>
@@ -1389,11 +1322,20 @@ setInterval(function() {
 
 // Intake form
 async function submitIntake(e) {
-  e.preventDefault();
+  if (e && e.preventDefault) e.preventDefault();
   var btn = document.getElementById('popup-submit-btn');
+  var form = document.getElementById('popup-intake-form');
+  if (!form) { alert('Form not found'); return; }
+
+  // Basic validation
+  if (!form.firstName.value || !form.lastName.value || !form.phone.value || !form.email.value || !form.accidentDate.value) {
+    alert('Please fill in all required fields (First Name, Last Name, Phone, Email, Date of Accident).');
+    return;
+  }
+
   btn.textContent = 'Sending...';
   btn.disabled = true;
-  var form = e.target;
+
   var injuries = Array.from(form.querySelectorAll('input[name="injury"]:checked')).map(function(i) { return i.value; }).join(', ');
   var payload = {
     _replyto: form.email.value,
@@ -1403,10 +1345,11 @@ async function submitIntake(e) {
     phone: form.phone.value,
     email: form.email.value,
     accidentDate: form.accidentDate.value,
-    city: form.city.value,
+    city: form.city.value || 'Not specified',
     injuries: injuries || 'Not specified',
-    description: form.description.value
+    description: form.description.value || 'Not provided'
   };
+
   try {
     var res = await fetch('https://formspree.io/f/xlgpjyga', {
       method: 'POST',
@@ -1416,14 +1359,17 @@ async function submitIntake(e) {
     if (res.ok) {
       document.getElementById('popup-form-wrap').style.display = 'none';
       document.getElementById('popup-success').style.display = 'block';
-      document.getElementById('car-banner').style.display = 'none';
+      var banner = document.getElementById('car-banner');
+      if (banner) banner.style.display = 'none';
     } else {
-      throw new Error('Error ' + res.status);
+      var errText = await res.text();
+      throw new Error('Server error ' + res.status + ': ' + errText);
     }
   } catch(err) {
+    console.error('Intake error:', err);
     btn.textContent = 'Get Free Consultation';
     btn.disabled = false;
-    alert('Something went wrong. Please try again.');
+    alert('Something went wrong: ' + err.message);
   }
 }
 </script>
