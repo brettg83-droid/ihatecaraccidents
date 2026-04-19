@@ -442,7 +442,7 @@
 
 
 const REFRESH_MS = 15 * 60 * 1000;
-const MAPS_KEY = 'AIzaSyDdFLFeWjIOAQSRy9zbrwx6QUZg6ucpfds'; // 15 minutes
+const MAPS_KEY = 'AIzaSyD6wr_dYEp46caDwQdP1tkT9NDyozypU78'; // 15 minutes
 
 
 const US_STATES = ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut',
@@ -604,23 +604,21 @@ function extractLocation(article) {
 function mapsThumbUrl(location, size) {
   size = size || '110x74';
   const q = encodeURIComponent(location);
-  return 'https://maps.googleapis.com/maps/api/staticmap?center=' + q + '&zoom=13&size=' + size + '&scale=2&maptype=roadmap&markers=color:red%7Csize:small%7C' + q + '&key=AIzaSyDdFLFeWjIOAQSRy9zbrwx6QUZg6ucpfds';
+  return 'https://maps.googleapis.com/maps/api/staticmap?center=' + q + '&zoom=13&size=' + size + '&scale=2&maptype=roadmap&markers=color:red%7Csize:small%7C' + q + '&key=' + MAPS_KEY;
 }
 
 function lazyLoadThumbs(articles) {
-  setTimeout(function() {
-    articles.slice(0, 51).forEach(function(article, i) {
-      var el = document.getElementById('thumb-' + i);
-      if (!el) return;
+  articles.slice(0, 51).forEach(function(article, i) {
+    var el = document.getElementById('thumb-' + i);
+    if (!el) return;
+    var src = article.image;
+    if (!src) {
       var location = extractLocation(article);
       var size = i === 0 ? '700x260' : '220x148';
-      var src = mapsThumbUrl(location, size);
-      el.style.backgroundImage = 'url(' + src + ')';
-      el.style.backgroundSize = 'cover';
-      el.style.backgroundPosition = 'center';
-      el.innerHTML = '';
-    });
-  }, 500);
+      src = mapsThumbUrl(location, size);
+    }
+    el.innerHTML = '<img src="' + src + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit;" onerror="this.style.opacity=0">';
+  });
 }
 
 // ── RENDER MAIN FEED ─────────────────────────────────────────────────────
@@ -1049,13 +1047,6 @@ function showModal(type) {
   <div id="chat-done" style="padding:24px;text-align:center;display:none;"><div style="width:48px;height:48px;background:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><strong style="color:white;display:block;margin-bottom:8px;">Got it! We will be in touch.</strong><span style="color:rgba(255,255,255,0.7);font-size:13px;">Our team will reach out about your accident.</span></div>
 </div>
 <script>
-// Unregister any service workers that block external API calls
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.getRegistrations().then(function(regs) {
-    regs.forEach(function(reg) { reg.unregister(); });
-  });
-}
-
 var _cs=0,_cd={},_cm=[];
 var _csteps=[
   {key:'intro',bot:"Hi! Were you recently in a car accident?",type:'buttons',options:['Yes, I was','Someone I know was','Just browsing']},
