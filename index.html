@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -44,7 +44,7 @@
   .search-btn:hover { border-color: var(--red); color: var(--red); }
 
   .hero { background: linear-gradient(135deg, #0d0d0d 0%, #1a0008 50%, #0d0d0d 100%); color: var(--white); padding: 52px 20px 48px; text-align: center; position: relative; overflow: hidden; }
-  .hero::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(-45deg, transparent, transparent 40px, rgba(200,16,46,0.04) 40px, rgba(200,16,46,0.04) 80px); pointer-events:none; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(-45deg, transparent, transparent 40px, rgba(200,16,46,0.04) 40px, rgba(200,16,46,0.04) 80px); }
   .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--red); color: white; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 4px 12px; border-radius: 2px; margin-bottom: 18px; }
   .hero-badge::before { content: ''; width: 7px; height: 7px; background: white; border-radius: 50%; animation: blink 1.5s infinite; }
   @keyframes blink { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.7); } }
@@ -148,7 +148,7 @@
 <body id="top">
 
 <div class="top-bar">
-  🚨 Injured in an accident? <a href="#" onclick="document.getElementById('car-popup').style.display='flex';return false;">Report Your Accident</a> — No Cost, No Obligation
+  🚨 Injured in an accident? <a href="#contact-section" onclick="document.getElementById('contact-section').scrollIntoView({behavior:'smooth'});return false;">Tell Us About Your Accident</a> — No Cost, No Obligation
 </div>
 
 <header>
@@ -257,7 +257,15 @@
   <div class="ticker-wrap"><span class="ticker-track" id="ticker-text">Fetching live accident reports...</span></div>
 </div>
 
-<div class="hero" style="padding:0;text-align:left;"><div style="display:flex;flex-wrap:wrap;min-height:480px;"><div style="flex:1;min-width:300px;padding:48px;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:1;"><div class="hero-badge" style="align-self:flex-start;margin-bottom:16px;">Live Updates</div><h1 style="font-family:'Oswald',sans-serif;font-size:clamp(26px,4vw,46px);font-weight:700;line-height:1.1;margin-bottom:16px;">Find a Medical Provider<br>for Your <em style="color:var(--red);font-style:normal;">Car Accident</em> Injuries</h1><p style="font-size:15px;color:rgba(255,255,255,0.72);max-width:440px;margin:0 0 28px;line-height:1.65;">Physician-owned clinics across Florida ready to see you today. Walk-ins welcome. PIP accepted.</p><a href="#" onclick="document.getElementById('car-popup').style.display='flex';return false;" class="hero-cta" style="align-self:flex-start;"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Report Your Accident</a></div><div style="flex:1;min-width:300px;min-height:480px;position:relative;z-index:2;"><iframe src="https://www.google.com/maps/d/u/2/embed?mid=1BWkyFg3T09Ks7TguFycu5n_qr_2K9VQ&ehbc=2E312F" width="100%" height="100%" style="border:0;display:block;min-height:480px;" allowfullscreen loading="lazy"></iframe></div></div></div>
+<div class="hero">
+  <div class="hero-badge">Live Updates</div>
+  <h1>Recent Car Accidents<br><em>Near You</em> — Updated Daily</h1>
+  <p>Real-time crash reports and breaking accident news pulled from local sources across all 50 states.</p>
+  <a href="#contact-section" onclick="document.getElementById('contact-section').scrollIntoView({behavior:'smooth'});return false;" class="hero-cta">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+    Tell Us About Your Accident
+  </a>
+</div>
 
 <div class="stats-bar">
   <div class="stats-inner">
@@ -315,7 +323,7 @@
     <div class="report-cta">
       <h3>🚨 Were You Injured?</h3>
       <p>Request a complimentary police accident report — typically within 24 hours, at no cost to you.</p>
-      <a href="#contact-section" onclick="document.getElementById('contact-section').scrollIntoView({behavior:'smooth'});return false;">Report Your Accident</a>
+      <a href="#contact-section" onclick="document.getElementById('contact-section').scrollIntoView({behavior:'smooth'});return false;">Tell Us About Your Accident</a>
     </div>
 
     <div class="sidebar-card">
@@ -327,7 +335,76 @@
       </div>
     </div>
 
-    <div class="sidebar-card"><div class="sidebar-card-header">&#x1F5FA; News by State</div><div class="sidebar-card-body"><select onchange="if(this.value){filterByState(this.value);this.value=''}" style="width:100%;padding:10px 12px;border:1px solid var(--gray-light);border-radius:3px;font-size:14px;font-family:'Barlow',sans-serif;background:white;color:var(--gray-dark);cursor:pointer;outline:none;"><option value="">Select a state...</option><option value="Alabama">Alabama</option><option value="Alaska">Alaska</option><option value="Arizona">Arizona</option><option value="Arkansas">Arkansas</option><option value="California">California</option><option value="Colorado">Colorado</option><option value="Connecticut">Connecticut</option><option value="Delaware">Delaware</option><option value="Florida">Florida</option><option value="Georgia">Georgia</option><option value="Hawaii">Hawaii</option><option value="Idaho">Idaho</option><option value="Illinois">Illinois</option><option value="Indiana">Indiana</option><option value="Iowa">Iowa</option><option value="Kansas">Kansas</option><option value="Kentucky">Kentucky</option><option value="Louisiana">Louisiana</option><option value="Maine">Maine</option><option value="Maryland">Maryland</option><option value="Massachusetts">Massachusetts</option><option value="Michigan">Michigan</option><option value="Minnesota">Minnesota</option><option value="Mississippi">Mississippi</option><option value="Missouri">Missouri</option><option value="Montana">Montana</option><option value="Nebraska">Nebraska</option><option value="Nevada">Nevada</option><option value="New Hampshire">New Hampshire</option><option value="New Jersey">New Jersey</option><option value="New Mexico">New Mexico</option><option value="New York">New York</option><option value="North Carolina">North Carolina</option><option value="North Dakota">North Dakota</option><option value="Ohio">Ohio</option><option value="Oklahoma">Oklahoma</option><option value="Oregon">Oregon</option><option value="Pennsylvania">Pennsylvania</option><option value="Rhode Island">Rhode Island</option><option value="South Carolina">South Carolina</option><option value="South Dakota">South Dakota</option><option value="Tennessee">Tennessee</option><option value="Texas">Texas</option><option value="Utah">Utah</option><option value="Vermont">Vermont</option><option value="Virginia">Virginia</option><option value="Washington">Washington</option><option value="West Virginia">West Virginia</option><option value="Wisconsin">Wisconsin</option><option value="Wyoming">Wyoming</option></select></div></div>
+    <div class="sidebar-card">
+      <div class="sidebar-card-header">🗺️ News by State</div>
+      <div class="sidebar-card-body">
+        <div class="state-region">Southeast</div>
+        <div class="state-list">
+          <a href="#" onclick="filterByState('Alabama');return false;">Alabama</a>
+          <a href="#" onclick="filterByState('Arkansas');return false;">Arkansas</a>
+          <a href="#" onclick="filterByState('Florida');return false;">Florida</a>
+          <a href="#" onclick="filterByState('Georgia');return false;">Georgia</a>
+          <a href="#" onclick="filterByState('Kentucky');return false;">Kentucky</a>
+          <a href="#" onclick="filterByState('Louisiana');return false;">Louisiana</a>
+          <a href="#" onclick="filterByState('Mississippi');return false;">Mississippi</a>
+          <a href="#" onclick="filterByState('North Carolina');return false;">North Carolina</a>
+          <a href="#" onclick="filterByState('South Carolina');return false;">South Carolina</a>
+          <a href="#" onclick="filterByState('Tennessee');return false;">Tennessee</a>
+          <a href="#" onclick="filterByState('Virginia');return false;">Virginia</a>
+          <a href="#" onclick="filterByState('West Virginia');return false;">West Virginia</a>
+        </div>
+        <div class="state-region">Northeast</div>
+        <div class="state-list">
+          <a href="#" onclick="filterByState('Connecticut');return false;">Connecticut</a>
+          <a href="#" onclick="filterByState('Delaware');return false;">Delaware</a>
+          <a href="#" onclick="filterByState('Maine');return false;">Maine</a>
+          <a href="#" onclick="filterByState('Maryland');return false;">Maryland</a>
+          <a href="#" onclick="filterByState('Massachusetts');return false;">Massachusetts</a>
+          <a href="#" onclick="filterByState('New Hampshire');return false;">New Hampshire</a>
+          <a href="#" onclick="filterByState('New Jersey');return false;">New Jersey</a>
+          <a href="#" onclick="filterByState('New York');return false;">New York</a>
+          <a href="#" onclick="filterByState('Pennsylvania');return false;">Pennsylvania</a>
+          <a href="#" onclick="filterByState('Rhode Island');return false;">Rhode Island</a>
+          <a href="#" onclick="filterByState('Vermont');return false;">Vermont</a>
+        </div>
+        <div class="state-region">Midwest</div>
+        <div class="state-list">
+          <a href="#" onclick="filterByState('Illinois');return false;">Illinois</a>
+          <a href="#" onclick="filterByState('Indiana');return false;">Indiana</a>
+          <a href="#" onclick="filterByState('Iowa');return false;">Iowa</a>
+          <a href="#" onclick="filterByState('Kansas');return false;">Kansas</a>
+          <a href="#" onclick="filterByState('Michigan');return false;">Michigan</a>
+          <a href="#" onclick="filterByState('Minnesota');return false;">Minnesota</a>
+          <a href="#" onclick="filterByState('Missouri');return false;">Missouri</a>
+          <a href="#" onclick="filterByState('Nebraska');return false;">Nebraska</a>
+          <a href="#" onclick="filterByState('North Dakota');return false;">North Dakota</a>
+          <a href="#" onclick="filterByState('Ohio');return false;">Ohio</a>
+          <a href="#" onclick="filterByState('South Dakota');return false;">South Dakota</a>
+          <a href="#" onclick="filterByState('Wisconsin');return false;">Wisconsin</a>
+        </div>
+        <div class="state-region">Southwest</div>
+        <div class="state-list">
+          <a href="#" onclick="filterByState('Arizona');return false;">Arizona</a>
+          <a href="#" onclick="filterByState('New Mexico');return false;">New Mexico</a>
+          <a href="#" onclick="filterByState('Oklahoma');return false;">Oklahoma</a>
+          <a href="#" onclick="filterByState('Texas');return false;">Texas</a>
+        </div>
+        <div class="state-region">West</div>
+        <div class="state-list">
+          <a href="#" onclick="filterByState('Alaska');return false;">Alaska</a>
+          <a href="#" onclick="filterByState('California');return false;">California</a>
+          <a href="#" onclick="filterByState('Colorado');return false;">Colorado</a>
+          <a href="#" onclick="filterByState('Hawaii');return false;">Hawaii</a>
+          <a href="#" onclick="filterByState('Idaho');return false;">Idaho</a>
+          <a href="#" onclick="filterByState('Montana');return false;">Montana</a>
+          <a href="#" onclick="filterByState('Nevada');return false;">Nevada</a>
+          <a href="#" onclick="filterByState('Oregon');return false;">Oregon</a>
+          <a href="#" onclick="filterByState('Utah');return false;">Utah</a>
+          <a href="#" onclick="filterByState('Washington');return false;">Washington</a>
+          <a href="#" onclick="filterByState('Wyoming');return false;">Wyoming</a>
+        </div>
+      </div>
+    </div>
   </aside>
 </div>
 
@@ -339,7 +416,7 @@
       <h2 style="font-family:'Oswald',sans-serif;font-size:34px;font-weight:700;line-height:1.1;margin-bottom:16px;">Why We Built<br>IHateCarAccidents</h2>
       <p style="font-size:15px;color:var(--gray);line-height:1.7;margin-bottom:14px;">Car accidents happen every 60 seconds in America. Most go unreported by major media. We built IHateCarAccidents.com because communities deserve to know what's happening on their roads — in real time.</p>
       <p style="font-size:15px;color:var(--gray);line-height:1.7;margin-bottom:20px;">Our platform aggregates breaking accident news from local sources across all 50 states, updated continuously so you're always informed.</p>
-      <a href="#contact-section" onclick="document.getElementById('contact-section').scrollIntoView({behavior:'smooth'});return false;" style="display:inline-block;background:var(--red);color:white;font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:12px 24px;border-radius:3px;">Report Your Accident</a>
+      <a href="#contact-section" onclick="document.getElementById('contact-section').scrollIntoView({behavior:'smooth'});return false;" style="display:inline-block;background:var(--red);color:white;font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:12px 24px;border-radius:3px;">Tell Us About Your Accident</a>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
       <div style="background:white;border:1px solid var(--gray-light);border-radius:4px;padding:24px;text-align:center;">
@@ -370,7 +447,7 @@
     <div style="display:flex;flex-direction:column;gap:0;">
       <details style="border:1px solid var(--gray-light);border-radius:4px;margin-bottom:8px;overflow:hidden;">
         <summary style="padding:16px 20px;font-family:'Oswald',sans-serif;font-size:16px;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--gray-bg);">How do I get a free accident report? <span style="color:var(--red);font-size:20px;">+</span></summary>
-        <div style="padding:16px 20px;font-size:14px;color:var(--gray);line-height:1.7;">Click any "Report Your Accident" button on this site. You'll be taken to a form where you can provide details about your accident. A representative will help obtain your official police report — at no cost to you.</div>
+        <div style="padding:16px 20px;font-size:14px;color:var(--gray);line-height:1.7;">Click any "Tell Us About Your Accident" button on this site. You'll be taken to a form where you can provide details about your accident. A representative will help obtain your official police report — at no cost to you.</div>
       </details>
       <details style="border:1px solid var(--gray-light);border-radius:4px;margin-bottom:8px;overflow:hidden;">
         <summary style="padding:16px 20px;font-family:'Oswald',sans-serif;font-size:16px;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--gray-bg);">How often is the news feed updated? <span style="color:var(--red);font-size:20px;">+</span></summary>
@@ -393,7 +470,139 @@
 </div>
 
 <!-- CONTACT SECTION -->
-<div style="background:#f8f8f8;border-top:3px solid var(--red);padding:48px 0;margin-top:40px;" id="florida-locations"><div style="max-width:1100px;margin:0 auto;padding:0 20px;"><div style="text-align:center;margin-bottom:32px;"><div style="display:inline-block;background:var(--red);color:white;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:5px 14px;border-radius:2px;margin-bottom:12px;">Our Network</div><h2 style="font-family:'Oswald',sans-serif;font-size:32px;font-weight:700;color:#111;margin-bottom:10px;">Florida Clinic Locations</h2><p style="font-size:15px;color:#666;max-width:600px;margin:0 auto;">Physician-owned clinics across Florida. Walk-ins welcome. PIP accepted.</p></div><div style="border-radius:10px;overflow:hidden;border:1px solid #e5e5e5;margin-bottom:40px;"><iframe src="https://www.google.com/maps/d/u/2/embed?mid=1BWkyFg3T09Ks7TguFycu5n_qr_2K9VQ&ehbc=2E312F" width="100%" height="500" style="border:0;display:block;" allowfullscreen loading="lazy"></iframe></div><div style="background:var(--red);border-radius:6px;padding:28px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;"><div><div style="font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:white;margin-bottom:4px;">Attorney Referral Network</div><div style="font-size:14px;color:rgba(255,255,255,0.8);">Are you an attorney? We have clinics ready to treat your clients same-day.</div></div><button onclick="document.getElementById('car-popup').style.display='flex'" style="background:white;color:var(--red);border:none;padding:12px 28px;border-radius:3px;font-family:'Oswald',sans-serif;font-size:15px;font-weight:700;cursor:pointer;">Contact Our Network</button></div></div></div>
+
+<div style="background:#f8f8f8;border-top:3px solid var(--red);padding:48px 0;margin-top:40px;" id="florida-locations">
+  <div style="max-width:1100px;margin:0 auto;padding:0 20px;">
+    <div style="text-align:center;margin-bottom:36px;">
+      <div style="display:inline-block;background:var(--red);color:white;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:5px 14px;border-radius:2px;margin-bottom:12px;">Our Network</div>
+      <h2 style="font-family:'Oswald',sans-serif;font-size:32px;font-weight:700;color:#111;margin-bottom:10px;">Florida Clinic Locations</h2>
+      <p style="font-size:15px;color:#666;max-width:600px;margin:0 auto;">We have physician-owned chiropractic and injury clinics across Florida ready to help accident victims. Walk-ins welcome. Most insurance accepted.</p>
+    </div>
+
+    <div style="background:white;border-radius:10px;border:1px solid #e5e5e5;overflow:hidden;margin-bottom:40px;display:flex;flex-wrap:wrap;min-height:560px;">
+      <div id="fl-map-side" style="flex:1;min-width:280px;background:#e8f4f8;position:relative;display:flex;flex-direction:column;">
+        <div style="display:flex;gap:6px;padding:8px 12px;background:#f5f5f5;border-bottom:1px solid #e5e5e5;">
+          <button id="fl-btn-view" onclick="flSetMode('view')" style="flex:1;padding:6px;font-size:12px;font-weight:700;border-radius:6px;cursor:pointer;border:1px solid #ddd;background:#c8102e;color:white;">View / Edit</button>
+          <button id="fl-btn-add" onclick="flSetMode('add')" style="flex:1;padding:6px;font-size:12px;font-weight:700;border-radius:6px;cursor:pointer;border:1px solid #ddd;background:white;color:#333;">+ Add Clinic</button>
+        </div>
+        <div id="fl-map-container" style="flex:1;min-height:480px;padding:8px;"><svg id="fl-svg" viewBox="0 0 500 520" style="width:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+  <path d="M161.2,70.2 L162.7,74.3 L165.6,77.2 L166.2,81.5 L168.0,85.6 L170.9,87.8 L246.1,82.7 L266.5,81.4 L317.1,77.8 L316.2,79.5 L318.6,83.0 L318.7,87.0 L321.5,90.9 L328.2,89.6 L328.8,82.0 L328.6,76.5 L325.3,71.0 L325.5,62.4 L328.3,62.5 L329.1,59.2 L332.1,59.1 L333.9,60.7 L337.3,60.4 L342.5,62.6 L346.2,62.2 L352.5,63.1 L355.2,61.9 L357.8,62.5 L358.9,63.1 L359.0,69.4 L360.2,74.4 L361.9,76.7 L365.3,89.8 L372.6,108.5 L376.1,115.2 L377.2,119.8 L384.7,133.6 L393.6,148.3 L399.7,157.7 L418.0,180.2 L427.3,189.9 L431.3,197.4 L428.4,201.0 L428.2,207.5 L430.7,215.8 L432.8,220.8 L437.4,228.2 L446.8,241.6 L454.4,255.9 L457.9,263.1 L465.2,274.0 L465.6,275.9 L470.8,284.3 L476.8,297.8 L478.8,312.1 L478.9,320.2 L479.7,331.7 L479.8,343.1 L481.9,358.7 L481.7,370.1 L480.6,366.6 L478.4,365.5 L476.0,367.7 L474.9,373.0 L473.8,374.8 L474.2,377.6 L473.0,380.1 L473.3,384.4 L474.6,388.5 L475.9,389.2 L474.7,392.3 L472.7,394.0 L473.5,396.0 L477.5,393.1 L482.0,379.3 L481.5,386.3 L476.4,399.5 L475.3,404.2 L464.9,418.7 L460.5,423.1 L459.8,422.5 L468.3,412.2 L469.5,409.1 L470.0,402.7 L464.0,402.6 L457.2,405.0 L452.7,408.3 L448.6,406.4 L445.0,407.8 L443.9,410.2 L433.7,413.1 L429.7,410.9 L427.3,407.5 L427.6,400.3 L429.1,399.7 L425.1,392.3 L422.4,390.1 L422.4,388.2 L419.6,384.4 L417.7,383.8 L415.8,379.3 L412.3,379.7 L409.6,374.6 L404.4,373.6 L394.6,369.1 L391.2,372.5 L386.7,366.2 L382.5,358.6 L378.7,345.9 L375.8,340.9 L372.9,338.2 L366.5,335.0 L366.0,332.6 L363.0,333.0 L363.9,335.2 L361.2,336.2 L358.0,326.8 L355.1,324.4 L358.1,322.8 L360.3,324.7 L361.2,315.7 L360.3,311.1 L358.3,310.5 L358.5,306.0 L356.2,306.6 L353.2,309.5 L356.0,317.3 L350.4,319.8 L349.8,322.7 L349.1,318.6 L347.6,316.1 L343.3,311.5 L336.5,302.6 L334.0,297.8 L327.3,288.6 L319.1,280.3 L315.3,274.7 L317.9,277.0 L320.7,275.0 L323.7,269.8 L328.4,259.5 L330.7,258.0 L332.4,253.0 L330.7,249.1 L326.2,248.6 L328.1,254.6 L323.2,253.6 L324.3,251.6 L322.1,246.1 L313.9,243.3 L314.7,246.8 L312.7,248.6 L316.0,250.4 L318.5,250.3 L321.6,255.9 L319.9,258.5 L319.9,263.0 L315.5,264.4 L316.7,269.0 L315.2,270.0 L314.1,264.1 L310.4,259.1 L307.9,257.4 L306.1,253.6 L306.2,244.9 L304.6,241.5 L302.6,232.6 L304.3,232.3 L305.0,237.4 L306.7,242.1 L308.4,242.2 L307.9,237.7 L306.1,236.2 L308.1,231.7 L311.0,217.4 L310.9,207.3 L309.2,203.8 L309.1,200.7 L306.4,199.5 L306.9,197.0 L304.3,191.4 L306.1,187.5 L301.1,182.1 L301.4,180.3 L299.5,177.5 L297.4,177.7 L297.5,173.1 L296.1,172.5 L286.6,172.6 L283.8,176.0 L281.1,170.8 L280.6,167.7 L275.9,166.7 L275.1,163.3 L272.1,158.8 L267.7,158.3 L266.4,156.0 L261.2,154.0 L260.4,147.9 L259.1,144.3 L256.8,144.3 L251.8,141.9 L248.6,138.3 L248.4,136.6 L244.9,132.2 L241.9,130.2 L235.8,127.5 L227.5,124.5 L221.8,121.1 L216.4,122.6 L214.7,124.0 L208.3,123.1 L208.5,125.0 L203.7,129.5 L206.2,134.7 L205.5,136.5 L200.7,136.5 L199.6,135.2 L195.1,136.9 L188.3,143.0 L187.1,143.2 L176.8,151.3 L177.3,148.0 L175.1,147.5 L171.2,152.4 L164.1,153.2 L167.0,155.6 L167.5,157.6 L170.9,158.4 L182.1,152.0 L187.0,146.7 L187.5,147.4 L183.4,152.5 L169.3,160.9 L158.8,156.2 L155.0,156.3 L151.7,158.2 L148.6,153.3 L146.9,147.8 L148.2,144.4 L148.9,150.2 L150.6,155.1 L152.2,156.1 L153.8,153.8 L153.5,149.1 L149.4,143.0 L146.8,140.7 L142.1,139.8 L138.9,137.9 L135.1,134.4 L129.5,132.4 L124.8,129.0 L118.7,125.8 L111.6,123.0 L98.9,119.6 L90.8,118.4 L75.9,118.5 L69.4,119.5 L60.3,121.7 L47.5,125.7 L41.4,127.1 L39.8,126.7 L27.8,130.6 L30.5,128.9 L28.8,128.1 L31.1,126.0 L32.1,121.8 L35.0,120.2 L32.4,118.7 L30.3,115.5 L32.6,107.5 L31.6,104.7 L24.3,100.9 L23.0,98.3 L18.0,93.6 L19.9,87.0 L19.2,84.9 L44.3,82.5 L78.3,79.6 L112.5,76.1 L161.2,70.2 Z" fill="#ffe8e8" stroke="#c8102e" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M396.2,454.3 L399.3,448.0 L408.0,441.7 L412.5,437.4 L415.5,435.6 L424.1,438.0 L425.3,440.7 L428.5,442.6 L419.8,447.2 L418.9,445.8 L413.3,447.0 L413.0,448.4 L403.8,453.8 L396.4,455.7 L396.2,454.3 Z" fill="#ffe8e8" stroke="#c8102e" stroke-width="1"/>
+<path d="M350.2,324.0 L351.3,324.8 L357.0,335.7 L362.5,337.9 L363.9,336.8 L366.8,337.5 L362.2,339.9 L356.0,336.5 L350.5,326.8 L350.2,324.0 Z" fill="#ffe8e8" stroke="#c8102e" stroke-width="1"/>
+<path d="M455.4,426.5 L458.0,422.7 L459.1,424.4 L456.8,427.2 L455.4,426.5 Z" fill="#ffe8e8" stroke="#c8102e" stroke-width="1"/>
+<path d="M435.1,439.4 L445.3,432.8 L446.8,434.2 L438.1,440.0 L435.1,439.4 Z" fill="#ffe8e8" stroke="#c8102e" stroke-width="1"/>
+<path d="M384.6,457.7 L391.8,454.7 L390.8,457.8 L384.7,459.0 L384.6,457.7 Z" fill="#ffe8e8" stroke="#c8102e" stroke-width="1"/>
+<path d="M375.6,457.7 L376.6,455.6 L378.9,455.6 L378.5,458.2 L375.6,457.7 Z" fill="#ffe8e8" stroke="#c8102e" stroke-width="1"/>
+<path d="M329.8,459.8 L332.9,458.6 L334.0,459.7 L329.9,460.9 L329.8,459.8 Z" fill="#ffe8e8" stroke="#c8102e" stroke-width="1"/>
+<path d="M188.6,145.2 L194.1,141.9 L193.3,144.7 L189.1,146.5 L188.6,145.2 Z" fill="#ffe8e8" stroke="#c8102e" stroke-width="1"/>
+<path d="M450.2,430.8 L451.8,428.4 L453.3,429.8 L450.2,430.8 Z" fill="#ffe8e8" stroke="#c8102e" stroke-width="1"/>
+  <text x="260" y="300" text-anchor="middle" font-family="Oswald,Arial,sans-serif" font-size="28" font-weight="900" fill="rgba(200,16,46,0.07)" letter-spacing="5">FLORIDA</text>
+  <g class="fl-pin" data-id="1" style="cursor:pointer" onclick="flOpenClinic(1)">
+    <circle id="fl-dot-1" cx="459.4" cy="348.7" r="8" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="448.4" y="352.7" text-anchor="end" font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#222" pointer-events="none">Miami</text>
+  </g>
+<g class="fl-pin" data-id="2" style="cursor:pointer" onclick="flOpenClinic(2)">
+    <circle id="fl-dot-2" cx="462.3" cy="329.7" r="6" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="451.3" y="333.7" text-anchor="end" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#222" pointer-events="none">Fort Lauderdale</text>
+  </g>
+<g class="fl-pin" data-id="3" style="cursor:pointer" onclick="flOpenClinic(3)">
+    <circle id="fl-dot-3" cx="463.4" cy="323.1" r="6" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="452.4" y="327.1" text-anchor="end" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#222" pointer-events="none">Pompano Beach</text>
+  </g>
+<g class="fl-pin" data-id="4" style="cursor:pointer" onclick="flOpenClinic(4)">
+    <circle id="fl-dot-4" cx="465.8" cy="317.2" r="6" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="454.8" y="321.2" text-anchor="end" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#222" pointer-events="none">Boca Raton</text>
+  </g>
+<g class="fl-pin" data-id="5" style="cursor:pointer" onclick="flOpenClinic(5)">
+    <circle id="fl-dot-5" cx="467.5" cy="297.6" r="6" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="456.5" y="301.6" text-anchor="end" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#222" pointer-events="none">West Palm Beach</text>
+  </g>
+<g class="fl-pin" data-id="6" style="cursor:pointer" onclick="flOpenClinic(6)">
+    <circle id="fl-dot-6" cx="450.1" cy="266.1" r="6" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="439.1" y="270.1" text-anchor="end" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#222" pointer-events="none">Port St. Lucie</text>
+  </g>
+<g class="fl-pin" data-id="7" style="cursor:pointer" onclick="flOpenClinic(7)">
+    <circle id="fl-dot-7" cx="323.7" cy="263.4" r="6" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="312.7" y="267.4" text-anchor="end" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#222" pointer-events="none">Sarasota</text>
+  </g>
+<g class="fl-pin" data-id="8" style="cursor:pointer" onclick="flOpenClinic(8)">
+    <circle id="fl-dot-8" cx="327.7" cy="230.2" r="8" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="316.7" y="234.2" text-anchor="end" font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#222" pointer-events="none">Tampa</text>
+  </g>
+<g class="fl-pin" data-id="9" style="cursor:pointer" onclick="flOpenClinic(9)">
+    <circle id="fl-dot-9" cx="308.0" cy="229.1" r="6" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="297.0" y="233.1" text-anchor="end" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#222" pointer-events="none">Clearwater</text>
+  </g>
+<g class="fl-pin" data-id="10" style="cursor:pointer" onclick="flOpenClinic(10)">
+    <circle id="fl-dot-10" cx="357.3" cy="225.3" r="6" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="346.3" y="229.3" text-anchor="end" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#222" pointer-events="none">Lakeland</text>
+  </g>
+<g class="fl-pin" data-id="11" style="cursor:pointer" onclick="flOpenClinic(11)">
+    <circle id="fl-dot-11" cx="390.4" cy="198.2" r="8" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="379.4" y="202.2" text-anchor="end" font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#222" pointer-events="none">Orlando</text>
+  </g>
+<g class="fl-pin" data-id="12" style="cursor:pointer" onclick="flOpenClinic(12)">
+    <circle id="fl-dot-12" cx="388.6" cy="211.8" r="6" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="377.6" y="215.8" text-anchor="end" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#222" pointer-events="none">Kissimmee</text>
+  </g>
+<g class="fl-pin" data-id="13" style="cursor:pointer" onclick="flOpenClinic(13)">
+    <circle id="fl-dot-13" cx="411.2" cy="161.8" r="6" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="400.2" y="165.8" text-anchor="end" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#222" pointer-events="none">Daytona Beach</text>
+  </g>
+<g class="fl-pin" data-id="14" style="cursor:pointer" onclick="flOpenClinic(14)">
+    <circle id="fl-dot-14" cx="346.9" cy="162.9" r="6" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="335.9" y="166.9" text-anchor="end" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#222" pointer-events="none">Ocala</text>
+  </g>
+<g class="fl-pin" data-id="15" style="cursor:pointer" onclick="flOpenClinic(15)">
+    <circle id="fl-dot-15" cx="335.3" cy="137.9" r="6" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="324.3" y="141.9" text-anchor="end" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#222" pointer-events="none">Gainesville</text>
+  </g>
+<g class="fl-pin" data-id="16" style="cursor:pointer" onclick="flOpenClinic(16)">
+    <circle id="fl-dot-16" cx="374.1" cy="100.9" r="8" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="363.1" y="104.9" text-anchor="end" font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#222" pointer-events="none">Jacksonville</text>
+  </g>
+<g class="fl-pin" data-id="17" style="cursor:pointer" onclick="flOpenClinic(17)">
+    <circle id="fl-dot-17" cx="222.2" cy="95.0" r="6" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="233.2" y="99.0" text-anchor="start" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#222" pointer-events="none">Tallahassee</text>
+  </g>
+<g class="fl-pin" data-id="18" style="cursor:pointer" onclick="flOpenClinic(18)">
+    <circle id="fl-dot-18" cx="51.6" cy="96.0" r="6" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="62.6" y="100.0" text-anchor="start" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#222" pointer-events="none">Pensacola</text>
+  </g>
+<g class="fl-pin" data-id="19" style="cursor:pointer" onclick="flOpenClinic(19)">
+    <circle id="fl-dot-19" cx="357.3" cy="305.8" r="6" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="346.3" y="309.8" text-anchor="end" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#222" pointer-events="none">Cape Coral</text>
+  </g>
+<g class="fl-pin" data-id="20" style="cursor:pointer" onclick="flOpenClinic(20)">
+    <circle id="fl-dot-20" cx="366.6" cy="328.6" r="6" fill="#c8102e" stroke="white" stroke-width="2"/>
+    <text x="355.6" y="332.6" text-anchor="end" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#222" pointer-events="none">Naples</text>
+  </g>
+</svg></div>
+      </div>
+      <div style="width:280px;flex-shrink:0;background:white;border-left:1px solid #e5e5e5;display:flex;flex-direction:column;">
+        <div id="fl-panel-header" style="background:#c8102e;color:white;padding:14px 16px;">
+          <div id="fl-panel-title" style="font-family:'Oswald',sans-serif;font-size:16px;font-weight:700;margin-bottom:2px;">Select a clinic</div>
+          <div id="fl-panel-sub" style="font-size:11px;opacity:0.85;">Click any red pin on the map</div>
+        </div>
+        <div id="fl-panel-body" style="flex:1;overflow-y:auto;padding:12px;">
+          <div id="fl-placeholder" style="color:#999;font-size:13px;padding:20px 0;text-align:center;">Click a pin to view and edit clinic details.</div>
+          <div id="fl-clinic-form" style="display:none;"></div>
+          <div id="fl-add-form" style="display:none;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="fl-cards-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-bottom:40px;"></div>
+
+    <div style="background:var(--red);border-radius:6px;padding:28px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+      <div>
+        <div style="font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:white;margin-bottom:4px;">Attorney Referral Network</div>
+        <div style="font-size:14px;color:rgba(255,255,255,0.8);">Are you an attorney? We have clinics across all Florida locations ready to treat your clients same-day.</div>
+      </div>
+      <button onclick="document.getElementById('car-popup').style.display='flex'" style="background:white;color:var(--red);border:none;padding:12px 28px;border-radius:3px;font-family:'Oswald',sans-serif;font-size:15px;font-weight:700;cursor:pointer;white-space:nowrap;">Contact Our Network</button>
+    </div>
+  </div>
+</div>
 <div id="contact-section" style="background:var(--black);color:white;padding:52px 20px;">
   <div style="max-width:700px;margin:0 auto;text-align:center;">
     <div style="font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:10px;">Contact Us</div>
@@ -438,11 +647,98 @@
     </div>
   </div>
 </div>
+
+
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo" style="font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.04em;display:flex;align-items:center;gap:10px;">
+          <div style="width:32px;height:32px;background:var(--red);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:16px;transform:rotate(-2deg);flex-shrink:0;">💥</div>
+          <span style="color:rgba(255,255,255,0.5);font-size:13px;font-family:'Barlow',sans-serif;font-weight:700;letter-spacing:.2em;text-transform:uppercase;line-height:1;">I Hate<br><span style="font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.04em;color:white;">CAR ACCIDENTS</span></span>
+        </div>
+        <p style="font-size:13px;line-height:1.65;color:rgba(255,255,255,0.55);margin-bottom:12px;">Live accident news and crash reports updated continuously from real local news sources across all 50 states.</p>
+        <p style="font-size:11px;color:rgba(255,255,255,0.3);">Powered by Google News RSS</p>
+      </div>
+      <div class="footer-col"><h4>Quick Links</h4>
+        <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Home</a>
+        <a href="#" onclick="document.getElementById('feed-container').scrollIntoView({behavior:'smooth'});return false;">Breaking News</a>
+        <a href="#contact-section" onclick="document.getElementById('contact-section').scrollIntoView({behavior:'smooth'});return false;">Tell Us About Your Accident</a>
+        <a href="#" onclick="document.getElementById('about-section').scrollIntoView({behavior:'smooth'});return false;">About Us</a>
+        <a href="#" onclick="document.getElementById('contact-section').scrollIntoView({behavior:'smooth'});return false;">Contact</a>
+        <a href="#" onclick="document.getElementById('faq-section').scrollIntoView({behavior:'smooth'});return false;">FAQ</a>
+      </div>
+      <div class="footer-col"><h4>Resources</h4>
+        <a href="#" onclick="showModal('accidentreport');return false;">Accident Reports</a>
+        <a href="#" onclick="showModal('causes');return false;">Common Causes</a>
+        <a href="#" onclick="showModal('injuries');return false;">Injury Guide</a>
+        <a href="#" onclick="showModal('motorcycle');return false;">Motorcycle Guide</a>
+        <a href="#" onclick="showModal('hotspots');return false;">Crash Hot Spots</a>
+      </div>
+      <div class="footer-col"><h4>All States</h4>
+        <a href="#" onclick="filterByState('Alabama');return false;">Alabama</a>
+        <a href="#" onclick="filterByState('Alaska');return false;">Alaska</a>
+        <a href="#" onclick="filterByState('Arizona');return false;">Arizona</a>
+        <a href="#" onclick="filterByState('Arkansas');return false;">Arkansas</a>
+        <a href="#" onclick="filterByState('California');return false;">California</a>
+        <a href="#" onclick="filterByState('Colorado');return false;">Colorado</a>
+        <a href="#" onclick="filterByState('Connecticut');return false;">Connecticut</a>
+        <a href="#" onclick="filterByState('Delaware');return false;">Delaware</a>
+        <a href="#" onclick="filterByState('Florida');return false;">Florida</a>
+        <a href="#" onclick="filterByState('Georgia');return false;">Georgia</a>
+        <a href="#" onclick="filterByState('Hawaii');return false;">Hawaii</a>
+        <a href="#" onclick="filterByState('Idaho');return false;">Idaho</a>
+        <a href="#" onclick="filterByState('Illinois');return false;">Illinois</a>
+        <a href="#" onclick="filterByState('Indiana');return false;">Indiana</a>
+        <a href="#" onclick="filterByState('Iowa');return false;">Iowa</a>
+        <a href="#" onclick="filterByState('Kansas');return false;">Kansas</a>
+        <a href="#" onclick="filterByState('Kentucky');return false;">Kentucky</a>
+        <a href="#" onclick="filterByState('Louisiana');return false;">Louisiana</a>
+        <a href="#" onclick="filterByState('Maine');return false;">Maine</a>
+        <a href="#" onclick="filterByState('Maryland');return false;">Maryland</a>
+        <a href="#" onclick="filterByState('Massachusetts');return false;">Massachusetts</a>
+        <a href="#" onclick="filterByState('Michigan');return false;">Michigan</a>
+        <a href="#" onclick="filterByState('Minnesota');return false;">Minnesota</a>
+        <a href="#" onclick="filterByState('Mississippi');return false;">Mississippi</a>
+        <a href="#" onclick="filterByState('Missouri');return false;">Missouri</a>
+        <a href="#" onclick="filterByState('Montana');return false;">Montana</a>
+        <a href="#" onclick="filterByState('Nebraska');return false;">Nebraska</a>
+        <a href="#" onclick="filterByState('Nevada');return false;">Nevada</a>
+        <a href="#" onclick="filterByState('New Hampshire');return false;">New Hampshire</a>
+        <a href="#" onclick="filterByState('New Jersey');return false;">New Jersey</a>
+        <a href="#" onclick="filterByState('New Mexico');return false;">New Mexico</a>
+        <a href="#" onclick="filterByState('New York');return false;">New York</a>
+        <a href="#" onclick="filterByState('North Carolina');return false;">North Carolina</a>
+        <a href="#" onclick="filterByState('North Dakota');return false;">North Dakota</a>
+        <a href="#" onclick="filterByState('Ohio');return false;">Ohio</a>
+        <a href="#" onclick="filterByState('Oklahoma');return false;">Oklahoma</a>
+        <a href="#" onclick="filterByState('Oregon');return false;">Oregon</a>
+        <a href="#" onclick="filterByState('Pennsylvania');return false;">Pennsylvania</a>
+        <a href="#" onclick="filterByState('Rhode Island');return false;">Rhode Island</a>
+        <a href="#" onclick="filterByState('South Carolina');return false;">South Carolina</a>
+        <a href="#" onclick="filterByState('South Dakota');return false;">South Dakota</a>
+        <a href="#" onclick="filterByState('Tennessee');return false;">Tennessee</a>
+        <a href="#" onclick="filterByState('Texas');return false;">Texas</a>
+        <a href="#" onclick="filterByState('Utah');return false;">Utah</a>
+        <a href="#" onclick="filterByState('Vermont');return false;">Vermont</a>
+        <a href="#" onclick="filterByState('Virginia');return false;">Virginia</a>
+        <a href="#" onclick="filterByState('Washington');return false;">Washington</a>
+        <a href="#" onclick="filterByState('West Virginia');return false;">West Virginia</a>
+        <a href="#" onclick="filterByState('Wisconsin');return false;">Wisconsin</a>
+        <a href="#" onclick="filterByState('Wyoming');return false;">Wyoming</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 IHateCarAccidents.com — Powered by Google News RSS</span>
+    <span>
+        <a href="#" onclick="showModal('privacy')" style="color:rgba(255,255,255,.4);margin-right:16px;">Privacy Policy</a>
+        <a href="#" onclick="showModal('disclaimer')" style="color:rgba(255,255,255,.4);">Disclaimer</a>
+      </span>
+    </div>
+  </div>
+</footer>
+
 <script>
-
-
-const REFRESH_MS = 15 * 60 * 1000;
-const MAPS_KEY = 'AIzaSyBeMle1sEniEfIx3MkVx26VTEEbwAYtXSg'; // 15 minutes
+const REFRESH_MS = 15 * 60 * 1000; // 15 minutes
 
 
 const US_STATES = ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut',
@@ -503,171 +799,142 @@ function cleanTitle(title) {
 }
 
 // ── GOOGLE MAPS THUMBNAILS ───────────────────────────────────────────────
+const MAPS_KEY = 'AIzaSyDdFLFeWjIOAQSRy9zbrwx6QUZg6ucpfds';
 
 // Extract best location string from article title + description
-
-
-
-
-
-
-// ── AI ARTICLE REWRITER ──────────────────────────────────────────────────
-
-
-
-let previewArticles = [];
-
-function showArticlePreview(idx) {
-  var a = previewArticles[idx];
-  if (!a) return;
-  var existing = document.getElementById('article-preview-panel');
-  if (existing) existing.remove();
-  var src = a.source || extractSource(a.title);
-  var title = cleanTitle(a.title);
-  var desc = stripHtml(a.description || '').replace(/\[\+\d+ chars\]$/, '').trim();
-  var panel = document.createElement('div');
-  panel.id = 'article-preview-panel';
-  panel.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.9);z-index:9999;overflow-y:auto;padding:20px;display:flex;align-items:flex-start;justify-content:center;';
-  var box = document.createElement('div');
-  box.style.cssText = 'background:#111;border:1px solid rgba(255,255,255,0.1);border-radius:8px;max-width:680px;width:100%;padding:36px;position:relative;margin:20px auto;';
-  var closeX = document.createElement('button');
-  closeX.innerHTML = '&times;';
-  closeX.style.cssText = 'position:absolute;top:14px;right:16px;background:none;border:none;font-size:28px;cursor:pointer;color:#666;line-height:1;';
-  closeX.onclick = function(){ panel.remove(); };
-  box.appendChild(closeX);
-  if (src) {
-    var srcEl = document.createElement('div');
-    srcEl.textContent = src;
-    srcEl.style.cssText = 'font-size:11px;font-weight:700;text-transform:uppercase;color:#c8102e;margin-bottom:10px;letter-spacing:.1em;';
-    box.appendChild(srcEl);
-  }
-  var h1 = document.createElement('h1');
-  h1.textContent = title;
-  h1.style.cssText = 'font-family:Oswald,sans-serif;font-size:24px;font-weight:700;color:white;line-height:1.3;margin-bottom:8px;padding-right:32px;';
-  box.appendChild(h1);
-  var dt = document.createElement('div');
-  dt.textContent = formatDate(a.pubDate);
-  dt.style.cssText = 'font-size:12px;color:#555;margin-bottom:20px;';
-  box.appendChild(dt);
-  if (a.image) {
-    var iw = document.createElement('div');
-    iw.style.cssText = 'margin-bottom:20px;border-radius:6px;overflow:hidden;';
-    var im = document.createElement('img');
-    im.src = a.image;
-    im.style.cssText = 'width:100%;max-height:240px;object-fit:cover;display:block;';
-    im.onerror = function(){ iw.style.display = 'none'; };
-    iw.appendChild(im);
-    box.appendChild(iw);
-  }
-  if (desc) {
-    var dv = document.createElement('div');
-    dv.style.cssText = 'border-top:1px solid rgba(255,255,255,0.08);padding-top:20px;margin-bottom:24px;';
-    var p = document.createElement('p');
-    p.textContent = desc;
-    p.style.cssText = 'font-size:14px;color:rgba(255,255,255,0.75);line-height:1.8;margin:0;';
-    dv.appendChild(p);
-    box.appendChild(dv);
-  }
-  var bf = document.createElement('div');
-  bf.style.cssText = 'display:flex;gap:10px;flex-wrap:wrap;';
-  var fa = document.createElement('a');
-  fa.href = 'https://www.google.com/search?q=' + encodeURIComponent(title);
-  fa.target = '_blank';
-  fa.textContent = 'Find Full Story';
-  fa.style.cssText = 'background:#c8102e;color:white;padding:10px 20px;border-radius:3px;font-family:Oswald,sans-serif;font-size:13px;font-weight:600;text-transform:uppercase;text-decoration:none;display:inline-block;';
-  var wb = document.createElement('button');
-  wb.textContent = 'Were You Involved?';
-  wb.style.cssText = 'background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.15);padding:10px 18px;border-radius:3px;font-size:13px;cursor:pointer;';
-  wb.onclick = function(){ panel.remove(); document.getElementById('car-popup').style.display = 'flex'; };
-  var cb = document.createElement('button');
-  cb.textContent = 'Close';
-  cb.style.cssText = 'background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.4);border:1px solid rgba(255,255,255,0.08);padding:10px 14px;border-radius:3px;font-size:13px;cursor:pointer;';
-  cb.onclick = function(){ panel.remove(); };
-  bf.appendChild(fa); bf.appendChild(wb); bf.appendChild(cb);
-  box.appendChild(bf);
-  panel.appendChild(box);
-  panel.onclick = function(ev){ if (ev.target === panel) panel.remove(); };
-  document.body.appendChild(panel);
-}
-
-
-
 function extractLocation(article) {
   const text = cleanTitle(article.title) + ' ' + stripHtml(article.description);
+
+  // Try to find "City, ST" or "City, State" patterns
   const cityState = text.match(/\b([A-Z][a-zA-Z\s]+),\s*(AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY)\b/);
   if (cityState) return cityState[0];
+
+  // Try "on [Highway/Interstate/Route]... in [City]"
+  const inCity = text.match(/\bin ([A-Z][a-zA-Z\s]+(?:County|Township)?),?\s*(AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY)/);
+  if (inCity) return inCity[1] + ', ' + inCity[2];
+
+  // Fall back to just the state name if we find one
   const state = detectState(text);
   if (state) return state + ', USA';
-  return 'United States';
+
+  return null;
 }
 
-function mapsThumbUrl(location, size) {
-  size = size || '110x74';
+function mapsThumbUrl(location, size = '110x74') {
   const q = encodeURIComponent(location);
-  return 'https://maps.googleapis.com/maps/api/staticmap?center=' + q + '&zoom=13&size=' + size + '&scale=2&maptype=roadmap&markers=color:red%7Csize:small%7C' + q + '&key=AIzaSyBeMle1sEniEfIx3MkVx26VTEEbwAYtXSg';
+  return `https://maps.googleapis.com/maps/api/staticmap?center=${q}&zoom=13&size=${size}&scale=2&maptype=roadmap&markers=color:red%7Csize:small%7C${q}&key=${MAPS_KEY}`;
 }
 
 function lazyLoadThumbs(articles) {
-  var imgs = [
-    'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&q=70&auto=format',
-    'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=400&q=70&auto=format',
-    'https://images.unsplash.com/photo-1566933293069-b55c7f326dd4?w=400&q=70&auto=format',
-    'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=70&auto=format',
-    'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=400&q=70&auto=format',
-    'https://images.unsplash.com/photo-1519003722824-194d4455a60c?w=400&q=70&auto=format',
-    'https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=400&q=70&auto=format',
-    'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=400&q=70&auto=format',
-    'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=400&q=70&auto=format',
-    'https://images.unsplash.com/photo-1491824019986-7f1b5c75edec?w=400&q=70&auto=format'
-  ];
-  articles.slice(0, 51).forEach(function(article, i) {
-    var el = document.getElementById('thumb-' + i);
+  articles.slice(0, 51).forEach((article, i) => {
+    const location = extractLocation(article);
+    if (!location) return;
+    const el = document.getElementById(`thumb-${i}`);
     if (!el) return;
-    var src = article.image || imgs[i % imgs.length];
-    var img = new Image();
-    img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit;';
-    img.onload = function() {
-      var el2 = document.getElementById('thumb-' + i);
-      if (el2) { el2.innerHTML = ''; el2.appendChild(img); }
+    const size = i === 0 ? '700x260' : '220x148';
+    const imgUrl = mapsThumbUrl(location, size);
+    const img = new Image();
+    img.src = imgUrl;
+    img.alt = location;
+    img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit;opacity:0;transition:opacity 0.5s;';
+    img.onload = () => {
+      const el2 = document.getElementById(`thumb-${i}`);
+      if (el2 && el2.isConnected) {
+        el2.innerHTML = '';
+        el2.appendChild(img);
+        requestAnimationFrame(() => { img.style.opacity = '1'; });
+      }
     };
-    img.src = src;
   });
+}
+
+// ── AI ARTICLE REWRITER ──────────────────────────────────────────────────
+let previewArticles = [];
+
+function showArticlePreview(idx) {
+  const a = previewArticles[idx];
+  if (!a) return;
+  const existing = document.getElementById('article-preview-panel');
+  if (existing) existing.remove();
+
+  const src = a.source || extractSource(a.title);
+  const title = cleanTitle(a.title);
+  const desc = stripHtml(a.description || '').replace(/\[\+\d+ chars\]$/, '').trim();
+
+  // Break description into readable paragraphs
+  const sentences = desc ? (desc.match(/[^.!?]+[.!?]+/g) || [desc]) : [];
+  let bodyHtml = '';
+  for (let i = 0; i < sentences.length; i += 2) {
+    const para = sentences.slice(i, i+2).join(' ').trim();
+    if (para) bodyHtml += `<p style="margin-bottom:16px;font-size:15px;color:rgba(255,255,255,0.78);line-height:1.85;">${para}</p>`;
+  }
+  if (!bodyHtml && desc) bodyHtml = `<p style="margin-bottom:16px;font-size:15px;color:rgba(255,255,255,0.78);line-height:1.85;">${desc}</p>`;
+  if (!bodyHtml) bodyHtml = `<p style="color:#555;font-style:italic;">No additional details available.</p>`;
+
+  const googleSearchUrl = 'https://www.google.com/search?q=' + encodeURIComponent(title) + '&tbm=nws';
+
+  const panel = document.createElement('div');
+  panel.id = 'article-preview-panel';
+  panel.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:9999;display:flex;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto;';
+  panel.innerHTML = `
+    <div style="background:#111;border:1px solid rgba(255,255,255,0.1);border-radius:8px;max-width:720px;width:100%;padding:40px;position:relative;margin:20px auto;">
+      <button onclick="document.getElementById('article-preview-panel').remove()" style="position:absolute;top:14px;right:16px;background:none;border:none;font-size:28px;cursor:pointer;color:#555;line-height:1;">×</button>
+      ${src ? `<div style="font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:12px;">${src}</div>` : ''}
+      <h1 style="font-family:'Oswald',sans-serif;font-size:26px;font-weight:700;color:white;line-height:1.3;margin-bottom:8px;padding-right:32px;">${title}</h1>
+      <div style="font-size:12px;color:#555;margin-bottom:24px;">${formatDate(a.pubDate)}</div>
+      <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:24px;margin-bottom:28px;">
+        ${bodyHtml}
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;padding-top:20px;border-top:1px solid rgba(255,255,255,0.08);">
+        <a href="${googleSearchUrl}" target="_blank" rel="noopener" style="display:inline-block;background:var(--red);color:white;padding:11px 24px;border-radius:3px;font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;">Find Full Story</a>
+        <a href="#contact-section" onclick="document.getElementById('article-preview-panel').remove();setTimeout(()=>document.getElementById('contact-section').scrollIntoView({behavior:'smooth'}),100);return false;" style="display:inline-block;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.15);padding:11px 24px;border-radius:3px;font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;">Were You Involved?</a>
+        <button onclick="document.getElementById('article-preview-panel').remove()" style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.4);border:1px solid rgba(255,255,255,0.1);padding:11px 20px;border-radius:3px;font-family:'Oswald',sans-serif;font-size:14px;cursor:pointer;">Close</button>
+      </div>
+    </div>`;
+  panel.addEventListener('click', e => { if (e.target === panel) panel.remove(); });
+  document.body.appendChild(panel);
 }
 
 // ── RENDER MAIN FEED ─────────────────────────────────────────────────────
 function renderFeed(articles) {
   previewArticles = articles;
-  var el = document.getElementById('feed-container');
+  const el = document.getElementById('feed-container');
   if (!articles.length) {
-    el.innerHTML = '<div class="feed-error">No articles found. <button onclick="clearFilter()" style="color:#c8102e;background:none;border:none;cursor:pointer;">Clear</button></div>';
+    el.innerHTML = `<div class="feed-error">No articles match that filter. <button onclick="clearFilter()" style="color:var(--red);background:none;border:none;cursor:pointer;font-weight:600;text-decoration:underline;">Clear</button></div>`;
     return;
   }
-  var top = articles[0], rest = articles.slice(1);
-  var topState = detectState(top.title + ' ' + (top.description||''));
-  var topDesc = stripHtml(top.description||'').slice(0,240);
-  var topSrc = top.source || extractSource(top.title);
-  var topTitle = cleanTitle(top.title);
-  var html = '<div class="featured-article" onclick="showArticlePreview(0)" style="cursor:pointer;">';
-  html += '<div class="featured-img-box" id="thumb-0">' + icon() + '</div>';
-  if (topState) html += '<span class="featured-badge">' + topState + '</span>';
-  if (topSrc) html += '<div class="featured-source">' + topSrc + '</div>';
-  html += '<h2 class="featured-title">' + topTitle + '</h2>';
-  if (topDesc) html += '<p class="featured-excerpt">' + topDesc + '...</p>';
-  html += '<span class="featured-date">&#128197; ' + formatDate(top.pubDate) + '</span>';
-  html += '<span style="display:inline-block;margin-top:10px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#c8102e;">Read More &rarr;</span>';
-  html += '</div>';
-  rest.slice(0,50).forEach(function(item, ii) {
-    var state = detectState(item.title + ' ' + (item.description||''));
-    var src = item.source || extractSource(item.title);
-    var title = cleanTitle(item.title);
-    html += '<div class="article-card" onclick="showArticlePreview(' + (ii+1) + ')" style="cursor:pointer;">';
-    html += '<div class="article-icon" id="thumb-' + (ii+1) + '">' + icon() + '</div>';
-    html += '<div class="article-meta">';
-    html += '<span class="article-source">' + (state||src||'National') + '</span>';
-    html += '<span class="article-title">' + title + '</span>';
-    html += '<span class="article-date">' + formatDate(item.pubDate) + '</span>';
-    html += '</div></div>';
+  const [top, ...rest] = articles;
+  const topState  = detectState(top.title + ' ' + (top.description || ''));
+  const topDesc   = stripHtml(top.description).slice(0, 240);
+  const topSource = top.source || extractSource(top.title);
+  const topTitle  = cleanTitle(top.title);
+
+  let html = `
+    <div class="featured-article" onclick="showArticlePreview(0)" style="cursor:pointer;">
+      <div class="featured-img-box" id="thumb-0">${icon()}</div>
+      ${topState ? `<span class="featured-badge">${topState}</span>` : ''}
+      ${topSource ? `<div class="featured-source">${topSource}</div>` : ''}
+      <h2 class="featured-title" style="cursor:pointer;">${topTitle}</h2>
+      ${topDesc ? `<p class="featured-excerpt">${topDesc}…</p>` : ''}
+      <span class="featured-date">📅 ${formatDate(top.pubDate)}</span>
+      <span style="display:inline-block;margin-top:10px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--red);">Read More →</span>
+    </div>`;
+
+  rest.slice(0, 50).forEach((item, i) => {
+    const state = detectState(item.title + ' ' + (item.description || ''));
+    const src   = item.source || extractSource(item.title);
+    const title = cleanTitle(item.title);
+    html += `
+      <div class="article-card" onclick="showArticlePreview(${i + 1})" style="cursor:pointer;">
+        <div class="article-icon" id="thumb-${i + 1}">${icon()}</div>
+        <div class="article-meta">
+          <span class="article-source">${state || src || 'National'}</span>
+          <span class="article-title" style="cursor:pointer;">${title}</span>
+          <span class="article-date">${formatDate(item.pubDate)}</span>
+        </div>
+      </div>`;
   });
+
   el.innerHTML = html;
   document.getElementById('article-count').textContent = articles.length;
   lazyLoadThumbs(articles);
@@ -699,53 +966,67 @@ function renderTicker(articles) {
 // ── FETCH LIVE ACCIDENT NEWS — multiple parallel queries for max coverage ─
 async function fetchFeed() {
   const queries = [
-    'car+accident+crash+fatal+USA',
-    'traffic+crash+killed+injured+highway',
-    'Florida+car+accident+crash+fatal',
-    'drunk+driving+crash+hit+run',
-    'car+accident+crash+police+report',
+    'car+accident+crash+fatal+highway',
+    'car+crash+killed+injured+police',
+    'traffic+collision+dead+road',
+    'fatal+crash+truck+highway+interstate',
     'pedestrian+struck+killed+driver',
+    'motorcycle+crash+accident+injured',
+    'drunk+driving+crash+DUI+accident',
+    'hit+and+run+accident+crash',
     'rollover+crash+vehicle+highway',
-    'hit+and+run+crash+accident'
+    'multi+vehicle+crash+pileup+road',
+    'Alabama+car+accident+crash+fatal',
+    'Alaska+car+accident+crash+fatal',
+    'Arizona+car+accident+crash+fatal',
+    'Arkansas+car+accident+crash+fatal',
+    'California+car+accident+crash+fatal',
+    'Colorado+car+accident+crash+fatal',
+    'Connecticut+car+accident+crash+fatal',
+    'Delaware+car+accident+crash+fatal',
+    'Florida+car+accident+crash+fatal',
+    'Georgia+car+accident+crash+fatal',
+    'Hawaii+car+accident+crash+fatal',
+    'Idaho+car+accident+crash+fatal',
+    'Illinois+car+accident+crash+fatal',
+    'Indiana+car+accident+crash+fatal',
+    'Iowa+car+accident+crash+fatal',
+    'Kansas+car+accident+crash+fatal',
+    'Kentucky+car+accident+crash+fatal',
+    'Louisiana+car+accident+crash+fatal',
+    'Maine+car+accident+crash+fatal',
+    'Maryland+car+accident+crash+fatal',
+    'Massachusetts+car+accident+crash+fatal',
+    'Michigan+car+accident+crash+fatal',
+    'Minnesota+car+accident+crash+fatal',
+    'Mississippi+car+accident+crash+fatal',
+    'Missouri+car+accident+crash+fatal',
+    'Montana+car+accident+crash+fatal',
+    'Nebraska+car+accident+crash+fatal',
+    'Nevada+car+accident+crash+fatal',
+    'New+Hampshire+car+accident+crash',
+    'New+Jersey+car+accident+crash+fatal',
+    'New+Mexico+car+accident+crash+fatal',
+    'New+York+car+accident+crash+fatal',
+    'North+Carolina+car+accident+crash',
+    'North+Dakota+car+accident+crash',
+    'Ohio+car+accident+crash+fatal',
+    'Oklahoma+car+accident+crash+fatal',
+    'Oregon+car+accident+crash+fatal',
+    'Pennsylvania+car+accident+crash+fatal',
+    'Rhode+Island+car+accident+crash',
+    'South+Carolina+car+accident+crash',
+    'South+Dakota+car+accident+crash',
+    'Tennessee+car+accident+crash+fatal',
+    'Texas+car+accident+crash+fatal',
+    'Utah+car+accident+crash+fatal',
+    'Vermont+car+accident+crash+fatal',
+    'Virginia+car+accident+crash+fatal',
+    'Washington+car+accident+crash+fatal',
+    'West+Virginia+car+accident+crash',
+    'Wisconsin+car+accident+crash+fatal',
+    'Wyoming+car+accident+crash+fatal',
   ];
-
-  async function fetchQuery(q) {
-    const url = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent('https://news.google.com/rss/search?q=' + q + '&hl=en-US&gl=US&ceid=US:en');
-    const res = await fetch(url);
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const data = await res.json();
-    if (!data.items || !data.items.length) return [];
-    return data.items.map(function(item) {
-      // Try every possible image field rss2json provides
-      var img = item.thumbnail || (item.enclosure && item.enclosure.link) || '';
-      // Also try extracting <img> from description HTML
-      if (!img && item.description) {
-        var m = item.description.match(/<img[^>]+src="([^"]+)"/);
-        if (m) img = m[1];
-      }
-      return { title:item.title||'', link:item.link||'#', description:item.description||'', pubDate:item.pubDate||'', source:item.author||'', image:img };
-    }).filter(function(i){ return i.title; });
-  }
-
-  // Fire all queries in parallel
-  const results = await Promise.allSettled(queries.map(q => fetchQuery(q)));
-  const all = results.flatMap(r => r.status === 'fulfilled' ? r.value : []);
-
-  // Deduplicate by title
-  const seen = new Set();
-  const unique = all.filter(a => {
-    const key = a.title.slice(0, 60).toLowerCase();
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
-
-  // Sort newest first
-  unique.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-
-  if (!unique.length) throw new Error('No articles returned');
-  return unique;
-}
 
 // ── FILTER ───────────────────────────────────────────────────────────────
 function applyFilter() {
@@ -766,43 +1047,24 @@ function clearFilter() {
 async function filterByState(state) {
   document.getElementById('state-filter').value = state;
   document.getElementById('feed-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-  // First show what we already have
-  const existing = allArticles.filter(a => (a.title + ' ' + a.description).toLowerCase().includes(state.toLowerCase()));
+  const existing = allArticles.filter(a => (a.title + ' ' + (a.description||'')).toLowerCase().includes(state.toLowerCase()));
   renderFeed(existing.length ? existing : allArticles);
-
-  // Then fetch fresh state-specific results live
   const el = document.getElementById('feed-container');
-  el.insertAdjacentHTML('afterbegin', `<div id="state-loading" style="background:rgba(200,16,46,0.1);border:1px solid var(--red);border-radius:4px;padding:10px 16px;margin-bottom:16px;font-size:13px;font-weight:600;color:var(--red);">🔍 Loading latest ${state} accidents...</div>`);
-
+  el.insertAdjacentHTML('afterbegin', `<div id="state-loading" style="background:rgba(200,16,46,0.1);border:1px solid var(--red);border-radius:4px;padding:10px 16px;margin-bottom:16px;font-size:13px;font-weight:600;color:var(--red);">Loading latest ${state} accidents...</div>`);
   try {
-    const stateUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent('https://news.google.com/rss/search?q=' + state.replace(/ /g,'+') + '+car+accident+crash&hl=en-US&gl=US&ceid=US:en');
-    const stateRes = await fetch(stateUrl);
-    const stateData = stateRes.ok ? await stateRes.json() : {items:[]};
-    var fresh = (stateData.items||[]).map(function(item) {
-      var img = item.thumbnail || (item.enclosure && item.enclosure.link) || '';
-      if (!img && item.description) { var mx = item.description.match(/<img[^>]+src="([^"]+)"/); if (mx) img = mx[1]; }
-      return { title:item.title||'', link:item.link||'#', description:item.description||'', pubDate:item.pubDate||'', source:item.author||'', image:img };
-    }).filter(function(i){ return i.title; });
-    // Merge fresh + existing, dedupe, sort
-    const combined = [...fresh, ...allArticles.filter(a => (a.title + ' ' + a.description).toLowerCase().includes(state.toLowerCase()))];
+    const fresh = await fetchRssQuery(state.replace(/ /g,'+') + '+car+accident+crash+fatal');
+    const combined = [...fresh, ...allArticles.filter(a => (a.title+' '+(a.description||'')).toLowerCase().includes(state.toLowerCase()))];
     const seen = new Set();
-    const unique = combined.filter(a => {
-      const key = a.title.slice(0, 60).toLowerCase();
-      if (seen.has(key)) return false;
-      seen.add(key); return true;
-    });
-    unique.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+    const unique = combined.filter(a => { const k = a.title.slice(0,60).toLowerCase(); if(seen.has(k)) return false; seen.add(k); return true; });
+    unique.sort((a,b) => new Date(b.pubDate) - new Date(a.pubDate));
     document.getElementById('state-loading')?.remove();
     renderFeed(unique.length ? unique : allArticles);
-  } catch(e) {
+  } catch(err) {
     document.getElementById('state-loading')?.remove();
+    const filt = allArticles.filter(a => (a.title+' '+(a.description||'')).toLowerCase().includes(state.toLowerCase()));
+    renderFeed(filt.length ? filt : allArticles);
   }
 }
-
-document.getElementById('state-filter').addEventListener('keydown', e => {
-  if (e.key === 'Enter') applyFilter();
-});
 
 // ── INIT ─────────────────────────────────────────────────────────────────
 async function loadAll() {
@@ -909,7 +1171,66 @@ function showModal(type) {
     { key: 'phone',    bot: "Last one — a phone number where we can reach you? (optional)", type: 'text', placeholder: 'Phone number (optional)' },
   ];
 
+  function createWidget() {
+    const widget = document.createElement('div');
+    widget.id = 'chat-widget';
+    widget.innerHTML = `
+      <style>
+        #chat-bubble { position:fixed; bottom:24px; right:24px; width:56px; height:56px; background:var(--red); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 4px 20px rgba(200,16,46,0.5); z-index:8888; transition:transform 0.2s; animation:chatPulse 2.5s ease-in-out infinite; }
+        #chat-bubble:hover { transform:scale(1.1); }
+        @keyframes chatPulse { 0%,100%{box-shadow:0 4px 20px rgba(200,16,46,0.5)} 50%{box-shadow:0 4px 32px rgba(200,16,46,0.85),0 0 0 8px rgba(200,16,46,0.15)} }
+        #chat-bubble svg { width:26px; height:26px; fill:white; }
+        #chat-badge { position:absolute; top:-3px; right:-3px; background:#22c55e; color:white; border-radius:50%; width:18px; height:18px; font-size:10px; font-weight:700; display:flex; align-items:center; justify-content:center; border:2px solid white; }
+        #chat-box { position:fixed; bottom:92px; right:24px; width:340px; max-height:520px; background:#111; border:1px solid rgba(255,255,255,0.12); border-radius:16px; box-shadow:0 16px 48px rgba(0,0,0,0.6); z-index:8888; display:none; flex-direction:column; overflow:hidden; }
+        #chat-header { background:var(--red); padding:14px 18px; display:flex; align-items:center; gap:10px; }
+        #chat-header .avatar { width:36px; height:36px; background:rgba(255,255,255,0.2); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+        #chat-header .info { flex:1; }
+        #chat-header .name { font-family:'Oswald',sans-serif; font-size:15px; font-weight:700; color:white; }
+        #chat-header .status { font-size:11px; color:rgba(255,255,255,0.75); display:flex; align-items:center; gap:4px; }
+        #chat-header .status::before { content:''; width:7px; height:7px; background:#22c55e; border-radius:50%; display:inline-block; }
+        #chat-header .close-chat { background:none; border:none; color:rgba(255,255,255,0.7); font-size:22px; cursor:pointer; line-height:1; padding:0; }
+        #chat-messages { flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:10px; max-height:320px; }
+        .chat-msg { max-width:85%; padding:10px 14px; border-radius:16px; font-size:13px; line-height:1.5; }
+        .chat-msg.bot { background:rgba(255,255,255,0.08); color:rgba(255,255,255,0.85); border-bottom-left-radius:4px; align-self:flex-start; }
+        .chat-msg.user { background:var(--red); color:white; border-bottom-right-radius:4px; align-self:flex-end; }
+        #chat-input-area { padding:12px; border-top:1px solid rgba(255,255,255,0.08); }
+        .chat-buttons { display:flex; flex-wrap:wrap; gap:6px; }
+        .chat-btn { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:rgba(255,255,255,0.8); padding:7px 12px; border-radius:20px; font-size:12px; cursor:pointer; font-family:'Barlow',sans-serif; transition:all 0.15s; }
+        .chat-btn:hover { background:var(--red); border-color:var(--red); color:white; }
+        .chat-text-input { display:flex; gap:8px; }
+        .chat-text-input input { flex:1; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.15); border-radius:20px; padding:8px 14px; color:white; font-size:13px; font-family:'Barlow',sans-serif; outline:none; }
+        .chat-text-input input::placeholder { color:rgba(255,255,255,0.3); }
+        .chat-text-input input:focus { border-color:var(--red); }
+        .chat-text-input button { background:var(--red); border:none; color:white; width:34px; height:34px; border-radius:50%; cursor:pointer; font-size:16px; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
+        #chat-done { padding:20px; text-align:center; display:none; }
+        #chat-done .checkmark { font-size:36px; margin-bottom:10px; }
+        #chat-done p { font-size:13px; color:rgba(255,255,255,0.7); line-height:1.6; }
+        @media(max-width:400px){ #chat-box{width:calc(100vw - 32px);right:16px;} #chat-bubble{right:16px;bottom:16px;} }
+      </style>
 
+      <div id="chat-bubble" onclick="toggleChat()">
+        <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+        <div id="chat-badge">1</div>
+      </div>
+
+      <div id="chat-box">
+        <div id="chat-header">
+          <div class="avatar">🚗</div>
+          <div class="info">
+            <div class="name">IHateCarAccidents</div>
+            <div class="status">We can help you</div>
+          </div>
+          <button class="close-chat" onclick="toggleChat()">×</button>
+        </div>
+        <div id="chat-messages"></div>
+        <div id="chat-input-area"></div>
+        <div id="chat-done">
+          <div class="checkmark">✅</div>
+          <p><strong style="color:white;">Got it! We'll be in touch soon.</strong><br>Someone from our team will reach out to help with your accident case.</p>
+        </div>
+      </div>`;
+    document.body.appendChild(widget);
+  }
 
   window.toggleChat = function() {
     const box = document.getElementById('chat-box');
@@ -1023,108 +1344,827 @@ function showModal(type) {
   }
 
   // Init
-
+  document.addEventListener('DOMContentLoaded', () => {
+    createWidget();
+    // Show the bubble after 3 seconds with a gentle bounce
+    setTimeout(() => {
+      const bubble = document.getElementById('chat-bubble');
+      if (bubble) bubble.style.display = 'flex';
+    }, 3000);
+  });
 })();
 
-// back-to-top replaced
-
-
+const backToTop = document.createElement('button');
+backToTop.innerHTML = '↑';
+backToTop.style.cssText = 'position:fixed;bottom:24px;right:24px;width:44px;height:44px;background:var(--red);color:white;border:none;border-radius:50%;font-size:20px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.2);opacity:0;transition:opacity 0.3s;z-index:500;';
+backToTop.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+document.body.appendChild(backToTop);
+window.addEventListener('scroll', () => {
+  backToTop.style.opacity = window.scrollY > 400 ? '1' : '0';
+});
 
 
 </script>
-<div id="car-popup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:99999;align-items:center;justify-content:center;padding:20px;"><div style="background:white;border-radius:10px;max-width:540px;width:100%;overflow:hidden;"><div style="background:var(--red);padding:20px 28px;display:flex;align-items:center;justify-content:space-between;"><div><div style="font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:white;">BEEN IN AN ACCIDENT?</div><div style="font-size:13px;color:rgba(255,255,255,0.85);margin-top:2px;">Our clinics can see you today - no out-of-pocket cost with PIP</div></div><button onclick="document.getElementById('car-popup').style.display='none'" style="background:rgba(255,255,255,0.2);border:none;color:white;width:32px;height:32px;border-radius:50%;font-size:20px;cursor:pointer;flex-shrink:0;line-height:1;">x</button></div><div id="popup-form-wrap" style="padding:24px;max-height:75vh;overflow-y:auto;"><form id="popup-intake-form" onsubmit="return false;"><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;"><div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">First Name *</label><input name="firstName" required style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="John"></div><div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Last Name *</label><input name="lastName" required style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="Smith"></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;"><div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Phone *</label><input name="phone" type="tel" required style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="(555) 000-0000"></div><div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Email *</label><input name="email" type="email" required style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="john@email.com"></div></div><div style="margin-bottom:12px;"><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Date of Accident *</label><input name="accidentDate" type="date" required style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;"></div><div style="margin-bottom:12px;"><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Nearest City</label><select name="city" style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;background:white;"><option value="">Select...</option><option>Miami</option><option>Orlando</option><option>Tampa</option><option>Jacksonville</option><option>Fort Lauderdale</option><option>Boca Raton</option><option>Sarasota</option><option>Naples</option><option>Gainesville</option><option>Tallahassee</option><option>Clearwater</option><option>Pensacola</option><option>Port St. Lucie</option><option>Cape Coral</option><option>Ocala</option><option>Daytona Beach</option><option>Lakeland</option><option>Pompano Beach</option><option>West Palm Beach</option><option>Kissimmee</option><option>Other</option></select></div><div style="margin-bottom:12px;"><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Injuries</label><div style="display:flex;flex-wrap:wrap;gap:8px;"><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;"><input type="checkbox" name="injury" value="Neck Pain"> Neck Pain</label><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;"><input type="checkbox" name="injury" value="Back Pain"> Back Pain</label><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;"><input type="checkbox" name="injury" value="Headaches"> Headaches</label><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;"><input type="checkbox" name="injury" value="Whiplash"> Whiplash</label><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;"><input type="checkbox" name="injury" value="Dizziness"> Dizziness</label><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;"><input type="checkbox" name="injury" value="Other"> Other</label></div></div><div style="margin-bottom:18px;"><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">What Happened?</label><textarea name="description" rows="3" style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;resize:vertical;" placeholder="Briefly describe the accident..."></textarea></div><button type="button" id="popup-submit-btn" onclick="submitIntake()" style="width:100%;background:#c8102e;color:white;border:none;padding:13px;border-radius:4px;font-family:'Oswald',sans-serif;font-size:16px;font-weight:700;cursor:pointer;">Get Free Consultation</button><div style="font-size:11px;color:#999;text-align:center;margin-top:8px;">No cost - Confidential - We respond within 1 hour</div></form></div><div id="popup-success" style="display:none;padding:48px 28px;text-align:center;"><div style="width:60px;height:60px;background:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div style="font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:#111;margin-bottom:8px;">We'll Be In Touch!</div><div style="font-size:14px;color:#666;margin-bottom:20px;">A coordinator will contact you within the hour.</div><button onclick="document.getElementById('car-popup').style.display='none'" style="background:#c8102e;color:white;border:none;padding:11px 28px;border-radius:4px;font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;cursor:pointer;">Close</button></div></div></div>
-<div id="car-banner" style="position:fixed;bottom:80px;left:0;right:0;z-index:9998;pointer-events:none;display:none;"><div id="car-anim" style="position:absolute;bottom:0;left:-320px;pointer-events:all;cursor:pointer;" onclick="document.getElementById('car-banner').style.display='none';document.getElementById('car-popup').style.display='flex';"><div style="background:#c8102e;color:white;padding:10px 18px;border-radius:6px;font-family:'Oswald',sans-serif;font-size:15px;font-weight:700;white-space:nowrap;display:flex;align-items:center;gap:10px;box-shadow:0 4px 20px rgba(200,16,46,0.5);"><svg width="30" height="18" viewBox="0 0 48 28" fill="white"><path d="M40 10H35L30 4H18L13 10H8C5.8 10 4 11.8 4 14v6c0 1.1.9 2 2 2h2c0 2.2 1.8 4 4 4s4-1.8 4-4h16c0 2.2 1.8 4 4 4s4-1.8 4-4h2c1.1 0 2-.9 2-2v-6c0-3.3-2.7-6-6-6z"/><circle cx="12" cy="22" r="3" fill="#111"/><circle cx="36" cy="22" r="3" fill="#111"/></svg>BEEN IN AN ACCIDENT? CLICK HERE</div></div></div>
-<style>
-@keyframes carPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
-@keyframes bubblePulse{0%,100%{box-shadow:0 4px 20px rgba(200,16,46,0.5)}50%{box-shadow:0 4px 32px rgba(200,16,46,0.85),0 0 0 8px rgba(200,16,46,0.15)}}
-#chat-bubble{position:fixed;bottom:24px;right:24px;z-index:8888;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;}
-#chat-box{position:fixed;bottom:160px;right:24px;width:320px;max-height:480px;background:#111;border:1px solid rgba(255,255,255,0.15);border-radius:16px;box-shadow:0 16px 48px rgba(0,0,0,0.7);z-index:8889;display:none;flex-direction:column;overflow:hidden;}
-.chat-msg{max-width:85%;padding:10px 14px;border-radius:16px;font-size:13px;line-height:1.5;}
-.chat-msg.bot{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.85);border-bottom-left-radius:4px;align-self:flex-start;}
-.chat-msg.user{background:var(--red);color:white;border-bottom-right-radius:4px;align-self:flex-end;}
-.chat-btn{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.8);padding:7px 12px;border-radius:20px;font-size:12px;cursor:pointer;font-family:'Barlow',sans-serif;}
-.chat-btn:hover{background:var(--red);border-color:var(--red);color:white;}
-</style>
-<div id="chat-bubble" onclick="toggleChat()">
-  <div style="background:#c8102e;color:white;padding:8px 16px;border-radius:20px;font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;white-space:nowrap;position:relative;animation:bubblePulse 2.5s ease-in-out infinite;box-shadow:0 4px 16px rgba(200,16,46,0.5);">Been in an Accident?<div style="position:absolute;bottom:-7px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:8px solid #c8102e;"></div></div>
-  <div style="width:60px;height:60px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;animation:bubblePulse 2.5s ease-in-out infinite;"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></div>
-</div>
-<div id="chat-box">
-  <div style="background:var(--red);padding:14px 18px;display:flex;align-items:center;gap:10px;">
-    <div style="width:36px;height:36px;background:rgba(255,255,255,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></div>
-    <div style="flex:1;"><div style="font-family:'Oswald',sans-serif;font-size:15px;font-weight:700;color:white;">IHateCarAccidents</div><div style="font-size:11px;color:rgba(255,255,255,0.75);">We can help you</div></div>
-    <button onclick="toggleChat()" style="background:none;border:none;color:rgba(255,255,255,0.8);font-size:24px;cursor:pointer;line-height:1;padding:0;">x</button>
+
+<div id="car-popup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:99999;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:white;border-radius:10px;max-width:560px;width:100%;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,0.5);position:relative;">
+    <div style="background:var(--red);padding:20px 28px;display:flex;align-items:center;justify-content:space-between;">
+      <div>
+        <div style="font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:white;">BEEN IN AN ACCIDENT?</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.85);margin-top:2px;">Our clinics can see you today — no out-of-pocket cost with PIP insurance</div>
+      </div>
+      <button onclick="document.getElementById('car-popup').style.display='none'" style="background:rgba(255,255,255,0.2);border:none;color:white;width:32px;height:32px;border-radius:50%;font-size:20px;cursor:pointer;line-height:1;flex-shrink:0;">×</button>
+    </div>
+    <div id="popup-form-wrap" style="padding:28px;">
+      <form id="popup-intake-form" onsubmit="submitIntake(event)">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+          <div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:5px;text-transform:uppercase;">First Name *</label><input name="firstName" required style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="John"></div>
+          <div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:5px;text-transform:uppercase;">Last Name *</label><input name="lastName" required style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="Smith"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+          <div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:5px;text-transform:uppercase;">Phone *</label><input name="phone" type="tel" required style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="(555) 000-0000"></div>
+          <div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:5px;text-transform:uppercase;">Email *</label><input name="email" type="email" required style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="john@email.com"></div>
+        </div>
+        <div style="margin-bottom:14px;"><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:5px;text-transform:uppercase;">Date of Accident *</label><input name="accidentDate" type="date" required style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+          <div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:5px;text-transform:uppercase;">Nearest City *</label>
+            <select name="city" required style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;background:white;">
+              <option value="">Select city...</option>
+              <option>Miami</option><option>Orlando</option><option>Tampa</option><option>Jacksonville</option><option>Fort Lauderdale</option><option>Boca Raton</option><option>Sarasota</option><option>Naples</option><option>Gainesville</option><option>Tallahassee</option><option>Clearwater</option><option>Pensacola</option><option>Port St. Lucie</option><option>Cape Coral</option><option>Ocala</option><option>Daytona Beach</option><option>Lakeland</option><option>Pompano Beach</option><option>West Palm Beach</option><option>Kissimmee</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:5px;text-transform:uppercase;">Have an Attorney?</label>
+            <select name="hasAttorney" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;background:white;">
+              <option value="No">No</option><option value="Yes">Yes</option><option value="Looking">Looking for one</option>
+            </select>
+          </div>
+        </div>
+        <div style="margin-bottom:14px;"><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:5px;text-transform:uppercase;">Injuries / Symptoms</label>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            <label style="display:flex;align-items:center;gap:5px;font-size:13px;color:#444;cursor:pointer;"><input type="checkbox" name="injury" value="Neck Pain" style="accent-color:#c8102e;"> Neck Pain</label><label style="display:flex;align-items:center;gap:5px;font-size:13px;color:#444;cursor:pointer;"><input type="checkbox" name="injury" value="Back Pain" style="accent-color:#c8102e;"> Back Pain</label><label style="display:flex;align-items:center;gap:5px;font-size:13px;color:#444;cursor:pointer;"><input type="checkbox" name="injury" value="Headaches" style="accent-color:#c8102e;"> Headaches</label><label style="display:flex;align-items:center;gap:5px;font-size:13px;color:#444;cursor:pointer;"><input type="checkbox" name="injury" value="Whiplash" style="accent-color:#c8102e;"> Whiplash</label><label style="display:flex;align-items:center;gap:5px;font-size:13px;color:#444;cursor:pointer;"><input type="checkbox" name="injury" value="Dizziness" style="accent-color:#c8102e;"> Dizziness</label><label style="display:flex;align-items:center;gap:5px;font-size:13px;color:#444;cursor:pointer;"><input type="checkbox" name="injury" value="Shoulder Pain" style="accent-color:#c8102e;"> Shoulder Pain</label><label style="display:flex;align-items:center;gap:5px;font-size:13px;color:#444;cursor:pointer;"><input type="checkbox" name="injury" value="Knee Pain" style="accent-color:#c8102e;"> Knee Pain</label><label style="display:flex;align-items:center;gap:5px;font-size:13px;color:#444;cursor:pointer;"><input type="checkbox" name="injury" value="Other" style="accent-color:#c8102e;"> Other</label>
+          </div>
+        </div>
+        <div style="margin-bottom:20px;"><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:5px;text-transform:uppercase;">Brief Description</label><textarea name="description" rows="3" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;resize:vertical;" placeholder="Tell us briefly what happened..."></textarea></div>
+        <button type="submit" id="popup-submit-btn" style="width:100%;background:#c8102e;color:white;border:none;padding:14px;border-radius:4px;font-family:'Oswald',sans-serif;font-size:16px;font-weight:700;cursor:pointer;">Get Free Consultation</button>
+        <div style="font-size:11px;color:#999;text-align:center;margin-top:10px;">No cost to you · Confidential · We respond within 1 hour</div>
+      </form>
+    </div>
+    <div id="popup-success" style="display:none;padding:48px 28px;text-align:center;">
+      <div style="width:64px;height:64px;background:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div style="font-family:'Oswald',sans-serif;font-size:24px;font-weight:700;color:#111;margin-bottom:8px;">We'll Be In Touch Soon!</div>
+      <div style="font-size:14px;color:#666;line-height:1.7;margin-bottom:24px;">Thank you for reaching out. One of our patient coordinators will contact you within the hour.</div>
+      <button onclick="document.getElementById('car-popup').style.display='none'" style="background:#c8102e;color:white;border:none;padding:12px 32px;border-radius:4px;font-family:'Oswald',sans-serif;font-size:15px;font-weight:700;cursor:pointer;">Close</button>
+    </div>
   </div>
-  <div id="chat-messages" style="flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;max-height:280px;"></div>
-  <div id="chat-input-area" style="padding:12px;border-top:1px solid rgba(255,255,255,0.08);"></div>
-  <div id="chat-done" style="padding:24px;text-align:center;display:none;"><div style="width:48px;height:48px;background:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><strong style="color:white;display:block;margin-bottom:8px;">Got it! We will be in touch.</strong><span style="color:rgba(255,255,255,0.7);font-size:13px;">Our team will reach out about your accident.</span></div>
 </div>
+
+<div id="car-banner" style="position:fixed;bottom:80px;left:0;right:0;z-index:9998;pointer-events:none;display:none;">
+  <div id="car-anim" style="position:absolute;bottom:0;left:-300px;pointer-events:all;cursor:pointer;" onclick="document.getElementById('car-banner').style.display='none';document.getElementById('car-popup').style.display='flex';">
+    <div style="background:#c8102e;color:white;padding:10px 18px;border-radius:6px;font-family:'Oswald',sans-serif;font-size:15px;font-weight:700;letter-spacing:.06em;white-space:nowrap;display:flex;align-items:center;gap:12px;">
+      <svg width="32" height="20" viewBox="0 0 48 28" fill="white"><path d="M40 10H35L30 4H18L13 10H8C5.8 10 4 11.8 4 14v6c0 1.1.9 2 2 2h2c0 2.2 1.8 4 4 4s4-1.8 4-4h16c0 2.2 1.8 4 4 4s4-1.8 4-4h2c1.1 0 2-.9 2-2v-6c0-3.3-2.7-6-6-6z"/><circle cx="12" cy="22" r="3" fill="#111"/><circle cx="36" cy="22" r="3" fill="#111"/></svg>
+      BEEN IN AN ACCIDENT? CLICK HERE
+    </div>
+  </div>
+</div>
+
+<style>@keyframes carPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}</style>
 <script>
-// Unregister any service workers that block external API calls
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.getRegistrations().then(function(regs) {
-    regs.forEach(function(reg) { reg.unregister(); });
+var flClinics=[
+  {id:1,name:"Miami Injury Clinic",city:"Miami",lat:25.77,lng:-80.19,physician:"Dr. James Rivera, DC",hours:"Mon-Fri 9am-6pm",insurance:"PIP, Auto, Most Major",address:"",phone:"",notes:"Walk-ins welcome",lg:true},
+  {id:2,name:"Fort Lauderdale Clinic",city:"Fort Lauderdale",lat:26.12,lng:-80.14,physician:"Dr. Marcus Webb, DC",hours:"Mon-Fri 9am-6pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:3,name:"Pompano Beach Clinic",city:"Pompano Beach",lat:26.24,lng:-80.12,physician:"Dr. Nicole Adams, DC",hours:"Mon-Sat 8am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:4,name:"Boca Raton Clinic",city:"Boca Raton",lat:26.35,lng:-80.08,physician:"Dr. Angela Torres, DC",hours:"Mon-Fri 9am-6pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:5,name:"West Palm Beach Clinic",city:"West Palm Beach",lat:26.71,lng:-80.05,physician:"Dr. Andrew Scott, DC",hours:"Mon-Fri 9am-6pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:6,name:"Port St. Lucie Clinic",city:"Port St. Lucie",lat:27.29,lng:-80.35,physician:"Dr. Jennifer Ross, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:7,name:"Sarasota Clinic",city:"Sarasota",lat:27.34,lng:-82.53,physician:"Dr. David Park, DC",hours:"Mon-Fri 9am-6pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:8,name:"Tampa Injury Clinic",city:"Tampa",lat:27.95,lng:-82.46,physician:"Dr. Kevin Brooks, DC",hours:"Mon-Sat 8am-6pm",insurance:"PIP, Auto, Most Major",address:"",phone:"",notes:"Walk-ins welcome",lg:true},
+  {id:9,name:"Clearwater Clinic",city:"Clearwater",lat:27.97,lng:-82.80,physician:"Dr. Steven Yates, DC",hours:"Mon-Fri 9am-6pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:10,name:"Lakeland Clinic",city:"Lakeland",lat:28.04,lng:-81.95,physician:"Dr. Christopher Diaz, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:11,name:"Orlando Injury Clinic",city:"Orlando",lat:28.54,lng:-81.38,physician:"Dr. Sarah Mitchell, DC",hours:"Mon-Sat 8am-6pm",insurance:"PIP, Auto, Most Major",address:"",phone:"",notes:"Walk-ins welcome",lg:true},
+  {id:12,name:"Kissimmee Clinic",city:"Kissimmee",lat:28.29,lng:-81.41,physician:"Dr. Maria Gomez, DC",hours:"Mon-Fri 9am-6pm",insurance:"PIP, Auto",address:"",phone:"",notes:"Bilingual staff"},
+  {id:13,name:"Daytona Beach Clinic",city:"Daytona Beach",lat:29.21,lng:-81.02,physician:"Dr. Sandra Price, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:14,name:"Ocala Clinic",city:"Ocala",lat:29.19,lng:-82.13,physician:"Dr. Brian Foster, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:15,name:"Gainesville Clinic",city:"Gainesville",lat:29.65,lng:-82.33,physician:"Dr. Robert Kim, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:16,name:"Jacksonville Clinic",city:"Jacksonville",lat:30.33,lng:-81.66,physician:"Dr. Lisa Chen, DC",hours:"Mon-Sat 8am-6pm",insurance:"PIP, Auto, Most Major",address:"",phone:"",notes:"Walk-ins welcome",lg:true},
+  {id:17,name:"Tallahassee Clinic",city:"Tallahassee",lat:30.44,lng:-84.28,physician:"Dr. Patricia Moore, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:18,name:"Pensacola Clinic",city:"Pensacola",lat:30.42,lng:-87.22,physician:"Dr. Michelle Grant, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:19,name:"Cape Coral Clinic",city:"Cape Coral",lat:26.56,lng:-81.95,physician:"Dr. Thomas Bell, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:20,name:"Naples Clinic",city:"Naples",lat:26.14,lng:-81.79,physician:"Dr. Christine Hall, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""}
+];
+var flNextId=21,flSelectedId=null,flMode='view',flPlacing=false,flSvg=null,flProj=null,flDots=null;
+
+function flSetMode(m){
+  flMode=m;
+  var bv=document.getElementById('fl-btn-view'),ba=document.getElementById('fl-btn-add');
+  if(bv){bv.style.background=m==='view'?'#c8102e':'white';bv.style.color=m==='view'?'white':'#333';}
+  if(ba){ba.style.background=m==='add'?'#c8102e':'white';ba.style.color=m==='add'?'white':'#333';}
+  if(m==='add') flShowAddForm(); else flClosePanel();
+}
+function flFld(id,lbl,val,ta){
+  var inp=ta?'<textarea id="'+id+'" rows="3" style="width:100%;padding:7px 10px;border:1px solid #ddd;border-radius:6px;font-size:13px;box-sizing:border-box;resize:vertical">'+val+'</textarea>':'<input id="'+id+'" type="text" value="'+val+'" style="width:100%;padding:7px 10px;border:1px solid #ddd;border-radius:6px;font-size:13px;box-sizing:border-box">';
+  return '<div style="margin-bottom:10px"><label style="display:block;font-size:11px;font-weight:700;color:#666;text-transform:uppercase;margin-bottom:4px">'+lbl+'</label>'+inp+'</div>';
+}
+function flShowAddForm(){
+  document.getElementById('fl-placeholder').style.display='none';
+  document.getElementById('fl-clinic-form').style.display='none';
+  document.getElementById('fl-add-form').style.display='block';
+  document.getElementById('fl-panel-title').textContent='Add New Clinic';
+  document.getElementById('fl-panel-sub').textContent='Fill details then place pin';
+  document.getElementById('fl-add-form').innerHTML=flFld('fa-name','Clinic Name','')+flFld('fa-city','City','')+flFld('fa-address','Address','')+flFld('fa-phone','Phone','')+flFld('fa-physician','Physician','')+flFld('fa-hours','Hours','')+flFld('fa-insurance','Insurance','PIP, Auto')+flFld('fa-notes','Notes','',true)+'<p style="font-size:12px;color:#999;margin:8px 0 6px">Click on the map to place the pin.</p><button onclick="flStartPlacing()" style="width:100%;background:#c8102e;color:white;border:none;padding:9px;border-radius:6px;font-weight:700;font-size:13px;cursor:pointer;margin-bottom:6px">Place Pin on Map</button><button onclick="flSetMode('view')" style="width:100%;background:#f5f5f5;color:#333;border:1px solid #ddd;padding:9px;border-radius:6px;font-size:13px;cursor:pointer">Cancel</button>';
+}
+function flStartPlacing(){flPlacing=true;document.getElementById('fl-map-container').style.cursor='crosshair';document.getElementById('fl-panel-sub').textContent='Click on the map to place pin';}
+function flClosePanel(){
+  flSelectedId=null;flPlacing=false;
+  document.getElementById('fl-map-container').style.cursor='default';
+  document.getElementById('fl-placeholder').style.display='block';
+  document.getElementById('fl-clinic-form').style.display='none';
+  document.getElementById('fl-add-form').style.display='none';
+  document.getElementById('fl-panel-title').textContent='Select a clinic';
+  document.getElementById('fl-panel-sub').textContent='Click any red pin on the map';
+  flRenderDots();
+}
+function flOpenClinic(id){
+  if(flMode==='add') return;
+  flSelectedId=id;
+  var c=flClinics.find(function(x){return x.id===id;});
+  if(!c) return;
+  document.getElementById('fl-placeholder').style.display='none';
+  document.getElementById('fl-add-form').style.display='none';
+  document.getElementById('fl-clinic-form').style.display='block';
+  document.getElementById('fl-panel-title').textContent=c.city;
+  document.getElementById('fl-panel-sub').textContent='Physician-owned clinic';
+  document.getElementById('fl-clinic-form').innerHTML=flFld('fe-name','Clinic Name',c.name||'')+flFld('fe-city','City',c.city||'')+flFld('fe-address','Address',c.address||'')+flFld('fe-phone','Phone',c.phone||'')+flFld('fe-physician','Physician',c.physician||'')+flFld('fe-hours','Hours',c.hours||'')+flFld('fe-insurance','Insurance',c.insurance||'')+flFld('fe-notes','Notes',c.notes||'',true)+'<button onclick="flSaveClinic()" style="width:100%;background:#c8102e;color:white;border:none;padding:9px;border-radius:6px;font-weight:700;font-size:13px;cursor:pointer;margin-bottom:6px">Save Changes</button><button onclick="flDeleteClinic()" style="width:100%;background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;padding:9px;border-radius:6px;font-size:13px;cursor:pointer;margin-bottom:6px">Delete This Clinic</button><button onclick="flClosePanel()" style="width:100%;background:#f5f5f5;color:#333;border:1px solid #ddd;padding:9px;border-radius:6px;font-size:13px;cursor:pointer">Close</button>';
+  flRenderDots();
+}
+function flSaveClinic(){
+  var c=flClinics.find(function(x){return x.id===flSelectedId;});
+  if(!c) return;
+  ['name','city','address','phone','physician','hours','insurance'].forEach(function(f){var el=document.getElementById('fe-'+f);if(el)c[f]=el.value;});
+  var n=document.getElementById('fe-notes');if(n)c.notes=n.value;
+  document.getElementById('fl-panel-sub').textContent='Saved!';
+  setTimeout(function(){document.getElementById('fl-panel-sub').textContent='Physician-owned clinic';},1500);
+  flRenderDots();flRenderCards();
+}
+function flDeleteClinic(){
+  if(!confirm('Delete this clinic?')) return;
+  flClinics=flClinics.filter(function(x){return x.id!==flSelectedId;});
+  flClosePanel();flRenderCards();
+}
+function flRenderCards(){
+  var g=document.getElementById('fl-cards-grid');if(!g) return;
+  g.innerHTML=flClinics.map(function(c){
+    return '<div style="background:white;border:1px solid #e5e5e5;border-radius:6px;padding:18px;border-top:3px solid #c8102e"><div style="font-family:Oswald,sans-serif;font-size:16px;font-weight:700;color:#111;margin-bottom:2px">'+c.city+'</div><div style="font-size:11px;font-weight:700;color:#c8102e;margin-bottom:8px;text-transform:uppercase">Physician Owned</div>'+(c.physician?'<div style="font-size:12px;color:#555;margin-bottom:4px">'+c.physician+'</div>':'')+(c.phone?'<div style="font-size:12px;color:#555;margin-bottom:4px">'+c.phone+'</div>':'')+(c.hours?'<div style="font-size:12px;color:#777;margin-bottom:10px">'+c.hours+'</div>':'')+'<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px"><span style="font-size:10px;background:#fff0f0;color:#c8102e;border:1px solid #fcc;padding:2px 8px;border-radius:20px;font-weight:600">PIP Accepted</span><span style="font-size:10px;background:#f0f7ff;color:#1a6fbc;border:1px solid #c0d8f5;padding:2px 8px;border-radius:20px;font-weight:600">Walk-Ins Welcome</span></div><button onclick="document.getElementById('car-popup').style.display='flex'" style="width:100%;background:#c8102e;color:white;border:none;padding:8px;border-radius:3px;font-family:Oswald,sans-serif;font-size:13px;font-weight:600;cursor:pointer">Get Help Now</button></div>';
+  }).join('');
+}
+function flRenderDots() {
+  flClinics.forEach(function(c) {
+    var dot = document.getElementById('fl-dot-' + c.id);
+    if (!dot) return;
+    dot.setAttribute('fill', c.id === flSelectedId ? 'white' : '#c8102e');
+    dot.setAttribute('stroke-width', c.id === flSelectedId ? 3 : 2);
+    dot.setAttribute('r', c.id === flSelectedId ? 9 : (c.lg ? 8 : 6));
   });
 }
 
-var _cs=0,_cd={},_cm=[];
-var _csteps=[
-  {key:'intro',bot:"Hi! Were you recently in a car accident?",type:'buttons',options:['Yes, I was','Someone I know was','Just browsing']},
-  {key:'when',bot:"When did the accident happen?",type:'buttons',options:['Today','This week','This month','Over a month ago']},
-  {key:'injuries',bot:"Were there any injuries?",type:'buttons',options:['Yes, I was injured','Minor injuries','No injuries','Not sure']},
-  {key:'details',bot:"Briefly describe what happened:",type:'text',placeholder:'e.g. Rear-ended on I-95 in Miami...'},
-  {key:'name',bot:"What is your name?",type:'text',placeholder:'Your full name'},
-  {key:'email',bot:"Best email to reach you?",type:'text',placeholder:'your@email.com'},
-  {key:'phone',bot:"Phone number (optional):",type:'text',placeholder:'(555) 000-0000'}
-];
-function toggleChat(){var box=document.getElementById('chat-box');if(!box)return;var open=box.style.display==='flex';box.style.display=open?'none':'flex';if(!open&&_cm.length===0)setTimeout(function(){_cbot(_csteps[0].bot,_csteps[0]);},400);}
-function _cbot(text,step){var msgs=document.getElementById('chat-messages');if(!msgs)return;var d=document.createElement('div');d.className='chat-msg bot';d.textContent=text;msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;_cm.push({r:'bot',t:text});if(step)_cinput(step);}
-function _cuser(text){var msgs=document.getElementById('chat-messages');var d=document.createElement('div');d.className='chat-msg user';d.textContent=text;msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;}
-function _cinput(step){
-  var area=document.getElementById('chat-input-area');
-  if(!area)return;
-  area.innerHTML='';
-  if(step.type==='buttons'){
-    var wrap=document.createElement('div');
-    wrap.style.cssText='display:flex;flex-wrap:wrap;gap:6px;';
-    step.options.forEach(function(o){
-      var btn=document.createElement('button');
-      btn.className='chat-btn';
-      btn.textContent=o;
-      btn.onclick=function(){_cans(o,step.key);};
-      wrap.appendChild(btn);
-    });
-    area.appendChild(wrap);
-  }else{
-    var wrap2=document.createElement('div');
-    wrap2.style.cssText='display:flex;gap:8px;';
-    var inp=document.createElement('input');
-    inp.id='chat-txt';
-    inp.type='text';
-    inp.placeholder=step.placeholder;
-    inp.style.cssText='flex:1;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:20px;padding:8px 14px;color:white;font-size:13px;outline:none;';
-    inp.onkeydown=function(e){if(e.key==='Enter')_ctxt(step.key);};
-    var sbtn=document.createElement('button');
-    sbtn.innerHTML='&#9658;';
-    sbtn.style.cssText='background:var(--red);border:none;color:white;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:16px;';
-    sbtn.onclick=function(){_ctxt(step.key);};
-    wrap2.appendChild(inp);
-    wrap2.appendChild(sbtn);
-    area.appendChild(wrap2);
-    setTimeout(function(){inp.focus();},100);
+
+// Map rendered as inline SVG - no fetch needed
+flRenderCards();
+
+// Car animation
+function startCarAnimation(){
+  var banner=document.getElementById('car-banner');
+  var car=document.getElementById('car-anim');
+  if(!banner||!car) return;
+  banner.style.display='block';
+  car.style.transition='none';car.style.left='-300px';
+  setTimeout(function(){
+    car.style.transition='left 2.8s cubic-bezier(0.25,0.1,0.25,1)';
+    car.style.left='30px';
+    setTimeout(function(){car.style.animation='carPulse 1s ease-in-out infinite';},3000);
+  },100);
+}
+setTimeout(startCarAnimation,4000);
+setInterval(function(){
+  var p=document.getElementById('car-popup');
+  if(!p||p.style.display==='none'||p.style.display==='') startCarAnimation();
+},90000);
+
+// Intake form submit
+async function submitIntake(e){
+  e.preventDefault();
+  var btn=document.getElementById('popup-submit-btn');
+  btn.textContent='Sending...';btn.disabled=true;
+  var form=e.target;
+  var injuries=[...form.querySelectorAll('input[name="injury"]:checked')].map(i=>i.value).join(', ');
+  var body={firstName:form.firstName.value,lastName:form.lastName.value,phone:form.phone.value,email:form.email.value,accidentDate:form.accidentDate.value,city:form.city.value,hasAttorney:form.hasAttorney.value,injuries:injuries||'Not specified',description:form.description.value,subject:'New Accident Intake - '+form.firstName.value+' '+form.lastName.value+' - '+form.city.value};
+  try{
+    var res=await fetch('https://formspree.io/f/xlgpjyga',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(body)});
+    if(res.ok){document.getElementById('popup-form-wrap').style.display='none';document.getElementById('popup-success').style.display='block';document.getElementById('car-banner').style.display='none';}
+    else throw new Error('Failed');
+  }catch(err){btn.textContent='Get Free Consultation';btn.disabled=false;alert('Something went wrong. Please call us directly.');}
+}
+</script>
+</body>
+</html>// ── FETCH LIVE ACCIDENT NEWS via rss2json ────────────────────────────────
+async function fetchRssQuery(q) {
+  const googleUrl = 'https://news.google.com/rss/search?q=' + encodeURIComponent(q) + '&hl=en-US&gl=US&ceid=US:en';
+  const apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(googleUrl);
+  const res = await fetch(apiUrl);
+  if (!res.ok) throw new Error('HTTP ' + res.status);
+  const data = await res.json();
+  if (!data.items || !data.items.length) return [];
+  return data.items.map(function(item) {
+    return {
+      title:       item.title || '',
+      link:        item.link || '#',
+      description: item.description || item.content || '',
+      pubDate:     item.pubDate || '',
+      source:      item.author || '',
+      image:       item.thumbnail || item.enclosure?.link || ''
+    };
+  }).filter(function(i){ return i.title; });
+}
+
+async function fetchFeed() {
+  const queries = [
+    'car+accident+crash+fatal+highway',
+    'car+crash+killed+injured+police',
+    'traffic+collision+dead+road',
+    'fatal+crash+truck+highway',
+    'pedestrian+struck+killed+driver',
+    'motorcycle+crash+accident+injured',
+    'drunk+driving+crash+DUI',
+    'hit+and+run+accident+crash',
+  ];
+
+  const results = await Promise.allSettled(queries.map(q => fetchRssQuery(q)));
+  const all = results.flatMap(r => r.status === 'fulfilled' ? r.value : []);
+
+  const seen = new Set();
+  const unique = all.filter(a => {
+    const key = a.title.slice(0, 60).toLowerCase();
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+
+  unique.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+  if (!unique.length) throw new Error('No articles returned');
+  return unique;
+}
+
+// ── FILTER ───────────────────────────────────────────────────────────────
+function applyFilter() {
+  const val = document.getElementById('state-filter').value.trim().toLowerCase();
+  filteredArticles = val
+    ? allArticles.filter(a => (a.title + ' ' + a.description).toLowerCase().includes(val))
+    : allArticles;
+  renderFeed(filteredArticles);
+  document.getElementById('feed-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function clearFilter() {
+  document.getElementById('state-filter').value = '';
+  filteredArticles = allArticles;
+  renderFeed(filteredArticles);
+}
+
+async function filterByState(state) {
+  document.getElementById('state-filter').value = state;
+  document.getElementById('feed-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  // First show what we already have
+  const existing = allArticles.filter(a => (a.title + ' ' + a.description).toLowerCase().includes(state.toLowerCase()));
+  renderFeed(existing.length ? existing : allArticles);
+
+  // Then fetch fresh state-specific results live
+  const el = document.getElementById('feed-container');
+  el.insertAdjacentHTML('afterbegin', `<div id="state-loading" style="background:rgba(200,16,46,0.1);border:1px solid var(--red);border-radius:4px;padding:10px 16px;margin-bottom:16px;font-size:13px;font-weight:600;color:var(--red);">🔍 Loading latest ${state} accidents...</div>`);
+
+  try {
+    const fresh = await fetchRssQuery(state.replace(/ /g,'+') + '+car+accident+crash+fatal');
+    const combined = [...fresh, ...allArticles.filter(a => (a.title+' '+(a.description||'')).toLowerCase().includes(state.toLowerCase()))];
+    const seen = new Set();
+    const unique = combined.filter(a => { const k = a.title.slice(0,60).toLowerCase(); if(seen.has(k)) return false; seen.add(k); return true; });
+    unique.sort((a,b) => new Date(b.pubDate) - new Date(a.pubDate));
+    document.getElementById('state-loading')?.remove();
+    renderFeed(unique.length ? unique : allArticles);
+  } catch(err) {
+    document.getElementById('state-loading')?.remove();
+    const filt = allArticles.filter(a => (a.title+' '+(a.description||'')).toLowerCase().includes(state.toLowerCase()));
+    renderFeed(filt.length ? filt : allArticles);
   }
 }
-function _cans(answer,key){if(answer==='Just browsing'){_cuser(answer);document.getElementById('chat-input-area').innerHTML='';setTimeout(function(){_cbot("No problem! We are here if you need help.",null);},400);return;}_cuser(answer);_cd[key]=answer;_cnext();}
-function _ctxt(key){var el=document.getElementById('chat-txt');if(!el||!el.value.trim())return;_cuser(el.value.trim());_cd[key]=el.value.trim();_cnext();}
-function _cnext(){_cs++;document.getElementById('chat-input-area').innerHTML='';if(_cs>=_csteps.length){setTimeout(_csend,500);return;}setTimeout(function(){_cbot(_csteps[_cs].bot,_csteps[_cs]);},500);}
-async function _csend(){try{await fetch('https://formspree.io/f/xlgpjyga',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({_subject:'New Chat Lead',name:_cd.name||'Unknown',email:_cd.email||'',phone:_cd.phone||'',details:_cd.details||'',when:_cd.when||'',injuries:_cd.injuries||''})});}catch(e){}document.getElementById('chat-messages').style.display='none';document.getElementById('chat-input-area').style.display='none';document.getElementById('chat-done').style.display='block';}
-function startCarAnimation(){var banner=document.getElementById('car-banner'),car=document.getElementById('car-anim');if(!banner||!car)return;banner.style.display='block';car.style.transition='none';car.style.left='-320px';setTimeout(function(){car.style.transition='left 2.8s cubic-bezier(0.25,0.1,0.25,1)';car.style.left='30px';setTimeout(function(){car.style.animation='carPulse 1s ease-in-out infinite';},3000);},100);}
-setTimeout(startCarAnimation,4000);
-setInterval(function(){var p=document.getElementById('car-popup');if(!p||p.style.display==='none'||p.style.display==='')startCarAnimation();},90000);
-async function submitIntake(){var btn=document.getElementById('popup-submit-btn'),form=document.getElementById('popup-intake-form');if(!form||!form.firstName.value||!form.lastName.value||!form.phone.value||!form.email.value||!form.accidentDate.value){alert('Please fill in all required fields.');return;}btn.textContent='Sending...';btn.disabled=true;var injuries=Array.from(form.querySelectorAll('input[name="injury"]:checked')).map(function(i){return i.value;}).join(', ');try{var res=await fetch('https://formspree.io/f/xlgpjyga',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({_replyto:form.email.value,_subject:'New Accident Intake - '+form.firstName.value+' '+form.lastName.value,firstName:form.firstName.value,lastName:form.lastName.value,phone:form.phone.value,email:form.email.value,accidentDate:form.accidentDate.value,city:form.city.value,injuries:injuries||'Not specified',description:form.description.value})});if(res.ok){document.getElementById('popup-form-wrap').style.display='none';document.getElementById('popup-success').style.display='block';}else throw new Error('Error '+res.status);}catch(err){btn.textContent='Get Free Consultation';btn.disabled=false;alert('Something went wrong: '+err.message);}}
-async function handleContactSubmit(btn){var fname=document.getElementById('cf-fname').value.trim(),email=document.getElementById('cf-email').value.trim(),message=document.getElementById('cf-message').value.trim(),errEl=document.getElementById('cf-error');if(!fname||!email||!message){errEl.textContent='Please fill in your name, email, and message.';errEl.style.display='block';return;}errEl.style.display='none';btn.textContent='Sending...';btn.disabled=true;try{var res=await fetch('https://formspree.io/f/xlgpjyga',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({_replyto:email,_subject:'Contact Form - IHateCarAccidents',first_name:fname,last_name:document.getElementById('cf-lname').value.trim(),email:email,subject:document.getElementById('cf-subject').value,message:message})});if(!res.ok)throw new Error('Server error');document.getElementById('contact-form-wrap').style.display='none';document.getElementById('contact-success').style.display='block';}catch(e){btn.textContent='Send Message';btn.disabled=false;errEl.textContent='Something went wrong. Please try again.';errEl.style.display='block';}}
-var btt=document.createElement('button');btt.innerHTML='&#8593;';btt.style.cssText='position:fixed;bottom:24px;left:24px;width:44px;height:44px;background:var(--red);color:white;border:none;border-radius:50%;font-size:20px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.2);opacity:0;transition:opacity 0.3s;z-index:500;';btt.onclick=function(){window.scrollTo({top:0,behavior:'smooth'});};document.body.appendChild(btt);window.addEventListener('scroll',function(){btt.style.opacity=window.scrollY>400?'1':'0';});
 
+document.getElementById('state-filter').addEventListener('keydown', e => {
+  if (e.key === 'Enter') applyFilter();
+});
+
+// ── INIT ─────────────────────────────────────────────────────────────────
+async function loadAll() {
+  try {
+    const articles = await fetchFeed();
+    allArticles      = articles;
+    filteredArticles = articles;
+    renderFeed(articles);
+    renderSidebar(articles);
+    renderTicker(articles);
+    const t = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    document.getElementById('update-time').textContent = `Updated ${t} · ${articles.length} articles`;
+  } catch (err) {
+    console.error(err);
+    document.getElementById('feed-container').innerHTML = `
+      <div class="feed-error">
+        <strong>⚠️ Could not load live feed.</strong><br><br>
+        The news feed proxy may be temporarily unavailable. The page will automatically retry in 15 minutes.<br><br>
+        <button onclick="loadAll()" style="background:var(--red);color:white;border:none;padding:10px 20px;border-radius:3px;font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;">↺ Retry Now</button>
+        &nbsp;&nbsp;
+        <a href="https://news.google.com/search?q=car+accident+crash" target="_blank" style="color:var(--red);font-weight:600;">View on Google News →</a>
+      </div>`;
+    document.getElementById('sidebar-feed').innerHTML = '<div style="padding:16px;font-size:13px;color:var(--gray-mid);">Feed temporarily unavailable.</div>';
+    document.getElementById('update-time').textContent = 'Feed error — retrying in 15 min';
+  }
+}
+
+loadAll();
+setInterval(loadAll, REFRESH_MS);
+async function handleContactSubmit(btn) {
+  const fname   = document.getElementById('cf-fname').value.trim();
+  const lname   = document.getElementById('cf-lname').value.trim();
+  const email   = document.getElementById('cf-email').value.trim();
+  const subject = document.getElementById('cf-subject').value;
+  const message = document.getElementById('cf-message').value.trim();
+  const errEl   = document.getElementById('cf-error');
+
+  if (!fname || !email || !message) {
+    errEl.textContent = 'Please fill in your name, email, and message.';
+    errEl.style.display = 'block';
+    return;
+  }
+  errEl.style.display = 'none';
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('https://formspree.io/f/xlgpjyga', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ first_name: fname, last_name: lname, email, subject, message })
+    });
+    if (!res.ok) throw new Error('Server error');
+    document.getElementById('contact-form-wrap').style.display = 'none';
+    document.getElementById('contact-success').style.display = 'block';
+  } catch(e) {
+    btn.textContent = 'Send Message';
+    btn.disabled = false;
+    errEl.textContent = 'Something went wrong. Please try again.';
+    errEl.style.display = 'block';
+  }
+}
+
+function showModal(type) {
+  const content = {
+    privacy: { title: 'Privacy Policy', body: 'IHateCarAccidents.com does not collect personal data beyond what you voluntarily submit via our contact form. We do not sell or share your information with third parties. News articles are sourced from public RSS feeds and link to their original sources. Cookies may be used for basic site functionality only.' },
+    disclaimer: { title: 'Disclaimer', body: 'IHateCarAccidents.com aggregates publicly available accident news for informational purposes only. We do not guarantee the accuracy, completeness, or timeliness of any news article. Content is sourced from third-party news outlets. Nothing on this site constitutes legal or medical advice. Always consult a licensed professional for legal or medical guidance.' },
+    accidentreport: { title: '📋 What Is an Accident Report?', body: `<p>An accident report (also called a police crash report or traffic collision report) is an official document filed by law enforcement after responding to a vehicle crash. It contains critical details including:</p><ul style="margin:12px 0 12px 20px;line-height:2;"><li>Date, time, and location of the crash</li><li>Names and contact info of all parties involved</li><li>Insurance information</li><li>Officer's assessment of fault and contributing factors</li><li>Witness statements</li><li>Diagram of the scene</li></ul><p><strong>Why do you need one?</strong> Accident reports are essential for filing insurance claims, pursuing legal action, and documenting injuries. Insurance companies almost always require one before processing a claim.</p><p style="margin-top:12px;"><strong>How to get yours:</strong> You can request a copy from the local police department or sheriff's office that responded to the crash, usually within 3–10 business days. Use our free report request form on this site and we'll help track it down for you.</p>` },
+    causes: { title: '⚠️ Most Common Causes of Car Accidents', body: `<p>Understanding why crashes happen is the first step to preventing them. The leading causes of car accidents in the U.S. are:</p><ol style="margin:12px 0 12px 20px;line-height:2.2;"><li><strong>Distracted Driving</strong> — texting, eating, or using GPS while driving. Accounts for ~25% of all crashes.</li><li><strong>Speeding</strong> — driving above the posted limit or too fast for conditions.</li><li><strong>Drunk or Impaired Driving</strong> — alcohol or drugs impair reaction time and judgment.</li><li><strong>Reckless Driving</strong> — aggressive lane changes, tailgating, running red lights.</li><li><strong>Weather Conditions</strong> — rain, ice, fog, and snow reduce visibility and traction.</li><li><strong>Running Stop Signs & Red Lights</strong> — a leading cause of intersection crashes.</li><li><strong>Teen Drivers</strong> — lack of experience leads to higher crash rates among 16–19 year olds.</li><li><strong>Night Driving</strong> — reduced visibility significantly increases risk after dark.</li><li><strong>Defective Vehicles</strong> — brake failures, tire blowouts, steering issues.</li><li><strong>Wrong-Way Driving</strong> — often fatal, frequently linked to impairment.</li></ol><p>If you've been involved in a crash caused by any of these factors, documenting the cause is critical for any insurance or legal claim.</p>` },
+    injuries: { title: '🏥 Common Car Accident Injuries', body: `<p>Car accidents can cause a wide range of injuries — from minor to life-threatening. The most common include:</p><ul style="margin:12px 0 12px 20px;line-height:2.2;"><li><strong>Whiplash</strong> — the most common crash injury; neck strain from sudden head movement. Symptoms can appear days later.</li><li><strong>Head & Brain Injuries</strong> — concussions, traumatic brain injuries (TBI) from impact. Symptoms include headaches, confusion, memory loss.</li><li><strong>Broken Bones</strong> — ribs, arms, legs, and collarbones are most frequently fractured.</li><li><strong>Spinal Cord Injuries</strong> — can cause partial or full paralysis. Rear-end crashes are a common cause.</li><li><strong>Internal Bleeding</strong> — often not immediately visible; requires emergency evaluation.</li><li><strong>Soft Tissue Injuries</strong> — damage to muscles, tendons, and ligaments.</li><li><strong>Lacerations & Burns</strong> — from broken glass, airbag deployment, or fire.</li><li><strong>PTSD & Psychological Trauma</strong> — anxiety, depression, and fear of driving after a crash are common.</li></ul><p style="margin-top:8px;"><strong>Important:</strong> Always seek medical attention after any accident, even if you feel fine. Many injuries have delayed symptoms. Medical documentation is also critical for any insurance or legal claim.</p>` },
+    motorcycle: { title: '🏍️ Motorcycle Accident Guide', body: `<p>Motorcyclists are among the most vulnerable road users. In a crash, motorcyclists are <strong>28x more likely</strong> to die than passenger car occupants per mile traveled.</p><h4 style="margin:14px 0 8px;font-family:'Oswald',sans-serif;">Common Causes of Motorcycle Crashes</h4><ul style="margin-bottom:12px 0 12px 20px;line-height:2;"><li>Cars turning left in front of a motorcycle</li><li>Lane splitting in heavy traffic</li><li>Speeding or alcohol impairment</li><li>Road hazards (gravel, potholes, wet pavement)</li><li>Fixed-object collisions</li></ul><h4 style="margin:14px 0 8px;font-family:'Oswald',sans-serif;">What To Do After a Motorcycle Crash</h4><ol style="margin:0 0 12px 20px;line-height:2;"><li>Get to safety and call 911 immediately</li><li>Do not remove your helmet if you suspect a head or neck injury</li><li>Document the scene with photos before anything is moved</li><li>Get witness names and contact info</li><li>Seek medical attention even for minor injuries — adrenaline masks pain</li><li>File a police report and request a copy</li><li>Contact your insurance company</li></ol><p><strong>Safety tip:</strong> Always wear a DOT-approved helmet, jacket with armor, gloves, and boots — gear can mean the difference between life and death.</p>` },
+    hotspots: { title: '🗺️ Crash Hot Spots', body: `<p>Certain roads and intersections across the U.S. have significantly higher crash rates than average. These are commonly referred to as "crash hot spots" or high-injury networks.</p><h4 style="margin:14px 0 8px;font-family:'Oswald',sans-serif;">What Makes a Location a Hot Spot?</h4><ul style="margin:0 0 12px 20px;line-height:2;"><li>High traffic volume with poor signal timing</li><li>Confusing or missing signage</li><li>Poor lighting at night</li><li>High-speed limits near pedestrian areas</li><li>Frequent road construction or lane changes</li><li>Intersections with poor sight lines</li></ul><h4 style="margin:14px 0 8px;font-family:'Oswald',sans-serif;">Most Dangerous States for Driving</h4><p style="line-height:1.9;">Based on fatality rates per mile driven, the most dangerous states are consistently <strong>Mississippi, Wyoming, South Carolina, Montana, and Arkansas</strong>. Urban hot spots include stretches of I-95 in Florida, I-10 in Texas, and I-5 in California.</p><p style="margin-top:12px;"><strong>Tip:</strong> Use our state filter above to search for recent accidents in your area and identify patterns on roads near you.</p>` },
+  };
+  const { title, body } = content[type] || content['disclaimer'];
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto;';
+  overlay.innerHTML = `<div style="background:white;border-radius:6px;max-width:600px;width:100%;padding:36px;position:relative;max-height:90vh;overflow-y:auto;">
+    <button onclick="this.closest('div').parentElement.remove()" style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:26px;cursor:pointer;color:#999;line-height:1;">×</button>
+    <h3 style="font-family:'Oswald',sans-serif;font-size:24px;font-weight:700;margin-bottom:18px;color:#111;padding-right:32px;">${title}</h3>
+    <div style="font-size:14px;color:#444;line-height:1.75;">${body}</div>
+    <button onclick="this.closest('div').parentElement.remove()" style="margin-top:28px;background:var(--red);color:white;border:none;padding:11px 28px;border-radius:3px;font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;">Close</button>
+  </div>`;
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+  document.body.appendChild(overlay);
+}
+
+
+// ── ACCIDENT CHAT WIDGET ─────────────────────────────────────────────────
+(function() {
+  const CHAT_FORMSPREE = 'https://formspree.io/f/xlgpjyga';
+
+  // Chat messages state
+  let chatMessages = [];
+  let chatStep = 0;
+  let chatData = {};
+
+  const steps = [
+    { key: 'intro',    bot: "Hi! 👋 We're here to help with your accident. Can you tell us — were you recently in a car accident?", type: 'buttons', options: ['Yes, I was', 'Someone I know was', 'Just browsing'] },
+    { key: 'when',     bot: "We're sorry to hear that. When did the accident happen?", type: 'buttons', options: ['Today', 'This week', 'This month', 'More than a month ago'] },
+    { key: 'injuries', bot: "Were there any injuries?", type: 'buttons', options: ['Yes, I was injured', 'Minor injuries only', 'No injuries', 'Not sure yet'] },
+    { key: 'details',  bot: "Can you briefly describe what happened? (location, what type of crash, who was involved)", type: 'text', placeholder: 'e.g. Rear-ended on I-95 in Miami, FL...' },
+    { key: 'name',     bot: "Thank you for sharing that. What's your name?", type: 'text', placeholder: 'Your full name' },
+    { key: 'email',    bot: "And the best email to reach you?", type: 'text', placeholder: 'your@email.com' },
+    { key: 'phone',    bot: "Last one — a phone number where we can reach you? (optional)", type: 'text', placeholder: 'Phone number (optional)' },
+  ];
+
+  function createWidget() {
+    const widget = document.createElement('div');
+    widget.id = 'chat-widget';
+    widget.innerHTML = `
+      <style>
+        #chat-bubble { position:fixed; bottom:24px; right:24px; width:56px; height:56px; background:var(--red); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 4px 20px rgba(200,16,46,0.5); z-index:8888; transition:transform 0.2s; animation:chatPulse 2.5s ease-in-out infinite; }
+        #chat-bubble:hover { transform:scale(1.1); }
+        @keyframes chatPulse { 0%,100%{box-shadow:0 4px 20px rgba(200,16,46,0.5)} 50%{box-shadow:0 4px 32px rgba(200,16,46,0.85),0 0 0 8px rgba(200,16,46,0.15)} }
+        #chat-bubble svg { width:26px; height:26px; fill:white; }
+        #chat-badge { position:absolute; top:-3px; right:-3px; background:#22c55e; color:white; border-radius:50%; width:18px; height:18px; font-size:10px; font-weight:700; display:flex; align-items:center; justify-content:center; border:2px solid white; }
+        #chat-box { position:fixed; bottom:92px; right:24px; width:340px; max-height:520px; background:#111; border:1px solid rgba(255,255,255,0.12); border-radius:16px; box-shadow:0 16px 48px rgba(0,0,0,0.6); z-index:8888; display:none; flex-direction:column; overflow:hidden; }
+        #chat-header { background:var(--red); padding:14px 18px; display:flex; align-items:center; gap:10px; }
+        #chat-header .avatar { width:36px; height:36px; background:rgba(255,255,255,0.2); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+        #chat-header .info { flex:1; }
+        #chat-header .name { font-family:'Oswald',sans-serif; font-size:15px; font-weight:700; color:white; }
+        #chat-header .status { font-size:11px; color:rgba(255,255,255,0.75); display:flex; align-items:center; gap:4px; }
+        #chat-header .status::before { content:''; width:7px; height:7px; background:#22c55e; border-radius:50%; display:inline-block; }
+        #chat-header .close-chat { background:none; border:none; color:rgba(255,255,255,0.7); font-size:22px; cursor:pointer; line-height:1; padding:0; }
+        #chat-messages { flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:10px; max-height:320px; }
+        .chat-msg { max-width:85%; padding:10px 14px; border-radius:16px; font-size:13px; line-height:1.5; }
+        .chat-msg.bot { background:rgba(255,255,255,0.08); color:rgba(255,255,255,0.85); border-bottom-left-radius:4px; align-self:flex-start; }
+        .chat-msg.user { background:var(--red); color:white; border-bottom-right-radius:4px; align-self:flex-end; }
+        #chat-input-area { padding:12px; border-top:1px solid rgba(255,255,255,0.08); }
+        .chat-buttons { display:flex; flex-wrap:wrap; gap:6px; }
+        .chat-btn { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:rgba(255,255,255,0.8); padding:7px 12px; border-radius:20px; font-size:12px; cursor:pointer; font-family:'Barlow',sans-serif; transition:all 0.15s; }
+        .chat-btn:hover { background:var(--red); border-color:var(--red); color:white; }
+        .chat-text-input { display:flex; gap:8px; }
+        .chat-text-input input { flex:1; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.15); border-radius:20px; padding:8px 14px; color:white; font-size:13px; font-family:'Barlow',sans-serif; outline:none; }
+        .chat-text-input input::placeholder { color:rgba(255,255,255,0.3); }
+        .chat-text-input input:focus { border-color:var(--red); }
+        .chat-text-input button { background:var(--red); border:none; color:white; width:34px; height:34px; border-radius:50%; cursor:pointer; font-size:16px; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
+        #chat-done { padding:20px; text-align:center; display:none; }
+        #chat-done .checkmark { font-size:36px; margin-bottom:10px; }
+        #chat-done p { font-size:13px; color:rgba(255,255,255,0.7); line-height:1.6; }
+        @media(max-width:400px){ #chat-box{width:calc(100vw - 32px);right:16px;} #chat-bubble{right:16px;bottom:16px;} }
+      </style>
+
+      <div id="chat-bubble" onclick="toggleChat()">
+        <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+        <div id="chat-badge">1</div>
+      </div>
+
+      <div id="chat-box">
+        <div id="chat-header">
+          <div class="avatar">🚗</div>
+          <div class="info">
+            <div class="name">IHateCarAccidents</div>
+            <div class="status">We can help you</div>
+          </div>
+          <button class="close-chat" onclick="toggleChat()">×</button>
+        </div>
+        <div id="chat-messages"></div>
+        <div id="chat-input-area"></div>
+        <div id="chat-done">
+          <div class="checkmark">✅</div>
+          <p><strong style="color:white;">Got it! We'll be in touch soon.</strong><br>Someone from our team will reach out to help with your accident case.</p>
+        </div>
+      </div>`;
+    document.body.appendChild(widget);
+  }
+
+  window.toggleChat = function() {
+    const box = document.getElementById('chat-box');
+    const badge = document.getElementById('chat-badge');
+    const isOpen = box.style.display === 'flex';
+    box.style.display = isOpen ? 'none' : 'flex';
+    if (!isOpen) {
+      badge.style.display = 'none';
+      if (chatMessages.length === 0) {
+        setTimeout(() => addBotMessage(steps[0].bot, steps[0]), 400);
+      }
+    }
+  };
+
+  function addBotMessage(text, step) {
+    const msgs = document.getElementById('chat-messages');
+    const msg = document.createElement('div');
+    msg.className = 'chat-msg bot';
+    msg.textContent = text;
+    msgs.appendChild(msg);
+    msgs.scrollTop = msgs.scrollHeight;
+    chatMessages.push({ role: 'bot', text });
+
+    if (step) renderInput(step);
+  }
+
+  function addUserMessage(text) {
+    const msgs = document.getElementById('chat-messages');
+    const msg = document.createElement('div');
+    msg.className = 'chat-msg user';
+    msg.textContent = text;
+    msgs.appendChild(msg);
+    msgs.scrollTop = msgs.scrollHeight;
+    chatMessages.push({ role: 'user', text });
+  }
+
+  function renderInput(step) {
+    const area = document.getElementById('chat-input-area');
+    if (step.type === 'buttons') {
+      area.innerHTML = `<div class="chat-buttons">${step.options.map(o => `<button class="chat-btn" onclick="chatAnswer('${o.replace(/'/g,"\\'")}','${step.key}')">${o}</button>`).join('')}</div>`;
+    } else {
+      area.innerHTML = `<div class="chat-text-input"><input id="chat-txt" type="text" placeholder="${step.placeholder}" onkeydown="if(event.key==='Enter')submitChatText('${step.key}')"><button onclick="submitChatText('${step.key}')">➤</button></div>`;
+      setTimeout(() => { const el = document.getElementById('chat-txt'); if(el) el.focus(); }, 100);
+    }
+  }
+
+  window.chatAnswer = function(answer, key) {
+    if (answer === 'Just browsing') {
+      addUserMessage(answer);
+      document.getElementById('chat-input-area').innerHTML = '';
+      setTimeout(() => addBotMessage("No problem! Browse away. We're here if you ever need help. 🙂", null), 400);
+      return;
+    }
+    addUserMessage(answer);
+    chatData[key] = answer;
+    nextStep();
+  };
+
+  window.submitChatText = function(key) {
+    const input = document.getElementById('chat-txt');
+    if (!input) return;
+    const val = input.value.trim();
+    if (!val) return;
+    addUserMessage(val);
+    chatData[key] = val;
+    nextStep();
+  };
+
+  function nextStep() {
+    chatStep++;
+    document.getElementById('chat-input-area').innerHTML = '';
+    if (chatStep >= steps.length) {
+      // All done — submit to Formspree
+      setTimeout(() => submitChat(), 500);
+      return;
+    }
+    setTimeout(() => {
+      addBotMessage(steps[chatStep].bot, steps[chatStep]);
+    }, 500);
+  }
+
+  async function submitChat() {
+    const msgs = document.getElementById('chat-messages');
+    const typing = document.createElement('div');
+    typing.className = 'chat-msg bot';
+    typing.innerHTML = '<span style="opacity:0.5;font-style:italic;">Sending your info...</span>';
+    msgs.appendChild(typing);
+    msgs.scrollTop = msgs.scrollHeight;
+
+    const summary = Object.entries(chatData).map(([k,v]) => `${k}: ${v}`).join('\n');
+    try {
+      await fetch(CHAT_FORMSPREE, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          subject: '🚨 New Accident Chat Lead',
+          name: chatData.name || 'Unknown',
+          email: chatData.email || 'Not provided',
+          phone: chatData.phone || 'Not provided',
+          accident_details: chatData.details || 'Not provided',
+          when: chatData.when || '',
+          injuries: chatData.injuries || '',
+          message: `New accident chat submission:\n\n${summary}`
+        })
+      });
+    } catch(e) {}
+
+    document.getElementById('chat-messages').style.display = 'none';
+    document.getElementById('chat-input-area').style.display = 'none';
+    document.getElementById('chat-done').style.display = 'block';
+  }
+
+  // Init
+  document.addEventListener('DOMContentLoaded', () => {
+    createWidget();
+    // Show the bubble after 3 seconds with a gentle bounce
+    setTimeout(() => {
+      const bubble = document.getElementById('chat-bubble');
+      if (bubble) bubble.style.display = 'flex';
+    }, 3000);
+  });
+})();
+
+const backToTop = document.createElement('button');
+backToTop.innerHTML = '↑';
+backToTop.style.cssText = 'position:fixed;bottom:24px;right:24px;width:44px;height:44px;background:var(--red);color:white;border:none;border-radius:50%;font-size:20px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.2);opacity:0;transition:opacity 0.3s;z-index:500;';
+backToTop.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+document.body.appendChild(backToTop);
+window.addEventListener('scroll', () => {
+  backToTop.style.opacity = window.scrollY > 400 ? '1' : '0';
+});
+
+
+</script>
+
+<div id="car-popup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:99999;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:white;border-radius:10px;max-width:560px;width:100%;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,0.5);position:relative;">
+    <div style="background:var(--red);padding:20px 28px;display:flex;align-items:center;justify-content:space-between;">
+      <div>
+        <div style="font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:white;">BEEN IN AN ACCIDENT?</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.85);margin-top:2px;">Our clinics can see you today — no out-of-pocket cost with PIP insurance</div>
+      </div>
+      <button onclick="document.getElementById('car-popup').style.display='none'" style="background:rgba(255,255,255,0.2);border:none;color:white;width:32px;height:32px;border-radius:50%;font-size:20px;cursor:pointer;line-height:1;flex-shrink:0;">×</button>
+    </div>
+    <div id="popup-form-wrap" style="padding:28px;">
+      <form id="popup-intake-form" onsubmit="submitIntake(event)">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+          <div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:5px;text-transform:uppercase;">First Name *</label><input name="firstName" required style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="John"></div>
+          <div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:5px;text-transform:uppercase;">Last Name *</label><input name="lastName" required style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="Smith"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+          <div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:5px;text-transform:uppercase;">Phone *</label><input name="phone" type="tel" required style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="(555) 000-0000"></div>
+          <div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:5px;text-transform:uppercase;">Email *</label><input name="email" type="email" required style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="john@email.com"></div>
+        </div>
+        <div style="margin-bottom:14px;"><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:5px;text-transform:uppercase;">Date of Accident *</label><input name="accidentDate" type="date" required style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+          <div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:5px;text-transform:uppercase;">Nearest City *</label>
+            <select name="city" required style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;background:white;">
+              <option value="">Select city...</option>
+              <option>Miami</option><option>Orlando</option><option>Tampa</option><option>Jacksonville</option><option>Fort Lauderdale</option><option>Boca Raton</option><option>Sarasota</option><option>Naples</option><option>Gainesville</option><option>Tallahassee</option><option>Clearwater</option><option>Pensacola</option><option>Port St. Lucie</option><option>Cape Coral</option><option>Ocala</option><option>Daytona Beach</option><option>Lakeland</option><option>Pompano Beach</option><option>West Palm Beach</option><option>Kissimmee</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:5px;text-transform:uppercase;">Have an Attorney?</label>
+            <select name="hasAttorney" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;background:white;">
+              <option value="No">No</option><option value="Yes">Yes</option><option value="Looking">Looking for one</option>
+            </select>
+          </div>
+        </div>
+        <div style="margin-bottom:14px;"><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:5px;text-transform:uppercase;">Injuries / Symptoms</label>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            <label style="display:flex;align-items:center;gap:5px;font-size:13px;color:#444;cursor:pointer;"><input type="checkbox" name="injury" value="Neck Pain" style="accent-color:#c8102e;"> Neck Pain</label><label style="display:flex;align-items:center;gap:5px;font-size:13px;color:#444;cursor:pointer;"><input type="checkbox" name="injury" value="Back Pain" style="accent-color:#c8102e;"> Back Pain</label><label style="display:flex;align-items:center;gap:5px;font-size:13px;color:#444;cursor:pointer;"><input type="checkbox" name="injury" value="Headaches" style="accent-color:#c8102e;"> Headaches</label><label style="display:flex;align-items:center;gap:5px;font-size:13px;color:#444;cursor:pointer;"><input type="checkbox" name="injury" value="Whiplash" style="accent-color:#c8102e;"> Whiplash</label><label style="display:flex;align-items:center;gap:5px;font-size:13px;color:#444;cursor:pointer;"><input type="checkbox" name="injury" value="Dizziness" style="accent-color:#c8102e;"> Dizziness</label><label style="display:flex;align-items:center;gap:5px;font-size:13px;color:#444;cursor:pointer;"><input type="checkbox" name="injury" value="Shoulder Pain" style="accent-color:#c8102e;"> Shoulder Pain</label><label style="display:flex;align-items:center;gap:5px;font-size:13px;color:#444;cursor:pointer;"><input type="checkbox" name="injury" value="Knee Pain" style="accent-color:#c8102e;"> Knee Pain</label><label style="display:flex;align-items:center;gap:5px;font-size:13px;color:#444;cursor:pointer;"><input type="checkbox" name="injury" value="Other" style="accent-color:#c8102e;"> Other</label>
+          </div>
+        </div>
+        <div style="margin-bottom:20px;"><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:5px;text-transform:uppercase;">Brief Description</label><textarea name="description" rows="3" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;resize:vertical;" placeholder="Tell us briefly what happened..."></textarea></div>
+        <button type="submit" id="popup-submit-btn" style="width:100%;background:#c8102e;color:white;border:none;padding:14px;border-radius:4px;font-family:'Oswald',sans-serif;font-size:16px;font-weight:700;cursor:pointer;">Get Free Consultation</button>
+        <div style="font-size:11px;color:#999;text-align:center;margin-top:10px;">No cost to you · Confidential · We respond within 1 hour</div>
+      </form>
+    </div>
+    <div id="popup-success" style="display:none;padding:48px 28px;text-align:center;">
+      <div style="width:64px;height:64px;background:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div style="font-family:'Oswald',sans-serif;font-size:24px;font-weight:700;color:#111;margin-bottom:8px;">We'll Be In Touch Soon!</div>
+      <div style="font-size:14px;color:#666;line-height:1.7;margin-bottom:24px;">Thank you for reaching out. One of our patient coordinators will contact you within the hour.</div>
+      <button onclick="document.getElementById('car-popup').style.display='none'" style="background:#c8102e;color:white;border:none;padding:12px 32px;border-radius:4px;font-family:'Oswald',sans-serif;font-size:15px;font-weight:700;cursor:pointer;">Close</button>
+    </div>
+  </div>
+</div>
+
+<div id="car-banner" style="position:fixed;bottom:80px;left:0;right:0;z-index:9998;pointer-events:none;display:none;">
+  <div id="car-anim" style="position:absolute;bottom:0;left:-300px;pointer-events:all;cursor:pointer;" onclick="document.getElementById('car-banner').style.display='none';document.getElementById('car-popup').style.display='flex';">
+    <div style="background:#c8102e;color:white;padding:10px 18px;border-radius:6px;font-family:'Oswald',sans-serif;font-size:15px;font-weight:700;letter-spacing:.06em;white-space:nowrap;display:flex;align-items:center;gap:12px;">
+      <svg width="32" height="20" viewBox="0 0 48 28" fill="white"><path d="M40 10H35L30 4H18L13 10H8C5.8 10 4 11.8 4 14v6c0 1.1.9 2 2 2h2c0 2.2 1.8 4 4 4s4-1.8 4-4h16c0 2.2 1.8 4 4 4s4-1.8 4-4h2c1.1 0 2-.9 2-2v-6c0-3.3-2.7-6-6-6z"/><circle cx="12" cy="22" r="3" fill="#111"/><circle cx="36" cy="22" r="3" fill="#111"/></svg>
+      BEEN IN AN ACCIDENT? CLICK HERE
+    </div>
+  </div>
+</div>
+
+<style>@keyframes carPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}</style>
+
+
+<script>
+var flClinics=[
+  {id:1,name:"Miami Injury Clinic",city:"Miami",lat:25.77,lng:-80.19,physician:"Dr. James Rivera, DC",hours:"Mon-Fri 9am-6pm",insurance:"PIP, Auto, Most Major",address:"",phone:"",notes:"Walk-ins welcome",lg:true},
+  {id:2,name:"Fort Lauderdale Clinic",city:"Fort Lauderdale",lat:26.12,lng:-80.14,physician:"Dr. Marcus Webb, DC",hours:"Mon-Fri 9am-6pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:3,name:"Pompano Beach Clinic",city:"Pompano Beach",lat:26.24,lng:-80.12,physician:"Dr. Nicole Adams, DC",hours:"Mon-Sat 8am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:4,name:"Boca Raton Clinic",city:"Boca Raton",lat:26.35,lng:-80.08,physician:"Dr. Angela Torres, DC",hours:"Mon-Fri 9am-6pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:5,name:"West Palm Beach Clinic",city:"West Palm Beach",lat:26.71,lng:-80.05,physician:"Dr. Andrew Scott, DC",hours:"Mon-Fri 9am-6pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:6,name:"Port St. Lucie Clinic",city:"Port St. Lucie",lat:27.29,lng:-80.35,physician:"Dr. Jennifer Ross, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:7,name:"Sarasota Clinic",city:"Sarasota",lat:27.34,lng:-82.53,physician:"Dr. David Park, DC",hours:"Mon-Fri 9am-6pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:8,name:"Tampa Injury Clinic",city:"Tampa",lat:27.95,lng:-82.46,physician:"Dr. Kevin Brooks, DC",hours:"Mon-Sat 8am-6pm",insurance:"PIP, Auto, Most Major",address:"",phone:"",notes:"Walk-ins welcome",lg:true},
+  {id:9,name:"Clearwater Clinic",city:"Clearwater",lat:27.97,lng:-82.80,physician:"Dr. Steven Yates, DC",hours:"Mon-Fri 9am-6pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:10,name:"Lakeland Clinic",city:"Lakeland",lat:28.04,lng:-81.95,physician:"Dr. Christopher Diaz, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:11,name:"Orlando Injury Clinic",city:"Orlando",lat:28.54,lng:-81.38,physician:"Dr. Sarah Mitchell, DC",hours:"Mon-Sat 8am-6pm",insurance:"PIP, Auto, Most Major",address:"",phone:"",notes:"Walk-ins welcome",lg:true},
+  {id:12,name:"Kissimmee Clinic",city:"Kissimmee",lat:28.29,lng:-81.41,physician:"Dr. Maria Gomez, DC",hours:"Mon-Fri 9am-6pm",insurance:"PIP, Auto",address:"",phone:"",notes:"Bilingual staff"},
+  {id:13,name:"Daytona Beach Clinic",city:"Daytona Beach",lat:29.21,lng:-81.02,physician:"Dr. Sandra Price, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:14,name:"Ocala Clinic",city:"Ocala",lat:29.19,lng:-82.13,physician:"Dr. Brian Foster, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:15,name:"Gainesville Clinic",city:"Gainesville",lat:29.65,lng:-82.33,physician:"Dr. Robert Kim, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:16,name:"Jacksonville Clinic",city:"Jacksonville",lat:30.33,lng:-81.66,physician:"Dr. Lisa Chen, DC",hours:"Mon-Sat 8am-6pm",insurance:"PIP, Auto, Most Major",address:"",phone:"",notes:"Walk-ins welcome",lg:true},
+  {id:17,name:"Tallahassee Clinic",city:"Tallahassee",lat:30.44,lng:-84.28,physician:"Dr. Patricia Moore, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:18,name:"Pensacola Clinic",city:"Pensacola",lat:30.42,lng:-87.22,physician:"Dr. Michelle Grant, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:19,name:"Cape Coral Clinic",city:"Cape Coral",lat:26.56,lng:-81.95,physician:"Dr. Thomas Bell, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""},
+  {id:20,name:"Naples Clinic",city:"Naples",lat:26.14,lng:-81.79,physician:"Dr. Christine Hall, DC",hours:"Mon-Fri 9am-5pm",insurance:"PIP, Auto",address:"",phone:"",notes:""}
+];
+var flNextId=21,flSelectedId=null,flMode='view',flPlacing=false,flSvg=null,flProj=null,flDots=null;
+
+function flSetMode(m){
+  flMode=m;
+  var bv=document.getElementById('fl-btn-view'),ba=document.getElementById('fl-btn-add');
+  if(bv){bv.style.background=m==='view'?'#c8102e':'white';bv.style.color=m==='view'?'white':'#333';}
+  if(ba){ba.style.background=m==='add'?'#c8102e':'white';ba.style.color=m==='add'?'white':'#333';}
+  if(m==='add') flShowAddForm(); else flClosePanel();
+}
+function flFld(id,lbl,val,ta){
+  var inp=ta?'<textarea id="'+id+'" rows="3" style="width:100%;padding:7px 10px;border:1px solid #ddd;border-radius:6px;font-size:13px;box-sizing:border-box;resize:vertical">'+val+'</textarea>':'<input id="'+id+'" type="text" value="'+val+'" style="width:100%;padding:7px 10px;border:1px solid #ddd;border-radius:6px;font-size:13px;box-sizing:border-box">';
+  return '<div style="margin-bottom:10px"><label style="display:block;font-size:11px;font-weight:700;color:#666;text-transform:uppercase;margin-bottom:4px">'+lbl+'</label>'+inp+'</div>';
+}
+function flShowAddForm(){
+  document.getElementById('fl-placeholder').style.display='none';
+  document.getElementById('fl-clinic-form').style.display='none';
+  document.getElementById('fl-add-form').style.display='block';
+  document.getElementById('fl-panel-title').textContent='Add New Clinic';
+  document.getElementById('fl-panel-sub').textContent='Fill details then place pin';
+  document.getElementById('fl-add-form').innerHTML=flFld('fa-name','Clinic Name','')+flFld('fa-city','City','')+flFld('fa-address','Address','')+flFld('fa-phone','Phone','')+flFld('fa-physician','Physician','')+flFld('fa-hours','Hours','')+flFld('fa-insurance','Insurance','PIP, Auto')+flFld('fa-notes','Notes','',true)+'<p style="font-size:12px;color:#999;margin:8px 0 6px">Click on the map to place the pin.</p><button onclick="flStartPlacing()" style="width:100%;background:#c8102e;color:white;border:none;padding:9px;border-radius:6px;font-weight:700;font-size:13px;cursor:pointer;margin-bottom:6px">Place Pin on Map</button><button onclick="flSetMode('view')" style="width:100%;background:#f5f5f5;color:#333;border:1px solid #ddd;padding:9px;border-radius:6px;font-size:13px;cursor:pointer">Cancel</button>';
+}
+function flStartPlacing(){flPlacing=true;document.getElementById('fl-map-container').style.cursor='crosshair';document.getElementById('fl-panel-sub').textContent='Click on the map to place pin';}
+function flClosePanel(){
+  flSelectedId=null;flPlacing=false;
+  document.getElementById('fl-map-container').style.cursor='default';
+  document.getElementById('fl-placeholder').style.display='block';
+  document.getElementById('fl-clinic-form').style.display='none';
+  document.getElementById('fl-add-form').style.display='none';
+  document.getElementById('fl-panel-title').textContent='Select a clinic';
+  document.getElementById('fl-panel-sub').textContent='Click any red pin on the map';
+  flRenderDots();
+}
+function flOpenClinic(id){
+  if(flMode==='add') return;
+  flSelectedId=id;
+  var c=flClinics.find(function(x){return x.id===id;});
+  if(!c) return;
+  document.getElementById('fl-placeholder').style.display='none';
+  document.getElementById('fl-add-form').style.display='none';
+  document.getElementById('fl-clinic-form').style.display='block';
+  document.getElementById('fl-panel-title').textContent=c.city;
+  document.getElementById('fl-panel-sub').textContent='Physician-owned clinic';
+  document.getElementById('fl-clinic-form').innerHTML=flFld('fe-name','Clinic Name',c.name||'')+flFld('fe-city','City',c.city||'')+flFld('fe-address','Address',c.address||'')+flFld('fe-phone','Phone',c.phone||'')+flFld('fe-physician','Physician',c.physician||'')+flFld('fe-hours','Hours',c.hours||'')+flFld('fe-insurance','Insurance',c.insurance||'')+flFld('fe-notes','Notes',c.notes||'',true)+'<button onclick="flSaveClinic()" style="width:100%;background:#c8102e;color:white;border:none;padding:9px;border-radius:6px;font-weight:700;font-size:13px;cursor:pointer;margin-bottom:6px">Save Changes</button><button onclick="flDeleteClinic()" style="width:100%;background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;padding:9px;border-radius:6px;font-size:13px;cursor:pointer;margin-bottom:6px">Delete This Clinic</button><button onclick="flClosePanel()" style="width:100%;background:#f5f5f5;color:#333;border:1px solid #ddd;padding:9px;border-radius:6px;font-size:13px;cursor:pointer">Close</button>';
+  flRenderDots();
+}
+function flSaveClinic(){
+  var c=flClinics.find(function(x){return x.id===flSelectedId;});
+  if(!c) return;
+  ['name','city','address','phone','physician','hours','insurance'].forEach(function(f){var el=document.getElementById('fe-'+f);if(el)c[f]=el.value;});
+  var n=document.getElementById('fe-notes');if(n)c.notes=n.value;
+  document.getElementById('fl-panel-sub').textContent='Saved!';
+  setTimeout(function(){document.getElementById('fl-panel-sub').textContent='Physician-owned clinic';},1500);
+  flRenderDots();flRenderCards();
+}
+function flDeleteClinic(){
+  if(!confirm('Delete this clinic?')) return;
+  flClinics=flClinics.filter(function(x){return x.id!==flSelectedId;});
+  flClosePanel();flRenderCards();
+}
+function flRenderCards(){
+  var g=document.getElementById('fl-cards-grid');if(!g) return;
+  g.innerHTML=flClinics.map(function(c){
+    return '<div style="background:white;border:1px solid #e5e5e5;border-radius:6px;padding:18px;border-top:3px solid #c8102e"><div style="font-family:Oswald,sans-serif;font-size:16px;font-weight:700;color:#111;margin-bottom:2px">'+c.city+'</div><div style="font-size:11px;font-weight:700;color:#c8102e;margin-bottom:8px;text-transform:uppercase">Physician Owned</div>'+(c.physician?'<div style="font-size:12px;color:#555;margin-bottom:4px">'+c.physician+'</div>':'')+(c.phone?'<div style="font-size:12px;color:#555;margin-bottom:4px">'+c.phone+'</div>':'')+(c.hours?'<div style="font-size:12px;color:#777;margin-bottom:10px">'+c.hours+'</div>':'')+'<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px"><span style="font-size:10px;background:#fff0f0;color:#c8102e;border:1px solid #fcc;padding:2px 8px;border-radius:20px;font-weight:600">PIP Accepted</span><span style="font-size:10px;background:#f0f7ff;color:#1a6fbc;border:1px solid #c0d8f5;padding:2px 8px;border-radius:20px;font-weight:600">Walk-Ins Welcome</span></div><button onclick="document.getElementById('car-popup').style.display='flex'" style="width:100%;background:#c8102e;color:white;border:none;padding:8px;border-radius:3px;font-family:Oswald,sans-serif;font-size:13px;font-weight:600;cursor:pointer">Get Help Now</button></div>';
+  }).join('');
+}
+function flRenderDots(){
+  if(!flDots||!flProj) return;
+  flDots.selectAll('*').remove();
+  flClinics.forEach(function(c){
+    var p=flProj([c.lng,c.lat]);
+    var g=flDots.append('g').style('cursor','pointer').on('click',function(e){e.stopPropagation();flOpenClinic(c.id);});
+    g.append('circle').attr('cx',p[0]).attr('cy',p[1]).attr('r',c.id===flSelectedId?9:(c.lg?8:6)).attr('fill',c.id===flSelectedId?'white':'#c8102e').attr('stroke','#c8102e').attr('stroke-width',c.id===flSelectedId?3:2);
+    g.append('text').attr('x',p[0]+(c.lng<-83?-10:10)).attr('y',p[1]+4).attr('text-anchor',c.lng<-83?'end':'start').attr('font-family','Arial,sans-serif').attr('font-size',c.lg?12:10).attr('font-weight',700).attr('fill','#222').attr('pointer-events','none').text(c.city);
+  });
+}
+
+
+fetch('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json')
+  .then(function(r){return r.json();})
+  .then(function(us){flBuildMap(us);})
+  .catch(function(){
+// Map rendered as inline SVG
+
+// Car animation
+function startCarAnimation(){
+  var banner=document.getElementById('car-banner');
+  var car=document.getElementById('car-anim');
+  if(!banner||!car) return;
+  banner.style.display='block';
+  car.style.transition='none';car.style.left='-300px';
+  setTimeout(function(){
+    car.style.transition='left 2.8s cubic-bezier(0.25,0.1,0.25,1)';
+    car.style.left='30px';
+    setTimeout(function(){car.style.animation='carPulse 1s ease-in-out infinite';},3000);
+  },100);
+}
+setTimeout(startCarAnimation,4000);
+setInterval(function(){
+  var p=document.getElementById('car-popup');
+  if(!p||p.style.display==='none'||p.style.display==='') startCarAnimation();
+},90000);
+
+// Intake form submit
+async function submitIntake(e){
+  e.preventDefault();
+  var btn=document.getElementById('popup-submit-btn');
+  btn.textContent='Sending...';btn.disabled=true;
+  var form=e.target;
+  var injuries=[...form.querySelectorAll('input[name="injury"]:checked')].map(i=>i.value).join(', ');
+  var body={firstName:form.firstName.value,lastName:form.lastName.value,phone:form.phone.value,email:form.email.value,accidentDate:form.accidentDate.value,city:form.city.value,hasAttorney:form.hasAttorney.value,injuries:injuries||'Not specified',description:form.description.value,subject:'New Accident Intake - '+form.firstName.value+' '+form.lastName.value+' - '+form.city.value};
+  try{
+    var res=await fetch('https://formspree.io/f/xlgpjyga',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(body)});
+    if(res.ok){document.getElementById('popup-form-wrap').style.display='none';document.getElementById('popup-success').style.display='block';document.getElementById('car-banner').style.display='none';}
+    else throw new Error('Failed');
+  }catch(err){btn.textContent='Get Free Consultation';btn.disabled=false;alert('Something went wrong. Please call us directly.');}
+}
 </script>
 </body>
 </html>
