@@ -608,23 +608,22 @@ function mapsThumbUrl(location, size) {
 }
 
 function lazyLoadThumbs(articles) {
-  articles.slice(0, 51).forEach(function(article, i) {
-    var el = document.getElementById('thumb-' + i);
-    if (!el) return;
-    var src = article.image;
-    if (!src) {
+  setTimeout(function() {
+    articles.slice(0, 51).forEach(function(article, i) {
+      var el = document.getElementById('thumb-' + i);
+      if (!el) return;
       var location = extractLocation(article);
       var size = i === 0 ? '700x260' : '220x148';
-      src = mapsThumbUrl(location, size);
-    }
-    var img = document.createElement('img');
-    img.src = src;
-    img.referrerPolicy = 'no-referrer';
-    img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit;';
-    img.onerror = function(){ this.style.opacity = '0'; };
-    el.innerHTML = '';
-    el.appendChild(img);
-  });
+      var src = mapsThumbUrl(location, size);
+      var img = new Image();
+      img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit;';
+      img.onload = function() {
+        var el2 = document.getElementById('thumb-' + i);
+        if (el2) { el2.innerHTML = ''; el2.appendChild(img); }
+      };
+      img.src = src;
+    });
+  }, 1500);
 }
 
 // ── RENDER MAIN FEED ─────────────────────────────────────────────────────
