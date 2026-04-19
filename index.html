@@ -591,18 +591,6 @@ function showArticlePreview(idx) {
 }
 
 
-// Rotating road/accident scene thumbnails (Unsplash, free, no key)
-var THUMB_IMGS = [
-  'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=60',
-  'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=400&q=60',
-  'https://images.unsplash.com/photo-1566933293069-b55c7f326dd4?w=400&q=60',
-  'https://images.unsplash.com/photo-1519003722824-194d4455a60c?w=400&q=60',
-  'https://images.unsplash.com/photo-1545989253-02cc26577f88?w=400&q=60',
-  'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=400&q=60',
-  'https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=400&q=60',
-  'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=400&q=60'
-];
-function thumbFor(idx) { return THUMB_IMGS[idx % THUMB_IMGS.length]; }
 
 function extractLocation(article) {
   const text = cleanTitle(article.title) + ' ' + stripHtml(article.description);
@@ -610,7 +598,7 @@ function extractLocation(article) {
   if (cityState) return cityState[0];
   const state = detectState(text);
   if (state) return state + ', USA';
-  return null;
+  return 'United States';
 }
 
 function mapsThumbUrl(location, size) {
@@ -622,23 +610,11 @@ function mapsThumbUrl(location, size) {
 function lazyLoadThumbs(articles) {
   articles.slice(0, 51).forEach(function(article, i) {
     const location = extractLocation(article);
-    if (!location) return;
     const el = document.getElementById('thumb-' + i);
     if (!el) return;
     const size = i === 0 ? '700x260' : '220x148';
     const imgUrl = mapsThumbUrl(location, size);
-    const img = new Image();
-    img.src = imgUrl;
-    img.alt = location;
-    img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit;opacity:0;transition:opacity 0.5s;';
-    img.onload = function() {
-      const el2 = document.getElementById('thumb-' + i);
-      if (el2 && el2.isConnected) {
-        el2.innerHTML = '';
-        el2.appendChild(img);
-        requestAnimationFrame(function(){ img.style.opacity = '1'; });
-      }
-    };
+    el.innerHTML = '<img src="' + imgUrl + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit;" onerror="this.style.opacity=0" alt="' + location + '">';
   });
 }
 
@@ -655,9 +631,8 @@ function renderFeed(articles) {
   var topDesc = stripHtml(top.description||'').slice(0,240);
   var topSrc = top.source || extractSource(top.title);
   var topTitle = cleanTitle(top.title);
-  var topImg = top.image || thumbFor(0);
   var html = '<div class="featured-article" onclick="showArticlePreview(0)" style="cursor:pointer;">';
-  html += '<div class="featured-img-box" id="thumb-0"><img src="' + topImg + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit;" onerror="this.src=thumbFor(0)"></div>';
+  html += '<div class="featured-img-box" id="thumb-0">' + icon() + '</div>';
   if (topState) html += '<span class="featured-badge">' + topState + '</span>';
   if (topSrc) html += '<div class="featured-source">' + topSrc + '</div>';
   html += '<h2 class="featured-title">' + topTitle + '</h2>';
@@ -669,9 +644,8 @@ function renderFeed(articles) {
     var state = detectState(item.title + ' ' + (item.description||''));
     var src = item.source || extractSource(item.title);
     var title = cleanTitle(item.title);
-    var img = item.image || thumbFor(ii+1);
     html += '<div class="article-card" onclick="showArticlePreview(' + (ii+1) + ')" style="cursor:pointer;">';
-    html += '<div class="article-icon" id="thumb-' + (ii+1) + '"><img src="' + img + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit;" onerror="this.src=thumbFor(' + (ii+1) + ')"></div>';
+    html += '<div class="article-icon" id="thumb-' + (ii+1) + '">' + icon() + '</div>';
     html += '<div class="article-meta">';
     html += '<span class="article-source">' + (state||src||'National') + '</span>';
     html += '<span class="article-title">' + title + '</span>';
