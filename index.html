@@ -442,7 +442,7 @@
 
 
 const REFRESH_MS = 15 * 60 * 1000;
-const MAPS_KEY = 'AIzaSyD6wr_dYEp46caDwQdP1tkT9NDyozypU78'; // 15 minutes
+const MAPS_KEY = 'AIzaSyBeMle1sEniEfIx3MkVx26VTEEbwAYtXSg'; // 15 minutes
 
 
 const US_STATES = ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut',
@@ -604,20 +604,33 @@ function extractLocation(article) {
 function mapsThumbUrl(location, size) {
   size = size || '110x74';
   const q = encodeURIComponent(location);
-  return 'https://maps.googleapis.com/maps/api/staticmap?center=' + q + '&zoom=13&size=' + size + '&scale=2&maptype=roadmap&markers=color:red%7Csize:small%7C' + q + '&key=' + MAPS_KEY;
+  return 'https://maps.googleapis.com/maps/api/staticmap?center=' + q + '&zoom=13&size=' + size + '&scale=2&maptype=roadmap&markers=color:red%7Csize:small%7C' + q + '&key=AIzaSyBeMle1sEniEfIx3MkVx26VTEEbwAYtXSg';
 }
 
 function lazyLoadThumbs(articles) {
+  var imgs = [
+    'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&q=70&auto=format',
+    'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=400&q=70&auto=format',
+    'https://images.unsplash.com/photo-1566933293069-b55c7f326dd4?w=400&q=70&auto=format',
+    'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=70&auto=format',
+    'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=400&q=70&auto=format',
+    'https://images.unsplash.com/photo-1519003722824-194d4455a60c?w=400&q=70&auto=format',
+    'https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=400&q=70&auto=format',
+    'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=400&q=70&auto=format',
+    'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=400&q=70&auto=format',
+    'https://images.unsplash.com/photo-1491824019986-7f1b5c75edec?w=400&q=70&auto=format'
+  ];
   articles.slice(0, 51).forEach(function(article, i) {
     var el = document.getElementById('thumb-' + i);
     if (!el) return;
-    var src = article.image;
-    if (!src) {
-      var location = extractLocation(article);
-      var size = i === 0 ? '700x260' : '220x148';
-      src = mapsThumbUrl(location, size);
-    }
-    el.innerHTML = '<img src="' + src + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit;" onerror="this.style.opacity=0">';
+    var src = article.image || imgs[i % imgs.length];
+    var img = new Image();
+    img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit;';
+    img.onload = function() {
+      var el2 = document.getElementById('thumb-' + i);
+      if (el2) { el2.innerHTML = ''; el2.appendChild(img); }
+    };
+    img.src = src;
   });
 }
 
@@ -1047,6 +1060,13 @@ function showModal(type) {
   <div id="chat-done" style="padding:24px;text-align:center;display:none;"><div style="width:48px;height:48px;background:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><strong style="color:white;display:block;margin-bottom:8px;">Got it! We will be in touch.</strong><span style="color:rgba(255,255,255,0.7);font-size:13px;">Our team will reach out about your accident.</span></div>
 </div>
 <script>
+// Unregister any service workers that block external API calls
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(function(regs) {
+    regs.forEach(function(reg) { reg.unregister(); });
+  });
+}
+
 var _cs=0,_cd={},_cm=[];
 var _csteps=[
   {key:'intro',bot:"Hi! Were you recently in a car accident?",type:'buttons',options:['Yes, I was','Someone I know was','Just browsing']},
