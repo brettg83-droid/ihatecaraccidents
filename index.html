@@ -604,7 +604,7 @@ function extractLocation(article) {
 function mapsThumbUrl(location, size) {
   size = size || '110x74';
   const q = encodeURIComponent(location);
-  return 'https://maps.googleapis.com/maps/api/staticmap?center=' + q + '&zoom=13&size=' + size + '&scale=2&maptype=roadmap&markers=color:red%7Csize:small%7C' + q + '&key=' + MAPS_KEY;
+  return 'https://maps.googleapis.com/maps/api/staticmap?center=' + q + '&zoom=13&size=' + size + '&scale=2&maptype=roadmap&markers=color:red%7Csize:small%7C' + q + '&key=AIzaSyDdFLFeWjIOAQSRy9zbrwx6QUZg6ucpfds';
 }
 
 function lazyLoadThumbs(articles) {
@@ -617,7 +617,13 @@ function lazyLoadThumbs(articles) {
       var size = i === 0 ? '700x260' : '220x148';
       src = mapsThumbUrl(location, size);
     }
-    el.innerHTML = '<img src="' + src + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit;" onerror="this.style.opacity=0">';
+    var img = document.createElement('img');
+    img.src = src;
+    img.referrerPolicy = 'no-referrer';
+    img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit;';
+    img.onerror = function(){ this.style.opacity = '0'; };
+    el.innerHTML = '';
+    el.appendChild(img);
   });
 }
 
