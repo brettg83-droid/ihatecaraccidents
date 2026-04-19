@@ -609,12 +609,15 @@ function mapsThumbUrl(location, size) {
 
 function lazyLoadThumbs(articles) {
   articles.slice(0, 51).forEach(function(article, i) {
-    const location = extractLocation(article);
-    const el = document.getElementById('thumb-' + i);
+    var el = document.getElementById('thumb-' + i);
     if (!el) return;
-    const size = i === 0 ? '700x260' : '220x148';
-    const imgUrl = mapsThumbUrl(location, size);
-    el.innerHTML = '<img src="' + imgUrl + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit;" onerror="this.style.opacity=0" alt="' + location + '">';
+    var src = article.image;
+    if (!src) {
+      var location = extractLocation(article);
+      var size = i === 0 ? '700x260' : '220x148';
+      src = mapsThumbUrl(location, size);
+    }
+    el.innerHTML = '<img src="' + src + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit;" onerror="this.style.opacity=0">';
   });
 }
 
