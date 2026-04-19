@@ -44,7 +44,7 @@
   .search-btn:hover { border-color: var(--red); color: var(--red); }
 
   .hero { background: linear-gradient(135deg, #0d0d0d 0%, #1a0008 50%, #0d0d0d 100%); color: var(--white); padding: 52px 20px 48px; text-align: center; position: relative; overflow: hidden; }
-  .hero::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(-45deg, transparent, transparent 40px, rgba(200,16,46,0.04) 40px, rgba(200,16,46,0.04) 80px); pointer-events: none; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(-45deg, transparent, transparent 40px, rgba(200,16,46,0.04) 40px, rgba(200,16,46,0.04) 80px); pointer-events:none; }
   .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--red); color: white; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 4px 12px; border-radius: 2px; margin-bottom: 18px; }
   .hero-badge::before { content: ''; width: 7px; height: 7px; background: white; border-radius: 50%; animation: blink 1.5s infinite; }
   @keyframes blink { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.7); } }
@@ -257,22 +257,7 @@
   <div class="ticker-wrap"><span class="ticker-track" id="ticker-text">Fetching live accident reports...</span></div>
 </div>
 
-<div class="hero" style="padding:0;text-align:left;">
-  <div style="display:flex;flex-wrap:wrap;min-height:480px;">
-    <div style="flex:1;min-width:300px;padding:48px;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:1;">
-      <div class="hero-badge" style="align-self:flex-start;margin-bottom:16px;">Live Updates</div>
-      <h1 style="font-family:'Oswald',sans-serif;font-size:clamp(26px,4vw,46px);font-weight:700;line-height:1.1;margin-bottom:16px;">Find a Medical Provider<br>for Your <em style="color:var(--red);font-style:normal;">Car Accident</em> Injuries</h1>
-      <p style="font-size:15px;color:rgba(255,255,255,0.72);max-width:440px;margin:0 0 28px;line-height:1.65;">Physician-owned clinics across Florida ready to see you today. Walk-ins welcome. PIP accepted.</p>
-      <a href="#" onclick="document.getElementById('car-popup').style.display='flex';return false;" class="hero-cta" style="align-self:flex-start;">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        Report Your Accident
-      </a>
-    </div>
-    <div style="flex:1;min-width:300px;min-height:480px;position:relative;z-index:2;">
-      <iframe src="https://www.google.com/maps/d/u/2/embed?mid=1BWkyFg3T09Ks7TguFycu5n_qr_2K9VQ&ehbc=2E312F" width="100%" height="100%" style="border:0;display:block;min-height:480px;" allowfullscreen loading="lazy"></iframe>
-    </div>
-  </div>
-</div>
+<div class="hero" style="padding:0;text-align:left;"><div style="display:flex;flex-wrap:wrap;min-height:480px;"><div style="flex:1;min-width:300px;padding:48px;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:1;"><div class="hero-badge" style="align-self:flex-start;margin-bottom:16px;">Live Updates</div><h1 style="font-family:'Oswald',sans-serif;font-size:clamp(26px,4vw,46px);font-weight:700;line-height:1.1;margin-bottom:16px;">Find a Medical Provider<br>for Your <em style="color:var(--red);font-style:normal;">Car Accident</em> Injuries</h1><p style="font-size:15px;color:rgba(255,255,255,0.72);max-width:440px;margin:0 0 28px;line-height:1.65;">Physician-owned clinics across Florida ready to see you today. Walk-ins welcome. PIP accepted.</p><a href="#" onclick="document.getElementById('car-popup').style.display='flex';return false;" class="hero-cta" style="align-self:flex-start;"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Report Your Accident</a></div><div style="flex:1;min-width:300px;min-height:480px;position:relative;z-index:2;"><iframe src="https://www.google.com/maps/d/u/2/embed?mid=1BWkyFg3T09Ks7TguFycu5n_qr_2K9VQ&ehbc=2E312F" width="100%" height="100%" style="border:0;display:block;min-height:480px;" allowfullscreen loading="lazy"></iframe></div></div></div>
 
 <div class="stats-bar">
   <div class="stats-inner">
@@ -342,15 +327,7 @@
       </div>
     </div>
 
-    <div class="sidebar-card">
-      <div class="sidebar-card-header">&#x1F5FA; News by State</div>
-      <div class="sidebar-card-body">
-        <select onchange="if(this.value){filterByState(this.value);this.value=''}" style="width:100%;padding:10px 12px;border:1px solid var(--gray-light);border-radius:3px;font-size:14px;font-family:'Barlow',sans-serif;background:white;color:var(--gray-dark);cursor:pointer;outline:none;">
-          <option value="">Select a state...</option>
-          <option value="Alabama">Alabama</option><option value="Alaska">Alaska</option><option value="Arizona">Arizona</option><option value="Arkansas">Arkansas</option><option value="California">California</option><option value="Colorado">Colorado</option><option value="Connecticut">Connecticut</option><option value="Delaware">Delaware</option><option value="Florida">Florida</option><option value="Georgia">Georgia</option><option value="Hawaii">Hawaii</option><option value="Idaho">Idaho</option><option value="Illinois">Illinois</option><option value="Indiana">Indiana</option><option value="Iowa">Iowa</option><option value="Kansas">Kansas</option><option value="Kentucky">Kentucky</option><option value="Louisiana">Louisiana</option><option value="Maine">Maine</option><option value="Maryland">Maryland</option><option value="Massachusetts">Massachusetts</option><option value="Michigan">Michigan</option><option value="Minnesota">Minnesota</option><option value="Mississippi">Mississippi</option><option value="Missouri">Missouri</option><option value="Montana">Montana</option><option value="Nebraska">Nebraska</option><option value="Nevada">Nevada</option><option value="New Hampshire">New Hampshire</option><option value="New Jersey">New Jersey</option><option value="New Mexico">New Mexico</option><option value="New York">New York</option><option value="North Carolina">North Carolina</option><option value="North Dakota">North Dakota</option><option value="Ohio">Ohio</option><option value="Oklahoma">Oklahoma</option><option value="Oregon">Oregon</option><option value="Pennsylvania">Pennsylvania</option><option value="Rhode Island">Rhode Island</option><option value="South Carolina">South Carolina</option><option value="South Dakota">South Dakota</option><option value="Tennessee">Tennessee</option><option value="Texas">Texas</option><option value="Utah">Utah</option><option value="Vermont">Vermont</option><option value="Virginia">Virginia</option><option value="Washington">Washington</option><option value="West Virginia">West Virginia</option><option value="Wisconsin">Wisconsin</option><option value="Wyoming">Wyoming</option>
-        </select>
-      </div>
-    </div>
+    <div class="sidebar-card"><div class="sidebar-card-header">&#x1F5FA; News by State</div><div class="sidebar-card-body"><select onchange="if(this.value){filterByState(this.value);this.value=''}" style="width:100%;padding:10px 12px;border:1px solid var(--gray-light);border-radius:3px;font-size:14px;font-family:'Barlow',sans-serif;background:white;color:var(--gray-dark);cursor:pointer;outline:none;"><option value="">Select a state...</option><option value="Alabama">Alabama</option><option value="Alaska">Alaska</option><option value="Arizona">Arizona</option><option value="Arkansas">Arkansas</option><option value="California">California</option><option value="Colorado">Colorado</option><option value="Connecticut">Connecticut</option><option value="Delaware">Delaware</option><option value="Florida">Florida</option><option value="Georgia">Georgia</option><option value="Hawaii">Hawaii</option><option value="Idaho">Idaho</option><option value="Illinois">Illinois</option><option value="Indiana">Indiana</option><option value="Iowa">Iowa</option><option value="Kansas">Kansas</option><option value="Kentucky">Kentucky</option><option value="Louisiana">Louisiana</option><option value="Maine">Maine</option><option value="Maryland">Maryland</option><option value="Massachusetts">Massachusetts</option><option value="Michigan">Michigan</option><option value="Minnesota">Minnesota</option><option value="Mississippi">Mississippi</option><option value="Missouri">Missouri</option><option value="Montana">Montana</option><option value="Nebraska">Nebraska</option><option value="Nevada">Nevada</option><option value="New Hampshire">New Hampshire</option><option value="New Jersey">New Jersey</option><option value="New Mexico">New Mexico</option><option value="New York">New York</option><option value="North Carolina">North Carolina</option><option value="North Dakota">North Dakota</option><option value="Ohio">Ohio</option><option value="Oklahoma">Oklahoma</option><option value="Oregon">Oregon</option><option value="Pennsylvania">Pennsylvania</option><option value="Rhode Island">Rhode Island</option><option value="South Carolina">South Carolina</option><option value="South Dakota">South Dakota</option><option value="Tennessee">Tennessee</option><option value="Texas">Texas</option><option value="Utah">Utah</option><option value="Vermont">Vermont</option><option value="Virginia">Virginia</option><option value="Washington">Washington</option><option value="West Virginia">West Virginia</option><option value="Wisconsin">Wisconsin</option><option value="Wyoming">Wyoming</option></select></div></div>
   </aside>
 </div>
 
@@ -416,25 +393,7 @@
 </div>
 
 <!-- CONTACT SECTION -->
-<div style="background:#f8f8f8;border-top:3px solid var(--red);padding:48px 0;margin-top:40px;" id="florida-locations">
-  <div style="max-width:1100px;margin:0 auto;padding:0 20px;">
-    <div style="text-align:center;margin-bottom:32px;">
-      <div style="display:inline-block;background:var(--red);color:white;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:5px 14px;border-radius:2px;margin-bottom:12px;">Our Network</div>
-      <h2 style="font-family:'Oswald',sans-serif;font-size:32px;font-weight:700;color:#111;margin-bottom:10px;">Florida Clinic Locations</h2>
-      <p style="font-size:15px;color:#666;max-width:600px;margin:0 auto;">Physician-owned clinics across Florida. Walk-ins welcome. PIP accepted.</p>
-    </div>
-    <div style="border-radius:10px;overflow:hidden;border:1px solid #e5e5e5;margin-bottom:40px;">
-      <iframe src="https://www.google.com/maps/d/u/2/embed?mid=1BWkyFg3T09Ks7TguFycu5n_qr_2K9VQ&ehbc=2E312F" width="100%" height="500" style="border:0;display:block;" allowfullscreen loading="lazy"></iframe>
-    </div>
-    <div style="background:var(--red);border-radius:6px;padding:28px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
-      <div>
-        <div style="font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:white;margin-bottom:4px;">Attorney Referral Network</div>
-        <div style="font-size:14px;color:rgba(255,255,255,0.8);">Are you an attorney? We have clinics ready to treat your clients same-day.</div>
-      </div>
-      <button onclick="document.getElementById('car-popup').style.display='flex'" style="background:white;color:var(--red);border:none;padding:12px 28px;border-radius:3px;font-family:'Oswald',sans-serif;font-size:15px;font-weight:700;cursor:pointer;">Contact Our Network</button>
-    </div>
-  </div>
-</div>
+<div style="background:#f8f8f8;border-top:3px solid var(--red);padding:48px 0;margin-top:40px;" id="florida-locations"><div style="max-width:1100px;margin:0 auto;padding:0 20px;"><div style="text-align:center;margin-bottom:32px;"><div style="display:inline-block;background:var(--red);color:white;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:5px 14px;border-radius:2px;margin-bottom:12px;">Our Network</div><h2 style="font-family:'Oswald',sans-serif;font-size:32px;font-weight:700;color:#111;margin-bottom:10px;">Florida Clinic Locations</h2><p style="font-size:15px;color:#666;max-width:600px;margin:0 auto;">Physician-owned clinics across Florida. Walk-ins welcome. PIP accepted.</p></div><div style="border-radius:10px;overflow:hidden;border:1px solid #e5e5e5;margin-bottom:40px;"><iframe src="https://www.google.com/maps/d/u/2/embed?mid=1BWkyFg3T09Ks7TguFycu5n_qr_2K9VQ&ehbc=2E312F" width="100%" height="500" style="border:0;display:block;" allowfullscreen loading="lazy"></iframe></div><div style="background:var(--red);border-radius:6px;padding:28px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;"><div><div style="font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:white;margin-bottom:4px;">Attorney Referral Network</div><div style="font-size:14px;color:rgba(255,255,255,0.8);">Are you an attorney? We have clinics ready to treat your clients same-day.</div></div><button onclick="document.getElementById('car-popup').style.display='flex'" style="background:white;color:var(--red);border:none;padding:12px 28px;border-radius:3px;font-family:'Oswald',sans-serif;font-size:15px;font-weight:700;cursor:pointer;">Contact Our Network</button></div></div></div>
 <div id="contact-section" style="background:var(--black);color:white;padding:52px 20px;">
   <div style="max-width:700px;margin:0 auto;text-align:center;">
     <div style="font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:10px;">Contact Us</div>
@@ -480,6 +439,8 @@
   </div>
 </div>
 <script>
+
+
 const REFRESH_MS = 15 * 60 * 1000; // 15 minutes
 
 
@@ -543,53 +504,16 @@ function cleanTitle(title) {
 // ── GOOGLE MAPS THUMBNAILS ───────────────────────────────────────────────
 
 // Extract best location string from article title + description
-function extractLocation(article) {
-  const text = cleanTitle(article.title) + ' ' + stripHtml(article.description);
 
-  // Try to find "City, ST" or "City, State" patterns
-  const cityState = text.match(/\b([A-Z][a-zA-Z\s]+),\s*(AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY)\b/);
-  if (cityState) return cityState[0];
 
-  // Try "on [Highway/Interstate/Route]... in [City]"
-  const inCity = text.match(/\bin ([A-Z][a-zA-Z\s]+(?:County|Township)?),?\s*(AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY)/);
-  if (inCity) return inCity[1] + ', ' + inCity[2];
 
-  // Fall back to just the state name if we find one
-  const state = detectState(text);
-  if (state) return state + ', USA';
 
-  return null;
-}
 
-function mapsThumbUrl(location, size = '110x74') {
-  const q = encodeURIComponent(location);
-  return `https://maps.googleapis.com/maps/api/staticmap?center=${q}&zoom=13&size=${size}&scale=2&maptype=roadmap&markers=color:red%7Csize:small%7C${q}&key=${MAPS_KEY}`;
-}
-
-function lazyLoadThumbs(articles) {
-  articles.slice(0, 51).forEach((article, i) => {
-    const location = extractLocation(article);
-    if (!location) return;
-    const el = document.getElementById(`thumb-${i}`);
-    if (!el) return;
-    const size = i === 0 ? '700x260' : '220x148';
-    const imgUrl = mapsThumbUrl(location, size);
-    const img = new Image();
-    img.src = imgUrl;
-    img.alt = location;
-    img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit;opacity:0;transition:opacity 0.5s;';
-    img.onload = () => {
-      const el2 = document.getElementById(`thumb-${i}`);
-      if (el2 && el2.isConnected) {
-        el2.innerHTML = '';
-        el2.appendChild(img);
-        requestAnimationFrame(() => { img.style.opacity = '1'; });
-      }
-    };
-  });
-}
 
 // ── AI ARTICLE REWRITER ──────────────────────────────────────────────────
+
+
+
 let previewArticles = [];
 
 function showArticlePreview(idx) {
@@ -597,89 +521,117 @@ function showArticlePreview(idx) {
   if (!a) return;
   var existing = document.getElementById('article-preview-panel');
   if (existing) existing.remove();
-
   var src = a.source || extractSource(a.title);
   var title = cleanTitle(a.title);
   var desc = stripHtml(a.description || '').replace(/\[\+\d+ chars\]$/, '').trim();
-
-  var imgHtml = a.image ? '<div style="margin-bottom:24px;border-radius:6px;overflow:hidden;"><img src="' + a.image + '" style="width:100%;max-height:260px;object-fit:cover;display:block;" onerror="this.parentElement.remove()"></div>' : '';
-
-  var sentences = desc ? (desc.match(/[^.!?]+[.!?]+/g) || [desc]) : [];
-  var bodyHtml = '';
-  for (var s = 0; s < sentences.length; s += 2) {
-    var para = sentences.slice(s, s+2).join(' ').trim();
-    if (para) bodyHtml += '<p style="margin-bottom:16px;font-size:15px;color:rgba(255,255,255,0.78);line-height:1.85;">' + para + '</p>';
-  }
-  if (!bodyHtml) bodyHtml = '<p style="color:#555;font-style:italic;">Click Find Full Story to read more.</p>';
-
   var panel = document.createElement('div');
   panel.id = 'article-preview-panel';
-  panel.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:9999;display:flex;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto;';
-  panel.innerHTML =
-    '<div style="background:#111;border:1px solid rgba(255,255,255,0.1);border-radius:8px;max-width:720px;width:100%;padding:40px;position:relative;margin:20px auto;">' +
-      '<button onclick="document.getElementById('article-preview-panel').remove()" style="position:absolute;top:16px;right:18px;background:none;border:none;font-size:28px;cursor:pointer;color:#444;">x</button>' +
-      (src ? '<div style="font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:12px;">' + src + '</div>' : '') +
-      '<h1 style="font-family:'Oswald',sans-serif;font-size:26px;font-weight:700;color:white;line-height:1.3;margin-bottom:10px;padding-right:32px;">' + title + '</h1>' +
-      '<div style="font-size:12px;color:#555;margin-bottom:24px;">' + formatDate(a.pubDate) + '</div>' +
-      imgHtml +
-      '<div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:24px;margin-bottom:28px;">' + bodyHtml + '</div>' +
-      '<div style="display:flex;gap:10px;flex-wrap:wrap;padding-top:20px;border-top:1px solid rgba(255,255,255,0.08);">' +
-        '<a href="https://www.google.com/search?q=' + encodeURIComponent(title) + '" target="_blank" rel="noopener" style="display:inline-block;background:var(--red);color:white;padding:11px 24px;border-radius:3px;font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;text-transform:uppercase;text-decoration:none;">Find Full Story</a>' +
-        '<button onclick="document.getElementById('article-preview-panel').remove();document.getElementById('car-popup').style.display='flex';" style="background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.15);padding:11px 22px;border-radius:3px;font-size:14px;cursor:pointer;">Were You Involved?</button>' +
-        '<button onclick="document.getElementById('article-preview-panel').remove()" style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.4);border:1px solid rgba(255,255,255,0.1);padding:11px 18px;border-radius:3px;font-size:14px;cursor:pointer;">Close</button>' +
-      '</div>' +
-    '</div>';
-  panel.addEventListener('click', function(ev) { if (ev.target === panel) panel.remove(); });
+  panel.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.9);z-index:9999;overflow-y:auto;padding:20px;display:flex;align-items:flex-start;justify-content:center;';
+  var box = document.createElement('div');
+  box.style.cssText = 'background:#111;border:1px solid rgba(255,255,255,0.1);border-radius:8px;max-width:680px;width:100%;padding:36px;position:relative;margin:20px auto;';
+  var closeX = document.createElement('button');
+  closeX.innerHTML = '&times;';
+  closeX.style.cssText = 'position:absolute;top:14px;right:16px;background:none;border:none;font-size:28px;cursor:pointer;color:#666;line-height:1;';
+  closeX.onclick = function(){ panel.remove(); };
+  box.appendChild(closeX);
+  if (src) {
+    var srcEl = document.createElement('div');
+    srcEl.textContent = src;
+    srcEl.style.cssText = 'font-size:11px;font-weight:700;text-transform:uppercase;color:#c8102e;margin-bottom:10px;letter-spacing:.1em;';
+    box.appendChild(srcEl);
+  }
+  var h1 = document.createElement('h1');
+  h1.textContent = title;
+  h1.style.cssText = 'font-family:Oswald,sans-serif;font-size:24px;font-weight:700;color:white;line-height:1.3;margin-bottom:8px;padding-right:32px;';
+  box.appendChild(h1);
+  var dt = document.createElement('div');
+  dt.textContent = formatDate(a.pubDate);
+  dt.style.cssText = 'font-size:12px;color:#555;margin-bottom:20px;';
+  box.appendChild(dt);
+  if (a.image) {
+    var iw = document.createElement('div');
+    iw.style.cssText = 'margin-bottom:20px;border-radius:6px;overflow:hidden;';
+    var im = document.createElement('img');
+    im.src = a.image;
+    im.style.cssText = 'width:100%;max-height:240px;object-fit:cover;display:block;';
+    im.onerror = function(){ iw.style.display = 'none'; };
+    iw.appendChild(im);
+    box.appendChild(iw);
+  }
+  if (desc) {
+    var dv = document.createElement('div');
+    dv.style.cssText = 'border-top:1px solid rgba(255,255,255,0.08);padding-top:20px;margin-bottom:24px;';
+    var p = document.createElement('p');
+    p.textContent = desc;
+    p.style.cssText = 'font-size:14px;color:rgba(255,255,255,0.75);line-height:1.8;margin:0;';
+    dv.appendChild(p);
+    box.appendChild(dv);
+  }
+  var bf = document.createElement('div');
+  bf.style.cssText = 'display:flex;gap:10px;flex-wrap:wrap;';
+  var fa = document.createElement('a');
+  fa.href = 'https://www.google.com/search?q=' + encodeURIComponent(title);
+  fa.target = '_blank';
+  fa.textContent = 'Find Full Story';
+  fa.style.cssText = 'background:#c8102e;color:white;padding:10px 20px;border-radius:3px;font-family:Oswald,sans-serif;font-size:13px;font-weight:600;text-transform:uppercase;text-decoration:none;display:inline-block;';
+  var wb = document.createElement('button');
+  wb.textContent = 'Were You Involved?';
+  wb.style.cssText = 'background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.15);padding:10px 18px;border-radius:3px;font-size:13px;cursor:pointer;';
+  wb.onclick = function(){ panel.remove(); document.getElementById('car-popup').style.display = 'flex'; };
+  var cb = document.createElement('button');
+  cb.textContent = 'Close';
+  cb.style.cssText = 'background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.4);border:1px solid rgba(255,255,255,0.08);padding:10px 14px;border-radius:3px;font-size:13px;cursor:pointer;';
+  cb.onclick = function(){ panel.remove(); };
+  bf.appendChild(fa); bf.appendChild(wb); bf.appendChild(cb);
+  box.appendChild(bf);
+  panel.appendChild(box);
+  panel.onclick = function(ev){ if (ev.target === panel) panel.remove(); };
   document.body.appendChild(panel);
 }
 
 // ── RENDER MAIN FEED ─────────────────────────────────────────────────────
-
-
-// ── RENDER SIDEBAR ───────────────────────────────────────────────────────
 function renderFeed(articles) {
   previewArticles = articles;
   var el = document.getElementById('feed-container');
   if (!articles.length) {
-    el.innerHTML = '<div class="feed-error">No articles match that filter. <button onclick="clearFilter()" style="color:var(--red);background:none;border:none;cursor:pointer;font-weight:600;text-decoration:underline;">Clear</button></div>';
+    el.innerHTML = '<div class="feed-error">No articles found. <button onclick="clearFilter()" style="color:#c8102e;background:none;border:none;cursor:pointer;">Clear</button></div>';
     return;
   }
-  var top = articles[0];
-  var rest = articles.slice(1);
-  var topState = detectState(top.title + ' ' + (top.description || ''));
-  var topDesc = stripHtml(top.description).slice(0, 240);
-  var topSource = top.source || extractSource(top.title);
+  var top = articles[0], rest = articles.slice(1);
+  var topState = detectState(top.title + ' ' + (top.description||''));
+  var topDesc = stripHtml(top.description||'').slice(0,240);
+  var topSrc = top.source || extractSource(top.title);
   var topTitle = cleanTitle(top.title);
-
-  var html =
-    '<div class="featured-article" onclick="showArticlePreview(0)" style="cursor:pointer;">' +
-    '<div class="featured-img-box">' + (top.image ? '<img src="' + top.image + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'">' : icon()) + '</div>' +
-    (topState ? '<span class="featured-badge">' + topState + '</span>' : '') +
-    (topSource ? '<div class="featured-source">' + topSource + '</div>' : '') +
-    '<h2 class="featured-title" style="cursor:pointer;">' + topTitle + '</h2>' +
-    (topDesc ? '<p class="featured-excerpt">' + topDesc + '...</p>' : '') +
-    '<span class="featured-date">' + formatDate(top.pubDate) + '</span>' +
-    '<span style="display:inline-block;margin-top:10px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--red);">Read More &#8594;</span>' +
-    '</div>';
-
-  rest.slice(0, 50).forEach(function(item, i) {
-    var state = detectState(item.title + ' ' + (item.description || ''));
-    var src = item.source || extractSource(item.title);
-    var title = cleanTitle(item.title);
-    html +=
-      '<div class="article-card" onclick="showArticlePreview(' + (i+1) + ')" style="cursor:pointer;">' +
-      '<div class="article-icon">' + (item.image ? '<img src="' + item.image + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'">' : icon()) + '</div>' +
-      '<div class="article-meta">' +
-      '<span class="article-source">' + (state || src || 'National') + '</span>' +
-      '<span class="article-title" style="cursor:pointer;">' + title + '</span>' +
-      '<span class="article-date">' + formatDate(item.pubDate) + '</span>' +
-      '</div></div>';
+  var html = '<div class="featured-article" onclick="showArticlePreview(0)" style="cursor:pointer;">';
+  html += '<div class="featured-img-box">';
+  if (top.image) html += '<img src="' + top.image + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" onerror="this.style.opacity=0">';
+  else html += icon();
+  html += '</div>';
+  if (topState) html += '<span class="featured-badge">' + topState + '</span>';
+  if (topSrc) html += '<div class="featured-source">' + topSrc + '</div>';
+  html += '<h2 class="featured-title">' + topTitle + '</h2>';
+  if (topDesc) html += '<p class="featured-excerpt">' + topDesc + '...</p>';
+  html += '<span class="featured-date">' + formatDate(top.pubDate) + '</span>';
+  html += '<span style="display:inline-block;margin-top:10px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#c8102e;">Read More &rarr;</span></div>';
+  rest.slice(0,50).forEach(function(item, ii) {
+    var st = detectState(item.title + ' ' + (item.description||''));
+    var sr = item.source || extractSource(item.title);
+    var ti = cleanTitle(item.title);
+    html += '<div class="article-card" onclick="showArticlePreview(' + (ii+1) + ')" style="cursor:pointer;">';
+    html += '<div class="article-icon">';
+    if (item.image) html += '<img src="' + item.image + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" onerror="this.style.opacity=0">';
+    else html += icon();
+    html += '</div><div class="article-meta">';
+    html += '<span class="article-source">' + (st||sr||'National') + '</span>';
+    html += '<span class="article-title">' + ti + '</span>';
+    html += '<span class="article-date">' + formatDate(item.pubDate) + '</span>';
+    html += '</div></div>';
   });
-
   el.innerHTML = html;
   document.getElementById('article-count').textContent = articles.length;
 }
 
+// ── RENDER SIDEBAR ───────────────────────────────────────────────────────
 function renderSidebar(articles) {
   const el = document.getElementById('sidebar-feed');
   const items = articles.slice(0, 6);
@@ -709,211 +661,6 @@ async function fetchFeed() {
     'traffic+crash+killed+injured+highway',
     'Florida+car+accident+crash+fatal',
     'drunk+driving+crash+hit+run'
-  ];ipt>
-const REFRESH_MS = 15 * 60 * 1000; // 15 minutes
-
-
-const US_STATES = ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut',
-  'Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky',
-  'Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri',
-  'Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York',
-  'North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island',
-  'South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia',
-  'Washington','West Virginia','Wisconsin','Wyoming'];
-
-const ACCIDENT_KEYWORDS = ['accident','crash','collision','fatality','fatal','killed','injured','wreck','rollover','hit-and-run','highway','freeway','interstate','vehicle','pedestrian','motorcycl','semi','truck'];
-
-const ICONS = ['🚗','🚛','🚑','🚨','🏍️','🚘','🚙','⚠️','🛣️','🚒'];
-
-let allArticles = [];
-let filteredArticles = [];
-
-function detectState(text) {
-  for (const s of US_STATES) {
-    if (text.includes(s)) return s;
-  }
-  return null;
-}
-
-function isAccidentRelated(text) {
-  const t = text.toLowerCase();
-  return ACCIDENT_KEYWORDS.some(k => t.includes(k));
-}
-
-function formatDate(dateStr) {
-  try {
-    const d = new Date(dateStr);
-    const diff = Math.floor((Date.now() - d) / 60000);
-    if (diff < 2) return 'Just now';
-    if (diff < 60) return `${diff}m ago`;
-    if (diff < 1440) return `${Math.floor(diff / 60)}h ago`;
-    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-  } catch(e) { return ''; }
-}
-
-function stripHtml(html) {
-  const d = document.createElement('div');
-  d.innerHTML = html || '';
-  return (d.textContent || d.innerText || '').replace(/\s+/g, ' ').trim();
-}
-
-function icon() {
-  return ICONS[Math.floor(Math.random() * ICONS.length)];
-}
-
-function extractSource(title) {
-  const m = title.match(/ - ([^-]{2,40})$/);
-  return m ? m[1].trim() : '';
-}
-
-function cleanTitle(title) {
-  return title.replace(/ - [^-]{2,40}$/, '').trim();
-}
-
-// ── GOOGLE MAPS THUMBNAILS ───────────────────────────────────────────────
-// Maps key removed
-
-// Extract best location string from article title + description
-function extractLocation(article) {
-  const text = cleanTitle(article.title) + ' ' + stripHtml(article.description);
-
-  // Try to find "City, ST" or "City, State" patterns
-  const cityState = text.match(/\b([A-Z][a-zA-Z\s]+),\s*(AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY)\b/);
-  if (cityState) return cityState[0];
-
-  // Try "on [Highway/Interstate/Route]... in [City]"
-  const inCity = text.match(/\bin ([A-Z][a-zA-Z\s]+(?:County|Township)?),?\s*(AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY)/);
-  if (inCity) return inCity[1] + ', ' + inCity[2];
-
-  // Fall back to just the state name if we find one
-  const state = detectState(text);
-  if (state) return state + ', USA';
-
-  return null;
-}
-
-function mapsThumbUrl(location, size = '110x74') {
-  const q = encodeURIComponent(location);
-  return `https://maps.googleapis.com/maps/api/staticmap?center=${q}&zoom=13&size=${size}&scale=2&maptype=roadmap&markers=color:red%7Csize:small%7C${q}&key=${MAPS_KEY}`;
-}
-
-function lazyLoadThumbs(articles) {
-  articles.slice(0, 51).forEach((article, i) => {
-    const location = extractLocation(article);
-    if (!location) return;
-    const el = document.getElementById(`thumb-${i}`);
-    if (!el) return;
-    const size = i === 0 ? '700x260' : '220x148';
-    const imgUrl = mapsThumbUrl(location, size);
-    const img = new Image();
-    img.src = imgUrl;
-    img.alt = location;
-    img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit;opacity:0;transition:opacity 0.5s;';
-    img.onload = () => {
-      const el2 = document.getElementById(`thumb-${i}`);
-      if (el2 && el2.isConnected) {
-        el2.innerHTML = '';
-        el2.appendChild(img);
-        requestAnimationFrame(() => { img.style.opacity = '1'; });
-      }
-    };
-  });
-}
-
-// ── AI ARTICLE REWRITER ──────────────────────────────────────────────────
-let previewArticles = [];
-
-
-
-// ── RENDER MAIN FEED ─────────────────────────────────────────────────────
-
-
-// ── RENDER SIDEBAR ───────────────────────────────────────────────────────
-function renderSidebar(articles) {
-  const el = document.getElementById('sidebar-feed');
-  const items = articles.slice(0, 6);
-  if (!items.length) { el.innerHTML = '<div style="padding:16px;font-size:13px;color:var(--gray-mid);">No items.</div>'; return; }
-  el.innerHTML = items.map(item => {
-    const state = detectState(item.title + ' ' + (item.description || ''));
-    const src   = item.source || extractSource(item.title);
-    return `
-      <div class="sidebar-item">
-        <div class="sidebar-item-src">${state || src || 'News'}</div>
-        <a href="${item.link}" target="_blank" rel="noopener" class="sidebar-item-title">${cleanTitle(item.title)}</a>
-        <div class="sidebar-item-date">${formatDate(item.pubDate)}</div>
-      </div>`;
-  }).join('');
-}
-
-// ── RENDER TICKER ────────────────────────────────────────────────────────
-function renderTicker(articles) {
-  const text = articles.slice(0, 8).map(a => cleanTitle(a.title)).join('   ·   ');
-  document.getElementById('ticker-text').textContent = text || 'No recent reports.';
-}
-
-// ── FETCH LIVE ACCIDENT NEWS — multiple parallel queries for max coverage ─
-async function fetchFeed() {
-  const queries = [
-    'car+accident+crash+fatal+highway',
-    'car+crash+killed+injured+police',
-    'traffic+collision+dead+road',
-    'fatal+crash+truck+highway+interstate',
-    'pedestrian+struck+killed+driver',
-    'motorcycle+crash+accident+injured',
-    'drunk+driving+crash+DUI+accident',
-    'hit+and+run+accident+crash',
-    'rollover+crash+vehicle+highway',
-    'multi+vehicle+crash+pileup+road',
-    'Alabama+car+accident+crash+fatal',
-    'Alaska+car+accident+crash+fatal',
-    'Arizona+car+accident+crash+fatal',
-    'Arkansas+car+accident+crash+fatal',
-    'California+car+accident+crash+fatal',
-    'Colorado+car+accident+crash+fatal',
-    'Connecticut+car+accident+crash+fatal',
-    'Delaware+car+accident+crash+fatal',
-    'Florida+car+accident+crash+fatal',
-    'Georgia+car+accident+crash+fatal',
-    'Hawaii+car+accident+crash+fatal',
-    'Idaho+car+accident+crash+fatal',
-    'Illinois+car+accident+crash+fatal',
-    'Indiana+car+accident+crash+fatal',
-    'Iowa+car+accident+crash+fatal',
-    'Kansas+car+accident+crash+fatal',
-    'Kentucky+car+accident+crash+fatal',
-    'Louisiana+car+accident+crash+fatal',
-    'Maine+car+accident+crash+fatal',
-    'Maryland+car+accident+crash+fatal',
-    'Massachusetts+car+accident+crash+fatal',
-    'Michigan+car+accident+crash+fatal',
-    'Minnesota+car+accident+crash+fatal',
-    'Mississippi+car+accident+crash+fatal',
-    'Missouri+car+accident+crash+fatal',
-    'Montana+car+accident+crash+fatal',
-    'Nebraska+car+accident+crash+fatal',
-    'Nevada+car+accident+crash+fatal',
-    'New+Hampshire+car+accident+crash',
-    'New+Jersey+car+accident+crash+fatal',
-    'New+Mexico+car+accident+crash+fatal',
-    'New+York+car+accident+crash+fatal',
-    'North+Carolina+car+accident+crash',
-    'North+Dakota+car+accident+crash',
-    'Ohio+car+accident+crash+fatal',
-    'Oklahoma+car+accident+crash+fatal',
-    'Oregon+car+accident+crash+fatal',
-    'Pennsylvania+car+accident+crash+fatal',
-    'Rhode+Island+car+accident+crash',
-    'South+Carolina+car+accident+crash',
-    'South+Dakota+car+accident+crash',
-    'Tennessee+car+accident+crash+fatal',
-    'Texas+car+accident+crash+fatal',
-    'Utah+car+accident+crash+fatal',
-    'Vermont+car+accident+crash+fatal',
-    'Virginia+car+accident+crash+fatal',
-    'Washington+car+accident+crash+fatal',
-    'West+Virginia+car+accident+crash',
-    'Wisconsin+car+accident+crash+fatal',
-    'Wyoming+car+accident+crash+fatal',
   ];
 
   async function fetchQuery(q) {
@@ -1147,10 +894,10 @@ function showModal(type) {
         @media(max-width:400px){ #chat-box{width:calc(100vw - 32px);right:16px;} #chat-bubble{right:16px;bottom:16px;} }
       </style>
 
-      <div id="chat-bubble" onclick="toggleChat()" style="position:fixed;bottom:24px;right:24px;width:60px;height:60px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 20px rgba(200,16,46,0.5);z-index:8888;animation:bubblePulse 2.5s ease-in-out infinite;">
-  <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
-  <div style="position:absolute;top:-4px;right:-4px;background:#22c55e;color:white;border-radius:50%;width:20px;height:20px;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid white;">1</div>
-</div>
+      <div id="chat-bubble" onclick="toggleChat()">
+        <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+        <div id="chat-badge">1</div>
+      </div>
 
       <div id="chat-box">
         <div id="chat-header">
@@ -1209,8 +956,7 @@ function showModal(type) {
   function renderInput(step) {
     const area = document.getElementById('chat-input-area');
     if (step.type === 'buttons') {
-      var btns = step.options.map(function(o){ return '<button class="chat-btn" onclick="chatAnswer(\'' + o.replace(/'/g,"\\'") + '\',\'' + step.key + '\')">' + o + '</button>'; }).join('');
-      area.innerHTML = '<div class="chat-buttons">' + btns + '</div>';
+      area.innerHTML = `<div class="chat-buttons">${step.options.map(o => `<button class="chat-btn" onclick="chatAnswer('${o.replace(/'/g,"\\'")}','${step.key}')">${o}</button>`).join('')}</div>`;
     } else {
       area.innerHTML = `<div class="chat-text-input"><input id="chat-txt" type="text" placeholder="${step.placeholder}" onkeydown="if(event.key==='Enter')submitChatText('${step.key}')"><button onclick="submitChatText('${step.key}')">➤</button></div>`;
       setTimeout(() => { const el = document.getElementById('chat-txt'); if(el) el.focus(); }, 100);
@@ -1294,11 +1040,40 @@ function showModal(type) {
   });
 })();
 
-// back-to-top handled separately
+// back-to-top replaced
 
 
 
 
+</script>
+<div id="car-popup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:99999;align-items:center;justify-content:center;padding:20px;"><div style="background:white;border-radius:10px;max-width:540px;width:100%;overflow:hidden;"><div style="background:var(--red);padding:20px 28px;display:flex;align-items:center;justify-content:space-between;"><div><div style="font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:white;">BEEN IN AN ACCIDENT?</div><div style="font-size:13px;color:rgba(255,255,255,0.85);margin-top:2px;">Our clinics can see you today - no out-of-pocket cost with PIP</div></div><button onclick="document.getElementById('car-popup').style.display='none'" style="background:rgba(255,255,255,0.2);border:none;color:white;width:32px;height:32px;border-radius:50%;font-size:20px;cursor:pointer;flex-shrink:0;line-height:1;">x</button></div><div id="popup-form-wrap" style="padding:24px;max-height:75vh;overflow-y:auto;"><form id="popup-intake-form" onsubmit="return false;"><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;"><div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">First Name *</label><input name="firstName" required style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="John"></div><div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Last Name *</label><input name="lastName" required style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="Smith"></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;"><div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Phone *</label><input name="phone" type="tel" required style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="(555) 000-0000"></div><div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Email *</label><input name="email" type="email" required style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="john@email.com"></div></div><div style="margin-bottom:12px;"><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Date of Accident *</label><input name="accidentDate" type="date" required style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;"></div><div style="margin-bottom:12px;"><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Nearest City</label><select name="city" style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;background:white;"><option value="">Select...</option><option>Miami</option><option>Orlando</option><option>Tampa</option><option>Jacksonville</option><option>Fort Lauderdale</option><option>Boca Raton</option><option>Sarasota</option><option>Naples</option><option>Gainesville</option><option>Tallahassee</option><option>Clearwater</option><option>Pensacola</option><option>Port St. Lucie</option><option>Cape Coral</option><option>Ocala</option><option>Daytona Beach</option><option>Lakeland</option><option>Pompano Beach</option><option>West Palm Beach</option><option>Kissimmee</option><option>Other</option></select></div><div style="margin-bottom:12px;"><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Injuries</label><div style="display:flex;flex-wrap:wrap;gap:8px;"><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;"><input type="checkbox" name="injury" value="Neck Pain"> Neck Pain</label><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;"><input type="checkbox" name="injury" value="Back Pain"> Back Pain</label><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;"><input type="checkbox" name="injury" value="Headaches"> Headaches</label><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;"><input type="checkbox" name="injury" value="Whiplash"> Whiplash</label><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;"><input type="checkbox" name="injury" value="Dizziness"> Dizziness</label><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;"><input type="checkbox" name="injury" value="Other"> Other</label></div></div><div style="margin-bottom:18px;"><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">What Happened?</label><textarea name="description" rows="3" style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;resize:vertical;" placeholder="Briefly describe the accident..."></textarea></div><button type="button" id="popup-submit-btn" onclick="submitIntake()" style="width:100%;background:#c8102e;color:white;border:none;padding:13px;border-radius:4px;font-family:'Oswald',sans-serif;font-size:16px;font-weight:700;cursor:pointer;">Get Free Consultation</button><div style="font-size:11px;color:#999;text-align:center;margin-top:8px;">No cost - Confidential - We respond within 1 hour</div></form></div><div id="popup-success" style="display:none;padding:48px 28px;text-align:center;"><div style="width:60px;height:60px;background:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div style="font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:#111;margin-bottom:8px;">We'll Be In Touch!</div><div style="font-size:14px;color:#666;margin-bottom:20px;">A coordinator will contact you within the hour.</div><button onclick="document.getElementById('car-popup').style.display='none'" style="background:#c8102e;color:white;border:none;padding:11px 28px;border-radius:4px;font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;cursor:pointer;">Close</button></div></div></div>
+<div id="car-banner" style="position:fixed;bottom:80px;left:0;right:0;z-index:9998;pointer-events:none;display:none;"><div id="car-anim" style="position:absolute;bottom:0;left:-320px;pointer-events:all;cursor:pointer;" onclick="document.getElementById('car-banner').style.display='none';document.getElementById('car-popup').style.display='flex';"><div style="background:#c8102e;color:white;padding:10px 18px;border-radius:6px;font-family:'Oswald',sans-serif;font-size:15px;font-weight:700;white-space:nowrap;display:flex;align-items:center;gap:10px;box-shadow:0 4px 20px rgba(200,16,46,0.5);"><svg width="30" height="18" viewBox="0 0 48 28" fill="white"><path d="M40 10H35L30 4H18L13 10H8C5.8 10 4 11.8 4 14v6c0 1.1.9 2 2 2h2c0 2.2 1.8 4 4 4s4-1.8 4-4h16c0 2.2 1.8 4 4 4s4-1.8 4-4h2c1.1 0 2-.9 2-2v-6c0-3.3-2.7-6-6-6z"/><circle cx="12" cy="22" r="3" fill="#111"/><circle cx="36" cy="22" r="3" fill="#111"/></svg>BEEN IN AN ACCIDENT? CLICK HERE</div></div></div>
+<style>
+@keyframes carPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+@keyframes bubblePulse{0%,100%{box-shadow:0 4px 20px rgba(200,16,46,0.5)}50%{box-shadow:0 4px 32px rgba(200,16,46,0.85),0 0 0 8px rgba(200,16,46,0.15)}}
+#chat-bubble{position:fixed;bottom:24px;right:24px;z-index:8888;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;}
+#chat-box{position:fixed;bottom:160px;right:24px;width:320px;max-height:480px;background:#111;border:1px solid rgba(255,255,255,0.15);border-radius:16px;box-shadow:0 16px 48px rgba(0,0,0,0.7);z-index:8889;display:none;flex-direction:column;overflow:hidden;}
+.chat-msg{max-width:85%;padding:10px 14px;border-radius:16px;font-size:13px;line-height:1.5;}
+.chat-msg.bot{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.85);border-bottom-left-radius:4px;align-self:flex-start;}
+.chat-msg.user{background:var(--red);color:white;border-bottom-right-radius:4px;align-self:flex-end;}
+.chat-btn{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.8);padding:7px 12px;border-radius:20px;font-size:12px;cursor:pointer;font-family:'Barlow',sans-serif;}
+.chat-btn:hover{background:var(--red);border-color:var(--red);color:white;}
+</style>
+<div id="chat-bubble" onclick="toggleChat()">
+  <div style="background:#c8102e;color:white;padding:8px 16px;border-radius:20px;font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;white-space:nowrap;position:relative;animation:bubblePulse 2.5s ease-in-out infinite;box-shadow:0 4px 16px rgba(200,16,46,0.5);">Been in an Accident?<div style="position:absolute;bottom:-7px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:8px solid #c8102e;"></div></div>
+  <div style="width:60px;height:60px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;animation:bubblePulse 2.5s ease-in-out infinite;"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></div>
+</div>
+<div id="chat-box">
+  <div style="background:var(--red);padding:14px 18px;display:flex;align-items:center;gap:10px;">
+    <div style="width:36px;height:36px;background:rgba(255,255,255,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></div>
+    <div style="flex:1;"><div style="font-family:'Oswald',sans-serif;font-size:15px;font-weight:700;color:white;">IHateCarAccidents</div><div style="font-size:11px;color:rgba(255,255,255,0.75);">We can help you</div></div>
+    <button onclick="toggleChat()" style="background:none;border:none;color:rgba(255,255,255,0.8);font-size:24px;cursor:pointer;line-height:1;padding:0;">x</button>
+  </div>
+  <div id="chat-messages" style="flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;max-height:280px;"></div>
+  <div id="chat-input-area" style="padding:12px;border-top:1px solid rgba(255,255,255,0.08);"></div>
+  <div id="chat-done" style="padding:24px;text-align:center;display:none;"><div style="width:48px;height:48px;background:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><strong style="color:white;display:block;margin-bottom:8px;">Got it! We will be in touch.</strong><span style="color:rgba(255,255,255,0.7);font-size:13px;">Our team will reach out about your accident.</span></div>
+</div>
+<script>
 var _cs=0,_cd={},_cm=[];
 var _csteps=[
   {key:'intro',bot:"Hi! Were you recently in a car accident?",type:'buttons',options:['Yes, I was','Someone I know was','Just browsing']},
@@ -1311,9 +1086,42 @@ var _csteps=[
 ];
 function toggleChat(){var box=document.getElementById('chat-box');if(!box)return;var open=box.style.display==='flex';box.style.display=open?'none':'flex';if(!open&&_cm.length===0)setTimeout(function(){_cbot(_csteps[0].bot,_csteps[0]);},400);}
 function _cbot(text,step){var msgs=document.getElementById('chat-messages');if(!msgs)return;var d=document.createElement('div');d.className='chat-msg bot';d.textContent=text;msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;_cm.push({r:'bot',t:text});if(step)_cinput(step);}
-function _cuser(text){var msgs=document.getElementById('chat-messages');var d=document.createElement('div');d.className='chat-msg user';d.textContent=text;msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;_cm.push({r:'user',t:text});}
-function _cinput(step){var area=document.getElementById('chat-input-area');if(!area)return;if(step.type==='buttons'){var btns=step.options.map(function(o){return '<button class="chat-btn" onclick="_cans(''+o.replace(/'/g,"\'")+'',''+step.key+'')">'+o+'</button>';}).join(' ');area.innerHTML='<div style="display:flex;flex-wrap:wrap;gap:6px;">'+btns+'</div>';}else{area.innerHTML='<div style="display:flex;gap:8px;"><input id="chat-txt" type="text" placeholder="'+step.placeholder+'" style="flex:1;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:20px;padding:8px 14px;color:white;font-size:13px;outline:none;" onkeydown="if(event.key==='Enter')_ctxt(''+step.key+'')"><button onclick="_ctxt(''+step.key+'')" style="background:var(--red);border:none;color:white;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:16px;">&#9658;</button></div>';setTimeout(function(){var el=document.getElementById('chat-txt');if(el)el.focus();},100);}}
-function _cans(answer,key){if(answer==='Just browsing'){_cuser(answer);document.getElementById('chat-input-area').innerHTML='';setTimeout(function(){_cbot("No problem! We're here if you need help.",null);},400);return;}_cuser(answer);_cd[key]=answer;_cnext();}
+function _cuser(text){var msgs=document.getElementById('chat-messages');var d=document.createElement('div');d.className='chat-msg user';d.textContent=text;msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;}
+function _cinput(step){
+  var area=document.getElementById('chat-input-area');
+  if(!area)return;
+  area.innerHTML='';
+  if(step.type==='buttons'){
+    var wrap=document.createElement('div');
+    wrap.style.cssText='display:flex;flex-wrap:wrap;gap:6px;';
+    step.options.forEach(function(o){
+      var btn=document.createElement('button');
+      btn.className='chat-btn';
+      btn.textContent=o;
+      btn.onclick=function(){_cans(o,step.key);};
+      wrap.appendChild(btn);
+    });
+    area.appendChild(wrap);
+  }else{
+    var wrap2=document.createElement('div');
+    wrap2.style.cssText='display:flex;gap:8px;';
+    var inp=document.createElement('input');
+    inp.id='chat-txt';
+    inp.type='text';
+    inp.placeholder=step.placeholder;
+    inp.style.cssText='flex:1;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:20px;padding:8px 14px;color:white;font-size:13px;outline:none;';
+    inp.onkeydown=function(e){if(e.key==='Enter')_ctxt(step.key);};
+    var sbtn=document.createElement('button');
+    sbtn.innerHTML='&#9658;';
+    sbtn.style.cssText='background:var(--red);border:none;color:white;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:16px;';
+    sbtn.onclick=function(){_ctxt(step.key);};
+    wrap2.appendChild(inp);
+    wrap2.appendChild(sbtn);
+    area.appendChild(wrap2);
+    setTimeout(function(){inp.focus();},100);
+  }
+}
+function _cans(answer,key){if(answer==='Just browsing'){_cuser(answer);document.getElementById('chat-input-area').innerHTML='';setTimeout(function(){_cbot("No problem! We are here if you need help.",null);},400);return;}_cuser(answer);_cd[key]=answer;_cnext();}
 function _ctxt(key){var el=document.getElementById('chat-txt');if(!el||!el.value.trim())return;_cuser(el.value.trim());_cd[key]=el.value.trim();_cnext();}
 function _cnext(){_cs++;document.getElementById('chat-input-area').innerHTML='';if(_cs>=_csteps.length){setTimeout(_csend,500);return;}setTimeout(function(){_cbot(_csteps[_cs].bot,_csteps[_cs]);},500);}
 async function _csend(){try{await fetch('https://formspree.io/f/xlgpjyga',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({_subject:'New Chat Lead',name:_cd.name||'Unknown',email:_cd.email||'',phone:_cd.phone||'',details:_cd.details||'',when:_cd.when||'',injuries:_cd.injuries||''})});}catch(e){}document.getElementById('chat-messages').style.display='none';document.getElementById('chat-input-area').style.display='none';document.getElementById('chat-done').style.display='block';}
@@ -1325,101 +1133,5 @@ async function handleContactSubmit(btn){var fname=document.getElementById('cf-fn
 var btt=document.createElement('button');btt.innerHTML='&#8593;';btt.style.cssText='position:fixed;bottom:24px;left:24px;width:44px;height:44px;background:var(--red);color:white;border:none;border-radius:50%;font-size:20px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.2);opacity:0;transition:opacity 0.3s;z-index:500;';btt.onclick=function(){window.scrollTo({top:0,behavior:'smooth'});};document.body.appendChild(btt);window.addEventListener('scroll',function(){btt.style.opacity=window.scrollY>400?'1':'0';});
 
 </script>
-
-<div id="car-popup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:99999;align-items:center;justify-content:center;padding:20px;">
-  <div style="background:white;border-radius:10px;max-width:540px;width:100%;overflow:hidden;">
-    <div style="background:var(--red);padding:20px 28px;display:flex;align-items:center;justify-content:space-between;">
-      <div><div style="font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:white;">BEEN IN AN ACCIDENT?</div><div style="font-size:13px;color:rgba(255,255,255,0.85);margin-top:2px;">Our clinics can see you today - no out-of-pocket cost with PIP</div></div>
-      <button onclick="document.getElementById('car-popup').style.display='none'" style="background:rgba(255,255,255,0.2);border:none;color:white;width:32px;height:32px;border-radius:50%;font-size:20px;cursor:pointer;flex-shrink:0;line-height:1;">x</button>
-    </div>
-    <div id="popup-form-wrap" style="padding:24px;max-height:75vh;overflow-y:auto;">
-      <form id="popup-intake-form" onsubmit="return false;">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
-          <div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">First Name *</label><input name="firstName" required style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="John"></div>
-          <div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Last Name *</label><input name="lastName" required style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="Smith"></div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
-          <div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Phone *</label><input name="phone" type="tel" required style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="(555) 000-0000"></div>
-          <div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Email *</label><input name="email" type="email" required style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="john@email.com"></div>
-        </div>
-        <div style="margin-bottom:12px;"><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Date of Accident *</label><input name="accidentDate" type="date" required style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;"></div>
-        <div style="margin-bottom:12px;"><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Nearest City</label>
-          <select name="city" style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;background:white;"><option value="">Select...</option><option>Miami</option><option>Orlando</option><option>Tampa</option><option>Jacksonville</option><option>Fort Lauderdale</option><option>Boca Raton</option><option>Sarasota</option><option>Naples</option><option>Gainesville</option><option>Tallahassee</option><option>Clearwater</option><option>Pensacola</option><option>Port St. Lucie</option><option>Cape Coral</option><option>Ocala</option><option>Daytona Beach</option><option>Lakeland</option><option>Pompano Beach</option><option>West Palm Beach</option><option>Kissimmee</option><option>Other</option></select>
-        </div>
-        <div style="margin-bottom:12px;"><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Injuries</label>
-          <div style="display:flex;flex-wrap:wrap;gap:8px;">
-            <label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;"><input type="checkbox" name="injury" value="Neck Pain"> Neck Pain</label>
-            <label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;"><input type="checkbox" name="injury" value="Back Pain"> Back Pain</label>
-            <label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;"><input type="checkbox" name="injury" value="Headaches"> Headaches</label>
-            <label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;"><input type="checkbox" name="injury" value="Whiplash"> Whiplash</label>
-            <label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;"><input type="checkbox" name="injury" value="Dizziness"> Dizziness</label>
-            <label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;"><input type="checkbox" name="injury" value="Other"> Other</label>
-          </div>
-        </div>
-        <div style="margin-bottom:18px;"><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">What Happened?</label>
-          <textarea name="description" rows="3" style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;resize:vertical;" placeholder="Briefly describe the accident..."></textarea>
-        </div>
-        <button type="button" id="popup-submit-btn" onclick="submitIntake()" style="width:100%;background:#c8102e;color:white;border:none;padding:13px;border-radius:4px;font-family:'Oswald',sans-serif;font-size:16px;font-weight:700;cursor:pointer;">Get Free Consultation</button>
-        <div style="font-size:11px;color:#999;text-align:center;margin-top:8px;">No cost - Confidential - We respond within 1 hour</div>
-      </form>
-    </div>
-    <div id="popup-success" style="display:none;padding:48px 28px;text-align:center;">
-      <div style="width:60px;height:60px;background:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div style="font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:#111;margin-bottom:8px;">We'll Be In Touch!</div>
-      <div style="font-size:14px;color:#666;margin-bottom:20px;">A coordinator will contact you within the hour.</div>
-      <button onclick="document.getElementById('car-popup').style.display='none'" style="background:#c8102e;color:white;border:none;padding:11px 28px;border-radius:4px;font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;cursor:pointer;">Close</button>
-    </div>
-  </div>
-</div>
-
-<div id="car-banner" style="position:fixed;bottom:80px;left:0;right:0;z-index:9998;pointer-events:none;display:none;">
-  <div id="car-anim" style="position:absolute;bottom:0;left:-320px;pointer-events:all;cursor:pointer;" onclick="document.getElementById('car-banner').style.display='none';document.getElementById('car-popup').style.display='flex';">
-    <div style="background:#c8102e;color:white;padding:10px 18px;border-radius:6px;font-family:'Oswald',sans-serif;font-size:15px;font-weight:700;white-space:nowrap;display:flex;align-items:center;gap:10px;box-shadow:0 4px 20px rgba(200,16,46,0.5);">
-      <svg width="30" height="18" viewBox="0 0 48 28" fill="white"><path d="M40 10H35L30 4H18L13 10H8C5.8 10 4 11.8 4 14v6c0 1.1.9 2 2 2h2c0 2.2 1.8 4 4 4s4-1.8 4-4h16c0 2.2 1.8 4 4 4s4-1.8 4-4h2c1.1 0 2-.9 2-2v-6c0-3.3-2.7-6-6-6z"/><circle cx="12" cy="22" r="3" fill="#111"/><circle cx="36" cy="22" r="3" fill="#111"/></svg>
-      BEEN IN AN ACCIDENT? CLICK HERE
-    </div>
-  </div>
-</div>
-
-<style>
-@keyframes carPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
-@keyframes bubblePulse{0%,100%{box-shadow:0 4px 20px rgba(200,16,46,0.5)}50%{box-shadow:0 4px 32px rgba(200,16,46,0.85),0 0 0 8px rgba(200,16,46,0.15)}}
-#chat-bubble{position:fixed;bottom:24px;right:24px;z-index:8888;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;}
-#chat-box{position:fixed;bottom:160px;right:24px;width:320px;max-height:480px;background:#111;border:1px solid rgba(255,255,255,0.15);border-radius:16px;box-shadow:0 16px 48px rgba(0,0,0,0.7);z-index:8889;display:none;flex-direction:column;overflow:hidden;}
-.chat-msg{max-width:85%;padding:10px 14px;border-radius:16px;font-size:13px;line-height:1.5;}
-.chat-msg.bot{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.85);border-bottom-left-radius:4px;align-self:flex-start;}
-.chat-msg.user{background:var(--red);color:white;border-bottom-right-radius:4px;align-self:flex-end;}
-.chat-btn{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.8);padding:7px 12px;border-radius:20px;font-size:12px;cursor:pointer;font-family:'Barlow',sans-serif;}
-.chat-btn:hover{background:var(--red);border-color:var(--red);color:white;}
-</style>
-
-<div id="chat-bubble" onclick="toggleChat()">
-  <div style="background:#c8102e;color:white;padding:8px 16px;border-radius:20px;font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;white-space:nowrap;position:relative;animation:bubblePulse 2.5s ease-in-out infinite;box-shadow:0 4px 16px rgba(200,16,46,0.5);">
-    Been in an Accident?
-    <div style="position:absolute;bottom:-7px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:8px solid #c8102e;"></div>
-  </div>
-  <div style="width:64px;height:64px;background:#111;border:3px solid #c8102e;border-radius:50%;display:flex;align-items:center;justify-content:center;animation:bubblePulse 2.5s ease-in-out infinite;box-shadow:0 4px 20px rgba(200,16,46,0.5);">
-    <svg width="36" height="22" viewBox="0 0 48 28" fill="white"><path d="M40 10H35L30 4H18L13 10H8C5.8 10 4 11.8 4 14v6c0 1.1.9 2 2 2h2c0 2.2 1.8 4 4 4s4-1.8 4-4h16c0 2.2 1.8 4 4 4s4-1.8 4-4h2c1.1 0 2-.9 2-2v-6c0-3.3-2.7-6-6-6z"/><circle cx="12" cy="22" r="3" fill="#c8102e"/><circle cx="36" cy="22" r="3" fill="#c8102e"/></svg>
-  </div>
-</div>
-
-<div id="chat-box">
-  <div style="background:var(--red);padding:14px 18px;display:flex;align-items:center;gap:10px;">
-    <div style="width:36px;height:36px;background:rgba(255,255,255,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-      <svg width="20" height="12" viewBox="0 0 48 28" fill="white"><path d="M40 10H35L30 4H18L13 10H8C5.8 10 4 11.8 4 14v6c0 1.1.9 2 2 2h2c0 2.2 1.8 4 4 4s4-1.8 4-4h16c0 2.2 1.8 4 4 4s4-1.8 4-4h2c1.1 0 2-.9 2-2v-6c0-3.3-2.7-6-6-6z"/></svg>
-    </div>
-    <div style="flex:1;"><div style="font-family:'Oswald',sans-serif;font-size:15px;font-weight:700;color:white;">IHateCarAccidents</div><div style="font-size:11px;color:rgba(255,255,255,0.75);">We can help you</div></div>
-    <button onclick="toggleChat()" style="background:none;border:none;color:rgba(255,255,255,0.8);font-size:24px;cursor:pointer;line-height:1;padding:0;">x</button>
-  </div>
-  <div id="chat-messages" style="flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;max-height:280px;"></div>
-  <div id="chat-input-area" style="padding:12px;border-top:1px solid rgba(255,255,255,0.08);"></div>
-  <div id="chat-done" style="padding:24px;text-align:center;display:none;">
-    <div style="width:48px;height:48px;background:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-    <strong style="color:white;display:block;margin-bottom:8px;">Got it! We'll be in touch.</strong>
-    <span style="color:rgba(255,255,255,0.7);font-size:13px;">Our team will reach out about your accident.</span>
-  </div>
-</div>
-
-
 </body>
 </html>
