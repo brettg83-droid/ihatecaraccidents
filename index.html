@@ -44,7 +44,7 @@
   .search-btn:hover { border-color: var(--red); color: var(--red); }
 
   .hero { background: linear-gradient(135deg, #0d0d0d 0%, #1a0008 50%, #0d0d0d 100%); color: var(--white); padding: 52px 20px 48px; text-align: center; position: relative; overflow: hidden; }
-  .hero::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(-45deg, transparent, transparent 40px, rgba(200,16,46,0.04) 40px, rgba(200,16,46,0.04) 80px); pointer-events:none; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(-45deg, transparent, transparent 40px, rgba(200,16,46,0.04) 40px, rgba(200,16,46,0.04) 80px); }
   .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--red); color: white; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 4px 12px; border-radius: 2px; margin-bottom: 18px; }
   .hero-badge::before { content: ''; width: 7px; height: 7px; background: white; border-radius: 50%; animation: blink 1.5s infinite; }
   @keyframes blink { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.7); } }
@@ -143,12 +143,41 @@
 
   @media (max-width: 900px) { .main-wrap { grid-template-columns: 1fr; } .footer-grid { grid-template-columns: 1fr 1fr; } nav { display: none; } }
   @media (max-width: 600px) { .footer-grid { grid-template-columns: 1fr; } .stats-inner { gap: 16px; } .stat-divider { display: none; } }
+
+  .res-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--red);margin-bottom:10px;}
+  .res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:32px;}
+  .res-card{border:1px solid var(--gray-light);border-radius:6px;overflow:hidden;cursor:pointer;transition:box-shadow 0.2s,transform 0.2s;background:white;}
+  .res-card:hover{box-shadow:0 8px 32px rgba(0,0,0,0.12);transform:translateY(-2px);}
+  .res-card-img{height:110px;background:linear-gradient(135deg,#1a1a2e,#2d1020);display:flex;align-items:center;justify-content:center;font-size:44px;}
+  .res-card-body{padding:16px;}
+  .res-card-tag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--red);margin-bottom:5px;}
+  .res-card-title{font-family:'Oswald',sans-serif;font-size:15px;font-weight:600;line-height:1.25;margin-bottom:7px;color:var(--black);}
+  .res-card-excerpt{font-size:12px;color:var(--gray);line-height:1.55;margin-bottom:9px;}
+  .res-card-link{font-size:12px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.06em;}
+  .art-panel{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:9999;overflow-y:auto;padding:20px;}
+  .art-panel.open{display:flex;align-items:flex-start;justify-content:center;}
+  .art-inner{background:white;border-radius:8px;max-width:760px;width:100%;padding:44px;position:relative;margin:20px auto;}
+  .art-close{position:absolute;top:14px;right:18px;background:none;border:none;font-size:28px;cursor:pointer;color:#888;line-height:1;}
+  .art-tag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--red);margin-bottom:10px;}
+  .art-title{font-family:'Oswald',sans-serif;font-size:26px;font-weight:700;line-height:1.2;margin-bottom:14px;}
+  .art-meta{font-size:13px;color:#888;margin-bottom:24px;padding-bottom:18px;border-bottom:1px solid var(--gray-light);}
+  .art-body h2{font-family:'Oswald',sans-serif;font-size:20px;font-weight:700;margin:22px 0 10px;color:var(--black);}
+  .art-body h3{font-family:'Oswald',sans-serif;font-size:17px;font-weight:600;margin:16px 0 7px;}
+  .art-body p{margin-bottom:13px;font-size:15px;line-height:1.8;color:#333;}
+  .art-body ul,.art-body ol{margin:10px 0 16px 22px;}
+  .art-body li{margin-bottom:6px;font-size:15px;line-height:1.7;color:#333;}
+  .art-body .highlight{background:#fff8f8;border-left:4px solid var(--red);padding:13px 17px;border-radius:0 4px 4px 0;margin:16px 0;}
+  .art-body .highlight strong{color:var(--red);}
+  .art-cta-btn{display:inline-block;background:var(--red);color:white;padding:12px 24px;border-radius:3px;font-family:'Oswald',sans-serif;font-size:15px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-top:18px;cursor:pointer;border:none;}
+  .art-cta-btn:hover{background:var(--red-dark);}
+  @media(max-width:900px){.res-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:600px){.res-grid{grid-template-columns:1fr;}.art-inner{padding:22px 14px;}}
 </style>
 </head>
 <body id="top">
 
 <div class="top-bar">
-  🚨 Injured in an accident? <a href="#" onclick="document.getElementById('car-popup').style.display='flex';return false;">Report Your Accident</a> — No Cost, No Obligation
+  🚨 Injured in an accident? <a href="#contact-section" onclick="document.getElementById('contact-section').scrollIntoView({behavior:'smooth'});return false;">Report Your Accident</a> — No Cost, No Obligation
 </div>
 
 <header>
@@ -393,7 +422,6 @@
 </div>
 
 <!-- CONTACT SECTION -->
-<div style="background:#f8f8f8;border-top:3px solid var(--red);padding:48px 0;margin-top:40px;" id="florida-locations"><div style="max-width:1100px;margin:0 auto;padding:0 20px;"><div style="text-align:center;margin-bottom:32px;"><div style="display:inline-block;background:var(--red);color:white;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:5px 14px;border-radius:2px;margin-bottom:12px;">Our Network</div><h2 style="font-family:'Oswald',sans-serif;font-size:32px;font-weight:700;color:#111;margin-bottom:10px;">Florida Clinic Locations</h2><p style="font-size:15px;color:#666;max-width:600px;margin:0 auto;">Physician-owned clinics across Florida. Walk-ins welcome. PIP accepted.</p></div><div style="border-radius:10px;overflow:hidden;border:1px solid #e5e5e5;margin-bottom:40px;"><iframe src="https://www.google.com/maps/d/u/2/embed?mid=1BWkyFg3T09Ks7TguFycu5n_qr_2K9VQ&ehbc=2E312F" width="100%" height="500" style="border:0;display:block;" allowfullscreen loading="lazy"></iframe></div><div style="background:var(--red);border-radius:6px;padding:28px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;"><div><div style="font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:white;margin-bottom:4px;">Attorney Referral Network</div><div style="font-size:14px;color:rgba(255,255,255,0.8);">Are you an attorney? We have clinics ready to treat your clients same-day.</div></div><button onclick="document.getElementById('car-popup').style.display='flex'" style="background:white;color:var(--red);border:none;padding:12px 28px;border-radius:3px;font-family:'Oswald',sans-serif;font-size:15px;font-weight:700;cursor:pointer;">Contact Our Network</button></div></div></div>
 <div id="contact-section" style="background:var(--black);color:white;padding:52px 20px;">
   <div style="max-width:700px;margin:0 auto;text-align:center;">
     <div style="font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:10px;">Contact Us</div>
@@ -438,11 +466,9 @@
     </div>
   </div>
 </div>
+
 <script>
-
-
-const REFRESH_MS = 15 * 60 * 1000;
-const MAPS_KEY = 'AIzaSyBeMle1sEniEfIx3MkVx26VTEEbwAYtXSg'; // 15 minutes
+const REFRESH_MS = 15 * 60 * 1000; // 15 minutes
 
 
 const US_STATES = ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut',
@@ -505,106 +531,27 @@ function cleanTitle(title) {
 // ── GOOGLE MAPS THUMBNAILS ───────────────────────────────────────────────
 
 // Extract best location string from article title + description
-
-
-
-
-
-
-// ── AI ARTICLE REWRITER ──────────────────────────────────────────────────
-
-
-
-let previewArticles = [];
-
-function showArticlePreview(idx) {
-  var a = previewArticles[idx];
-  if (!a) return;
-  var existing = document.getElementById('article-preview-panel');
-  if (existing) existing.remove();
-  var src = a.source || extractSource(a.title);
-  var title = cleanTitle(a.title);
-  var desc = stripHtml(a.description || '').replace(/\[\+\d+ chars\]$/, '').trim();
-  var panel = document.createElement('div');
-  panel.id = 'article-preview-panel';
-  panel.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.9);z-index:9999;overflow-y:auto;padding:20px;display:flex;align-items:flex-start;justify-content:center;';
-  var box = document.createElement('div');
-  box.style.cssText = 'background:#111;border:1px solid rgba(255,255,255,0.1);border-radius:8px;max-width:680px;width:100%;padding:36px;position:relative;margin:20px auto;';
-  var closeX = document.createElement('button');
-  closeX.innerHTML = '&times;';
-  closeX.style.cssText = 'position:absolute;top:14px;right:16px;background:none;border:none;font-size:28px;cursor:pointer;color:#666;line-height:1;';
-  closeX.onclick = function(){ panel.remove(); };
-  box.appendChild(closeX);
-  if (src) {
-    var srcEl = document.createElement('div');
-    srcEl.textContent = src;
-    srcEl.style.cssText = 'font-size:11px;font-weight:700;text-transform:uppercase;color:#c8102e;margin-bottom:10px;letter-spacing:.1em;';
-    box.appendChild(srcEl);
-  }
-  var h1 = document.createElement('h1');
-  h1.textContent = title;
-  h1.style.cssText = 'font-family:Oswald,sans-serif;font-size:24px;font-weight:700;color:white;line-height:1.3;margin-bottom:8px;padding-right:32px;';
-  box.appendChild(h1);
-  var dt = document.createElement('div');
-  dt.textContent = formatDate(a.pubDate);
-  dt.style.cssText = 'font-size:12px;color:#555;margin-bottom:20px;';
-  box.appendChild(dt);
-  if (a.image) {
-    var iw = document.createElement('div');
-    iw.style.cssText = 'margin-bottom:20px;border-radius:6px;overflow:hidden;';
-    var im = document.createElement('img');
-    im.src = a.image;
-    im.style.cssText = 'width:100%;max-height:240px;object-fit:cover;display:block;';
-    im.onerror = function(){ iw.style.display = 'none'; };
-    iw.appendChild(im);
-    box.appendChild(iw);
-  }
-  if (desc) {
-    var dv = document.createElement('div');
-    dv.style.cssText = 'border-top:1px solid rgba(255,255,255,0.08);padding-top:20px;margin-bottom:24px;';
-    var p = document.createElement('p');
-    p.textContent = desc;
-    p.style.cssText = 'font-size:14px;color:rgba(255,255,255,0.75);line-height:1.8;margin:0;';
-    dv.appendChild(p);
-    box.appendChild(dv);
-  }
-  var bf = document.createElement('div');
-  bf.style.cssText = 'display:flex;gap:10px;flex-wrap:wrap;';
-  var fa = document.createElement('a');
-  fa.href = 'https://www.google.com/search?q=' + encodeURIComponent(title);
-  fa.target = '_blank';
-  fa.textContent = 'Find Full Story';
-  fa.style.cssText = 'background:#c8102e;color:white;padding:10px 20px;border-radius:3px;font-family:Oswald,sans-serif;font-size:13px;font-weight:600;text-transform:uppercase;text-decoration:none;display:inline-block;';
-  var wb = document.createElement('button');
-  wb.textContent = 'Were You Involved?';
-  wb.style.cssText = 'background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.15);padding:10px 18px;border-radius:3px;font-size:13px;cursor:pointer;';
-  wb.onclick = function(){ panel.remove(); document.getElementById('car-popup').style.display = 'flex'; };
-  var cb = document.createElement('button');
-  cb.textContent = 'Close';
-  cb.style.cssText = 'background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.4);border:1px solid rgba(255,255,255,0.08);padding:10px 14px;border-radius:3px;font-size:13px;cursor:pointer;';
-  cb.onclick = function(){ panel.remove(); };
-  bf.appendChild(fa); bf.appendChild(wb); bf.appendChild(cb);
-  box.appendChild(bf);
-  panel.appendChild(box);
-  panel.onclick = function(ev){ if (ev.target === panel) panel.remove(); };
-  document.body.appendChild(panel);
-}
-
-
-
 function extractLocation(article) {
   const text = cleanTitle(article.title) + ' ' + stripHtml(article.description);
+
+  // Try to find "City, ST" or "City, State" patterns
   const cityState = text.match(/\b([A-Z][a-zA-Z\s]+),\s*(AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY)\b/);
   if (cityState) return cityState[0];
+
+  // Try "on [Highway/Interstate/Route]... in [City]"
+  const inCity = text.match(/\bin ([A-Z][a-zA-Z\s]+(?:County|Township)?),?\s*(AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY)/);
+  if (inCity) return inCity[1] + ', ' + inCity[2];
+
+  // Fall back to just the state name if we find one
   const state = detectState(text);
   if (state) return state + ', USA';
-  return 'United States';
+
+  return null;
 }
 
-function mapsThumbUrl(location, size) {
-  size = size || '110x74';
+function mapsThumbUrl(location, size = '110x74') {
   const q = encodeURIComponent(location);
-  return 'https://maps.googleapis.com/maps/api/staticmap?center=' + q + '&zoom=13&size=' + size + '&scale=2&maptype=roadmap&markers=color:red%7Csize:small%7C' + q + '&key=AIzaSyBeMle1sEniEfIx3MkVx26VTEEbwAYtXSg';
+  return `https://maps.googleapis.com/maps/api/staticmap?center=${q}&zoom=13&size=${size}&scale=2&maptype=roadmap&markers=color:red%7Csize:small%7C${q}&key=${MAPS_KEY}`;
 }
 
 function lazyLoadThumbs(articles) {
@@ -634,40 +581,135 @@ function lazyLoadThumbs(articles) {
   });
 }
 
+// ── AI ARTICLE REWRITER ──────────────────────────────────────────────────
+let previewArticles = [];
+
+async function showArticlePreview(idx) {
+  const a = previewArticles[idx];
+  if (!a) return;
+  const existing = document.getElementById('article-preview-panel');
+  if (existing) existing.remove();
+
+  const location = extractLocation(a);
+  const src = a.source || extractSource(a.title);
+  const title = cleanTitle(a.title);
+  const desc = stripHtml(a.description || '').replace(/\[\+\d+ chars\]$/, '').trim();
+  const mapHtml = location ? `
+    <div style="margin-bottom:24px;border-radius:6px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);">
+      <div style="background:rgba(255,255,255,0.05);padding:6px 12px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,0.35);">📍 ${location}</div>
+      <img src="${mapsThumbUrl(location, '640x200')}" alt="${location}" style="width:100%;display:block;" onerror="this.parentElement.remove()">
+    </div>` : '';
+
+  const panel = document.createElement('div');
+  panel.id = 'article-preview-panel';
+  panel.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:9999;display:flex;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto;';
+  panel.innerHTML = `
+    <div style="background:#111;border:1px solid rgba(255,255,255,0.1);border-radius:8px;max-width:720px;width:100%;padding:40px;position:relative;margin:20px auto;box-shadow:0 24px 64px rgba(0,0,0,0.6);">
+      <button onclick="document.getElementById('article-preview-panel').remove()" style="position:absolute;top:14px;right:16px;background:none;border:none;font-size:28px;cursor:pointer;color:#555;line-height:1;z-index:1;">×</button>
+      ${src ? `<div style="font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:12px;">${src}</div>` : ''}
+      <h1 style="font-family:'Oswald',sans-serif;font-size:26px;font-weight:700;color:white;line-height:1.3;margin-bottom:8px;padding-right:32px;">${title}</h1>
+      <div style="font-size:12px;color:#555;margin-bottom:24px;">📅 ${formatDate(a.pubDate)}</div>
+      ${mapHtml}
+      <div id="article-body" style="font-size:15px;color:rgba(255,255,255,0.75);line-height:1.8;">
+        <div style="display:flex;align-items:center;gap:12px;padding:24px 0;color:#666;">
+          <div style="width:24px;height:24px;border:2px solid #333;border-top-color:var(--red);border-radius:50%;animation:spin 0.8s linear infinite;flex-shrink:0;"></div>
+          Writing full article...
+        </div>
+      </div>
+    </div>`;
+  panel.addEventListener('click', e => { if (e.target === panel) panel.remove(); });
+  document.body.appendChild(panel);
+
+  // Write article using headline + description — no proxy needed
+  try {
+    const prompt = `You are a staff journalist for IHateCarAccidents.com, a US car accident news site. Write a detailed, engaging 4-paragraph news article about this accident. Include: what happened, location details, injuries or fatalities if mentioned, road/weather conditions if relevant, impact on traffic, and a closing paragraph about road safety in that area. Use plain HTML <p> tags only — no headers, no bullet points, no markdown.
+
+Headline: ${title}
+${desc ? `Summary: ${desc}` : ''}
+${src ? `Source: ${src}` : ''}
+${a.pubDate ? `Date: ${a.pubDate}` : ''}`;
+
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    if (!response.ok) throw new Error('API error ' + response.status);
+    const data = await response.json();
+    const articleHtml = data.content?.[0]?.text || '';
+    if (!articleHtml) throw new Error('Empty response');
+
+    const bodyEl = document.getElementById('article-body');
+    if (bodyEl) {
+      bodyEl.innerHTML = `
+        <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:24px;">
+          <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:20px;">✍️ Full Story</div>
+          ${articleHtml}
+          <div style="margin-top:32px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.08);font-size:12px;color:#444;font-style:italic;">
+            Originally reported by ${src || 'national news'} · Rewritten for IHateCarAccidents.com
+          </div>
+        </div>`;
+      bodyEl.querySelectorAll('p').forEach(p => {
+        p.style.cssText = 'margin-bottom:18px;font-size:15px;color:rgba(255,255,255,0.75);line-height:1.85;';
+      });
+    }
+  } catch(e) {
+    const bodyEl = document.getElementById('article-body');
+    if (bodyEl) bodyEl.innerHTML = `
+      <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:24px;">
+        <p style="font-size:15px;color:rgba(255,255,255,0.6);line-height:1.8;margin-bottom:16px;">${desc || 'No additional details available for this article.'}</p>
+        <div style="margin-top:20px;">
+          <a href="${a.link}" target="_blank" rel="noopener" style="display:inline-block;background:var(--red);color:white;padding:11px 24px;border-radius:3px;font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;">Read Original Article →</a>
+        </div>
+      </div>`;
+  }
+}
+
 // ── RENDER MAIN FEED ─────────────────────────────────────────────────────
 function renderFeed(articles) {
   previewArticles = articles;
-  var el = document.getElementById('feed-container');
+  const el = document.getElementById('feed-container');
   if (!articles.length) {
-    el.innerHTML = '<div class="feed-error">No articles found. <button onclick="clearFilter()" style="color:#c8102e;background:none;border:none;cursor:pointer;">Clear</button></div>';
+    el.innerHTML = `<div class="feed-error">No articles match that filter. <button onclick="clearFilter()" style="color:var(--red);background:none;border:none;cursor:pointer;font-weight:600;text-decoration:underline;">Clear</button></div>`;
     return;
   }
-  var top = articles[0], rest = articles.slice(1);
-  var topState = detectState(top.title + ' ' + (top.description||''));
-  var topDesc = stripHtml(top.description||'').slice(0,240);
-  var topSrc = top.source || extractSource(top.title);
-  var topTitle = cleanTitle(top.title);
-  var html = '<div class="featured-article" onclick="showArticlePreview(0)" style="cursor:pointer;">';
-  html += '<div class="featured-img-box" id="thumb-0">' + icon() + '</div>';
-  if (topState) html += '<span class="featured-badge">' + topState + '</span>';
-  if (topSrc) html += '<div class="featured-source">' + topSrc + '</div>';
-  html += '<h2 class="featured-title">' + topTitle + '</h2>';
-  if (topDesc) html += '<p class="featured-excerpt">' + topDesc + '...</p>';
-  html += '<span class="featured-date">&#128197; ' + formatDate(top.pubDate) + '</span>';
-  html += '<span style="display:inline-block;margin-top:10px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#c8102e;">Read More &rarr;</span>';
-  html += '</div>';
-  rest.slice(0,50).forEach(function(item, ii) {
-    var state = detectState(item.title + ' ' + (item.description||''));
-    var src = item.source || extractSource(item.title);
-    var title = cleanTitle(item.title);
-    html += '<div class="article-card" onclick="showArticlePreview(' + (ii+1) + ')" style="cursor:pointer;">';
-    html += '<div class="article-icon" id="thumb-' + (ii+1) + '">' + icon() + '</div>';
-    html += '<div class="article-meta">';
-    html += '<span class="article-source">' + (state||src||'National') + '</span>';
-    html += '<span class="article-title">' + title + '</span>';
-    html += '<span class="article-date">' + formatDate(item.pubDate) + '</span>';
-    html += '</div></div>';
+  const [top, ...rest] = articles;
+  const topState  = detectState(top.title + ' ' + (top.description || ''));
+  const topDesc   = stripHtml(top.description).slice(0, 240);
+  const topSource = top.source || extractSource(top.title);
+  const topTitle  = cleanTitle(top.title);
+
+  let html = `
+    <div class="featured-article" onclick="showArticlePreview(0)" style="cursor:pointer;">
+      <div class="featured-img-box" id="thumb-0">${icon()}</div>
+      ${topState ? `<span class="featured-badge">${topState}</span>` : ''}
+      ${topSource ? `<div class="featured-source">${topSource}</div>` : ''}
+      <h2 class="featured-title" style="cursor:pointer;">${topTitle}</h2>
+      ${topDesc ? `<p class="featured-excerpt">${topDesc}…</p>` : ''}
+      <span class="featured-date">📅 ${formatDate(top.pubDate)}</span>
+      <span style="display:inline-block;margin-top:10px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--red);">Read More →</span>
+    </div>`;
+
+  rest.slice(0, 50).forEach((item, i) => {
+    const state = detectState(item.title + ' ' + (item.description || ''));
+    const src   = item.source || extractSource(item.title);
+    const title = cleanTitle(item.title);
+    html += `
+      <div class="article-card" onclick="showArticlePreview(${i + 1})" style="cursor:pointer;">
+        <div class="article-icon" id="thumb-${i + 1}">${icon()}</div>
+        <div class="article-meta">
+          <span class="article-source">${state || src || 'National'}</span>
+          <span class="article-title" style="cursor:pointer;">${title}</span>
+          <span class="article-date">${formatDate(item.pubDate)}</span>
+        </div>
+      </div>`;
   });
+
   el.innerHTML = html;
   document.getElementById('article-count').textContent = articles.length;
   lazyLoadThumbs(articles);
@@ -699,14 +741,66 @@ function renderTicker(articles) {
 // ── FETCH LIVE ACCIDENT NEWS — multiple parallel queries for max coverage ─
 async function fetchFeed() {
   const queries = [
-    'car+accident+crash+fatal+USA',
-    'traffic+crash+killed+injured+highway',
-    'Florida+car+accident+crash+fatal',
-    'drunk+driving+crash+hit+run',
-    'car+accident+crash+police+report',
+    'car+accident+crash+fatal+highway',
+    'car+crash+killed+injured+police',
+    'traffic+collision+dead+road',
+    'fatal+crash+truck+highway+interstate',
     'pedestrian+struck+killed+driver',
+    'motorcycle+crash+accident+injured',
+    'drunk+driving+crash+DUI+accident',
+    'hit+and+run+accident+crash',
     'rollover+crash+vehicle+highway',
-    'hit+and+run+crash+accident'
+    'multi+vehicle+crash+pileup+road',
+    'Alabama+car+accident+crash+fatal',
+    'Alaska+car+accident+crash+fatal',
+    'Arizona+car+accident+crash+fatal',
+    'Arkansas+car+accident+crash+fatal',
+    'California+car+accident+crash+fatal',
+    'Colorado+car+accident+crash+fatal',
+    'Connecticut+car+accident+crash+fatal',
+    'Delaware+car+accident+crash+fatal',
+    'Florida+car+accident+crash+fatal',
+    'Georgia+car+accident+crash+fatal',
+    'Hawaii+car+accident+crash+fatal',
+    'Idaho+car+accident+crash+fatal',
+    'Illinois+car+accident+crash+fatal',
+    'Indiana+car+accident+crash+fatal',
+    'Iowa+car+accident+crash+fatal',
+    'Kansas+car+accident+crash+fatal',
+    'Kentucky+car+accident+crash+fatal',
+    'Louisiana+car+accident+crash+fatal',
+    'Maine+car+accident+crash+fatal',
+    'Maryland+car+accident+crash+fatal',
+    'Massachusetts+car+accident+crash+fatal',
+    'Michigan+car+accident+crash+fatal',
+    'Minnesota+car+accident+crash+fatal',
+    'Mississippi+car+accident+crash+fatal',
+    'Missouri+car+accident+crash+fatal',
+    'Montana+car+accident+crash+fatal',
+    'Nebraska+car+accident+crash+fatal',
+    'Nevada+car+accident+crash+fatal',
+    'New+Hampshire+car+accident+crash',
+    'New+Jersey+car+accident+crash+fatal',
+    'New+Mexico+car+accident+crash+fatal',
+    'New+York+car+accident+crash+fatal',
+    'North+Carolina+car+accident+crash',
+    'North+Dakota+car+accident+crash',
+    'Ohio+car+accident+crash+fatal',
+    'Oklahoma+car+accident+crash+fatal',
+    'Oregon+car+accident+crash+fatal',
+    'Pennsylvania+car+accident+crash+fatal',
+    'Rhode+Island+car+accident+crash',
+    'South+Carolina+car+accident+crash',
+    'South+Dakota+car+accident+crash',
+    'Tennessee+car+accident+crash+fatal',
+    'Texas+car+accident+crash+fatal',
+    'Utah+car+accident+crash+fatal',
+    'Vermont+car+accident+crash+fatal',
+    'Virginia+car+accident+crash+fatal',
+    'Washington+car+accident+crash+fatal',
+    'West+Virginia+car+accident+crash',
+    'Wisconsin+car+accident+crash+fatal',
+    'Wyoming+car+accident+crash+fatal',
   ];
 
   async function fetchQuery(q) {
@@ -716,13 +810,8 @@ async function fetchFeed() {
     const data = await res.json();
     if (!data.items || !data.items.length) return [];
     return data.items.map(function(item) {
-      // Try every possible image field rss2json provides
       var img = item.thumbnail || (item.enclosure && item.enclosure.link) || '';
-      // Also try extracting <img> from description HTML
-      if (!img && item.description) {
-        var m = item.description.match(/<img[^>]+src="([^"]+)"/);
-        if (m) img = m[1];
-      }
+      if (!img && item.description) { var m = item.description.match(/<img[^>]+src="([^"]+)"/); if (m) img = m[1]; }
       return { title:item.title||'', link:item.link||'#', description:item.description||'', pubDate:item.pubDate||'', source:item.author||'', image:img };
     }).filter(function(i){ return i.title; });
   }
@@ -779,11 +868,11 @@ async function filterByState(state) {
     const stateUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent('https://news.google.com/rss/search?q=' + state.replace(/ /g,'+') + '+car+accident+crash&hl=en-US&gl=US&ceid=US:en');
     const stateRes = await fetch(stateUrl);
     const stateData = stateRes.ok ? await stateRes.json() : {items:[]};
-    var fresh = (stateData.items||[]).map(function(item) {
+    let fresh = (stateData.items||[]).map(function(item) {
       var img = item.thumbnail || (item.enclosure && item.enclosure.link) || '';
       if (!img && item.description) { var mx = item.description.match(/<img[^>]+src="([^"]+)"/); if (mx) img = mx[1]; }
       return { title:item.title||'', link:item.link||'#', description:item.description||'', pubDate:item.pubDate||'', source:item.author||'', image:img };
-    }).filter(function(i){ return i.title; });
+    }).filter(i => i.title);
     // Merge fresh + existing, dedupe, sort
     const combined = [...fresh, ...allArticles.filter(a => (a.title + ' ' + a.description).toLowerCase().includes(state.toLowerCase()))];
     const seen = new Set();
@@ -909,7 +998,66 @@ function showModal(type) {
     { key: 'phone',    bot: "Last one — a phone number where we can reach you? (optional)", type: 'text', placeholder: 'Phone number (optional)' },
   ];
 
+  function createWidget() {
+    const widget = document.createElement('div');
+    widget.id = 'chat-widget';
+    widget.innerHTML = `
+      <style>
+        #chat-bubble { position:fixed; bottom:24px; right:24px; width:56px; height:56px; background:var(--red); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 4px 20px rgba(200,16,46,0.5); z-index:8888; transition:transform 0.2s; animation:chatPulse 2.5s ease-in-out infinite; }
+        #chat-bubble:hover { transform:scale(1.1); }
+        @keyframes chatPulse { 0%,100%{box-shadow:0 4px 20px rgba(200,16,46,0.5)} 50%{box-shadow:0 4px 32px rgba(200,16,46,0.85),0 0 0 8px rgba(200,16,46,0.15)} }
+        #chat-bubble svg { width:26px; height:26px; fill:white; }
+        #chat-badge { position:absolute; top:-3px; right:-3px; background:#22c55e; color:white; border-radius:50%; width:18px; height:18px; font-size:10px; font-weight:700; display:flex; align-items:center; justify-content:center; border:2px solid white; }
+        #chat-box { position:fixed; bottom:92px; right:24px; width:340px; max-height:520px; background:#111; border:1px solid rgba(255,255,255,0.12); border-radius:16px; box-shadow:0 16px 48px rgba(0,0,0,0.6); z-index:8888; display:none; flex-direction:column; overflow:hidden; }
+        #chat-header { background:var(--red); padding:14px 18px; display:flex; align-items:center; gap:10px; }
+        #chat-header .avatar { width:36px; height:36px; background:rgba(255,255,255,0.2); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+        #chat-header .info { flex:1; }
+        #chat-header .name { font-family:'Oswald',sans-serif; font-size:15px; font-weight:700; color:white; }
+        #chat-header .status { font-size:11px; color:rgba(255,255,255,0.75); display:flex; align-items:center; gap:4px; }
+        #chat-header .status::before { content:''; width:7px; height:7px; background:#22c55e; border-radius:50%; display:inline-block; }
+        #chat-header .close-chat { background:none; border:none; color:rgba(255,255,255,0.7); font-size:22px; cursor:pointer; line-height:1; padding:0; }
+        #chat-messages { flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:10px; max-height:320px; }
+        .chat-msg { max-width:85%; padding:10px 14px; border-radius:16px; font-size:13px; line-height:1.5; }
+        .chat-msg.bot { background:rgba(255,255,255,0.08); color:rgba(255,255,255,0.85); border-bottom-left-radius:4px; align-self:flex-start; }
+        .chat-msg.user { background:var(--red); color:white; border-bottom-right-radius:4px; align-self:flex-end; }
+        #chat-input-area { padding:12px; border-top:1px solid rgba(255,255,255,0.08); }
+        .chat-buttons { display:flex; flex-wrap:wrap; gap:6px; }
+        .chat-btn { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:rgba(255,255,255,0.8); padding:7px 12px; border-radius:20px; font-size:12px; cursor:pointer; font-family:'Barlow',sans-serif; transition:all 0.15s; }
+        .chat-btn:hover { background:var(--red); border-color:var(--red); color:white; }
+        .chat-text-input { display:flex; gap:8px; }
+        .chat-text-input input { flex:1; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.15); border-radius:20px; padding:8px 14px; color:white; font-size:13px; font-family:'Barlow',sans-serif; outline:none; }
+        .chat-text-input input::placeholder { color:rgba(255,255,255,0.3); }
+        .chat-text-input input:focus { border-color:var(--red); }
+        .chat-text-input button { background:var(--red); border:none; color:white; width:34px; height:34px; border-radius:50%; cursor:pointer; font-size:16px; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
+        #chat-done { padding:20px; text-align:center; display:none; }
+        #chat-done .checkmark { font-size:36px; margin-bottom:10px; }
+        #chat-done p { font-size:13px; color:rgba(255,255,255,0.7); line-height:1.6; }
+        @media(max-width:400px){ #chat-box{width:calc(100vw - 32px);right:16px;} #chat-bubble{right:16px;bottom:16px;} }
+      </style>
 
+      <div id="chat-bubble" onclick="toggleChat()">
+        <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+        <div id="chat-badge">1</div>
+      </div>
+
+      <div id="chat-box">
+        <div id="chat-header">
+          <div class="avatar">🚗</div>
+          <div class="info">
+            <div class="name">IHateCarAccidents</div>
+            <div class="status">We can help you</div>
+          </div>
+          <button class="close-chat" onclick="toggleChat()">×</button>
+        </div>
+        <div id="chat-messages"></div>
+        <div id="chat-input-area"></div>
+        <div id="chat-done">
+          <div class="checkmark">✅</div>
+          <p><strong style="color:white;">Got it! We'll be in touch soon.</strong><br>Someone from our team will reach out to help with your accident case.</p>
+        </div>
+      </div>`;
+    document.body.appendChild(widget);
+  }
 
   window.toggleChat = function() {
     const box = document.getElementById('chat-box');
@@ -1023,15 +1171,40 @@ function showModal(type) {
   }
 
   // Init
-
+  document.addEventListener('DOMContentLoaded', () => {
+    createWidget();
+    // Show the bubble after 3 seconds with a gentle bounce
+    setTimeout(() => {
+      const bubble = document.getElementById('chat-bubble');
+      if (bubble) bubble.style.display = 'flex';
+    }, 3000);
+  });
 })();
 
-// back-to-top replaced
-
-
+const backToTop = document.createElement('button');
+backToTop.innerHTML = '↑';
+backToTop.style.cssText = 'position:fixed;bottom:24px;right:24px;width:44px;height:44px;background:var(--red);color:white;border:none;border-radius:50%;font-size:20px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.2);opacity:0;transition:opacity 0.3s;z-index:500;';
+backToTop.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+document.body.appendChild(backToTop);
+window.addEventListener('scroll', () => {
+  backToTop.style.opacity = window.scrollY > 400 ? '1' : '0';
+});
 
 
 </script>
+
+
+<div id="resources-section" style="background:var(--gray-bg);border-top:3px solid var(--red);padding:56px 20px;">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div class="res-label">Free Guides</div>
+    <h2 style="font-family:'Oswald',sans-serif;font-size:32px;font-weight:700;margin-bottom:8px;">Car Accident Resources</h2>
+    <p style="font-size:15px;color:var(--gray);max-width:600px;">Written for Florida accident victims. Click any article to read the full guide.</p>
+    <div class="res-grid" id="res-grid"><div class="res-card" onclick="openArt('what-to-do')"><div style="height:110px;overflow:hidden;"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=70&auto=format&fit=crop" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.style.background='linear-gradient(135deg,#1a1a2e,#2d1020)'"></div><div class="res-card-body"><div class="res-card-tag">First Steps</div><div class="res-card-title">What to Do Immediately After a Car Accident in Florida</div><div class="res-card-excerpt">The actions you take in the first 60 minutes after a crash can make or break your insurance claim and medical recovery.</div><span class="res-card-link">Read Full Guide &rarr;</span></div></div><div class="res-card" onclick="openArt('pip-insurance')"><div style="height:110px;overflow:hidden;"><img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&q=70&auto=format&fit=crop" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.style.background='linear-gradient(135deg,#1a1a2e,#2d1020)'"></div><div class="res-card-body"><div class="res-card-tag">Insurance</div><div class="res-card-title">Florida PIP Insurance Explained: What Every Driver Needs to Know</div><div class="res-card-excerpt">Florida is a no-fault state. Your own PIP insurance pays your medical bills first but there are strict rules most people do not know about.</div><span class="res-card-link">Read Full Guide &rarr;</span></div></div><div class="res-card" onclick="openArt('injury-symptoms')"><div style="height:110px;overflow:hidden;"><img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=600&q=70&auto=format&fit=crop" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.style.background='linear-gradient(135deg,#1a1a2e,#2d1020)'"></div><div class="res-card-body"><div class="res-card-tag">Medical</div><div class="res-card-title">Car Accident Injury Symptoms That Appear Days Later</div><div class="res-card-excerpt">You walked away feeling fine but 48 hours later you are in serious pain. This is extremely common. Here is why you must see a doctor anyway.</div><span class="res-card-link">Read Full Guide &rarr;</span></div></div><div class="res-card" onclick="openArt('accident-report')"><div style="height:110px;overflow:hidden;"><img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=600&q=70&auto=format&fit=crop" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.style.background='linear-gradient(135deg,#1a1a2e,#2d1020)'"></div><div class="res-card-body"><div class="res-card-tag">Legal</div><div class="res-card-title">How to Get Your Florida Car Accident Police Report</div><div class="res-card-excerpt">The police report is the single most important document after a crash. Here is exactly how to get yours and what it means for your claim.</div><span class="res-card-link">Read Full Guide &rarr;</span></div></div><div class="res-card" onclick="openArt('fault-florida')"><div style="height:110px;overflow:hidden;"><img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&q=70&auto=format&fit=crop" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.style.background='linear-gradient(135deg,#1a1a2e,#2d1020)'"></div><div class="res-card-body"><div class="res-card-tag">Legal</div><div class="res-card-title">How Is Fault Determined in a Florida Car Accident?</div><div class="res-card-excerpt">Florida uses modified comparative negligence. You can still recover damages even if you were partially at fault.</div><span class="res-card-link">Read Full Guide &rarr;</span></div></div><div class="res-card" onclick="openArt('uninsured')"><div style="height:110px;overflow:hidden;"><img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=70&auto=format&fit=crop" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.style.background='linear-gradient(135deg,#1a1a2e,#2d1020)'"></div><div class="res-card-body"><div class="res-card-tag">Insurance</div><div class="res-card-title">What to Do If You Are Hit by an Uninsured Driver in Florida</div><div class="res-card-excerpt">Over 20% of Florida drivers are uninsured. Here is how to protect yourself and still recover compensation after a crash.</div><span class="res-card-link">Read Full Guide &rarr;</span></div></div><div class="res-card" onclick="openArt('hit-and-run')"><div style="height:110px;overflow:hidden;"><img src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=600&q=70&auto=format&fit=crop" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.style.background='linear-gradient(135deg,#1a1a2e,#2d1020)'"></div><div class="res-card-body"><div class="res-card-tag">Legal</div><div class="res-card-title">Hit and Run Accidents in Florida: Your Legal Rights</div><div class="res-card-excerpt">If you are the victim of a hit and run in Florida you still have options for compensation even without identifying the other driver.</div><span class="res-card-link">Read Full Guide &rarr;</span></div></div><div class="res-card" onclick="openArt('insurance-claim')"><div style="height:110px;overflow:hidden;"><img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&q=70&auto=format&fit=crop" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.style.background='linear-gradient(135deg,#1a1a2e,#2d1020)'"></div><div class="res-card-body"><div class="res-card-tag">Insurance</div><div class="res-card-title">How to File a Car Insurance Claim in Florida: Step by Step</div><div class="res-card-excerpt">Filing your claim correctly from the start prevents delays denials and underpayment. Here is the complete process.</div><span class="res-card-link">Read Full Guide &rarr;</span></div></div><div class="res-card" onclick="openArt('statute-limitations')"><div style="height:110px;overflow:hidden;"><img src="https://images.unsplash.com/photo-1589994965851-a8f479c573a9?w=600&q=70&auto=format&fit=crop" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.style.background='linear-gradient(135deg,#1a1a2e,#2d1020)'"></div><div class="res-card-body"><div class="res-card-tag">Legal</div><div class="res-card-title">Florida Car Accident Statute of Limitations: Do Not Miss Your Deadline</div><div class="res-card-excerpt">Miss the deadline to file your lawsuit and you lose your right to sue forever. Here are the critical deadlines every accident victim must know.</div><span class="res-card-link">Read Full Guide &rarr;</span></div></div><div class="res-card" onclick="openArt('medical-treatment')"><div style="height:110px;overflow:hidden;"><img src="https://images.unsplash.com/photo-1551601651-2a8555f1a136?w=600&q=70&auto=format&fit=crop" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.style.background='linear-gradient(135deg,#1a1a2e,#2d1020)'"></div><div class="res-card-body"><div class="res-card-tag">Medical</div><div class="res-card-title">Best Medical Treatment Options After a Florida Car Accident</div><div class="res-card-excerpt">Knowing which type of doctor to see and when can speed your recovery and protect your insurance claim.</div><span class="res-card-link">Read Full Guide &rarr;</span></div></div></div>
+  </div>
+</div>
+<div id="art-panels"><div class="art-panel" id="art-what-to-do"><div class="art-inner"><button class="art-close" onclick="closeArt('what-to-do')">&times;</button><div class="art-tag">First Steps</div><h1 class="art-title">What to Do Immediately After a Car Accident in Florida</h1><div class="art-meta">IHateCarAccidents.com</div><div class="art-body"><h2>The First 60 Minutes Are Critical</h2><p>After a car accident adrenaline is pumping and your brain is in shock. Most people do not know what to do and mistakes made in the first hour often hurt them weeks later when dealing with insurance companies.</p><h2>Step 1: Check for Injuries and Call 911</h2><p>Before doing anything else check yourself and your passengers for injuries. Even if you feel fine call 911. A police report is essential for any insurance claim in Florida.</p><div class="highlight"><strong>Florida Law:</strong> You are legally required to report any accident involving injury death or property damage over $500 to law enforcement.</div><h2>Step 2: Document Everything</h2><ul><li>Photos of all vehicles from multiple angles</li><li>Photos of any visible injuries</li><li>Photos of road conditions and skid marks</li><li>Screenshot the location on Google Maps</li></ul><h2>Step 3: Exchange Information</h2><p>Get full name address phone license number insurance info and license plate from every other driver. Also get contact info from any witnesses.</p><h2>Step 4: Do NOT Admit Fault</h2><p>Do not say sorry or anything that could be interpreted as an admission of fault even if you think the accident was partially your fault.</p><h2>Step 5: Seek Medical Attention Within 14 Days</h2><div class="highlight"><strong>Critical:</strong> Under Florida PIP law you have 14 days from the accident to seek medical treatment or you forfeit your PIP benefits. Even if you feel fine see a doctor. Many serious injuries do not show symptoms for 24-72 hours.</div><button class="art-cta-btn" onclick="closeArt('what-to-do');document.getElementById('car-popup').style.display='flex'">Get Free Consultation</button></div></div></div><div class="art-panel" id="art-pip-insurance"><div class="art-inner"><button class="art-close" onclick="closeArt('pip-insurance')">&times;</button><div class="art-tag">Insurance</div><h1 class="art-title">Florida PIP Insurance Explained: What Every Driver Needs to Know</h1><div class="art-meta">IHateCarAccidents.com</div><div class="art-body"><h2>What Is PIP Insurance?</h2><p>Florida is a no-fault insurance state. After a car accident your own auto insurance pays for your medical expenses regardless of who caused the crash. This coverage is called Personal Injury Protection or PIP. Florida law requires all drivers to carry a minimum of $10000 in PIP coverage.</p><h2>What Does PIP Cover?</h2><ul><li>80% of reasonable medical expenses up to policy limits</li><li>60% of lost wages if you cannot work</li><li>Death benefits up to $5000</li></ul><div class="highlight"><strong>Important:</strong> PIP only covers 80% of medical costs not 100%. You are responsible for the remaining 20% unless you have additional coverage or pursue a claim against the at-fault driver.</div><h2>The 14-Day Rule</h2><p>To receive PIP benefits you must seek medical treatment within 14 days of the accident. Miss this window and your claim is denied with no exceptions. If your provider diagnoses an Emergency Medical Condition you get the full $10000. Otherwise benefits are capped at $2500.</p><button class="art-cta-btn" onclick="closeArt('pip-insurance');document.getElementById('car-popup').style.display='flex'">Get Free Consultation</button></div></div></div><div class="art-panel" id="art-injury-symptoms"><div class="art-inner"><button class="art-close" onclick="closeArt('injury-symptoms')">&times;</button><div class="art-tag">Medical</div><h1 class="art-title">Car Accident Injury Symptoms That Appear Days Later</h1><div class="art-meta">IHateCarAccidents.com</div><div class="art-body"><h2>Why You Feel Fine After an Accident</h2><p>Immediately after a car accident your body floods with adrenaline and endorphins which are natural painkillers that can completely mask injury symptoms for 24 to 72 hours or longer. This is why many accident victims feel fine at the scene and then wake up days later barely able to move.</p><h2>Most Common Delayed Symptoms</h2><h3>Whiplash</h3><p>The most common car accident injury. Symptoms include neck pain stiffness headaches shoulder pain and dizziness often appearing 24-48 hours after impact.</p><h3>Back Pain</h3><p>Can indicate anything from muscle strain to herniated discs. Frequently does not appear until the day after the crash.</p><h3>Headaches</h3><p>Can signal whiplash concussion blood clots or traumatic brain injury. Never dismiss a headache that starts after a car accident.</p><h3>Concussion and TBI</h3><p>You do not need to hit your head directly. Watch for confusion memory problems difficulty concentrating and sleep disturbances.</p><div class="highlight"><strong>Florida Law:</strong> You have 14 days to seek medical treatment to preserve your PIP insurance benefits. Do not wait for symptoms to worsen.</div><button class="art-cta-btn" onclick="closeArt('injury-symptoms');document.getElementById('car-popup').style.display='flex'">Get Free Consultation</button></div></div></div><div class="art-panel" id="art-accident-report"><div class="art-inner"><button class="art-close" onclick="closeArt('accident-report')">&times;</button><div class="art-tag">Legal</div><h1 class="art-title">How to Get Your Florida Car Accident Police Report</h1><div class="art-meta">IHateCarAccidents.com</div><div class="art-body"><h2>Why the Police Report Matters</h2><p>The Florida Traffic Crash Report is the foundation of every insurance claim and legal action. Insurance adjusters rely heavily on it. Without it your claim becomes significantly harder to prove.</p><h2>What Is in the Report?</h2><ul><li>Date time and exact location of the crash</li><li>Names contact info and insurance details of all drivers</li><li>Officer narrative of how the crash occurred</li><li>Fault determination and citations issued</li><li>Names and contact info of witnesses</li><li>Diagram of the crash scene</li></ul><h2>How to Get Your Report</h2><h3>Online</h3><p>Purchase your report at BuyFlCrash.com for $10. Reports are typically available within 3-10 business days of the crash.</p><h3>Free Through Us</h3><p>Our team can request your accident report on your behalf at no cost. Fill out the form on our homepage.</p><div class="highlight"><strong>Tip:</strong> If you were not given a crash report number at the scene you can find it using your name date and location at BuyFlCrash.com.</div><button class="art-cta-btn" onclick="closeArt('accident-report');document.getElementById('car-popup').style.display='flex'">Get Free Consultation</button></div></div></div><div class="art-panel" id="art-fault-florida"><div class="art-inner"><button class="art-close" onclick="closeArt('fault-florida')">&times;</button><div class="art-tag">Legal</div><h1 class="art-title">How Is Fault Determined in a Florida Car Accident?</h1><div class="art-meta">IHateCarAccidents.com</div><div class="art-body"><h2>Florida Modified Comparative Negligence</h2><p>As of 2023 Florida law allows you to recover damages as long as you were less than 51% at fault. Your recovery is reduced by your percentage of fault. For example if you were 30% at fault and suffered $100000 in damages you can recover $70000.</p><h2>Who Determines Fault?</h2><ul><li>Police report and the officer assessment of who was cited</li><li>Insurance investigation where adjusters review evidence and statements</li><li>Photos video footage witness statements and skid marks</li><li>Which driver violated right-of-way or speed limits</li></ul><h2>Common Scenarios</h2><h3>Rear-End Collisions</h3><p>The driver who rear-ends another is presumed at fault in most cases. This can be overcome if the front driver suddenly cut off the rear driver or had malfunctioning brake lights.</p><h3>Left-Turn Accidents</h3><p>A driver making a left turn is generally at fault for failing to yield. If the other driver ran a red light fault may be shared.</p><div class="highlight"><strong>Warning:</strong> Do not give a recorded statement to the other insurance company without consulting an attorney first. Statements can be used to assign you a higher percentage of fault.</div><button class="art-cta-btn" onclick="closeArt('fault-florida');document.getElementById('car-popup').style.display='flex'">Get Free Consultation</button></div></div></div><div class="art-panel" id="art-uninsured"><div class="art-inner"><button class="art-close" onclick="closeArt('uninsured')">&times;</button><div class="art-tag">Insurance</div><h1 class="art-title">What to Do If You Are Hit by an Uninsured Driver in Florida</h1><div class="art-meta">IHateCarAccidents.com</div><div class="art-body"><h2>Florida Uninsured Driver Problem</h2><p>Florida has one of the highest rates of uninsured drivers in the United States with approximately 20% having no insurance at all. If you are hit by one of these drivers your path to compensation is very different.</p><h2>Step 1: Use Your PIP Coverage First</h2><p>Your own PIP coverage kicks in regardless of whether the other driver is insured. This covers 80% of your medical expenses up to $10000.</p><h2>Step 2: Check for Uninsured Motorist Coverage</h2><p>Uninsured Motorist or UM coverage is optional in Florida but highly recommended. If you have it your own insurance pays for injuries and damages when the at-fault driver has no insurance. UM typically covers medical expenses beyond PIP limits lost wages and pain and suffering.</p><div class="highlight"><strong>Tip:</strong> Check your insurance policy right now for UM coverage. If you do not have it add it. It is usually inexpensive and invaluable if you are hit by an uninsured driver.</div><button class="art-cta-btn" onclick="closeArt('uninsured');document.getElementById('car-popup').style.display='flex'">Get Free Consultation</button></div></div></div><div class="art-panel" id="art-hit-and-run"><div class="art-inner"><button class="art-close" onclick="closeArt('hit-and-run')">&times;</button><div class="art-tag">Legal</div><h1 class="art-title">Hit and Run Accidents in Florida: Your Legal Rights</h1><div class="art-meta">IHateCarAccidents.com</div><div class="art-body"><h2>What Is a Hit and Run?</h2><p>A hit and run occurs when a driver leaves the scene without stopping identifying themselves or rendering aid. In Florida hit and run is a felony if there are injuries or fatalities.</p><h2>What to Do Immediately</h2><ol><li>Call 911 immediately</li><li>Note vehicle make model color partial plate and direction of travel</li><li>Look for witnesses or dashcam footage</li><li>Check for nearby security cameras</li><li>Do NOT leave the scene yourself</li><li>Seek medical attention within 14 days to preserve PIP benefits</li></ol><h2>Compensation Options</h2><h3>Your PIP Coverage</h3><p>Your own PIP insurance covers medical expenses up to $10000 regardless of whether the other driver is identified.</p><h3>Uninsured Motorist Coverage</h3><p>A hit and run driver is treated as an uninsured motorist. If you have UM coverage it can compensate you for injuries beyond your PIP limits.</p><div class="highlight"><strong>Florida Law:</strong> Failing to stop after an accident causing injury is a felony punishable by up to 30 years in prison.</div><button class="art-cta-btn" onclick="closeArt('hit-and-run');document.getElementById('car-popup').style.display='flex'">Get Free Consultation</button></div></div></div><div class="art-panel" id="art-insurance-claim"><div class="art-inner"><button class="art-close" onclick="closeArt('insurance-claim')">&times;</button><div class="art-tag">Insurance</div><h1 class="art-title">How to File a Car Insurance Claim in Florida: Step by Step</h1><div class="art-meta">IHateCarAccidents.com</div><div class="art-body"><h2>When to File Your Claim</h2><p>File your insurance claim as soon as possible after the accident ideally within 24 hours. Most Florida auto insurance policies require prompt notification and delays can jeopardize your claim.</p><h2>Step 1: Gather Your Information</h2><ul><li>Your policy number</li><li>Date time and location of the accident</li><li>Police report number</li><li>Other driver information and insurance details</li><li>Photos and documentation from the scene</li></ul><h2>Step 2: Report to Your Insurance Company</h2><p>Provide the basic facts when where who was involved and extent of apparent damage and injuries. Keep the conversation factual and brief.</p><div class="highlight"><strong>Important:</strong> Do NOT give a recorded statement about your injuries at this stage. See a doctor first. Your understanding of your injuries may be incomplete in the first 24-72 hours.</div><h2>When to Involve an Attorney</h2><p>Consider consulting a personal injury attorney if your injuries are serious fault is disputed the insurance company denies your claim or the other driver was uninsured. Most Florida personal injury attorneys work on contingency with no upfront cost.</p><button class="art-cta-btn" onclick="closeArt('insurance-claim');document.getElementById('car-popup').style.display='flex'">Get Free Consultation</button></div></div></div><div class="art-panel" id="art-statute-limitations"><div class="art-inner"><button class="art-close" onclick="closeArt('statute-limitations')">&times;</button><div class="art-tag">Legal</div><h1 class="art-title">Florida Car Accident Statute of Limitations: Do Not Miss Your Deadline</h1><div class="art-meta">IHateCarAccidents.com</div><div class="art-body"><h2>Florida Car Accident Deadlines</h2><h3>Personal Injury Lawsuits: 2 Years</h3><p>As of 2023 Florida law gives accident victims just 2 years from the date of the accident to file a personal injury lawsuit. This was recently reduced from 4 years and many people are unaware of this change.</p><h3>Wrongful Death Lawsuits: 2 Years</h3><p>If a loved one was killed in a car accident the family has 2 years from the date of death to file a wrongful death lawsuit.</p><h3>Property Damage Claims: 4 Years</h3><p>Claims for vehicle damage and other property damage have a 4-year statute of limitations.</p><div class="highlight"><strong>Critical:</strong> Florida changed the personal injury statute of limitations from 4 years to 2 years in 2023. Consult an attorney immediately to understand your specific deadline.</div><h2>14-Day PIP Deadline vs 2-Year Lawsuit Deadline</h2><p>Do not confuse these two deadlines. You have 14 days to see a doctor to preserve PIP benefits and 2 years to file a personal injury lawsuit. Missing the 14-day medical deadline does not affect your right to sue but missing the 2-year lawsuit deadline ends your case permanently.</p><button class="art-cta-btn" onclick="closeArt('statute-limitations');document.getElementById('car-popup').style.display='flex'">Get Free Consultation</button></div></div></div><div class="art-panel" id="art-medical-treatment"><div class="art-inner"><button class="art-close" onclick="closeArt('medical-treatment')">&times;</button><div class="art-tag">Medical</div><h1 class="art-title">Best Medical Treatment Options After a Florida Car Accident</h1><div class="art-meta">IHateCarAccidents.com</div><div class="art-body"><h2>Why the Right Medical Provider Matters</h2><p>After a car accident in Florida the medical provider you choose can significantly impact both your physical recovery and your insurance claim. PIP insurance has specific rules about which providers can certify your injuries.</p><h2>Who Can Treat You Under PIP?</h2><ul><li>Medical doctors and osteopathic physicians</li><li>Dentists</li><li>Chiropractors</li><li>Physician assistants and APRNs</li><li>Physical therapists when referred by above providers</li></ul><div class="highlight"><strong>Important:</strong> Massage therapists cannot diagnose an Emergency Medical Condition under PIP rules. Always start with a physician for maximum benefits.</div><h2>Types of Care You May Need</h2><h3>Emergency Care</h3><p>If you have severe pain loss of consciousness or suspected fractures go to an emergency room immediately. ER visits are fully covered by PIP.</p><h3>PIP Urgent Care Clinics</h3><p>Our network of Florida clinics can see you same-day with no out-of-pocket cost. We accept PIP directly.</p><h2>The Importance of Consistent Treatment</h2><p>One of the biggest mistakes accident victims make is stopping treatment once they start feeling better. Inconsistent treatment gives insurance companies grounds to argue your injuries were not serious. Follow your treatment plan completely.</p><button class="art-cta-btn" onclick="closeArt('medical-treatment');document.getElementById('car-popup').style.display='flex'">Get Free Consultation</button></div></div></div></div>
+<div style="background:#f8f8f8;border-top:3px solid var(--red);padding:48px 0;margin-top:40px;" id="florida-locations"><div style="max-width:1100px;margin:0 auto;padding:0 20px;"><div style="text-align:center;margin-bottom:32px;"><div style="display:inline-block;background:var(--red);color:white;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:5px 14px;border-radius:2px;margin-bottom:12px;">Our Network</div><h2 style="font-family:'Oswald',sans-serif;font-size:32px;font-weight:700;color:#111;margin-bottom:10px;">Florida Clinic Locations</h2><p style="font-size:15px;color:#666;max-width:600px;margin:0 auto;">Physician-owned clinics across Florida. Walk-ins welcome. PIP accepted.</p></div><div style="border-radius:10px;overflow:hidden;border:1px solid #e5e5e5;margin-bottom:40px;"><iframe src="https://www.google.com/maps/d/u/2/embed?mid=1BWkyFg3T09Ks7TguFycu5n_qr_2K9VQ&ehbc=2E312F" width="100%" height="500" style="border:0;display:block;" allowfullscreen loading="lazy"></iframe></div><div style="background:var(--red);border-radius:6px;padding:28px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;"><div><div style="font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:white;margin-bottom:4px;">Attorney Referral Network</div><div style="font-size:14px;color:rgba(255,255,255,0.8);">Are you an attorney? We have clinics ready to treat your clients same-day.</div></div><button onclick="document.getElementById('car-popup').style.display='flex'" style="background:white;color:var(--red);border:none;padding:12px 28px;border-radius:3px;font-family:'Oswald',sans-serif;font-size:15px;font-weight:700;cursor:pointer;">Contact Our Network</button></div></div></div>
+
 <div id="car-popup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:99999;align-items:center;justify-content:center;padding:20px;"><div style="background:white;border-radius:10px;max-width:540px;width:100%;overflow:hidden;"><div style="background:var(--red);padding:20px 28px;display:flex;align-items:center;justify-content:space-between;"><div><div style="font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:white;">BEEN IN AN ACCIDENT?</div><div style="font-size:13px;color:rgba(255,255,255,0.85);margin-top:2px;">Our clinics can see you today - no out-of-pocket cost with PIP</div></div><button onclick="document.getElementById('car-popup').style.display='none'" style="background:rgba(255,255,255,0.2);border:none;color:white;width:32px;height:32px;border-radius:50%;font-size:20px;cursor:pointer;flex-shrink:0;line-height:1;">x</button></div><div id="popup-form-wrap" style="padding:24px;max-height:75vh;overflow-y:auto;"><form id="popup-intake-form" onsubmit="return false;"><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;"><div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">First Name *</label><input name="firstName" required style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="John"></div><div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Last Name *</label><input name="lastName" required style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="Smith"></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;"><div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Phone *</label><input name="phone" type="tel" required style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="(555) 000-0000"></div><div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Email *</label><input name="email" type="email" required style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="john@email.com"></div></div><div style="margin-bottom:12px;"><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Date of Accident *</label><input name="accidentDate" type="date" required style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;"></div><div style="margin-bottom:12px;"><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Nearest City</label><select name="city" style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;background:white;"><option value="">Select...</option><option>Miami</option><option>Orlando</option><option>Tampa</option><option>Jacksonville</option><option>Fort Lauderdale</option><option>Boca Raton</option><option>Sarasota</option><option>Naples</option><option>Gainesville</option><option>Tallahassee</option><option>Clearwater</option><option>Pensacola</option><option>Port St. Lucie</option><option>Cape Coral</option><option>Ocala</option><option>Daytona Beach</option><option>Lakeland</option><option>Pompano Beach</option><option>West Palm Beach</option><option>Kissimmee</option><option>Other</option></select></div><div style="margin-bottom:12px;"><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Injuries</label><div style="display:flex;flex-wrap:wrap;gap:8px;"><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;"><input type="checkbox" name="injury" value="Neck Pain"> Neck Pain</label><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;"><input type="checkbox" name="injury" value="Back Pain"> Back Pain</label><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;"><input type="checkbox" name="injury" value="Headaches"> Headaches</label><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;"><input type="checkbox" name="injury" value="Whiplash"> Whiplash</label><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;"><input type="checkbox" name="injury" value="Dizziness"> Dizziness</label><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;"><input type="checkbox" name="injury" value="Other"> Other</label></div></div><div style="margin-bottom:18px;"><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">What Happened?</label><textarea name="description" rows="3" style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;resize:vertical;" placeholder="Briefly describe the accident..."></textarea></div><button type="button" id="popup-submit-btn" onclick="submitIntake()" style="width:100%;background:#c8102e;color:white;border:none;padding:13px;border-radius:4px;font-family:'Oswald',sans-serif;font-size:16px;font-weight:700;cursor:pointer;">Get Free Consultation</button><div style="font-size:11px;color:#999;text-align:center;margin-top:8px;">No cost - Confidential - We respond within 1 hour</div></form></div><div id="popup-success" style="display:none;padding:48px 28px;text-align:center;"><div style="width:60px;height:60px;background:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div style="font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:#111;margin-bottom:8px;">We'll Be In Touch!</div><div style="font-size:14px;color:#666;margin-bottom:20px;">A coordinator will contact you within the hour.</div><button onclick="document.getElementById('car-popup').style.display='none'" style="background:#c8102e;color:white;border:none;padding:11px 28px;border-radius:4px;font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;cursor:pointer;">Close</button></div></div></div>
 <div id="car-banner" style="position:fixed;bottom:80px;left:0;right:0;z-index:9998;pointer-events:none;display:none;"><div id="car-anim" style="position:absolute;bottom:0;left:-320px;pointer-events:all;cursor:pointer;" onclick="document.getElementById('car-banner').style.display='none';document.getElementById('car-popup').style.display='flex';"><div style="background:#c8102e;color:white;padding:10px 18px;border-radius:6px;font-family:'Oswald',sans-serif;font-size:15px;font-weight:700;white-space:nowrap;display:flex;align-items:center;gap:10px;box-shadow:0 4px 20px rgba(200,16,46,0.5);"><svg width="30" height="18" viewBox="0 0 48 28" fill="white"><path d="M40 10H35L30 4H18L13 10H8C5.8 10 4 11.8 4 14v6c0 1.1.9 2 2 2h2c0 2.2 1.8 4 4 4s4-1.8 4-4h16c0 2.2 1.8 4 4 4s4-1.8 4-4h2c1.1 0 2-.9 2-2v-6c0-3.3-2.7-6-6-6z"/><circle cx="12" cy="22" r="3" fill="#111"/><circle cx="36" cy="22" r="3" fill="#111"/></svg>BEEN IN AN ACCIDENT? CLICK HERE</div></div></div>
 <style>
@@ -1046,8 +1219,10 @@ function showModal(type) {
 .chat-btn:hover{background:var(--red);border-color:var(--red);color:white;}
 </style>
 <div id="chat-bubble" onclick="toggleChat()">
-  <div style="background:#c8102e;color:white;padding:8px 16px;border-radius:20px;font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;white-space:nowrap;position:relative;animation:bubblePulse 2.5s ease-in-out infinite;box-shadow:0 4px 16px rgba(200,16,46,0.5);">Been in an Accident?<div style="position:absolute;bottom:-7px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:8px solid #c8102e;"></div></div>
-  <div style="width:60px;height:60px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;animation:bubblePulse 2.5s ease-in-out infinite;"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></div>
+  <div style="width:60px;height:60px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;animation:bubblePulse 2.5s ease-in-out infinite;position:relative;">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+    <div style="position:absolute;right:70px;top:50%;transform:translateY(-50%);background:#c8102e;color:white;padding:8px 14px;border-radius:20px;font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;white-space:nowrap;box-shadow:0 4px 16px rgba(200,16,46,0.5);animation:bubblePulse 2.5s ease-in-out infinite;">Been in an Accident?<div style="position:absolute;right:-7px;top:50%;transform:translateY(-50%);width:0;height:0;border-top:7px solid transparent;border-bottom:7px solid transparent;border-left:8px solid #c8102e;"></div></div>
+  </div>
 </div>
 <div id="chat-box">
   <div style="background:var(--red);padding:14px 18px;display:flex;align-items:center;gap:10px;">
@@ -1060,60 +1235,14 @@ function showModal(type) {
   <div id="chat-done" style="padding:24px;text-align:center;display:none;"><div style="width:48px;height:48px;background:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><strong style="color:white;display:block;margin-bottom:8px;">Got it! We will be in touch.</strong><span style="color:rgba(255,255,255,0.7);font-size:13px;">Our team will reach out about your accident.</span></div>
 </div>
 <script>
-// Unregister any service workers that block external API calls
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.getRegistrations().then(function(regs) {
-    regs.forEach(function(reg) { reg.unregister(); });
-  });
-}
-
+if ('serviceWorker' in navigator) { navigator.serviceWorker.getRegistrations().then(function(regs){regs.forEach(function(reg){reg.unregister();});}); }
 var _cs=0,_cd={},_cm=[];
-var _csteps=[
-  {key:'intro',bot:"Hi! Were you recently in a car accident?",type:'buttons',options:['Yes, I was','Someone I know was','Just browsing']},
-  {key:'when',bot:"When did the accident happen?",type:'buttons',options:['Today','This week','This month','Over a month ago']},
-  {key:'injuries',bot:"Were there any injuries?",type:'buttons',options:['Yes, I was injured','Minor injuries','No injuries','Not sure']},
-  {key:'details',bot:"Briefly describe what happened:",type:'text',placeholder:'e.g. Rear-ended on I-95 in Miami...'},
-  {key:'name',bot:"What is your name?",type:'text',placeholder:'Your full name'},
-  {key:'email',bot:"Best email to reach you?",type:'text',placeholder:'your@email.com'},
-  {key:'phone',bot:"Phone number (optional):",type:'text',placeholder:'(555) 000-0000'}
-];
-function toggleChat(){var box=document.getElementById('chat-box');if(!box)return;var open=box.style.display==='flex';box.style.display=open?'none':'flex';if(!open&&_cm.length===0)setTimeout(function(){_cbot(_csteps[0].bot,_csteps[0]);},400);}
+var _csteps=[{key:'intro',bot:"Hi! Were you recently in a car accident?",type:'buttons',options:['Yes, I was','Someone I know was','Just browsing']},{key:'when',bot:"When did the accident happen?",type:'buttons',options:['Today','This week','This month','Over a month ago']},{key:'injuries',bot:"Were there any injuries?",type:'buttons',options:['Yes, I was injured','Minor injuries','No injuries','Not sure']},{key:'details',bot:"Briefly describe what happened:",type:'text',placeholder:'e.g. Rear-ended on I-95 in Miami...'},{key:'name',bot:"What is your name?",type:'text',placeholder:'Your full name'},{key:'email',bot:"Best email to reach you?",type:'text',placeholder:'your@email.com'},{key:'phone',bot:"Phone number (optional):",type:'text',placeholder:'(555) 000-0000'}];
+function toggleChat(){var box=document.getElementById('chat-box');if(!box)return;var open=box.style.display==='flex';box.style.display=open?'none':'flex';if(!open&&_cm.length===0)var photoMap = {"what-to-do":"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=70&auto=format&fit=crop","pip-insurance":"https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&q=70&auto=format&fit=crop","injury-symptoms":"https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=600&q=70&auto=format&fit=crop","accident-report":"https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=600&q=70&auto=format&fit=crop","fault-florida":"https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&q=70&auto=format&fit=crop","uninsured":"https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=70&auto=format&fit=crop","hit-and-run":"https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=600&q=70&auto=format&fit=crop","insurance-claim":"https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&q=70&auto=format&fit=crop","statute-limitations":"https://images.unsplash.com/photo-1589994965851-a8f479c573a9?w=600&q=70&auto=format&fit=crop","medical-treatment":"https://images.unsplash.com/photo-1551601651-2a8555f1a136?w=600&q=70&auto=format&fit=crop"};
+setTimeout(function(){_cbot(_csteps[0].bot,_csteps[0]);},400);}
 function _cbot(text,step){var msgs=document.getElementById('chat-messages');if(!msgs)return;var d=document.createElement('div');d.className='chat-msg bot';d.textContent=text;msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;_cm.push({r:'bot',t:text});if(step)_cinput(step);}
 function _cuser(text){var msgs=document.getElementById('chat-messages');var d=document.createElement('div');d.className='chat-msg user';d.textContent=text;msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;}
-function _cinput(step){
-  var area=document.getElementById('chat-input-area');
-  if(!area)return;
-  area.innerHTML='';
-  if(step.type==='buttons'){
-    var wrap=document.createElement('div');
-    wrap.style.cssText='display:flex;flex-wrap:wrap;gap:6px;';
-    step.options.forEach(function(o){
-      var btn=document.createElement('button');
-      btn.className='chat-btn';
-      btn.textContent=o;
-      btn.onclick=function(){_cans(o,step.key);};
-      wrap.appendChild(btn);
-    });
-    area.appendChild(wrap);
-  }else{
-    var wrap2=document.createElement('div');
-    wrap2.style.cssText='display:flex;gap:8px;';
-    var inp=document.createElement('input');
-    inp.id='chat-txt';
-    inp.type='text';
-    inp.placeholder=step.placeholder;
-    inp.style.cssText='flex:1;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:20px;padding:8px 14px;color:white;font-size:13px;outline:none;';
-    inp.onkeydown=function(e){if(e.key==='Enter')_ctxt(step.key);};
-    var sbtn=document.createElement('button');
-    sbtn.innerHTML='&#9658;';
-    sbtn.style.cssText='background:var(--red);border:none;color:white;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:16px;';
-    sbtn.onclick=function(){_ctxt(step.key);};
-    wrap2.appendChild(inp);
-    wrap2.appendChild(sbtn);
-    area.appendChild(wrap2);
-    setTimeout(function(){inp.focus();},100);
-  }
-}
+function _cinput(step){var area=document.getElementById('chat-input-area');if(!area)return;area.innerHTML='';if(step.type==='buttons'){var wrap=document.createElement('div');wrap.style.cssText='display:flex;flex-wrap:wrap;gap:6px;';step.options.forEach(function(o){var btn=document.createElement('button');btn.className='chat-btn';btn.textContent=o;btn.onclick=function(){_cans(o,step.key);};wrap.appendChild(btn);});area.appendChild(wrap);}else{var wrap2=document.createElement('div');wrap2.style.cssText='display:flex;gap:8px;';var inp=document.createElement('input');inp.id='chat-txt';inp.type='text';inp.placeholder=step.placeholder;inp.style.cssText='flex:1;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:20px;padding:8px 14px;color:white;font-size:13px;outline:none;';inp.onkeydown=function(e){if(e.key==='Enter')_ctxt(step.key);};var sbtn=document.createElement('button');sbtn.innerHTML='&#9658;';sbtn.style.cssText='background:var(--red);border:none;color:white;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:16px;';sbtn.onclick=function(){_ctxt(step.key);};wrap2.appendChild(inp);wrap2.appendChild(sbtn);area.appendChild(wrap2);setTimeout(function(){inp.focus();},100);}}
 function _cans(answer,key){if(answer==='Just browsing'){_cuser(answer);document.getElementById('chat-input-area').innerHTML='';setTimeout(function(){_cbot("No problem! We are here if you need help.",null);},400);return;}_cuser(answer);_cd[key]=answer;_cnext();}
 function _ctxt(key){var el=document.getElementById('chat-txt');if(!el||!el.value.trim())return;_cuser(el.value.trim());_cd[key]=el.value.trim();_cnext();}
 function _cnext(){_cs++;document.getElementById('chat-input-area').innerHTML='';if(_cs>=_csteps.length){setTimeout(_csend,500);return;}setTimeout(function(){_cbot(_csteps[_cs].bot,_csteps[_cs]);},500);}
@@ -1124,7 +1253,203 @@ setInterval(function(){var p=document.getElementById('car-popup');if(!p||p.style
 async function submitIntake(){var btn=document.getElementById('popup-submit-btn'),form=document.getElementById('popup-intake-form');if(!form||!form.firstName.value||!form.lastName.value||!form.phone.value||!form.email.value||!form.accidentDate.value){alert('Please fill in all required fields.');return;}btn.textContent='Sending...';btn.disabled=true;var injuries=Array.from(form.querySelectorAll('input[name="injury"]:checked')).map(function(i){return i.value;}).join(', ');try{var res=await fetch('https://formspree.io/f/xlgpjyga',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({_replyto:form.email.value,_subject:'New Accident Intake - '+form.firstName.value+' '+form.lastName.value,firstName:form.firstName.value,lastName:form.lastName.value,phone:form.phone.value,email:form.email.value,accidentDate:form.accidentDate.value,city:form.city.value,injuries:injuries||'Not specified',description:form.description.value})});if(res.ok){document.getElementById('popup-form-wrap').style.display='none';document.getElementById('popup-success').style.display='block';}else throw new Error('Error '+res.status);}catch(err){btn.textContent='Get Free Consultation';btn.disabled=false;alert('Something went wrong: '+err.message);}}
 async function handleContactSubmit(btn){var fname=document.getElementById('cf-fname').value.trim(),email=document.getElementById('cf-email').value.trim(),message=document.getElementById('cf-message').value.trim(),errEl=document.getElementById('cf-error');if(!fname||!email||!message){errEl.textContent='Please fill in your name, email, and message.';errEl.style.display='block';return;}errEl.style.display='none';btn.textContent='Sending...';btn.disabled=true;try{var res=await fetch('https://formspree.io/f/xlgpjyga',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({_replyto:email,_subject:'Contact Form - IHateCarAccidents',first_name:fname,last_name:document.getElementById('cf-lname').value.trim(),email:email,subject:document.getElementById('cf-subject').value,message:message})});if(!res.ok)throw new Error('Server error');document.getElementById('contact-form-wrap').style.display='none';document.getElementById('contact-success').style.display='block';}catch(e){btn.textContent='Send Message';btn.disabled=false;errEl.textContent='Something went wrong. Please try again.';errEl.style.display='block';}}
 var btt=document.createElement('button');btt.innerHTML='&#8593;';btt.style.cssText='position:fixed;bottom:24px;left:24px;width:44px;height:44px;background:var(--red);color:white;border:none;border-radius:50%;font-size:20px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.2);opacity:0;transition:opacity 0.3s;z-index:500;';btt.onclick=function(){window.scrollTo({top:0,behavior:'smooth'});};document.body.appendChild(btt);window.addEventListener('scroll',function(){btt.style.opacity=window.scrollY>400?'1':'0';});
+</script>
 
+<script>
+setTimeout(function(){
+  var raw = document.getElementById('art-data');
+  if(!raw) return;
+  var data = JSON.parse(raw.textContent);
+  var grid = document.getElementById('res-grid');
+  var panels = document.getElementById('art-panels');
+  if(!grid||!panels) return;
+
+  data.forEach(function(a, i) {
+    // Card
+    var card = document.createElement('div');
+    card.className = 'res-card';
+    card.setAttribute('data-id', a.id);
+    var imgDiv = document.createElement('div');
+    imgDiv.style.cssText = 'height:110px;overflow:hidden;';
+    var imgEl = document.createElement('img');
+    imgEl.src = photoMap[a.id] || '';
+    imgEl.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+    var emoji = a.emoji;
+    imgEl.onerror = function(){ imgDiv.style.background='linear-gradient(135deg,#1a1a2e,#2d1020)'; imgDiv.style.display='flex'; imgDiv.style.alignItems='center'; imgDiv.style.justifyContent='center'; imgDiv.style.fontSize='44px'; imgDiv.innerHTML=emoji; };
+    imgDiv.appendChild(imgEl);
+    card.appendChild(imgDiv);
+    card.innerHTML += '<div class="res-card-body">' +
+      '<div class="res-card-tag">' + a.tag + '</div>' +
+      '<div class="res-card-title">' + a.title + '</div>' +
+      '<div class="res-card-excerpt">' + a.excerpt + '</div>' +
+      '<span class="res-card-link">Read Full Guide &rarr;</span>' +
+      '</div>';
+    card.onclick = function(){ openArt(a.id); };
+    grid.appendChild(card);
+
+    // Panel
+    var panel = document.createElement('div');
+    panel.className = 'art-panel';
+    panel.id = 'art-' + a.id;
+    var inner = document.createElement('div');
+    inner.className = 'art-inner';
+    inner.innerHTML =
+      '<div class="art-tag">' + a.tag + '</div>' +
+      '<h1 class="art-title">' + a.title + '</h1>' +
+      '<div class="art-meta">' + a.meta + ' &middot; IHateCarAccidents.com</div>' +
+      '<div class="art-body">' + a.body + '</div>';
+    var closeBtn = document.createElement('button');
+    closeBtn.className = 'art-close';
+    closeBtn.innerHTML = '&times;';
+    closeBtn.onclick = function(){ closeArt(a.id); };
+    inner.insertBefore(closeBtn, inner.firstChild);
+    var ctaBtn = document.createElement('button');
+    ctaBtn.className = 'art-cta-btn';
+    ctaBtn.textContent = 'Get Free Consultation';
+    ctaBtn.onclick = function(){ closeArt(a.id); document.getElementById('car-popup').style.display='flex'; };
+    inner.querySelector('.art-body').appendChild(ctaBtn);
+    panel.appendChild(inner);
+    panel.onclick = function(e){ if(e.target===panel) closeArt(a.id); };
+    panels.appendChild(panel);
+  });
+}, 0);
+
+function openArt(id){ var p=document.getElementById('art-'+id); if(p){p.classList.add('open');document.body.style.overflow='hidden';} }
+function closeArt(id){ var p=document.getElementById('art-'+id); if(p){p.classList.remove('open');document.body.style.overflow='';} }
+document.addEventListener('keydown',function(e){ if(e.key==='Escape'){document.querySelectorAll('.art-panel.open').forEach(function(p){p.classList.remove('open');});document.body.style.overflow='';} });
+</script>
+<script>
+function openArt(id){var p=document.getElementById('art-'+id);if(p){p.classList.add('open');document.body.style.overflow='hidden';}}
+function closeArt(id){var p=document.getElementById('art-'+id);if(p){p.classList.remove('open');document.body.style.overflow='';}}
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){document.querySelectorAll('.art-panel.open').forEach(function(p){p.classList.remove('open');});document.body.style.overflow='';}});
+</script>
+</body>
+</html
+
+
+<div id="resources-section" style="background:var(--gray-bg);border-top:3px solid var(--red);padding:56px 20px;">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div class="res-label">Free Guides</div>
+    <h2 style="font-family:'Oswald',sans-serif;font-size:32px;font-weight:700;margin-bottom:8px;">Car Accident Resources</h2>
+    <p style="font-size:15px;color:var(--gray);max-width:600px;">Written for Florida accident victims. Click any article to read the full guide.</p>
+    <div class="res-grid" id="res-grid"></div>
+  </div>
+</div>
+<div id="art-panels"></div>
+<div style="background:#f8f8f8;border-top:3px solid var(--red);padding:48px 0;margin-top:40px;" id="florida-locations"><div style="max-width:1100px;margin:0 auto;padding:0 20px;"><div style="text-align:center;margin-bottom:32px;"><div style="display:inline-block;background:var(--red);color:white;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:5px 14px;border-radius:2px;margin-bottom:12px;">Our Network</div><h2 style="font-family:'Oswald',sans-serif;font-size:32px;font-weight:700;color:#111;margin-bottom:10px;">Florida Clinic Locations</h2><p style="font-size:15px;color:#666;max-width:600px;margin:0 auto;">Physician-owned clinics across Florida. Walk-ins welcome. PIP accepted.</p></div><div style="border-radius:10px;overflow:hidden;border:1px solid #e5e5e5;margin-bottom:40px;"><iframe src="https://www.google.com/maps/d/u/2/embed?mid=1BWkyFg3T09Ks7TguFycu5n_qr_2K9VQ&ehbc=2E312F" width="100%" height="500" style="border:0;display:block;" allowfullscreen loading="lazy"></iframe></div><div style="background:var(--red);border-radius:6px;padding:28px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;"><div><div style="font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:white;margin-bottom:4px;">Attorney Referral Network</div><div style="font-size:14px;color:rgba(255,255,255,0.8);">Are you an attorney? We have clinics ready to treat your clients same-day.</div></div><button onclick="document.getElementById('car-popup').style.display='flex'" style="background:white;color:var(--red);border:none;padding:12px 28px;border-radius:3px;font-family:'Oswald',sans-serif;font-size:15px;font-weight:700;cursor:pointer;">Contact Our Network</button></div></div></div>
+
+<div id="car-popup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:99999;align-items:center;justify-content:center;padding:20px;"><div style="background:white;border-radius:10px;max-width:540px;width:100%;overflow:hidden;"><div style="background:var(--red);padding:20px 28px;display:flex;align-items:center;justify-content:space-between;"><div><div style="font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:white;">BEEN IN AN ACCIDENT?</div><div style="font-size:13px;color:rgba(255,255,255,0.85);margin-top:2px;">Our clinics can see you today - no out-of-pocket cost with PIP</div></div><button onclick="document.getElementById('car-popup').style.display='none'" style="background:rgba(255,255,255,0.2);border:none;color:white;width:32px;height:32px;border-radius:50%;font-size:20px;cursor:pointer;flex-shrink:0;line-height:1;">x</button></div><div id="popup-form-wrap" style="padding:24px;max-height:75vh;overflow-y:auto;"><form id="popup-intake-form" onsubmit="return false;"><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;"><div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">First Name *</label><input name="firstName" required style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="John"></div><div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Last Name *</label><input name="lastName" required style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="Smith"></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;"><div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Phone *</label><input name="phone" type="tel" required style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="(555) 000-0000"></div><div><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Email *</label><input name="email" type="email" required style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;" placeholder="john@email.com"></div></div><div style="margin-bottom:12px;"><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Date of Accident *</label><input name="accidentDate" type="date" required style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;"></div><div style="margin-bottom:12px;"><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Nearest City</label><select name="city" style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;background:white;"><option value="">Select...</option><option>Miami</option><option>Orlando</option><option>Tampa</option><option>Jacksonville</option><option>Fort Lauderdale</option><option>Boca Raton</option><option>Sarasota</option><option>Naples</option><option>Gainesville</option><option>Tallahassee</option><option>Clearwater</option><option>Pensacola</option><option>Port St. Lucie</option><option>Cape Coral</option><option>Ocala</option><option>Daytona Beach</option><option>Lakeland</option><option>Pompano Beach</option><option>West Palm Beach</option><option>Kissimmee</option><option>Other</option></select></div><div style="margin-bottom:12px;"><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">Injuries</label><div style="display:flex;flex-wrap:wrap;gap:8px;"><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;"><input type="checkbox" name="injury" value="Neck Pain"> Neck Pain</label><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;"><input type="checkbox" name="injury" value="Back Pain"> Back Pain</label><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;"><input type="checkbox" name="injury" value="Headaches"> Headaches</label><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;"><input type="checkbox" name="injury" value="Whiplash"> Whiplash</label><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;"><input type="checkbox" name="injury" value="Dizziness"> Dizziness</label><label style="font-size:13px;color:#444;display:flex;align-items:center;gap:4px;"><input type="checkbox" name="injury" value="Other"> Other</label></div></div><div style="margin-bottom:18px;"><label style="font-size:11px;font-weight:700;color:#444;display:block;margin-bottom:4px;text-transform:uppercase;">What Happened?</label><textarea name="description" rows="3" style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:4px;font-size:14px;box-sizing:border-box;resize:vertical;" placeholder="Briefly describe the accident..."></textarea></div><button type="button" id="popup-submit-btn" onclick="submitIntake()" style="width:100%;background:#c8102e;color:white;border:none;padding:13px;border-radius:4px;font-family:'Oswald',sans-serif;font-size:16px;font-weight:700;cursor:pointer;">Get Free Consultation</button><div style="font-size:11px;color:#999;text-align:center;margin-top:8px;">No cost - Confidential - We respond within 1 hour</div></form></div><div id="popup-success" style="display:none;padding:48px 28px;text-align:center;"><div style="width:60px;height:60px;background:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div style="font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:#111;margin-bottom:8px;">We'll Be In Touch!</div><div style="font-size:14px;color:#666;margin-bottom:20px;">A coordinator will contact you within the hour.</div><button onclick="document.getElementById('car-popup').style.display='none'" style="background:#c8102e;color:white;border:none;padding:11px 28px;border-radius:4px;font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;cursor:pointer;">Close</button></div></div></div>
+<div id="car-banner" style="position:fixed;bottom:80px;left:0;right:0;z-index:9998;pointer-events:none;display:none;"><div id="car-anim" style="position:absolute;bottom:0;left:-320px;pointer-events:all;cursor:pointer;" onclick="document.getElementById('car-banner').style.display='none';document.getElementById('car-popup').style.display='flex';"><div style="background:#c8102e;color:white;padding:10px 18px;border-radius:6px;font-family:'Oswald',sans-serif;font-size:15px;font-weight:700;white-space:nowrap;display:flex;align-items:center;gap:10px;box-shadow:0 4px 20px rgba(200,16,46,0.5);"><svg width="30" height="18" viewBox="0 0 48 28" fill="white"><path d="M40 10H35L30 4H18L13 10H8C5.8 10 4 11.8 4 14v6c0 1.1.9 2 2 2h2c0 2.2 1.8 4 4 4s4-1.8 4-4h16c0 2.2 1.8 4 4 4s4-1.8 4-4h2c1.1 0 2-.9 2-2v-6c0-3.3-2.7-6-6-6z"/><circle cx="12" cy="22" r="3" fill="#111"/><circle cx="36" cy="22" r="3" fill="#111"/></svg>BEEN IN AN ACCIDENT? CLICK HERE</div></div></div>
+<style>
+@keyframes carPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+@keyframes bubblePulse{0%,100%{box-shadow:0 4px 20px rgba(200,16,46,0.5)}50%{box-shadow:0 4px 32px rgba(200,16,46,0.85),0 0 0 8px rgba(200,16,46,0.15)}}
+#chat-bubble{position:fixed;bottom:24px;right:24px;z-index:8888;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;}
+#chat-box{position:fixed;bottom:160px;right:24px;width:320px;max-height:480px;background:#111;border:1px solid rgba(255,255,255,0.15);border-radius:16px;box-shadow:0 16px 48px rgba(0,0,0,0.7);z-index:8889;display:none;flex-direction:column;overflow:hidden;}
+.chat-msg{max-width:85%;padding:10px 14px;border-radius:16px;font-size:13px;line-height:1.5;}
+.chat-msg.bot{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.85);border-bottom-left-radius:4px;align-self:flex-start;}
+.chat-msg.user{background:var(--red);color:white;border-bottom-right-radius:4px;align-self:flex-end;}
+.chat-btn{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.8);padding:7px 12px;border-radius:20px;font-size:12px;cursor:pointer;font-family:'Barlow',sans-serif;}
+.chat-btn:hover{background:var(--red);border-color:var(--red);color:white;}
+</style>
+<div id="chat-bubble" onclick="toggleChat()">
+  <div style="width:60px;height:60px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;animation:bubblePulse 2.5s ease-in-out infinite;position:relative;">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+    <div style="position:absolute;right:70px;top:50%;transform:translateY(-50%);background:#c8102e;color:white;padding:8px 14px;border-radius:20px;font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;white-space:nowrap;box-shadow:0 4px 16px rgba(200,16,46,0.5);animation:bubblePulse 2.5s ease-in-out infinite;">Been in an Accident?<div style="position:absolute;right:-7px;top:50%;transform:translateY(-50%);width:0;height:0;border-top:7px solid transparent;border-bottom:7px solid transparent;border-left:8px solid #c8102e;"></div></div>
+  </div>
+</div>
+<div id="chat-box">
+  <div style="background:var(--red);padding:14px 18px;display:flex;align-items:center;gap:10px;">
+    <div style="width:36px;height:36px;background:rgba(255,255,255,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></div>
+    <div style="flex:1;"><div style="font-family:'Oswald',sans-serif;font-size:15px;font-weight:700;color:white;">IHateCarAccidents</div><div style="font-size:11px;color:rgba(255,255,255,0.75);">We can help you</div></div>
+    <button onclick="toggleChat()" style="background:none;border:none;color:rgba(255,255,255,0.8);font-size:24px;cursor:pointer;line-height:1;padding:0;">x</button>
+  </div>
+  <div id="chat-messages" style="flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;max-height:280px;"></div>
+  <div id="chat-input-area" style="padding:12px;border-top:1px solid rgba(255,255,255,0.08);"></div>
+  <div id="chat-done" style="padding:24px;text-align:center;display:none;"><div style="width:48px;height:48px;background:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><strong style="color:white;display:block;margin-bottom:8px;">Got it! We will be in touch.</strong><span style="color:rgba(255,255,255,0.7);font-size:13px;">Our team will reach out about your accident.</span></div>
+</div>
+<script>
+if ('serviceWorker' in navigator) { navigator.serviceWorker.getRegistrations().then(function(regs){regs.forEach(function(reg){reg.unregister();});}); }
+var _cs=0,_cd={},_cm=[];
+var _csteps=[{key:'intro',bot:"Hi! Were you recently in a car accident?",type:'buttons',options:['Yes, I was','Someone I know was','Just browsing']},{key:'when',bot:"When did the accident happen?",type:'buttons',options:['Today','This week','This month','Over a month ago']},{key:'injuries',bot:"Were there any injuries?",type:'buttons',options:['Yes, I was injured','Minor injuries','No injuries','Not sure']},{key:'details',bot:"Briefly describe what happened:",type:'text',placeholder:'e.g. Rear-ended on I-95 in Miami...'},{key:'name',bot:"What is your name?",type:'text',placeholder:'Your full name'},{key:'email',bot:"Best email to reach you?",type:'text',placeholder:'your@email.com'},{key:'phone',bot:"Phone number (optional):",type:'text',placeholder:'(555) 000-0000'}];
+function toggleChat(){var box=document.getElementById('chat-box');if(!box)return;var open=box.style.display==='flex';box.style.display=open?'none':'flex';if(!open&&_cm.length===0)var photoMap = {"what-to-do":"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=70&auto=format&fit=crop","pip-insurance":"https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&q=70&auto=format&fit=crop","injury-symptoms":"https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=600&q=70&auto=format&fit=crop","accident-report":"https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=600&q=70&auto=format&fit=crop","fault-florida":"https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&q=70&auto=format&fit=crop","uninsured":"https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=70&auto=format&fit=crop","hit-and-run":"https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=600&q=70&auto=format&fit=crop","insurance-claim":"https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&q=70&auto=format&fit=crop","statute-limitations":"https://images.unsplash.com/photo-1589994965851-a8f479c573a9?w=600&q=70&auto=format&fit=crop","medical-treatment":"https://images.unsplash.com/photo-1551601651-2a8555f1a136?w=600&q=70&auto=format&fit=crop"};
+setTimeout(function(){_cbot(_csteps[0].bot,_csteps[0]);},400);}
+function _cbot(text,step){var msgs=document.getElementById('chat-messages');if(!msgs)return;var d=document.createElement('div');d.className='chat-msg bot';d.textContent=text;msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;_cm.push({r:'bot',t:text});if(step)_cinput(step);}
+function _cuser(text){var msgs=document.getElementById('chat-messages');var d=document.createElement('div');d.className='chat-msg user';d.textContent=text;msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;}
+function _cinput(step){var area=document.getElementById('chat-input-area');if(!area)return;area.innerHTML='';if(step.type==='buttons'){var wrap=document.createElement('div');wrap.style.cssText='display:flex;flex-wrap:wrap;gap:6px;';step.options.forEach(function(o){var btn=document.createElement('button');btn.className='chat-btn';btn.textContent=o;btn.onclick=function(){_cans(o,step.key);};wrap.appendChild(btn);});area.appendChild(wrap);}else{var wrap2=document.createElement('div');wrap2.style.cssText='display:flex;gap:8px;';var inp=document.createElement('input');inp.id='chat-txt';inp.type='text';inp.placeholder=step.placeholder;inp.style.cssText='flex:1;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:20px;padding:8px 14px;color:white;font-size:13px;outline:none;';inp.onkeydown=function(e){if(e.key==='Enter')_ctxt(step.key);};var sbtn=document.createElement('button');sbtn.innerHTML='&#9658;';sbtn.style.cssText='background:var(--red);border:none;color:white;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:16px;';sbtn.onclick=function(){_ctxt(step.key);};wrap2.appendChild(inp);wrap2.appendChild(sbtn);area.appendChild(wrap2);setTimeout(function(){inp.focus();},100);}}
+function _cans(answer,key){if(answer==='Just browsing'){_cuser(answer);document.getElementById('chat-input-area').innerHTML='';setTimeout(function(){_cbot("No problem! We are here if you need help.",null);},400);return;}_cuser(answer);_cd[key]=answer;_cnext();}
+function _ctxt(key){var el=document.getElementById('chat-txt');if(!el||!el.value.trim())return;_cuser(el.value.trim());_cd[key]=el.value.trim();_cnext();}
+function _cnext(){_cs++;document.getElementById('chat-input-area').innerHTML='';if(_cs>=_csteps.length){setTimeout(_csend,500);return;}setTimeout(function(){_cbot(_csteps[_cs].bot,_csteps[_cs]);},500);}
+async function _csend(){try{await fetch('https://formspree.io/f/xlgpjyga',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({_subject:'New Chat Lead',name:_cd.name||'Unknown',email:_cd.email||'',phone:_cd.phone||'',details:_cd.details||'',when:_cd.when||'',injuries:_cd.injuries||''})});}catch(e){}document.getElementById('chat-messages').style.display='none';document.getElementById('chat-input-area').style.display='none';document.getElementById('chat-done').style.display='block';}
+function startCarAnimation(){var banner=document.getElementById('car-banner'),car=document.getElementById('car-anim');if(!banner||!car)return;banner.style.display='block';car.style.transition='none';car.style.left='-320px';setTimeout(function(){car.style.transition='left 2.8s cubic-bezier(0.25,0.1,0.25,1)';car.style.left='30px';setTimeout(function(){car.style.animation='carPulse 1s ease-in-out infinite';},3000);},100);}
+setTimeout(startCarAnimation,4000);
+setInterval(function(){var p=document.getElementById('car-popup');if(!p||p.style.display==='none'||p.style.display==='')startCarAnimation();},90000);
+async function submitIntake(){var btn=document.getElementById('popup-submit-btn'),form=document.getElementById('popup-intake-form');if(!form||!form.firstName.value||!form.lastName.value||!form.phone.value||!form.email.value||!form.accidentDate.value){alert('Please fill in all required fields.');return;}btn.textContent='Sending...';btn.disabled=true;var injuries=Array.from(form.querySelectorAll('input[name="injury"]:checked')).map(function(i){return i.value;}).join(', ');try{var res=await fetch('https://formspree.io/f/xlgpjyga',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({_replyto:form.email.value,_subject:'New Accident Intake - '+form.firstName.value+' '+form.lastName.value,firstName:form.firstName.value,lastName:form.lastName.value,phone:form.phone.value,email:form.email.value,accidentDate:form.accidentDate.value,city:form.city.value,injuries:injuries||'Not specified',description:form.description.value})});if(res.ok){document.getElementById('popup-form-wrap').style.display='none';document.getElementById('popup-success').style.display='block';}else throw new Error('Error '+res.status);}catch(err){btn.textContent='Get Free Consultation';btn.disabled=false;alert('Something went wrong: '+err.message);}}
+async function handleContactSubmit(btn){var fname=document.getElementById('cf-fname').value.trim(),email=document.getElementById('cf-email').value.trim(),message=document.getElementById('cf-message').value.trim(),errEl=document.getElementById('cf-error');if(!fname||!email||!message){errEl.textContent='Please fill in your name, email, and message.';errEl.style.display='block';return;}errEl.style.display='none';btn.textContent='Sending...';btn.disabled=true;try{var res=await fetch('https://formspree.io/f/xlgpjyga',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({_replyto:email,_subject:'Contact Form - IHateCarAccidents',first_name:fname,last_name:document.getElementById('cf-lname').value.trim(),email:email,subject:document.getElementById('cf-subject').value,message:message})});if(!res.ok)throw new Error('Server error');document.getElementById('contact-form-wrap').style.display='none';document.getElementById('contact-success').style.display='block';}catch(e){btn.textContent='Send Message';btn.disabled=false;errEl.textContent='Something went wrong. Please try again.';errEl.style.display='block';}}
+var btt=document.createElement('button');btt.innerHTML='&#8593;';btt.style.cssText='position:fixed;bottom:24px;left:24px;width:44px;height:44px;background:var(--red);color:white;border:none;border-radius:50%;font-size:20px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.2);opacity:0;transition:opacity 0.3s;z-index:500;';btt.onclick=function(){window.scrollTo({top:0,behavior:'smooth'});};document.body.appendChild(btt);window.addEventListener('scroll',function(){btt.style.opacity=window.scrollY>400?'1':'0';});
+</script>
+
+<script>
+setTimeout(function(){
+  var raw = document.getElementById('art-data');
+  if(!raw) return;
+  var data = JSON.parse(raw.textContent);
+  var grid = document.getElementById('res-grid');
+  var panels = document.getElementById('art-panels');
+  if(!grid||!panels) return;
+
+  data.forEach(function(a, i) {
+    // Card
+    var card = document.createElement('div');
+    card.className = 'res-card';
+    card.setAttribute('data-id', a.id);
+    var imgDiv = document.createElement('div');
+    imgDiv.style.cssText = 'height:110px;overflow:hidden;';
+    var imgEl = document.createElement('img');
+    imgEl.src = photoMap[a.id] || '';
+    imgEl.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+    var emoji = a.emoji;
+    imgEl.onerror = function(){ imgDiv.style.background='linear-gradient(135deg,#1a1a2e,#2d1020)'; imgDiv.style.display='flex'; imgDiv.style.alignItems='center'; imgDiv.style.justifyContent='center'; imgDiv.style.fontSize='44px'; imgDiv.innerHTML=emoji; };
+    imgDiv.appendChild(imgEl);
+    card.appendChild(imgDiv);
+    card.innerHTML += '<div class="res-card-body">' +
+      '<div class="res-card-tag">' + a.tag + '</div>' +
+      '<div class="res-card-title">' + a.title + '</div>' +
+      '<div class="res-card-excerpt">' + a.excerpt + '</div>' +
+      '<span class="res-card-link">Read Full Guide &rarr;</span>' +
+      '</div>';
+    card.onclick = function(){ openArt(a.id); };
+    grid.appendChild(card);
+
+    // Panel
+    var panel = document.createElement('div');
+    panel.className = 'art-panel';
+    panel.id = 'art-' + a.id;
+    var inner = document.createElement('div');
+    inner.className = 'art-inner';
+    inner.innerHTML =
+      '<div class="art-tag">' + a.tag + '</div>' +
+      '<h1 class="art-title">' + a.title + '</h1>' +
+      '<div class="art-meta">' + a.meta + ' &middot; IHateCarAccidents.com</div>' +
+      '<div class="art-body">' + a.body + '</div>';
+    var closeBtn = document.createElement('button');
+    closeBtn.className = 'art-close';
+    closeBtn.innerHTML = '&times;';
+    closeBtn.onclick = function(){ closeArt(a.id); };
+    inner.insertBefore(closeBtn, inner.firstChild);
+    var ctaBtn = document.createElement('button');
+    ctaBtn.className = 'art-cta-btn';
+    ctaBtn.textContent = 'Get Free Consultation';
+    ctaBtn.onclick = function(){ closeArt(a.id); document.getElementById('car-popup').style.display='flex'; };
+    inner.querySelector('.art-body').appendChild(ctaBtn);
+    panel.appendChild(inner);
+    panel.onclick = function(e){ if(e.target===panel) closeArt(a.id); };
+    panels.appendChild(panel);
+  });
+}, 0);
+
+function openArt(id){ var p=document.getElementById('art-'+id); if(p){p.classList.add('open');document.body.style.overflow='hidden';} }
+function closeArt(id){ var p=document.getElementById('art-'+id); if(p){p.classList.remove('open');document.body.style.overflow='';} }
+document.addEventListener('keydown',function(e){ if(e.key==='Escape'){document.querySelectorAll('.art-panel.open').forEach(function(p){p.classList.remove('open');});document.body.style.overflow='';} });
 </script>
 </body>
 </html>
