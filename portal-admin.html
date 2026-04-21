@@ -77,8 +77,8 @@
 
   <!-- ATTORNEY APPROVALS -->
   <div id="panel-lawyers">
-    <div class="section-title">Attorney Approval Requests</div>
-    <div class="section-sub">Review and approve attorney accounts that have requested portal access.</div>
+    <div class="section-title">Pending Approval Requests</div>
+    <div class="section-sub">Review and approve attorney and chiropractic provider accounts.</div>
     <div id="lawyers-list"><div class="empty">Loading...</div></div>
   </div>
 
@@ -154,36 +154,42 @@ function showTab(tab) {
 
 // ATTORNEY APPROVALS
 async function loadLawyers() {
-  var { data } = await sb.from('profiles').select('*').eq('role','lawyer').order('created_at',{ascending:false});
+  var { data } = await sb.from('profiles').select('*').in('role',['lawyer','chiro']).order('created_at',{ascending:false});
   var list = document.getElementById('lawyers-list');
-  if (!data?.length) { list.innerHTML = '<div class="empty">No attorney accounts yet.</div>'; return; }
+  if (!data?.length) { list.innerHTML = '<div class="empty">No pending accounts yet.</div>'; return; }
   list.innerHTML = `<table>
-    <thead><tr><th>Name</th><th>Firm</th><th>Bar #</th><th>Email</th><th>Phone</th><th>Registered</th><th>Status</th><th>Actions</th></tr></thead>
+    <thead><tr><th>Type</th><th>Name</th><th>Firm / Practice</th><th>Bar # / Address</th><th>Email</th><th>Phone</th><th>Registered</th><th>Status</th><th>Actions</th></tr></thead>
     <tbody>${data.map(u=>`
       <tr id="row-${u.id}">
+        <td><span class="badge ${u.role==='lawyer'?'approved':'pending'}">${u.role==='lawyer'?'Attorney':'Chiro'}</span></td>
         <td><strong>${u.full_name||'—'}</strong></td>
         <td>${u.firm||'—'}</td>
-        <td>${u.bar_number||'—'}</td>
+        <td style="font-size:12px;">${u.role==='lawyer'?(u.bar_number||'—'):'(see chiros table)'}</td>
         <td>${u.email}</td>
         <td>${u.phone||'—'}</td>
         <td>${new Date(u.created_at).toLocaleDateString()}</td>
         <td><span class="badge ${u.approved?'approved':'pending'}">${u.approved?'Approved':'Pending'}</span></td>
         <td style="display:flex;gap:6px;">
-          ${!u.approved?`<button class="btn btn-approve" onclick="approveLawyer('${u.id}','${u.email}','${u.full_name||''}')">✓ Approve</button>`:''}
-          <button class="btn btn-reject" onclick="rejectLawyer('${u.id}')">✗ Reject</button>
+          ${!u.approved?`<button class="btn btn-approve" onclick="approveUser('${u.id}','${u.email}','${u.full_name||''}','${u.role}')">✓ Approve</button>`:''}
+          <button class="btn btn-reject" onclick="rejectLawyer('${u.id}')">✗ Remove</button>
         </td>
       </tr>`).join('')}
     </tbody>
   </table>`;
 }
 
-async function approveLawyer(id, email, name) {
+async function approveUser(id, email, name, role) {
   var { error } = await sb.from('profiles').update({approved:true}).eq('id',id);
   if (error) { alert('Error: '+error.message); return; }
-  // Send approval notification via Supabase edge function or email
-  alert(`✓ ${name||email} has been approved! They can now log in to the portal.`);
+  // If chiro, also activate their chiros record
+  if (role === 'chiro') {
+    await sb.from('chiros').update({active:true}).eq('email',email);
+  }
+  alert('✓ ' + (name||email) + ' has been approved! They can now log in.');
   loadLawyers();
 }
+
+
 
 async function rejectLawyer(id) {
   if (!confirm('Remove this attorney account?')) return;
