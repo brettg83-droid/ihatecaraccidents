@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Dashboard — IHateCarAccidents Portal</title>
+<title>Provider Portal — IHateCarAccidents.com</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -11,279 +11,218 @@
   :root { --red:#c8102e; --black:#111; --gray:#555; --gray-light:#e8e8e8; --gray-bg:#f5f5f5; }
   * { box-sizing:border-box; margin:0; padding:0; }
   body { font-family:'Barlow',sans-serif; background:var(--gray-bg); min-height:100vh; display:flex; flex-direction:column; }
-  header { background:var(--black); padding:14px 24px; display:flex; align-items:center; justify-content:space-between; }
-  .logo { font-family:'Oswald',sans-serif; color:white; font-size:20px; font-weight:700; text-decoration:none; }
+
+  .top-bar { background:var(--red); color:white; text-align:center; padding:10px; font-size:13px; }
+  .top-bar a { color:white; font-weight:700; text-decoration:underline; }
+
+  header { background:var(--black); padding:16px 24px; display:flex; align-items:center; justify-content:space-between; }
+  .logo { font-family:'Oswald',sans-serif; color:white; font-size:22px; font-weight:700; text-decoration:none; display:flex; align-items:center; gap:10px; }
   .logo span { color:var(--red); }
-  .nav-btn { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:white; padding:7px 16px; border-radius:4px; font-size:13px; cursor:pointer; }
+  .back-link { color:#aaa; font-size:13px; text-decoration:none; }
+  .back-link:hover { color:white; }
 
-  .page-tabs { background:white; border-bottom:2px solid var(--gray-light); display:flex; padding:0 24px; }
-  .page-tab { padding:14px 20px; font-family:'Oswald',sans-serif; font-size:14px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; cursor:pointer; color:#aaa; border-bottom:2px solid transparent; margin-bottom:-2px; }
-  .page-tab.active { color:var(--red); border-bottom-color:var(--red); }
+  .page { flex:1; display:flex; align-items:center; justify-content:center; padding:40px 20px; }
 
-  .main { flex:1; max-width:1100px; margin:0 auto; width:100%; padding:28px 24px; }
-  .section-title { font-family:'Oswald',sans-serif; font-size:20px; font-weight:700; margin-bottom:6px; }
-  .section-sub { font-size:14px; color:var(--gray); margin-bottom:20px; }
+  .login-box { background:white; border-radius:10px; box-shadow:0 4px 32px rgba(0,0,0,0.10); width:100%; max-width:420px; overflow:hidden; }
+  .login-header { background:var(--black); padding:28px 32px; }
+  .login-header h1 { font-family:'Oswald',sans-serif; color:white; font-size:24px; font-weight:700; margin-bottom:4px; }
+  .login-header p { color:#aaa; font-size:13px; }
+  .login-body { padding:32px; }
 
-  table { width:100%; border-collapse:collapse; background:white; border-radius:8px; overflow:hidden; border:1px solid var(--gray-light); }
-  th { background:var(--black); color:white; font-family:'Oswald',sans-serif; font-size:12px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; padding:12px 16px; text-align:left; }
-  td { padding:12px 16px; font-size:13px; border-bottom:1px solid var(--gray-light); vertical-align:middle; }
-  tr:last-child td { border-bottom:none; }
-  tr:hover td { background:#fafafa; }
+  .tabs { display:flex; border-bottom:2px solid var(--gray-light); margin-bottom:24px; }
+  .tab { flex:1; text-align:center; padding:10px; font-family:'Oswald',sans-serif; font-size:14px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; cursor:pointer; color:#aaa; border-bottom:2px solid transparent; margin-bottom:-2px; transition:all 0.2s; }
+  .tab.active { color:var(--red); border-bottom-color:var(--red); }
 
-  .badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:700; text-transform:uppercase; }
-  .badge.pending { background:#fef9c3; color:#854d0e; }
-  .badge.approved { background:#f0fff4; color:#166534; }
-  .badge.rejected { background:#fff0f0; color:#c00; }
+  label { display:block; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:#555; margin-bottom:5px; }
+  input { width:100%; padding:11px 14px; border:1px solid var(--gray-light); border-radius:4px; font-size:14px; font-family:'Barlow',sans-serif; margin-bottom:16px; outline:none; transition:border 0.2s; }
+  input:focus { border-color:var(--red); }
 
-  .btn { padding:6px 14px; border:none; border-radius:4px; font-size:12px; font-family:'Barlow',sans-serif; cursor:pointer; font-weight:600; }
-  .btn-approve { background:#166534; color:white; }
-  .btn-approve:hover { background:#15803d; }
-  .btn-reject { background:#fff0f0; color:#c00; border:1px solid #fcc; }
-  .btn-reject:hover { background:#fee2e2; }
-  .btn-red { background:var(--red); color:white; }
-  .btn-red:hover { background:#a00d25; }
-  .btn-gray { background:white; color:var(--gray); border:1px solid var(--gray-light); }
+  .btn { width:100%; padding:13px; background:var(--red); color:white; border:none; border-radius:4px; font-family:'Oswald',sans-serif; font-size:16px; font-weight:700; letter-spacing:.06em; cursor:pointer; transition:background 0.2s; }
+  .btn:hover { background:#a00d25; }
+  .btn:disabled { background:#ccc; cursor:not-allowed; }
 
-  .add-form { background:white; border:1px solid var(--gray-light); border-radius:8px; padding:24px; margin-bottom:24px; }
-  .add-form h3 { font-family:'Oswald',sans-serif; font-size:16px; font-weight:700; margin-bottom:16px; color:var(--black); }
-  .form-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:14px; }
-  .form-row-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px; }
-  label { display:block; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:#555; margin-bottom:4px; }
-  input, select { width:100%; padding:9px 12px; border:1px solid var(--gray-light); border-radius:4px; font-size:13px; font-family:'Barlow',sans-serif; outline:none; }
-  input:focus, select:focus { border-color:var(--red); }
+  .msg { font-size:13px; padding:10px 14px; border-radius:4px; margin-bottom:16px; display:none; }
+  .msg.error { background:#fff0f0; color:#c00; border:1px solid #fcc; display:block; }
+  .msg.success { background:#f0fff4; color:#166534; border:1px solid #bbf7d0; display:block; }
+  .msg.info { background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe; display:block; }
 
-  .msg { font-size:13px; padding:10px 14px; border-radius:4px; margin-bottom:14px; }
-  .msg.success { background:#f0fff4; color:#166534; border:1px solid #bbf7d0; }
-  .msg.error { background:#fff0f0; color:#c00; border:1px solid #fcc; }
+  .forgot { text-align:center; margin-top:14px; font-size:13px; color:var(--gray); }
+  .forgot a { color:var(--red); text-decoration:none; font-weight:600; }
 
-  .empty { text-align:center; padding:40px; color:#aaa; }
+  .register-note { background:var(--gray-bg); border-radius:4px; padding:14px; margin-top:16px; font-size:12px; color:var(--gray); line-height:1.6; text-align:center; }
+  .register-note strong { color:var(--black); }
+
   footer { background:var(--black); color:#666; text-align:center; padding:16px; font-size:12px; }
 </style>
 </head>
 <body>
 
+<div class="top-bar">🚨 Injured in an accident? <a href="/">Return to IHateCarAccidents.com</a></div>
+
 <header>
-  <a class="logo" href="/"><span>I Hate</span> Car Accidents — Admin</a>
-  <button class="nav-btn" onclick="doLogout()">Sign Out</button>
+  <a class="logo" href="/"><span>I Hate</span>&nbsp;Car Accidents</a>
+  <a class="back-link" href="/">← Back to main site</a>
 </header>
 
-<div class="page-tabs">
-  <div class="page-tab active" id="tab-lawyers" onclick="showTab('lawyers')">Attorney Approvals</div>
-  <div class="page-tab" id="tab-chiros" onclick="showTab('chiros')">Manage Providers</div>
-  <div class="page-tab" id="tab-referrals" onclick="showTab('referrals')">All Referrals</div>
-</div>
-
-<div class="main">
-
-  <!-- ATTORNEY APPROVALS -->
-  <div id="panel-lawyers">
-    <div class="section-title">Pending Approval Requests</div>
-    <div class="section-sub">Review and approve attorney and chiropractic provider accounts.</div>
-    <div id="lawyers-list"><div class="empty">Loading...</div></div>
-  </div>
-
-  <!-- MANAGE CHIROS -->
-  <div id="panel-chiros" style="display:none;">
-    <div class="section-title">Manage Chiropractic Providers</div>
-    <div class="section-sub">Add, edit, or remove providers from the referral map.</div>
-
-    <div class="add-form">
-      <h3>+ Add New Provider</h3>
-      <div id="add-msg"></div>
-      <div class="form-row">
-        <div><label>Doctor Name *</label><input type="text" id="nc-name" placeholder="Dr. John Smith D.C."></div>
-        <div><label>Practice Name *</label><input type="text" id="nc-practice" placeholder="Smith Chiropractic"></div>
-        <div><label>Phone *</label><input type="tel" id="nc-phone" placeholder="(555) 000-0000"></div>
-      </div>
-      <div class="form-row">
-        <div><label>Address *</label><input type="text" id="nc-address" placeholder="123 Main St, Miami, FL 33101"></div>
-        <div><label>Email *</label><input type="email" id="nc-email" placeholder="dr@practice.com"></div>
-        <div><label>Website</label><input type="text" id="nc-website" placeholder="www.practice.com"></div>
-      </div>
-      <div class="form-row">
-        <div><label>Specialties</label><input type="text" id="nc-specialties" placeholder="Auto Injury, PIP, Whiplash"></div>
-        <div><label>Languages</label><input type="text" id="nc-languages" placeholder="English, Spanish"></div>
-        <div><label>Notes</label><input type="text" id="nc-notes" placeholder="Same-day appointments available"></div>
-      </div>
-      <div class="form-row-2">
-        <div><label>Accepts PIP</label><select id="nc-pip"><option value="true">Yes</option><option value="false">No</option></select></div>
-        <div><label>Accepts Walk-ins</label><select id="nc-walkins"><option value="true">Yes</option><option value="false">No</option></select></div>
-      </div>
-      <button class="btn btn-red" onclick="addChiro()">Add Provider to Map</button>
+<div class="page">
+  <div class="login-box">
+    <div class="login-header">
+      <h1>Provider Portal</h1>
+      <p>Secure login for attorneys &amp; chiropractic providers</p>
     </div>
+    <div class="login-body">
 
-    <div id="chiros-list"><div class="empty">Loading...</div></div>
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab('login')">Sign In</div>
+        <div class="tab" onclick="switchTab('register')">Register</div>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <div id="login-form">
+        <div id="login-msg" class="msg"></div>
+        <label for="login-email">Email Address</label>
+        <input type="email" id="login-email" placeholder="you@lawfirm.com">
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" placeholder="••••••••">
+        <button class="btn" onclick="doLogin()">Sign In</button>
+        <div class="forgot"><a href="#" onclick="doForgot()">Forgot password?</a></div>
+      </div>
+
+      <!-- REGISTER FORM -->
+      <div id="register-form" style="display:none;">
+        <div id="reg-msg" class="msg"></div>
+        <label for="reg-name">Full Name</label>
+        <input type="text" id="reg-name" placeholder="John Smith">
+        <label for="reg-firm">Law Firm / Practice Name</label>
+        <input type="text" id="reg-firm" placeholder="Smith &amp; Associates Law">
+        <label for="reg-email">Email Address</label>
+        <input type="email" id="reg-email" placeholder="you@lawfirm.com">
+        <label for="reg-phone">Phone Number</label>
+        <input type="tel" id="reg-phone" placeholder="(555) 000-0000">
+        <label for="reg-bar">Florida Bar Number (Attorneys only)</label>
+        <input type="text" id="reg-bar" placeholder="123456 (leave blank if provider)">
+        <label for="reg-password">Create Password</label>
+        <input type="password" id="reg-password" placeholder="Minimum 8 characters">
+        <button class="btn" onclick="doRegister()">Request Access</button>
+        <div class="register-note">
+          <strong>Approval Required</strong><br>
+          Attorney accounts are manually reviewed and approved. You will receive an email once your account is activated — typically within 24 hours.
+        </div>
+      </div>
+
+    </div>
   </div>
-
-  <!-- ALL REFERRALS -->
-  <div id="panel-referrals" style="display:none;">
-    <div class="section-title">All Referrals</div>
-    <div class="section-sub">Overview of all referrals submitted through the portal.</div>
-    <div id="all-referrals-list"><div class="empty">Loading...</div></div>
-  </div>
-
 </div>
 
-<footer>© 2025 IHateCarAccidents.com — Admin Portal</footer>
+<footer>© 2025 IHateCarAccidents.com — Provider Portal — Secure &amp; Encrypted</footer>
 
 <script>
 const SUPABASE_URL = 'https://xlhkduyviqzzyxjqnjxj.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhsaGtkdXl2aXF6enl4anFuanhqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3MzYxNzQsImV4cCI6MjA5MjMxMjE3NH0.QhhkZ8QFYTtlC5cRc9v2EGMSroiavdq69D_-dYFxnqI';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// Auth check - admin only
-sb.auth.getSession().then(({ data: { session } }) => {
-  if (!session) { window.location.href = '/portal.html'; return; }
-  sb.from('profiles').select('role').eq('id', session.user.id).single().then(({ data }) => {
-    if (data?.role !== 'admin') { alert('Access denied.'); window.location.href = '/portal.html'; }
-    else loadLawyers();
-  });
-});
-
-function doLogout() { sb.auth.signOut().then(() => window.location.href = '/portal.html'); }
-
-function showTab(tab) {
-  ['lawyers','chiros','referrals'].forEach(t => {
-    document.getElementById('panel-'+t).style.display = t===tab?'block':'none';
-    document.getElementById('tab-'+t).classList.toggle('active', t===tab);
-  });
-  if (tab==='lawyers') loadLawyers();
-  else if (tab==='chiros') loadChiros();
-  else if (tab==='referrals') loadAllReferrals();
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', (i===0&&tab==='login')||(i===1&&tab==='register')));
+  document.getElementById('login-form').style.display = tab==='login' ? 'block' : 'none';
+  document.getElementById('register-form').style.display = tab==='register' ? 'block' : 'none';
 }
 
-// ATTORNEY APPROVALS
-async function loadLawyers() {
-  var { data } = await sb.from('profiles').select('*').in('role',['lawyer','chiro']).order('created_at',{ascending:false});
-  var list = document.getElementById('lawyers-list');
-  if (!data?.length) { list.innerHTML = '<div class="empty">No pending accounts yet.</div>'; return; }
-  list.innerHTML = `<table>
-    <thead><tr><th>Type</th><th>Name</th><th>Firm / Practice</th><th>Bar # / Address</th><th>Email</th><th>Phone</th><th>Registered</th><th>Status</th><th>Actions</th></tr></thead>
-    <tbody>${data.map(u=>`
-      <tr id="row-${u.id}">
-        <td><span class="badge ${u.role==='lawyer'?'approved':'pending'}">${u.role==='lawyer'?'Attorney':'Chiro'}</span></td>
-        <td><strong>${u.full_name||'—'}</strong></td>
-        <td>${u.firm||'—'}</td>
-        <td style="font-size:12px;">${u.role==='lawyer'?(u.bar_number||'—'):'(see chiros table)'}</td>
-        <td>${u.email}</td>
-        <td>${u.phone||'—'}</td>
-        <td>${new Date(u.created_at).toLocaleDateString()}</td>
-        <td><span class="badge ${u.approved?'approved':'pending'}">${u.approved?'Approved':'Pending'}</span></td>
-        <td style="display:flex;gap:6px;">
-          ${!u.approved?`<button class="btn btn-approve" onclick="approveUser('${u.id}','${u.email}','${u.full_name||''}','${u.role}')">✓ Approve</button>`:''}
-          <button class="btn btn-reject" onclick="rejectLawyer('${u.id}')">✗ Remove</button>
-        </td>
-      </tr>`).join('')}
-    </tbody>
-  </table>`;
+function showMsg(id, type, text) {
+  var el = document.getElementById(id);
+  el.className = 'msg ' + type;
+  el.textContent = text;
 }
 
-async function approveUser(id, email, name, role) {
-  var { error } = await sb.from('profiles').update({approved:true}).eq('id',id);
-  if (error) { alert('Error: '+error.message); return; }
-  // If chiro, also activate their chiros record
+async function doLogin() {
+  var email = document.getElementById('login-email').value.trim();
+  var pass = document.getElementById('login-password').value;
+  if (!email || !pass) { showMsg('login-msg','error','Please enter your email and password.'); return; }
+
+  var btn = document.querySelector('#login-form .btn');
+  btn.textContent = 'Signing in...'; btn.disabled = true;
+
+  var { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
+  if (error) {
+    showMsg('login-msg','error', error.message === 'Invalid login credentials' ? 'Incorrect email or password.' : error.message);
+    btn.textContent = 'Sign In'; btn.disabled = false;
+    return;
+  }
+
+  // Check role and redirect
+  var { data: profile } = await sb.from('profiles').select('role, approved').eq('id', data.user.id).single();
+  if (!profile) { showMsg('login-msg','error','Account not found. Please contact support.'); btn.textContent='Sign In'; btn.disabled=false; return; }
+  if (!profile.approved) { showMsg('login-msg','info','Your account is pending approval. You will receive an email once approved.'); await sb.auth.signOut(); btn.textContent='Sign In'; btn.disabled=false; return; }
+
+  if (profile.role === 'lawyer') window.location.href = '/portal-lawyer.html';
+  else if (profile.role === 'chiro') window.location.href = '/portal-chiro.html';
+  else if (profile.role === 'admin') window.location.href = '/portal-admin.html';
+  else { showMsg('login-msg','error','Unknown account type.'); btn.textContent='Sign In'; btn.disabled=false; }
+}
+
+function toggleRegRole() {
+  var role = document.getElementById('reg-role').value;
+  document.getElementById('reg-bar-wrap').style.display = role === 'lawyer' ? 'block' : 'none';
+  document.getElementById('reg-chiro-wrap').style.display = role === 'chiro' ? 'block' : 'none';
+  document.getElementById('reg-firm-label').textContent = role === 'chiro' ? 'Practice Name *' : 'Law Firm Name *';
+  document.getElementById('reg-firm').placeholder = role === 'chiro' ? 'Smith Chiropractic' : 'Smith & Associates Law';
+}
+
+async function doRegister() {
+  var role = document.getElementById('reg-role').value;
+  var name = document.getElementById('reg-name').value.trim();
+  var firm = document.getElementById('reg-firm').value.trim();
+  var email = document.getElementById('reg-email').value.trim();
+  var phone = document.getElementById('reg-phone').value.trim();
+  var bar = document.getElementById('reg-bar').value.trim();
+  var pass = document.getElementById('reg-password').value;
+  var address = document.getElementById('reg-address') ? document.getElementById('reg-address').value.trim() : '';
+  var specialties = document.getElementById('reg-specialties') ? document.getElementById('reg-specialties').value.trim() : '';
+
+  if (!role) { showMsg('reg-msg','error','Please select your role (Attorney or Chiropractic Provider).'); return; }
+  if (!name||!firm||!email||!phone||!pass) { showMsg('reg-msg','error','Please fill in all required fields.'); return; }
+  if (pass.length < 8) { showMsg('reg-msg','error','Password must be at least 8 characters.'); return; }
+  if (role === 'chiro' && !address) { showMsg('reg-msg','error','Please enter your practice address.'); return; }
+
+  var btn = document.querySelector('#register-form .btn');
+  btn.textContent = 'Submitting...'; btn.disabled = true;
+
+  var { data, error } = await sb.auth.signUp({ email, password: pass, options: { data: { full_name: name, firm, phone, bar_number: bar, role } } });
+  if (error) { showMsg('reg-msg','error', error.message); btn.textContent='Request Access'; btn.disabled=false; return; }
+
+  // Insert profile record (pending approval)
+  var profileData = { id: data.user.id, full_name: name, firm, phone, bar_number: bar, email, role, approved: false };
+  await sb.from('profiles').insert(profileData);
+
+  // If chiro, also insert into chiros table (pending)
   if (role === 'chiro') {
-    await sb.from('chiros').update({active:true}).eq('email',email);
-  }
-  alert('✓ ' + (name||email) + ' has been approved! They can now log in.');
-  loadLawyers();
-}
-
-
-
-async function rejectLawyer(id) {
-  if (!confirm('Remove this attorney account?')) return;
-  await sb.from('profiles').delete().eq('id',id);
-  loadLawyers();
-}
-
-// CHIRO MANAGEMENT
-async function loadChiros() {
-  var { data } = await sb.from('chiros').select('*').order('practice_name');
-  var list = document.getElementById('chiros-list');
-  if (!data?.length) { list.innerHTML = '<div class="empty">No providers yet. Add your first provider above.</div>'; return; }
-  list.innerHTML = `<table>
-    <thead><tr><th>Doctor</th><th>Practice</th><th>Address</th><th>Phone</th><th>Email</th><th>PIP</th><th>Languages</th><th>Actions</th></tr></thead>
-    <tbody>${data.map(c=>`
-      <tr>
-        <td><strong>${c.doctor_name}</strong></td>
-        <td>${c.practice_name}</td>
-        <td style="font-size:12px;">${c.address}</td>
-        <td>${c.phone}</td>
-        <td>${c.email}</td>
-        <td>${c.accepts_pip?'✓':'—'}</td>
-        <td>${c.languages||'—'}</td>
-        <td><button class="btn btn-reject" onclick="removeChiro('${c.id}')">Remove</button></td>
-      </tr>`).join('')}
-    </tbody>
-  </table>`;
-}
-
-async function addChiro() {
-  var name = document.getElementById('nc-name').value.trim();
-  var practice = document.getElementById('nc-practice').value.trim();
-  var address = document.getElementById('nc-address').value.trim();
-  var phone = document.getElementById('nc-phone').value.trim();
-  var email = document.getElementById('nc-email').value.trim();
-  var msg = document.getElementById('add-msg');
-
-  if (!name||!practice||!address||!phone||!email) {
-    msg.className='msg error'; msg.textContent='Please fill in all required fields (*).'; return;
+    await sb.from('chiros').insert({
+      doctor_name: name, practice_name: firm, address, phone, email,
+      specialties, active: false  // inactive until approved
+    });
   }
 
-  // Geocode address using Google Maps Geocoding API
-  var geoRes = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=YOUR_GOOGLE_MAPS_KEY`);
-  var geoData = await geoRes.json();
-  var lat = null, lng = null;
-  if (geoData.results?.[0]) {
-    lat = geoData.results[0].geometry.location.lat;
-    lng = geoData.results[0].geometry.location.lng;
+  showMsg('reg-msg','success','Request submitted! You will receive an email once your account is approved — typically within 24 hours.');
+  btn.textContent = 'Request Submitted';
+}
+
+async function doForgot() {
+  var email = prompt('Enter your email address:');
+  if (!email) return;
+  var { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin + '/portal.html' });
+  if (error) alert('Error: ' + error.message);
+  else alert('Password reset email sent! Check your inbox.');
+}
+
+// If already logged in, redirect
+sb.auth.getSession().then(({ data: { session } }) => {
+  if (session) {
+    sb.from('profiles').select('role').eq('id', session.user.id).single().then(({ data }) => {
+      if (data?.role === 'lawyer') window.location.href = '/portal-lawyer.html';
+      else if (data?.role === 'chiro') window.location.href = '/portal-chiro.html';
+      else if (data?.role === 'admin') window.location.href = '/portal-admin.html';
+    });
   }
-
-  var { error } = await sb.from('chiros').insert({
-    doctor_name: name, practice_name: practice, address, phone, email,
-    website: document.getElementById('nc-website').value.trim(),
-    specialties: document.getElementById('nc-specialties').value.trim(),
-    languages: document.getElementById('nc-languages').value.trim(),
-    notes: document.getElementById('nc-notes').value.trim(),
-    accepts_pip: document.getElementById('nc-pip').value==='true',
-    accepts_walkins: document.getElementById('nc-walkins').value==='true',
-    lat, lng
-  });
-
-  if (error) { msg.className='msg error'; msg.textContent='Error: '+error.message; return; }
-  msg.className='msg success'; msg.textContent='✓ Provider added successfully! They will appear on the map.';
-  ['nc-name','nc-practice','nc-address','nc-phone','nc-email','nc-website','nc-specialties','nc-languages','nc-notes'].forEach(id => document.getElementById(id).value='');
-  loadChiros();
-}
-
-async function removeChiro(id) {
-  if (!confirm('Remove this provider from the portal?')) return;
-  await sb.from('chiros').delete().eq('id',id);
-  loadChiros();
-}
-
-// ALL REFERRALS
-async function loadAllReferrals() {
-  var { data } = await sb.from('referrals').select('*').order('created_at',{ascending:false});
-  var list = document.getElementById('all-referrals-list');
-  if (!data?.length) { list.innerHTML = '<div class="empty">No referrals yet.</div>'; return; }
-  list.innerHTML = `<table>
-    <thead><tr><th>Date</th><th>Patient</th><th>Attorney</th><th>Firm</th><th>Provider</th><th>Incident</th><th>Insurance</th><th>Status</th></tr></thead>
-    <tbody>${data.map(r=>`
-      <tr>
-        <td>${new Date(r.created_at).toLocaleDateString()}</td>
-        <td><strong>${r.patient_name}</strong><br><small style="color:#aaa;">${r.incident_date}</small></td>
-        <td>${r.atty_name}</td>
-        <td>${r.firm}</td>
-        <td>${r.chiro_practice}</td>
-        <td>${r.incident_type}</td>
-        <td>${r.insurance||'—'}<br><small style="color:#aaa;">${r.claim_number||''}</small></td>
-        <td><span class="badge ${r.status==='sent'?'pending':r.status==='accepted'?'approved':'pending'}">${r.status}</span></td>
-      </tr>`).join('')}
-    </tbody>
-  </table>`;
-}
+});
 </script>
 </body>
 </html>
