@@ -159,27 +159,49 @@ async function doLogin() {
   else { showMsg('login-msg','error','Unknown account type.'); btn.textContent='Sign In'; btn.disabled=false; }
 }
 
+function toggleRegRole() {
+  var role = document.getElementById('reg-role').value;
+  document.getElementById('reg-bar-wrap').style.display = role === 'lawyer' ? 'block' : 'none';
+  document.getElementById('reg-chiro-wrap').style.display = role === 'chiro' ? 'block' : 'none';
+  document.getElementById('reg-firm-label').textContent = role === 'chiro' ? 'Practice Name *' : 'Law Firm Name *';
+  document.getElementById('reg-firm').placeholder = role === 'chiro' ? 'Smith Chiropractic' : 'Smith & Associates Law';
+}
+
 async function doRegister() {
+  var role = document.getElementById('reg-role').value;
   var name = document.getElementById('reg-name').value.trim();
   var firm = document.getElementById('reg-firm').value.trim();
   var email = document.getElementById('reg-email').value.trim();
   var phone = document.getElementById('reg-phone').value.trim();
   var bar = document.getElementById('reg-bar').value.trim();
   var pass = document.getElementById('reg-password').value;
+  var address = document.getElementById('reg-address') ? document.getElementById('reg-address').value.trim() : '';
+  var specialties = document.getElementById('reg-specialties') ? document.getElementById('reg-specialties').value.trim() : '';
 
-  if (!name||!firm||!email||!pass) { showMsg('reg-msg','error','Please fill in all required fields.'); return; }
+  if (!role) { showMsg('reg-msg','error','Please select your role (Attorney or Chiropractic Provider).'); return; }
+  if (!name||!firm||!email||!phone||!pass) { showMsg('reg-msg','error','Please fill in all required fields.'); return; }
   if (pass.length < 8) { showMsg('reg-msg','error','Password must be at least 8 characters.'); return; }
+  if (role === 'chiro' && !address) { showMsg('reg-msg','error','Please enter your practice address.'); return; }
 
   var btn = document.querySelector('#register-form .btn');
   btn.textContent = 'Submitting...'; btn.disabled = true;
 
-  var { data, error } = await sb.auth.signUp({ email, password: pass, options: { data: { full_name: name, firm, phone, bar_number: bar, role: 'lawyer' } } });
+  var { data, error } = await sb.auth.signUp({ email, password: pass, options: { data: { full_name: name, firm, phone, bar_number: bar, role } } });
   if (error) { showMsg('reg-msg','error', error.message); btn.textContent='Request Access'; btn.disabled=false; return; }
 
   // Insert profile record (pending approval)
-  await sb.from('profiles').insert({ id: data.user.id, full_name: name, firm, phone, bar_number: bar, email, role: 'lawyer', approved: false });
+  var profileData = { id: data.user.id, full_name: name, firm, phone, bar_number: bar, email, role, approved: false };
+  await sb.from('profiles').insert(profileData);
 
-  showMsg('reg-msg','success','Request submitted! You will receive an email once your account is approved.');
+  // If chiro, also insert into chiros table (pending)
+  if (role === 'chiro') {
+    await sb.from('chiros').insert({
+      doctor_name: name, practice_name: firm, address, phone, email,
+      specialties, active: false  // inactive until approved
+    });
+  }
+
+  showMsg('reg-msg','success','Request submitted! You will receive an email once your account is approved — typically within 24 hours.');
   btn.textContent = 'Request Submitted';
 }
 
@@ -191,14 +213,86 @@ async function doForgot() {
   else alert('Password reset email sent! Check your inbox.');
 }
 
+// Handle email confirmation token in URL
+async function handleAuthCallback() {
+  var hash = window.location.hash;
+  if (hash && hash.includes('access_token')) {
+    // Parse the token from the URL
+    var params = new URLSearchParams(hash.substring(1));
+    var accessToken = params.get('access_token');
+    var refreshToken = params.get('refresh_token');
+    var type = params.get('type');
+
+    if (accessToken) {
+      // Set the session using the token
+      var { data, error } = await sb.auth.setSession({
+        access_token: accessToken,
+        refresh_token: refreshToken
+      });
+
+      if (error) {
+        showMsg('login-msg', 'error', 'Confirmation error: ' + error.message);
+        return;
+      }
+
+      if (data.session) {
+        var user = data.session.user;
+        var meta = user.user_metadata || {};
+
+        // Check if profile already exists
+        var { data: existing } = await sb.from('profiles').select('id, role, approved').eq('id', user.id).single();
+
+        if (!existing) {
+          // Create the profile record
+          await sb.from('profiles').insert({
+            id: user.id,
+            full_name: meta.full_name || '',
+            firm: meta.firm || '',
+            phone: meta.phone || '',
+            bar_number: meta.bar_number || '',
+            email: user.email,
+            role: meta.role || 'lawyer',
+            approved: false
+          });
+
+          // If chiro, also add to chiros table
+          if (meta.role === 'chiro') {
+            await sb.from('chiros').insert({
+              doctor_name: meta.full_name || '',
+              practice_name: meta.firm || '',
+              address: meta.address || '',
+              phone: meta.phone || '',
+              email: user.email,
+              specialties: meta.specialties || '',
+              active: false
+            });
+          }
+        }
+
+        // Clear the hash from URL
+        window.history.replaceState(null, '', window.location.pathname);
+
+        // Show pending approval message
+        await sb.auth.signOut();
+        showMsg('login-msg', 'success', '✓ Email confirmed! Your account is pending approval. You will receive an email once activated.');
+        return;
+      }
+    }
+  }
+}
+
 // If already logged in, redirect
 sb.auth.getSession().then(({ data: { session } }) => {
   if (session) {
-    sb.from('profiles').select('role').eq('id', session.user.id).single().then(({ data }) => {
+    sb.from('profiles').select('role, approved').eq('id', session.user.id).single().then(({ data }) => {
+      if (!data?.approved) return; // Stay on page if not approved yet
       if (data?.role === 'lawyer') window.location.href = '/portal-lawyer.html';
       else if (data?.role === 'chiro') window.location.href = '/portal-chiro.html';
       else if (data?.role === 'admin') window.location.href = '/portal-admin.html';
     });
+  } else {
+    // Check for auth callback in URL
+    handleAuthCallback();
   }
 });
 </script>
