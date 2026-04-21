@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Provider Dashboard — IHateCarAccidents Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root { --red:#c8102e; --black:#111; --gray:#555; --gray-light:#e8e8e8; --gray-bg:#f5f5f5; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Barlow',sans-serif; background:var(--gray-bg); min-height:100vh; display:flex; flex-direction:column; }
+  header { background:var(--black); padding:14px 24px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
+  .logo { font-family:'Oswald',sans-serif; color:white; font-size:20px; font-weight:700; text-decoration:none; }
+  .logo span { color:var(--red); }
+  .header-right { display:flex; align-items:center; gap:16px; }
+  .user-name { color:#ccc; font-size:13px; }
+  .nav-btn { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:white; padding:7px 16px; border-radius:4px; font-size:13px; cursor:pointer; }
+  .nav-btn:hover { background:rgba(255,255,255,0.2); }
+
+  .main { flex:1; max-width:1100px; margin:0 auto; width:100%; padding:28px 24px; }
+  .page-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
+  .page-title { font-family:'Oswald',sans-serif; font-size:26px; font-weight:700; }
+  .page-sub { font-size:14px; color:var(--gray); margin-top:2px; }
+
+  .stats-row { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:28px; }
+  .stat-card { background:white; border-radius:8px; border:1px solid var(--gray-light); padding:20px; text-align:center; }
+  .stat-num { font-family:'Oswald',sans-serif; font-size:36px; font-weight:700; color:var(--red); }
+  .stat-label { font-size:13px; color:var(--gray); margin-top:4px; }
+
+  .filter-bar { display:flex; gap:10px; margin-bottom:18px; flex-wrap:wrap; }
+  .filter-btn { padding:7px 16px; border:1px solid var(--gray-light); border-radius:20px; font-size:13px; cursor:pointer; background:white; transition:all 0.2s; }
+  .filter-btn.active { background:var(--red); color:white; border-color:var(--red); }
+
+  .referral-list { display:flex; flex-direction:column; gap:12px; }
+  .referral-card { background:white; border-radius:8px; border:1px solid var(--gray-light); overflow:hidden; transition:box-shadow 0.2s; }
+  .referral-card:hover { box-shadow:0 4px 20px rgba(0,0,0,0.08); }
+  .referral-card.new-ref { border-left:4px solid var(--red); }
+
+  .ref-header { padding:16px 20px; display:flex; align-items:center; justify-content:space-between; cursor:pointer; gap:12px; flex-wrap:wrap; }
+  .ref-patient { font-family:'Oswald',sans-serif; font-size:17px; font-weight:700; color:var(--black); }
+  .ref-meta { font-size:12px; color:var(--gray); margin-top:2px; }
+  .ref-right { display:flex; align-items:center; gap:10px; }
+  .status-badge { display:inline-block; padding:4px 12px; border-radius:20px; font-size:11px; font-weight:700; text-transform:uppercase; }
+  .status-badge.sent { background:#eff6ff; color:#1d4ed8; }
+  .status-badge.viewed { background:#fef9c3; color:#854d0e; }
+  .status-badge.accepted { background:#f0fff4; color:#166534; }
+  .chevron { font-size:12px; color:#aaa; transition:transform 0.2s; }
+  .chevron.open { transform:rotate(180deg); }
+
+  .ref-body { display:none; border-top:1px solid var(--gray-light); }
+  .ref-body.open { display:block; }
+  .ref-body-inner { padding:20px; display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; }
+
+  .ref-section h4 { font-family:'Oswald',sans-serif; font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--red); margin-bottom:10px; }
+  .ref-field { margin-bottom:7px; font-size:13px; }
+  .ref-field .lbl { color:#aaa; font-size:11px; text-transform:uppercase; letter-spacing:.06em; display:block; margin-bottom:1px; }
+  .ref-field .val { color:var(--black); font-weight:500; }
+
+  .ref-footer { padding:14px 20px; border-top:1px solid var(--gray-light); background:#fafafa; display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+  .btn-accept { padding:8px 20px; background:#166534; color:white; border:none; border-radius:4px; font-family:'Oswald',sans-serif; font-size:13px; font-weight:700; cursor:pointer; }
+  .btn-accept:hover { background:#15803d; }
+  .doc-btn { padding:7px 14px; background:var(--black); color:white; border:none; border-radius:4px; font-size:12px; cursor:pointer; display:flex; align-items:center; gap:6px; }
+  .doc-btn:hover { background:#333; }
+  .sig-preview { margin-left:auto; }
+  .sig-preview img { height:36px; border:1px solid var(--gray-light); border-radius:3px; background:white; }
+
+  .empty-state { text-align:center; padding:60px; color:#aaa; background:white; border-radius:8px; border:1px solid var(--gray-light); }
+  .empty-icon { font-size:48px; margin-bottom:12px; }
+  footer { background:var(--black); color:#666; text-align:center; padding:16px; font-size:12px; }
+
+  @media(max-width:700px) { .ref-body-inner { grid-template-columns:1fr; } .stats-row { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="/"><span>I Hate</span> Car Accidents — Provider Portal</a>
+  <div class="header-right">
+    <span class="user-name" id="user-name">Loading...</span>
+    <button class="nav-btn" onclick="doLogout()">Sign Out</button>
+  </div>
+</header>
+
+<div class="main">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Incoming Referrals</div>
+      <div class="page-sub" id="practice-name">Loading your dashboard...</div>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num" id="stat-total">—</div><div class="stat-label">Total Referrals</div></div>
+    <div class="stat-card"><div class="stat-num" id="stat-new">—</div><div class="stat-label">New / Unread</div></div>
+    <div class="stat-card"><div class="stat-num" id="stat-accepted">—</div><div class="stat-label">Accepted</div></div>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterRefs('all', this)">All</button>
+    <button class="filter-btn" onclick="filterRefs('sent', this)">New</button>
+    <button class="filter-btn" onclick="filterRefs('viewed', this)">Viewed</button>
+    <button class="filter-btn" onclick="filterRefs('accepted', this)">Accepted</button>
+  </div>
+
+  <div class="referral-list" id="referral-list">
+    <div class="empty-state"><div class="empty-icon">📋</div>Loading referrals...</div>
+  </div>
+</div>
+
+<footer>© 2025 IHateCarAccidents.com — Provider Portal — Secure &amp; Encrypted</footer>
+
+<script>
+const SUPABASE_URL = 'https://xlhkduyviqzzyxjqnjxj.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhsaGtkdXl2aXF6enl4anFuanhqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3MzYxNzQsImV4cCI6MjA5MjMxMjE3NH0.QhhkZ8QFYTtlC5cRc9v2EGMSroiavdq69D_-dYFxnqI';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+let currentUser = null;
+let allReferrals = [];
+let currentFilter = 'all';
+
+sb.auth.getSession().then(({ data: { session } }) => {
+  if (!session) { window.location.href = '/portal.html'; return; }
+  currentUser = session.user;
+  sb.from('profiles').select('full_name, firm, chiro_id').eq('id', currentUser.id).single().then(({ data }) => {
+    document.getElementById('user-name').textContent = data?.full_name || currentUser.email;
+    document.getElementById('practice-name').textContent = data?.firm || 'Provider Dashboard';
+    loadReferrals();
+  });
+});
+
+function doLogout() { sb.auth.signOut().then(() => window.location.href = '/portal.html'); }
+
+async function loadReferrals() {
+  var { data, error } = await sb.from('referrals')
+    .select('*, referral_documents(filename, path)')
+    .eq('chiro_email', currentUser.email)
+    .order('created_at', {ascending:false});
+
+  if (error || !data) { document.getElementById('referral-list').innerHTML = '<div class="empty-state"><div class="empty-icon">⚠️</div>Error loading referrals. Please refresh.</div>'; return; }
+
+  allReferrals = data;
+  document.getElementById('stat-total').textContent = data.length;
+  document.getElementById('stat-new').textContent = data.filter(r=>r.status==='sent').length;
+  document.getElementById('stat-accepted').textContent = data.filter(r=>r.status==='accepted').length;
+  renderReferrals();
+}
+
+function filterRefs(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderReferrals();
+}
+
+function renderReferrals() {
+  var refs = currentFilter==='all' ? allReferrals : allReferrals.filter(r=>r.status===currentFilter);
+  var list = document.getElementById('referral-list');
+  if (!refs.length) {
+    list.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div><p>No referrals found.</p></div>';
+    return;
+  }
+  list.innerHTML = refs.map(r => `
+    <div class="referral-card ${r.status==='sent'?'new-ref':''}" id="ref-${r.id}">
+      <div class="ref-header" onclick="toggleRef('${r.id}')">
+        <div>
+          <div class="ref-patient">${r.patient_name}</div>
+          <div class="ref-meta">${r.incident_type} · ${new Date(r.created_at).toLocaleDateString()} · From: ${r.atty_name}, ${r.firm}</div>
+        </div>
+        <div class="ref-right">
+          <span class="status-badge ${r.status}">${r.status==='sent'?'New':r.status}</span>
+          <span class="chevron" id="chev-${r.id}">▼</span>
+        </div>
+      </div>
+      <div class="ref-body" id="body-${r.id}">
+        <div class="ref-body-inner">
+          <div class="ref-section">
+            <h4>Patient</h4>
+            <div class="ref-field"><span class="lbl">Full Name</span><span class="val">${r.patient_name}</span></div>
+            <div class="ref-field"><span class="lbl">Date of Birth</span><span class="val">${r.dob||'—'}</span></div>
+            <div class="ref-field"><span class="lbl">Phone</span><span class="val">${r.patient_phone}</span></div>
+            <div class="ref-field"><span class="lbl">Language</span><span class="val">${r.language||'English'}</span></div>
+            <div class="ref-field"><span class="lbl">Date of Incident</span><span class="val">${r.incident_date}</span></div>
+            <div class="ref-field"><span class="lbl">Incident Type</span><span class="val">${r.incident_type}</span></div>
+          </div>
+          <div class="ref-section">
+            <h4>Attorney</h4>
+            <div class="ref-field"><span class="lbl">Name</span><span class="val">${r.atty_name}</span></div>
+            <div class="ref-field"><span class="lbl">Firm</span><span class="val">${r.firm}</span></div>
+            <div class="ref-field"><span class="lbl">Bar Number</span><span class="val">${r.bar_number||'—'}</span></div>
+            <div class="ref-field"><span class="lbl">Phone</span><span class="val">${r.atty_phone}</span></div>
+            <div class="ref-field"><span class="lbl">Email</span><span class="val">${r.atty_email}</span></div>
+          </div>
+          <div class="ref-section">
+            <h4>Insurance</h4>
+            <div class="ref-field"><span class="lbl">Company</span><span class="val">${r.insurance||'—'}</span></div>
+            <div class="ref-field"><span class="lbl">Claim Number</span><span class="val">${r.claim_number||'—'}</span></div>
+            <div class="ref-field"><span class="lbl">Adjuster Name</span><span class="val">${r.adjuster_name||'—'}</span></div>
+            <div class="ref-field"><span class="lbl">Adjuster Phone</span><span class="val">${r.adjuster_phone||'—'}</span></div>
+            ${r.notes?`<div class="ref-field"><span class="lbl">Notes</span><span class="val">${r.notes}</span></div>`:''}
+          </div>
+        </div>
+        <div class="ref-footer">
+          ${r.status!=='accepted'?`<button class="btn-accept" onclick="acceptReferral('${r.id}')">✓ Accept Referral</button>`:'<span style="color:#166534;font-weight:600;font-size:13px;">✓ Accepted</span>'}
+          ${(r.referral_documents||[]).map(d=>`<button class="doc-btn" onclick="downloadDoc('${r.id}','${d.path}','${d.filename}')">📄 ${d.filename}</button>`).join('')}
+          ${r.signature_data?`<div class="sig-preview"><img src="${r.signature_data}" alt="Signature" title="Attorney signature"></div>`:''}
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  // Mark new referrals as viewed
+  refs.filter(r=>r.status==='sent').forEach(r => {
+    sb.from('referrals').update({status:'viewed'}).eq('id',r.id);
+  });
+}
+
+function toggleRef(id) {
+  var body = document.getElementById('body-'+id);
+  var chev = document.getElementById('chev-'+id);
+  var open = body.classList.toggle('open');
+  chev.classList.toggle('open', open);
+}
+
+async function acceptReferral(id) {
+  var { error } = await sb.from('referrals').update({status:'accepted'}).eq('id',id);
+  if (error) { alert('Error: ' + error.message); return; }
+  var ref = allReferrals.find(r=>r.id==id);
+  if (ref) ref.status = 'accepted';
+  renderReferrals();
+  document.getElementById('stat-accepted').textContent = allReferrals.filter(r=>r.status==='accepted').length;
+  document.getElementById('stat-new').textContent = allReferrals.filter(r=>r.status==='sent').length;
+}
+
+async function downloadDoc(refId, path, filename) {
+  var { data, error } = await sb.storage.from('documents').download(path);
+  if (error) { alert('Error downloading file: ' + error.message); return; }
+  var url = URL.createObjectURL(data);
+  var a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>

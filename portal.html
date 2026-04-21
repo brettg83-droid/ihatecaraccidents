@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Provider Portal — IHateCarAccidents.com</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root { --red:#c8102e; --black:#111; --gray:#555; --gray-light:#e8e8e8; --gray-bg:#f5f5f5; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Barlow',sans-serif; background:var(--gray-bg); min-height:100vh; display:flex; flex-direction:column; }
+
+  .top-bar { background:var(--red); color:white; text-align:center; padding:10px; font-size:13px; }
+  .top-bar a { color:white; font-weight:700; text-decoration:underline; }
+
+  header { background:var(--black); padding:16px 24px; display:flex; align-items:center; justify-content:space-between; }
+  .logo { font-family:'Oswald',sans-serif; color:white; font-size:22px; font-weight:700; text-decoration:none; display:flex; align-items:center; gap:10px; }
+  .logo span { color:var(--red); }
+  .back-link { color:#aaa; font-size:13px; text-decoration:none; }
+  .back-link:hover { color:white; }
+
+  .page { flex:1; display:flex; align-items:center; justify-content:center; padding:40px 20px; }
+
+  .login-box { background:white; border-radius:10px; box-shadow:0 4px 32px rgba(0,0,0,0.10); width:100%; max-width:420px; overflow:hidden; }
+  .login-header { background:var(--black); padding:28px 32px; }
+  .login-header h1 { font-family:'Oswald',sans-serif; color:white; font-size:24px; font-weight:700; margin-bottom:4px; }
+  .login-header p { color:#aaa; font-size:13px; }
+  .login-body { padding:32px; }
+
+  .tabs { display:flex; border-bottom:2px solid var(--gray-light); margin-bottom:24px; }
+  .tab { flex:1; text-align:center; padding:10px; font-family:'Oswald',sans-serif; font-size:14px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; cursor:pointer; color:#aaa; border-bottom:2px solid transparent; margin-bottom:-2px; transition:all 0.2s; }
+  .tab.active { color:var(--red); border-bottom-color:var(--red); }
+
+  label { display:block; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:#555; margin-bottom:5px; }
+  input { width:100%; padding:11px 14px; border:1px solid var(--gray-light); border-radius:4px; font-size:14px; font-family:'Barlow',sans-serif; margin-bottom:16px; outline:none; transition:border 0.2s; }
+  input:focus { border-color:var(--red); }
+
+  .btn { width:100%; padding:13px; background:var(--red); color:white; border:none; border-radius:4px; font-family:'Oswald',sans-serif; font-size:16px; font-weight:700; letter-spacing:.06em; cursor:pointer; transition:background 0.2s; }
+  .btn:hover { background:#a00d25; }
+  .btn:disabled { background:#ccc; cursor:not-allowed; }
+
+  .msg { font-size:13px; padding:10px 14px; border-radius:4px; margin-bottom:16px; display:none; }
+  .msg.error { background:#fff0f0; color:#c00; border:1px solid #fcc; display:block; }
+  .msg.success { background:#f0fff4; color:#166534; border:1px solid #bbf7d0; display:block; }
+  .msg.info { background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe; display:block; }
+
+  .forgot { text-align:center; margin-top:14px; font-size:13px; color:var(--gray); }
+  .forgot a { color:var(--red); text-decoration:none; font-weight:600; }
+
+  .register-note { background:var(--gray-bg); border-radius:4px; padding:14px; margin-top:16px; font-size:12px; color:var(--gray); line-height:1.6; text-align:center; }
+  .register-note strong { color:var(--black); }
+
+  footer { background:var(--black); color:#666; text-align:center; padding:16px; font-size:12px; }
+</style>
+</head>
+<body>
+
+<div class="top-bar">🚨 Injured in an accident? <a href="/">Return to IHateCarAccidents.com</a></div>
+
+<header>
+  <a class="logo" href="/"><span>I Hate</span>&nbsp;Car Accidents</a>
+  <a class="back-link" href="/">← Back to main site</a>
+</header>
+
+<div class="page">
+  <div class="login-box">
+    <div class="login-header">
+      <h1>Provider Portal</h1>
+      <p>Secure login for attorneys &amp; chiropractic providers</p>
+    </div>
+    <div class="login-body">
+
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab('login')">Sign In</div>
+        <div class="tab" onclick="switchTab('register')">Register</div>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <div id="login-form">
+        <div id="login-msg" class="msg"></div>
+        <label for="login-email">Email Address</label>
+        <input type="email" id="login-email" placeholder="you@lawfirm.com">
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" placeholder="••••••••">
+        <button class="btn" onclick="doLogin()">Sign In</button>
+        <div class="forgot"><a href="#" onclick="doForgot()">Forgot password?</a></div>
+      </div>
+
+      <!-- REGISTER FORM -->
+      <div id="register-form" style="display:none;">
+        <div id="reg-msg" class="msg"></div>
+        <label for="reg-name">Full Name</label>
+        <input type="text" id="reg-name" placeholder="John Smith">
+        <label for="reg-firm">Law Firm / Practice Name</label>
+        <input type="text" id="reg-firm" placeholder="Smith &amp; Associates Law">
+        <label for="reg-email">Email Address</label>
+        <input type="email" id="reg-email" placeholder="you@lawfirm.com">
+        <label for="reg-phone">Phone Number</label>
+        <input type="tel" id="reg-phone" placeholder="(555) 000-0000">
+        <label for="reg-bar">Florida Bar Number (Attorneys only)</label>
+        <input type="text" id="reg-bar" placeholder="123456 (leave blank if provider)">
+        <label for="reg-password">Create Password</label>
+        <input type="password" id="reg-password" placeholder="Minimum 8 characters">
+        <button class="btn" onclick="doRegister()">Request Access</button>
+        <div class="register-note">
+          <strong>Approval Required</strong><br>
+          Attorney accounts are manually reviewed and approved. You will receive an email once your account is activated — typically within 24 hours.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<footer>© 2025 IHateCarAccidents.com — Provider Portal — Secure &amp; Encrypted</footer>
+
+<script>
+const SUPABASE_URL = 'https://xlhkduyviqzzyxjqnjxj.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhsaGtkdXl2aXF6enl4anFuanhqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3MzYxNzQsImV4cCI6MjA5MjMxMjE3NH0.QhhkZ8QFYTtlC5cRc9v2EGMSroiavdq69D_-dYFxnqI';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', (i===0&&tab==='login')||(i===1&&tab==='register')));
+  document.getElementById('login-form').style.display = tab==='login' ? 'block' : 'none';
+  document.getElementById('register-form').style.display = tab==='register' ? 'block' : 'none';
+}
+
+function showMsg(id, type, text) {
+  var el = document.getElementById(id);
+  el.className = 'msg ' + type;
+  el.textContent = text;
+}
+
+async function doLogin() {
+  var email = document.getElementById('login-email').value.trim();
+  var pass = document.getElementById('login-password').value;
+  if (!email || !pass) { showMsg('login-msg','error','Please enter your email and password.'); return; }
+
+  var btn = document.querySelector('#login-form .btn');
+  btn.textContent = 'Signing in...'; btn.disabled = true;
+
+  var { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
+  if (error) {
+    showMsg('login-msg','error', error.message === 'Invalid login credentials' ? 'Incorrect email or password.' : error.message);
+    btn.textContent = 'Sign In'; btn.disabled = false;
+    return;
+  }
+
+  // Check role and redirect
+  var { data: profile } = await sb.from('profiles').select('role, approved').eq('id', data.user.id).single();
+  if (!profile) { showMsg('login-msg','error','Account not found. Please contact support.'); btn.textContent='Sign In'; btn.disabled=false; return; }
+  if (!profile.approved) { showMsg('login-msg','info','Your account is pending approval. You will receive an email once approved.'); await sb.auth.signOut(); btn.textContent='Sign In'; btn.disabled=false; return; }
+
+  if (profile.role === 'lawyer') window.location.href = '/portal-lawyer.html';
+  else if (profile.role === 'chiro') window.location.href = '/portal-chiro.html';
+  else if (profile.role === 'admin') window.location.href = '/portal-admin.html';
+  else { showMsg('login-msg','error','Unknown account type.'); btn.textContent='Sign In'; btn.disabled=false; }
+}
+
+async function doRegister() {
+  var name = document.getElementById('reg-name').value.trim();
+  var firm = document.getElementById('reg-firm').value.trim();
+  var email = document.getElementById('reg-email').value.trim();
+  var phone = document.getElementById('reg-phone').value.trim();
+  var bar = document.getElementById('reg-bar').value.trim();
+  var pass = document.getElementById('reg-password').value;
+
+  if (!name||!firm||!email||!pass) { showMsg('reg-msg','error','Please fill in all required fields.'); return; }
+  if (pass.length < 8) { showMsg('reg-msg','error','Password must be at least 8 characters.'); return; }
+
+  var btn = document.querySelector('#register-form .btn');
+  btn.textContent = 'Submitting...'; btn.disabled = true;
+
+  var { data, error } = await sb.auth.signUp({ email, password: pass, options: { data: { full_name: name, firm, phone, bar_number: bar, role: 'lawyer' } } });
+  if (error) { showMsg('reg-msg','error', error.message); btn.textContent='Request Access'; btn.disabled=false; return; }
+
+  // Insert profile record (pending approval)
+  await sb.from('profiles').insert({ id: data.user.id, full_name: name, firm, phone, bar_number: bar, email, role: 'lawyer', approved: false });
+
+  showMsg('reg-msg','success','Request submitted! You will receive an email once your account is approved.');
+  btn.textContent = 'Request Submitted';
+}
+
+async function doForgot() {
+  var email = prompt('Enter your email address:');
+  if (!email) return;
+  var { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin + '/portal.html' });
+  if (error) alert('Error: ' + error.message);
+  else alert('Password reset email sent! Check your inbox.');
+}
+
+// If already logged in, redirect
+sb.auth.getSession().then(({ data: { session } }) => {
+  if (session) {
+    sb.from('profiles').select('role').eq('id', session.user.id).single().then(({ data }) => {
+      if (data?.role === 'lawyer') window.location.href = '/portal-lawyer.html';
+      else if (data?.role === 'chiro') window.location.href = '/portal-chiro.html';
+      else if (data?.role === 'admin') window.location.href = '/portal-admin.html';
+    });
+  }
+});
+</script>
+</body>
+</html>
