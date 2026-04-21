@@ -6,6 +6,8 @@
 <title>Attorney Dashboard — IHateCarAccidents Portal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   :root { --red:#c8102e; --black:#111; --gray:#555; --gray-light:#e8e8e8; --gray-bg:#f5f5f5; }
@@ -35,7 +37,12 @@
   .section-sub { font-size:14px; color:var(--gray); margin-bottom:16px; }
 
   .map-wrap { position:relative; border-radius:8px; overflow:hidden; border:1px solid var(--gray-light); margin-bottom:28px; }
-  #portal-map { width:100%; height:480px; }
+  #portal-map { width:100%; height:480px; z-index:1; }
+  .patient-search-bar { background:white; border:1px solid var(--gray-light); border-radius:8px; padding:16px 20px; margin-bottom:16px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  .patient-search-bar input { flex:1; min-width:200px; padding:10px 14px; border:1px solid var(--gray-light); border-radius:4px; font-size:14px; font-family:'Barlow',sans-serif; outline:none; }
+  .patient-search-bar input:focus { border-color:var(--red); }
+  .patient-search-bar button { padding:10px 20px; background:var(--red); color:white; border:none; border-radius:4px; font-family:'Oswald',sans-serif; font-size:14px; font-weight:700; cursor:pointer; white-space:nowrap; }
+  .distance-badge { font-size:11px; font-weight:700; color:white; background:var(--red); padding:3px 8px; border-radius:20px; margin-left:6px; }
 
   /* CHIRO CARDS */
   .chiro-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:16px; margin-bottom:28px; }
@@ -144,6 +151,14 @@
   <div id="panel-new">
     <div class="section-title">Select a Chiropractic Provider</div>
     <div class="section-sub">Click a provider below or on the map to begin a referral. Providers are sorted by location.</div>
+
+    <!-- Patient Address Search -->
+    <div class="patient-search-bar">
+      <span style="font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;color:var(--black);white-space:nowrap;">📍 Find Closest Provider:</span>
+      <input type="text" id="patient-address" placeholder="Enter patient address (e.g. 123 Main St, Miami FL)">
+      <button onclick="findClosest()">Find Closest</button>
+      <span id="closest-result" style="font-size:13px;color:var(--gray);"></span>
+    </div>
 
     <!-- Map -->
     <div class="map-wrap">
@@ -526,50 +541,116 @@ async function loadReferrals() {
   </table>`;
 }
 
-// GOOGLE MAPS
+// LEAFLET MAP (free, no API key needed)
 function initMap() {
-  map = new google.maps.Map(document.getElementById('portal-map'), {
-    zoom: 7,
-    center: { lat: 27.5, lng: -81.5 },
-    styles: [
-      { featureType:'all', elementType:'labels.text.fill', stylers:[{color:'#444444'}] },
-      { featureType:'administrative', elementType:'geometry.stroke', stylers:[{color:'#c9c9c9'}] },
-      { featureType:'road', elementType:'geometry', stylers:[{color:'#ffffff'}] },
-      { featureType:'water', elementType:'geometry', stylers:[{color:'#c9e4f0'}] }
-    ]
+  map = L.map('portal-map').setView([27.5, -81.5], 7);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors',
+    maxZoom: 19
+  }).addTo(map);
+
+  // Custom red marker icon
+  var redIcon = L.divIcon({
+    html: '<div style="width:20px;height:20px;background:#c8102e;border:3px solid white;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></div>',
+    iconSize: [20, 20],
+    iconAnchor: [10, 10],
+    className: ''
   });
 
   providers.forEach(p => {
-    var marker = new google.maps.Marker({
-      position: { lat: p.lat, lng: p.lng },
-      map,
-      title: p.practice,
-      icon: { path: google.maps.SymbolPath.CIRCLE, scale: 12, fillColor: '#c8102e', fillOpacity: 1, strokeColor: 'white', strokeWeight: 2 }
-    });
+    var marker = L.marker([p.lat, p.lng], { icon: redIcon }).addTo(map);
     marker.providerId = p.id;
 
-    var info = new google.maps.InfoWindow({ content: `
-      <div style="font-family:Barlow,sans-serif;padding:4px;max-width:220px;">
+    marker.bindPopup(`
+      <div style="font-family:Barlow,sans-serif;min-width:200px;">
         <strong style="font-size:14px;">${p.name}</strong><br>
-        <span style="font-size:12px;color:#c8102e;">${p.practice}</span><br>
+        <span style="font-size:12px;color:#c8102e;font-weight:600;">${p.practice}</span><br>
         <span style="font-size:12px;color:#555;">${p.address}</span><br>
         <span style="font-size:12px;">📞 ${p.phone}</span><br>
-        <button onclick="selectProvider(${p.id})" style="margin-top:8px;background:#c8102e;color:white;border:none;padding:5px 12px;border-radius:3px;font-size:12px;cursor:pointer;width:100%;">Select This Provider</button>
+        ${p.pip ? '<span style="font-size:11px;color:#166534;font-weight:600;">✓ Accepts PIP</span><br>' : ''}
+        <button onclick="selectProvider(${p.id})" style="margin-top:8px;background:#c8102e;color:white;border:none;padding:6px 14px;border-radius:3px;font-size:12px;cursor:pointer;width:100%;font-family:Oswald,sans-serif;font-weight:700;">Select This Provider →</button>
       </div>
-    `});
-    marker.addListener('click', () => { info.open(map, marker); });
+    `);
+
     markers.push(marker);
   });
 }
 
+// FIND CLOSEST CHIRO TO PATIENT ADDRESS
+async function findClosest() {
+  var address = document.getElementById('patient-address').value.trim();
+  if (!address) { alert('Please enter a patient address first.'); return; }
+
+  var result = document.getElementById('closest-result');
+  result.textContent = 'Searching...';
+
+  try {
+    // Geocode the patient address using OpenStreetMap Nominatim (free)
+    var res = await fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(address) + '&limit=1');
+    var data = await res.json();
+
+    if (!data.length) { result.textContent = 'Address not found. Try adding city and state.'; return; }
+
+    var patLat = parseFloat(data[0].lat);
+    var patLng = parseFloat(data[0].lon);
+
+    // Drop a blue pin for the patient
+    if (window.patientMarker) window.patientMarker.remove();
+    var blueIcon = L.divIcon({
+      html: '<div style="width:24px;height:24px;background:#1d4ed8;border:3px solid white;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;color:white;font-size:12px;">P</div>',
+      iconSize: [24, 24], iconAnchor: [12, 12], className: ''
+    });
+    window.patientMarker = L.marker([patLat, patLng], { icon: blueIcon }).addTo(map);
+    window.patientMarker.bindPopup('<strong>Patient Location</strong><br>' + address).openPopup();
+
+    // Calculate distance to each provider (Haversine formula)
+    function haversine(lat1, lng1, lat2, lng2) {
+      var R = 3958.8; // miles
+      var dLat = (lat2-lat1) * Math.PI/180;
+      var dLng = (lng2-lng1) * Math.PI/180;
+      var a = Math.sin(dLat/2)*Math.sin(dLat/2) + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)*Math.sin(dLng/2);
+      return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    }
+
+    var withDistance = providers.map(p => ({
+      ...p,
+      distance: haversine(patLat, patLng, p.lat, p.lng)
+    })).sort((a, b) => a.distance - b.distance);
+
+    // Re-render chiro cards sorted by distance
+    var grid = document.getElementById('chiro-grid');
+    grid.innerHTML = withDistance.map(p => `
+      <div class="chiro-card" id="card-${p.id}" onclick="selectProvider(${p.id})">
+        <div class="chiro-name">${p.name} <span class="distance-badge">${p.distance.toFixed(1)} mi</span></div>
+        <div class="chiro-practice">${p.practice}</div>
+        <div class="chiro-detail"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${p.address}</div>
+        <div class="chiro-detail"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.81a16 16 0 0 0 6 6l.94-.94a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.5 16.92z"/></svg>${p.phone}</div>
+        ${p.notes ? `<div class="chiro-detail" style="color:#166534;">✓ ${p.notes}</div>` : ''}
+        <div class="chiro-badges">
+          ${p.pip ? '<span class="badge pip">✓ Accepts PIP</span>' : ''}
+          ${p.walkins ? '<span class="badge">Walk-ins Welcome</span>' : ''}
+          ${p.languages.split(',').map(l=>`<span class="badge">${l.trim()}</span>`).join('')}
+        </div>
+        <button class="select-btn" id="selbtn-${p.id}">Select This Provider →</button>
+      </div>
+    `).join('');
+
+    // Pan map to show both patient and closest chiro
+    var closest = withDistance[0];
+    map.fitBounds([[patLat, patLng], [closest.lat, closest.lng]], { padding: [60, 60] });
+
+    result.innerHTML = `Closest: <strong>${closest.practice}</strong> — ${closest.distance.toFixed(1)} miles away`;
+
+  } catch(err) {
+    result.textContent = 'Error finding location. Please try again.';
+    console.error(err);
+  }
+}
+
 // Init
 buildChiroCards();
-
-// Load Maps API
-var mapsScript = document.createElement('script');
-mapsScript.src = 'https://maps.googleapis.com/maps/api/js?key=' + GOOGLE_MAPS_KEY + '&callback=initMap';
-mapsScript.async = true;
-document.head.appendChild(mapsScript);
+initMap();
 </script>
 </body>
 </html>
