@@ -41,6 +41,12 @@
   .patient-search-bar { background:white; border:1px solid var(--gray-light); border-radius:8px; padding:16px 20px; margin-bottom:16px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
   .patient-search-bar input { flex:1; min-width:200px; padding:10px 14px; border:1px solid var(--gray-light); border-radius:4px; font-size:14px; font-family:'Barlow',sans-serif; outline:none; }
   .patient-search-bar input:focus { border-color:var(--red); }
+  .autocomplete-wrap { position:relative; flex:1; min-width:200px; }
+  .autocomplete-wrap input { width:100%; }
+  .autocomplete-list { position:absolute; top:100%; left:0; right:0; background:white; border:1px solid var(--gray-light); border-top:none; border-radius:0 0 6px 6px; box-shadow:0 8px 24px rgba(0,0,0,0.12); z-index:9999; max-height:240px; overflow-y:auto; }
+  .autocomplete-item { padding:10px 14px; font-size:13px; cursor:pointer; border-bottom:1px solid #f5f5f5; line-height:1.4; }
+  .autocomplete-item:hover, .autocomplete-item.active { background:#fff8f8; color:var(--red); }
+  .autocomplete-item:last-child { border-bottom:none; }
   .patient-search-bar button { padding:10px 20px; background:var(--red); color:white; border:none; border-radius:4px; font-family:'Oswald',sans-serif; font-size:14px; font-weight:700; cursor:pointer; white-space:nowrap; }
   .distance-badge { font-size:11px; font-weight:700; color:white; background:var(--red); padding:3px 8px; border-radius:20px; margin-left:6px; }
 
@@ -152,10 +158,16 @@
     <div class="section-title">Select a Chiropractic Provider</div>
     <div class="section-sub">Click a provider below or on the map to begin a referral. Providers are sorted by location.</div>
 
-    <!-- Patient Address Search -->
+    <!-- Patient Address Search with Autocomplete -->
     <div class="patient-search-bar">
       <span style="font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;color:var(--black);white-space:nowrap;">📍 Find Closest Provider:</span>
-      <input type="text" id="patient-address" placeholder="Enter patient address (e.g. 123 Main St, Miami FL)">
+      <div class="autocomplete-wrap">
+        <input type="text" id="patient-address" placeholder="Start typing patient address..." 
+          oninput="onAddressInput(this.value)"
+          onkeydown="onAddressKey(event)"
+          autocomplete="off">
+        <div class="autocomplete-list" id="autocomplete-list" style="display:none;"></div>
+      </div>
       <button onclick="findClosest()">Find Closest</button>
       <span id="closest-result" style="font-size:13px;color:var(--gray);"></span>
     </div>
@@ -577,6 +589,73 @@ function initMap() {
   });
 }
 
+// ADDRESS AUTOCOMPLETE
+var acTimeout = null;
+var acResults = [];
+var acIndex = -1;
+
+async function onAddressInput(val) {
+  var list = document.getElementById('autocomplete-list');
+  clearTimeout(acTimeout);
+  if (val.length < 3) { list.style.display = 'none'; return; }
+
+  acTimeout = setTimeout(async function() {
+    try {
+      var res = await fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(val) + '&countrycodes=us&limit=6&addressdetails=1', {
+        headers: { 'Accept-Language': 'en' }
+      });
+      var data = await res.json();
+      acResults = data;
+      acIndex = -1;
+
+      if (!data.length) { list.style.display = 'none'; return; }
+
+      list.innerHTML = data.map(function(item, i) {
+        return '<div class="autocomplete-item" data-idx="' + i + '" onmousedown="selectAddress(' + i + ')">' + item.display_name + '</div>';
+      }).join('');
+      list.style.display = 'block';
+    } catch(e) {
+      list.style.display = 'none';
+    }
+  }, 300);
+}
+
+function selectAddress(idx) {
+  var item = acResults[idx];
+  if (!item) return;
+  document.getElementById('patient-address').value = item.display_name;
+  document.getElementById('autocomplete-list').style.display = 'none';
+  // Auto-trigger findClosest with selected address
+  findClosestCoords(parseFloat(item.lat), parseFloat(item.lon), item.display_name);
+}
+
+function onAddressKey(e) {
+  var list = document.getElementById('autocomplete-list');
+  var items = list.querySelectorAll('.autocomplete-item');
+  if (e.key === 'ArrowDown') {
+    acIndex = Math.min(acIndex + 1, items.length - 1);
+    items.forEach(function(el, i) { el.classList.toggle('active', i === acIndex); });
+    e.preventDefault();
+  } else if (e.key === 'ArrowUp') {
+    acIndex = Math.max(acIndex - 1, 0);
+    items.forEach(function(el, i) { el.classList.toggle('active', i === acIndex); });
+    e.preventDefault();
+  } else if (e.key === 'Enter') {
+    if (acIndex >= 0) { selectAddress(acIndex); }
+    else { findClosest(); }
+    list.style.display = 'none';
+  } else if (e.key === 'Escape') {
+    list.style.display = 'none';
+  }
+}
+
+// Close autocomplete when clicking outside
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.autocomplete-wrap')) {
+    document.getElementById('autocomplete-list').style.display = 'none';
+  }
+});
+
 // FIND CLOSEST CHIRO TO PATIENT ADDRESS
 async function findClosest() {
   var address = document.getElementById('patient-address').value.trim();
@@ -587,7 +666,7 @@ async function findClosest() {
 
   try {
     // Geocode the patient address using OpenStreetMap Nominatim (free)
-    var res = await fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(address) + '&limit=1');
+    var res = await fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(address) + '&countrycodes=us&limit=1');
     var data = await res.json();
 
     if (!data.length) { result.textContent = 'Address not found. Try adding city and state.'; return; }
@@ -646,6 +725,53 @@ async function findClosest() {
     result.textContent = 'Error finding location. Please try again.';
     console.error(err);
   }
+}
+
+
+// Called directly from autocomplete selection (skips geocoding)
+function findClosestCoords(patLat, patLng, addressLabel) {
+  var result = document.getElementById('closest-result');
+
+  if (window.patientMarker) window.patientMarker.remove();
+  var blueIcon = L.divIcon({
+    html: '<div style="width:24px;height:24px;background:#1d4ed8;border:3px solid white;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;color:white;font-size:12px;">P</div>',
+    iconSize: [24, 24], iconAnchor: [12, 12], className: ''
+  });
+  window.patientMarker = L.marker([patLat, patLng], { icon: blueIcon }).addTo(map);
+  window.patientMarker.bindPopup('<strong>Patient Location</strong>').openPopup();
+
+  function haversine(lat1, lng1, lat2, lng2) {
+    var R = 3958.8;
+    var dLat = (lat2-lat1) * Math.PI/180;
+    var dLng = (lng2-lng1) * Math.PI/180;
+    var a = Math.sin(dLat/2)*Math.sin(dLat/2) + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)*Math.sin(dLng/2);
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  }
+
+  var withDistance = providers.map(function(p) {
+    return Object.assign({}, p, { distance: haversine(patLat, patLng, p.lat, p.lng) });
+  }).sort(function(a, b) { return a.distance - b.distance; });
+
+  var grid = document.getElementById('chiro-grid');
+  grid.innerHTML = withDistance.map(function(p) { return `
+    <div class="chiro-card" id="card-${p.id}" onclick="selectProvider(${p.id})">
+      <div class="chiro-name">${p.name} <span class="distance-badge">${p.distance.toFixed(1)} mi</span></div>
+      <div class="chiro-practice">${p.practice}</div>
+      <div class="chiro-detail"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${p.address}</div>
+      <div class="chiro-detail"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.81a16 16 0 0 0 6 6l.94-.94a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.5 16.92z"/></svg>${p.phone}</div>
+      ${p.notes ? `<div class="chiro-detail" style="color:#166534;">✓ ${p.notes}</div>` : ''}
+      <div class="chiro-badges">
+        ${p.pip ? '<span class="badge pip">✓ Accepts PIP</span>' : ''}
+        ${p.walkins ? '<span class="badge">Walk-ins Welcome</span>' : ''}
+        ${p.languages.split(',').map(function(l){return '<span class="badge">'+l.trim()+'</span>';}).join('')}
+      </div>
+      <button class="select-btn" id="selbtn-${p.id}">Select This Provider →</button>
+    </div>
+  `; }).join('');
+
+  var closest = withDistance[0];
+  map.fitBounds([[patLat, patLng], [closest.lat, closest.lng]], { padding: [60, 60] });
+  result.innerHTML = 'Closest: <strong>' + closest.practice + '</strong> — ' + closest.distance.toFixed(1) + ' miles away';
 }
 
 // Init
