@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Attorney Portal — IHateCarAccidents.com</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Barlow:wght@400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
@@ -49,12 +49,22 @@ input:focus{border-color:var(--red)}
 .register-note strong{color:#78350f}
 .security-badge{display:flex;align-items:center;gap:8px;background:#f0fff4;border:1px solid #bbf7d0;border-radius:4px;padding:10px 14px;margin-bottom:16px;font-size:12px;color:#166534}
 footer{background:var(--black);color:#666;text-align:center;padding:16px;font-size:12px}
+.logo-icon{width:34px;height:34px;background:var(--red);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transform:rotate(-2deg);box-shadow:3px 3px 0px #7a0a1a;font-size:18px;line-height:1}
+.logo-text{display:flex;flex-direction:column;gap:0}
+.logo-line1{font-size:11px;letter-spacing:.22em;color:#aaa;line-height:1;font-family:'Barlow',sans-serif;font-weight:700;text-transform:uppercase}
+.logo-line2{font-size:24px;letter-spacing:.04em;line-height:.95;font-family:'Bebas Neue',sans-serif;background:linear-gradient(90deg,#fff 0%,#c8102e 40%,#ff3355 70%,#fff 100%);background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 </style>
 </head>
 <body>
 <div class="top-bar">🚨 Injured in an accident? <a href="/">Return to IHateCarAccidents.com</a></div>
 <header>
-  <a class="logo" href="/"><span>I Hate</span> Car Accidents</a>
+  <a class="logo" href="/" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
+    <div class="logo-icon">💥</div>
+    <div class="logo-text">
+      <div class="logo-line1">I Hate</div>
+      <div class="logo-line2">Car Accidents</div>
+    </div>
+  </a>
   <a class="back-link" href="/">← Back to main site</a>
 </header>
 <div class="page">
@@ -72,7 +82,7 @@ footer{background:var(--black);color:#666;text-align:center;padding:16px;font-si
       <!-- LOGIN FORM -->
       <div id="login-form">
         <div id="login-msg" class="msg"></div>
-        <div class="security-badge">🔒 Secure, encrypted connection — attorney use only</div>
+        <div class="security-badge">🔒 SSL Encrypted · Verified Attorneys Only · Powered by Supabase</div>
         <label>Email Address</label>
         <input type="email" id="login-email" placeholder="you@lawfirm.com" onkeydown="if(event.key==='Enter')doLogin()">
         <label>Password</label>
