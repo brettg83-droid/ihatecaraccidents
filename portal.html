@@ -175,12 +175,19 @@ async function doLogin() {
   else { showMsg('login-msg','error','Unknown account type.'); btn.textContent='Sign In'; btn.disabled=false; }
 }
 
-function toggleRegRole() {
-  var role = document.getElementById('reg-role').value;
-  document.getElementById('reg-bar-wrap').style.display = role === 'lawyer' ? 'block' : 'none';
-  document.getElementById('reg-chiro-wrap').style.display = role === 'chiro' ? 'block' : 'none';
-  document.getElementById('reg-firm-label').textContent = role === 'chiro' ? 'Practice Name *' : 'Law Firm Name *';
-  document.getElementById('reg-firm').placeholder = role === 'chiro' ? 'Smith Chiropractic' : 'Smith & Associates Law';
+function setRole(role) {
+  document.getElementById('reg-role').value = role;
+  var lawyerBtn = document.getElementById('role-lawyer-btn');
+  var chiroBtn = document.getElementById('role-chiro-btn');
+  var isLawyer = role === 'lawyer';
+  lawyerBtn.style.borderColor = isLawyer ? 'var(--red)' : 'var(--gray-light)';
+  lawyerBtn.style.background = isLawyer ? '#fff0f0' : 'white';
+  chiroBtn.style.borderColor = !isLawyer ? 'var(--red)' : 'var(--gray-light)';
+  chiroBtn.style.background = !isLawyer ? '#fff0f0' : 'white';
+  document.getElementById('reg-firm-label').textContent = isLawyer ? 'Law Firm Name *' : 'Practice Name *';
+  document.getElementById('reg-firm').placeholder = isLawyer ? 'Smith & Associates Law' : 'Smith Chiropractic';
+  document.getElementById('reg-bar-wrap').style.display = isLawyer ? 'block' : 'none';
+  document.getElementById('reg-address-wrap').style.display = isLawyer ? 'none' : 'block';
 }
 
 async function doRegister() {
@@ -190,11 +197,10 @@ async function doRegister() {
   var email = document.getElementById('reg-email').value.trim();
   var phone = document.getElementById('reg-phone').value.trim();
   var bar = document.getElementById('reg-bar').value.trim();
+  var address = document.getElementById('reg-address').value.trim();
   var pass = document.getElementById('reg-password').value;
-  var address = document.getElementById('reg-address') ? document.getElementById('reg-address').value.trim() : '';
-  var specialties = document.getElementById('reg-specialties') ? document.getElementById('reg-specialties').value.trim() : '';
 
-  if (!role) { showMsg('reg-msg','error','Please select your role (Attorney or Chiropractic Provider).'); return; }
+  if (!role) { showMsg('reg-msg','error','Please select Attorney or Chiropractor first.'); return; }
   if (!name||!firm||!email||!phone||!pass) { showMsg('reg-msg','error','Please fill in all required fields.'); return; }
   if (pass.length < 8) { showMsg('reg-msg','error','Password must be at least 8 characters.'); return; }
   if (role === 'chiro' && !address) { showMsg('reg-msg','error','Please enter your practice address.'); return; }
@@ -202,18 +208,16 @@ async function doRegister() {
   var btn = document.querySelector('#register-form .btn');
   btn.textContent = 'Submitting...'; btn.disabled = true;
 
-  var { data, error } = await sb.auth.signUp({ email, password: pass, options: { data: { full_name: name, firm, phone, bar_number: bar, role } } });
+  var { data, error } = await sb.auth.signUp({ email, password: pass, options: { data: { full_name: name, firm, phone, bar_number: bar, role, address } } });
   if (error) { showMsg('reg-msg','error', error.message); btn.textContent='Request Access'; btn.disabled=false; return; }
 
   // Insert profile record (pending approval)
-  var profileData = { id: data.user.id, full_name: name, firm, phone, bar_number: bar, email, role, approved: false };
-  await sb.from('profiles').insert(profileData);
+  await sb.from('profiles').insert({ id: data.user.id, full_name: name, firm, phone, bar_number: bar, email, role, approved: false });
 
-  // If chiro, also insert into chiros table (pending)
+  // If chiro, also add to chiros table (inactive until approved)
   if (role === 'chiro') {
     await sb.from('chiros').insert({
-      doctor_name: name, practice_name: firm, address, phone, email,
-      specialties, active: false  // inactive until approved
+      doctor_name: name, practice_name: firm, address, phone, email, active: false
     });
   }
 
