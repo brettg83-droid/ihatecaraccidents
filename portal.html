@@ -3,326 +3,326 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Provider Portal — IHateCarAccidents.com</title>
+<title>Attorney Portal — IHateCarAccidents.com</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-  :root { --red:#c8102e; --black:#111; --gray:#555; --gray-light:#e8e8e8; --gray-bg:#f5f5f5; }
-  * { box-sizing:border-box; margin:0; padding:0; }
-  body { font-family:'Barlow',sans-serif; background:var(--gray-bg); min-height:100vh; display:flex; flex-direction:column; }
-
-  .top-bar { background:var(--red); color:white; text-align:center; padding:10px; font-size:13px; }
-  .top-bar a { color:white; font-weight:700; text-decoration:underline; }
-
-  header { background:var(--black); padding:16px 24px; display:flex; align-items:center; justify-content:space-between; }
-  .logo { font-family:'Oswald',sans-serif; color:white; font-size:22px; font-weight:700; text-decoration:none; display:flex; align-items:center; gap:10px; }
-  .logo span { color:var(--red); }
-  .back-link { color:#aaa; font-size:13px; text-decoration:none; }
-  .back-link:hover { color:white; }
-
-  .page { flex:1; display:flex; align-items:center; justify-content:center; padding:40px 20px; }
-
-  .login-box { background:white; border-radius:10px; box-shadow:0 4px 32px rgba(0,0,0,0.10); width:100%; max-width:420px; overflow:hidden; }
-  .login-header { background:var(--black); padding:28px 32px; }
-  .login-header h1 { font-family:'Oswald',sans-serif; color:white; font-size:24px; font-weight:700; margin-bottom:4px; }
-  .login-header p { color:#aaa; font-size:13px; }
-  .login-body { padding:32px; }
-
-  .tabs { display:flex; border-bottom:2px solid var(--gray-light); margin-bottom:24px; }
-  .tab { flex:1; text-align:center; padding:10px; font-family:'Oswald',sans-serif; font-size:14px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; cursor:pointer; color:#aaa; border-bottom:2px solid transparent; margin-bottom:-2px; transition:all 0.2s; }
-  .tab.active { color:var(--red); border-bottom-color:var(--red); }
-
-  label { display:block; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:#555; margin-bottom:5px; }
-  input { width:100%; padding:11px 14px; border:1px solid var(--gray-light); border-radius:4px; font-size:14px; font-family:'Barlow',sans-serif; margin-bottom:16px; outline:none; transition:border 0.2s; }
-  input:focus { border-color:var(--red); }
-
-  .btn { width:100%; padding:13px; background:var(--red); color:white; border:none; border-radius:4px; font-family:'Oswald',sans-serif; font-size:16px; font-weight:700; letter-spacing:.06em; cursor:pointer; transition:background 0.2s; }
-  .btn:hover { background:#a00d25; }
-  .btn:disabled { background:#ccc; cursor:not-allowed; }
-
-  .msg { font-size:13px; padding:10px 14px; border-radius:4px; margin-bottom:16px; display:none; }
-  .msg.error { background:#fff0f0; color:#c00; border:1px solid #fcc; display:block; }
-  .msg.success { background:#f0fff4; color:#166534; border:1px solid #bbf7d0; display:block; }
-  .msg.info { background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe; display:block; }
-
-  .forgot { text-align:center; margin-top:14px; font-size:13px; color:var(--gray); }
-  .forgot a { color:var(--red); text-decoration:none; font-weight:600; }
-  .divider { display:flex; align-items:center; gap:12px; margin:18px 0; }
-  .divider::before,.divider::after { content:''; flex:1; height:1px; background:var(--gray-light); }
-  .divider span { font-size:12px; color:#aaa; white-space:nowrap; }
-  .btn-google { width:100%; padding:11px; background:white; color:#333; border:1px solid var(--gray-light); border-radius:4px; font-family:'Barlow',sans-serif; font-size:14px; font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; transition:background 0.2s,box-shadow 0.2s; }
-  .btn-google:hover { background:#f8f8f8; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
-  .btn-google svg { flex-shrink:0; }
-
-  .register-note { background:var(--gray-bg); border-radius:4px; padding:14px; margin-top:16px; font-size:12px; color:var(--gray); line-height:1.6; text-align:center; }
-  .register-note strong { color:var(--black); }
-
-  footer { background:var(--black); color:#666; text-align:center; padding:16px; font-size:12px; }
+:root{--red:#c8102e;--black:#111;--gray:#555;--gray-light:#e8e8e8;--gray-bg:#f5f5f5}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Barlow',sans-serif;background:var(--gray-bg);min-height:100vh;display:flex;flex-direction:column}
+.top-bar{background:var(--red);color:white;text-align:center;padding:10px;font-size:13px}
+.top-bar a{color:white;font-weight:700;text-decoration:underline}
+header{background:var(--black);padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Oswald',sans-serif;color:white;font-size:22px;font-weight:700;text-decoration:none}
+.logo span{color:var(--red)}
+.back-link{color:#aaa;font-size:13px;text-decoration:none}
+.back-link:hover{color:white}
+.page{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px}
+.login-box{background:white;border-radius:10px;box-shadow:0 4px 32px rgba(0,0,0,.12);width:100%;max-width:430px;overflow:hidden}
+.login-header{background:var(--black);padding:28px 32px}
+.login-header h1{font-family:'Oswald',sans-serif;color:white;font-size:24px;font-weight:700;margin-bottom:4px}
+.login-header p{color:#aaa;font-size:13px}
+.login-body{padding:32px}
+.tabs{display:flex;border-bottom:2px solid var(--gray-light);margin-bottom:24px}
+.tab{flex:1;text-align:center;padding:10px;font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;color:#aaa;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s}
+.tab.active{color:var(--red);border-bottom-color:var(--red)}
+label{display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#555;margin-bottom:5px}
+input{width:100%;padding:11px 14px;border:1px solid var(--gray-light);border-radius:4px;font-size:14px;font-family:'Barlow',sans-serif;margin-bottom:16px;outline:none;transition:border .2s}
+input:focus{border-color:var(--red)}
+.btn{width:100%;padding:13px;background:var(--red);color:white;border:none;border-radius:4px;font-family:'Oswald',sans-serif;font-size:16px;font-weight:700;letter-spacing:.06em;cursor:pointer;transition:background .2s}
+.btn:hover{background:#a00d25}
+.btn:disabled{background:#ccc;cursor:not-allowed}
+.msg{font-size:13px;padding:10px 14px;border-radius:4px;margin-bottom:16px;display:none;line-height:1.5}
+.msg.error{background:#fff0f0;color:#c00;border:1px solid #fcc;display:block}
+.msg.success{background:#f0fff4;color:#166534;border:1px solid #bbf7d0;display:block}
+.msg.info{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;display:block}
+.forgot{text-align:center;margin-top:14px;font-size:13px;color:var(--gray)}
+.forgot a{color:var(--red);text-decoration:none;font-weight:600}
+.divider{display:flex;align-items:center;gap:12px;margin:18px 0}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--gray-light)}
+.divider span{font-size:12px;color:#aaa;white-space:nowrap}
+.btn-google{width:100%;padding:11px;background:white;color:#333;border:1.5px solid var(--gray-light);border-radius:4px;font-family:'Barlow',sans-serif;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:all .2s}
+.btn-google:hover{background:#f8f8f8;border-color:#ccc;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.register-note{background:#fffbeb;border:1px solid #fde68a;border-radius:4px;padding:14px;margin-top:16px;font-size:12px;color:#92400e;line-height:1.6;text-align:center}
+.register-note strong{color:#78350f}
+.security-badge{display:flex;align-items:center;gap:8px;background:#f0fff4;border:1px solid #bbf7d0;border-radius:4px;padding:10px 14px;margin-bottom:16px;font-size:12px;color:#166534}
+footer{background:var(--black);color:#666;text-align:center;padding:16px;font-size:12px}
 </style>
 </head>
 <body>
-
 <div class="top-bar">🚨 Injured in an accident? <a href="/">Return to IHateCarAccidents.com</a></div>
-
 <header>
-  <a class="logo" href="/"><span>I Hate</span>&nbsp;Car Accidents</a>
+  <a class="logo" href="/"><span>I Hate</span> Car Accidents</a>
   <a class="back-link" href="/">← Back to main site</a>
 </header>
-
 <div class="page">
   <div class="login-box">
     <div class="login-header">
-      <h1>Provider Portal</h1>
-      <p>Secure login for attorneys &amp; chiropractic providers</p>
+      <h1>Attorney Portal</h1>
+      <p>Secure access for licensed Florida attorneys</p>
     </div>
     <div class="login-body">
-
       <div class="tabs">
-        <div class="tab active" onclick="switchTab('login')">Sign In</div>
-        <div class="tab" onclick="switchTab('register')">Register</div>
+        <div class="tab active" id="tab-login" onclick="switchTab('login')">Sign In</div>
+        <div class="tab" id="tab-register" onclick="switchTab('register')">Register</div>
       </div>
 
       <!-- LOGIN FORM -->
       <div id="login-form">
         <div id="login-msg" class="msg"></div>
-        <label for="login-email">Email Address</label>
-        <input type="email" id="login-email" placeholder="you@lawfirm.com">
-        <label for="login-password">Password</label>
-        <input type="password" id="login-password" placeholder="••••••••">
+        <div class="security-badge">🔒 Secure, encrypted connection — attorney use only</div>
+        <label>Email Address</label>
+        <input type="email" id="login-email" placeholder="you@lawfirm.com" onkeydown="if(event.key==='Enter')doLogin()">
+        <label>Password</label>
+        <input type="password" id="login-password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
         <button class="btn" onclick="doLogin()">Sign In</button>
-        <div class="divider"><span>or</span></div>
+        <div class="divider"><span>or sign in with</span></div>
         <button class="btn-google" onclick="doGoogleAuth()">
           <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/></svg>
           Continue with Google
         </button>
-        <div class="forgot"><a href="#" onclick="doForgot()">Forgot password?</a></div>
+        <div class="forgot"><a href="#" onclick="doForgot(event)">Forgot password?</a></div>
       </div>
 
       <!-- REGISTER FORM -->
       <div id="register-form" style="display:none;">
         <div id="reg-msg" class="msg"></div>
-        <label for="reg-name">Full Name</label>
+        <label>Full Name *</label>
         <input type="text" id="reg-name" placeholder="John Smith">
-        <label for="reg-firm">Law Firm / Practice Name</label>
+        <label>Law Firm Name *</label>
         <input type="text" id="reg-firm" placeholder="Smith &amp; Associates Law">
-        <label for="reg-email">Email Address</label>
+        <label>Florida Bar Number *</label>
+        <input type="text" id="reg-bar" placeholder="123456">
+        <label>Email Address *</label>
         <input type="email" id="reg-email" placeholder="you@lawfirm.com">
-        <label for="reg-phone">Phone Number</label>
+        <label>Phone Number *</label>
         <input type="tel" id="reg-phone" placeholder="(555) 000-0000">
-        <label for="reg-bar">Florida Bar Number (Attorneys only)</label>
-        <input type="text" id="reg-bar" placeholder="123456 (leave blank if provider)">
-        <label for="reg-password">Create Password</label>
+        <label>Create Password *</label>
         <input type="password" id="reg-password" placeholder="Minimum 8 characters">
+        <label>Confirm Password *</label>
+        <input type="password" id="reg-confirm" placeholder="Re-enter your password">
         <button class="btn" onclick="doRegister()">Request Access</button>
-        <div class="divider"><span>or</span></div>
+        <div class="divider"><span>or register with</span></div>
         <button class="btn-google" onclick="doGoogleAuth()">
           <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/></svg>
           Sign up with Google
         </button>
         <div class="register-note">
-          <strong>Approval Required</strong><br>
-          Attorney accounts are manually reviewed and approved. You will receive an email once your account is activated — typically within 24 hours.
+          <strong>⚠️ Attorneys Only</strong><br>
+          This portal is for licensed Florida attorneys. After submitting, you will receive a <strong>confirmation email</strong> — click the link to verify your address. Your account will then be reviewed and activated within 24 hours.
+        </div>
+      </div>
+
+      <!-- EMAIL CONFIRMATION PENDING -->
+      <div id="confirm-form" style="display:none;">
+        <div id="confirm-msg" class="msg info" style="display:block;">
+          ✅ Almost there! We sent a confirmation email to <strong id="confirm-email-display"></strong>.<br><br>
+          Please check your inbox and click the confirmation link to verify your email address. Then come back here to sign in once your account is approved.
+        </div>
+        <button class="btn" onclick="switchTab('login')">Back to Sign In</button>
+        <div style="text-align:center;margin-top:14px;">
+          <a href="#" onclick="resendConfirmation(event)" style="color:var(--red);font-size:13px;font-weight:600;text-decoration:none;">Resend confirmation email</a>
         </div>
       </div>
 
     </div>
   </div>
 </div>
-
-<footer>© 2025 IHateCarAccidents.com — Provider Portal — Secure &amp; Encrypted</footer>
+<footer>© 2025 IHateCarAccidents.com — Attorney Portal — 256-bit SSL Encrypted</footer>
 
 <script>
 const SUPABASE_URL = 'https://xlhkduyviqzzyxjqnjxj.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhsaGtkdXl2aXF6enl4anFuanhqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3MzYxNzQsImV4cCI6MjA5MjMxMjE3NH0.QhhkZ8QFYTtlC5cRc9v2EGMSroiavdq69D_-dYFxnqI';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+var lastRegEmail = '';
+
 function switchTab(tab) {
-  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', (i===0&&tab==='login')||(i===1&&tab==='register')));
-  document.getElementById('login-form').style.display = tab==='login' ? 'block' : 'none';
-  document.getElementById('register-form').style.display = tab==='register' ? 'block' : 'none';
+  ['login','register','confirm'].forEach(t => {
+    document.getElementById(t+'-form').style.display = 'none';
+  });
+  document.getElementById(tab+'-form').style.display = 'block';
+  document.querySelectorAll('.tab').forEach((el,i) => {
+    el.classList.toggle('active', (i===0&&tab==='login')||(i===1&&tab==='register'));
+  });
 }
 
-function showMsg(id, type, text) {
+function showMsg(id, type, html) {
   var el = document.getElementById(id);
   el.className = 'msg ' + type;
-  el.textContent = text;
+  el.innerHTML = html;
 }
 
+// --- SIGN IN ---
 async function doLogin() {
   var email = document.getElementById('login-email').value.trim();
   var pass = document.getElementById('login-password').value;
   if (!email || !pass) { showMsg('login-msg','error','Please enter your email and password.'); return; }
-
   var btn = document.querySelector('#login-form .btn');
   btn.textContent = 'Signing in...'; btn.disabled = true;
 
   var { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
   if (error) {
-    showMsg('login-msg','error', error.message === 'Invalid login credentials' ? 'Incorrect email or password.' : error.message);
+    var msg = error.message.includes('Invalid login') ? 'Incorrect email or password.' :
+              error.message.includes('Email not confirmed') ? 'Please confirm your email first — check your inbox for our verification link.' :
+              error.message;
+    showMsg('login-msg','error', msg);
     btn.textContent = 'Sign In'; btn.disabled = false;
     return;
   }
 
-  // Check role and redirect
-  var { data: profile } = await sb.from('profiles').select('role, approved').eq('id', data.user.id).single();
-  if (!profile) { showMsg('login-msg','error','Account not found. Please contact support.'); btn.textContent='Sign In'; btn.disabled=false; return; }
-  if (!profile.approved) { showMsg('login-msg','info','Your account is pending approval. You will receive an email once approved.'); await sb.auth.signOut(); btn.textContent='Sign In'; btn.disabled=false; return; }
-
+  var { data: profile } = await sb.from('profiles').select('role,approved').eq('id', data.user.id).single();
+  if (!profile) {
+    // Create profile for Google users who don't have one yet
+    await sb.from('profiles').insert({ id: data.user.id, full_name: data.user.user_metadata?.full_name || '', email: data.user.email, role: 'lawyer', approved: false });
+    showMsg('login-msg','info','Your account is pending approval. You will be notified by email within 24 hours.');
+    await sb.auth.signOut(); btn.textContent = 'Sign In'; btn.disabled = false;
+    return;
+  }
+  if (!profile.approved) {
+    showMsg('login-msg','info','Your account is pending approval. You will be notified by email within 24 hours.');
+    await sb.auth.signOut(); btn.textContent = 'Sign In'; btn.disabled = false;
+    return;
+  }
   if (profile.role === 'lawyer') window.location.href = '/portal-lawyer.html';
   else if (profile.role === 'chiro') window.location.href = '/portal-chiro.html';
   else if (profile.role === 'admin') window.location.href = '/portal-admin.html';
-  else { showMsg('login-msg','error','Unknown account type.'); btn.textContent='Sign In'; btn.disabled=false; }
+  else { showMsg('login-msg','error','Unknown account type. Contact support.'); btn.textContent = 'Sign In'; btn.disabled = false; }
 }
 
-function setRole(role) {
-  document.getElementById('reg-role').value = role;
-  var lawyerBtn = document.getElementById('role-lawyer-btn');
-  var chiroBtn = document.getElementById('role-chiro-btn');
-  var isLawyer = role === 'lawyer';
-  lawyerBtn.style.borderColor = isLawyer ? 'var(--red)' : 'var(--gray-light)';
-  lawyerBtn.style.background = isLawyer ? '#fff0f0' : 'white';
-  chiroBtn.style.borderColor = !isLawyer ? 'var(--red)' : 'var(--gray-light)';
-  chiroBtn.style.background = !isLawyer ? '#fff0f0' : 'white';
-  document.getElementById('reg-firm-label').textContent = isLawyer ? 'Law Firm Name *' : 'Practice Name *';
-  document.getElementById('reg-firm').placeholder = isLawyer ? 'Smith & Associates Law' : 'Smith Chiropractic';
-  document.getElementById('reg-bar-wrap').style.display = isLawyer ? 'block' : 'none';
-  document.getElementById('reg-address-wrap').style.display = isLawyer ? 'none' : 'block';
-}
-
+// --- REGISTER (ATTORNEYS ONLY) ---
 async function doRegister() {
-  var role = document.getElementById('reg-role').value;
   var name = document.getElementById('reg-name').value.trim();
   var firm = document.getElementById('reg-firm').value.trim();
+  var bar  = document.getElementById('reg-bar').value.trim();
   var email = document.getElementById('reg-email').value.trim();
   var phone = document.getElementById('reg-phone').value.trim();
-  var bar = document.getElementById('reg-bar').value.trim();
-  var address = document.getElementById('reg-address').value.trim();
-  var pass = document.getElementById('reg-password').value;
+  var pass  = document.getElementById('reg-password').value;
+  var conf  = document.getElementById('reg-confirm').value;
 
-  if (!role) { showMsg('reg-msg','error','Please select Attorney or Chiropractor first.'); return; }
-  if (!name||!firm||!email||!phone||!pass) { showMsg('reg-msg','error','Please fill in all required fields.'); return; }
+  if (!name||!firm||!bar||!email||!phone||!pass) { showMsg('reg-msg','error','Please fill in all required fields.'); return; }
   if (pass.length < 8) { showMsg('reg-msg','error','Password must be at least 8 characters.'); return; }
-  if (role === 'chiro' && !address) { showMsg('reg-msg','error','Please enter your practice address.'); return; }
+  if (pass !== conf) { showMsg('reg-msg','error','Passwords do not match.'); return; }
+  if (!/^\d{5,7}$/.test(bar)) { showMsg('reg-msg','error','Please enter a valid Florida Bar Number (5-7 digits).'); return; }
 
   var btn = document.querySelector('#register-form .btn');
   btn.textContent = 'Submitting...'; btn.disabled = true;
 
-  var { data, error } = await sb.auth.signUp({ email, password: pass, options: { data: { full_name: name, firm, phone, bar_number: bar, role, address } } });
-  if (error) { showMsg('reg-msg','error', error.message); btn.textContent='Request Access'; btn.disabled=false; return; }
-
-  // Insert profile record (pending approval)
-  await sb.from('profiles').insert({ id: data.user.id, full_name: name, firm, phone, bar_number: bar, email, role, approved: false });
-
-  // If chiro, also add to chiros table (inactive until approved)
-  if (role === 'chiro') {
-    await sb.from('chiros').insert({
-      doctor_name: name, practice_name: firm, address, phone, email, active: false
-    });
-  }
-
-  showMsg('reg-msg','success','Request submitted! You will receive an email once your account is approved — typically within 24 hours.');
-  btn.textContent = 'Request Submitted';
-}
-
-async function doForgot() {
-  var email = prompt('Enter your email address:');
-  if (!email) return;
-  var { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin + '/portal.html' });
-  if (error) alert('Error: ' + error.message);
-  else alert('Password reset email sent! Check your inbox.');
-}
-
-// Handle email confirmation token in URL
-async function handleAuthCallback() {
-  var hash = window.location.hash;
-  if (hash && hash.includes('access_token')) {
-    // Parse the token from the URL
-    var params = new URLSearchParams(hash.substring(1));
-    var accessToken = params.get('access_token');
-    var refreshToken = params.get('refresh_token');
-    var type = params.get('type');
-
-    if (accessToken) {
-      // Set the session using the token
-      var { data, error } = await sb.auth.setSession({
-        access_token: accessToken,
-        refresh_token: refreshToken
-      });
-
-      if (error) {
-        showMsg('login-msg', 'error', 'Confirmation error: ' + error.message);
-        return;
-      }
-
-      if (data.session) {
-        var user = data.session.user;
-        var meta = user.user_metadata || {};
-
-        // Check if profile already exists
-        var { data: existing } = await sb.from('profiles').select('id, role, approved').eq('id', user.id).single();
-
-        if (!existing) {
-          // Create the profile record
-          await sb.from('profiles').insert({
-            id: user.id,
-            full_name: meta.full_name || '',
-            firm: meta.firm || '',
-            phone: meta.phone || '',
-            bar_number: meta.bar_number || '',
-            email: user.email,
-            role: meta.role || 'lawyer',
-            approved: false
-          });
-
-          // If chiro, also add to chiros table
-          if (meta.role === 'chiro') {
-            await sb.from('chiros').insert({
-              doctor_name: meta.full_name || '',
-              practice_name: meta.firm || '',
-              address: meta.address || '',
-              phone: meta.phone || '',
-              email: user.email,
-              specialties: meta.specialties || '',
-              active: false
-            });
-          }
-        }
-
-        // Clear the hash from URL
-        window.history.replaceState(null, '', window.location.pathname);
-
-        // Show pending approval message
-        await sb.auth.signOut();
-        showMsg('login-msg', 'success', '✓ Email confirmed! Your account is pending approval. You will receive an email once activated.');
-        return;
-      }
-    }
-  }
-}
-
-async function doGoogleAuth() {
-  var { data, error } = await sb.auth.signInWithOAuth({
-    provider: 'google',
+  var { data, error } = await sb.auth.signUp({
+    email, password: pass,
     options: {
-      redirectTo: 'https://ihatecaraccidents.com/portal.html'
+      emailRedirectTo: 'https://ihatecaraccidents.com/portal.html',
+      data: { full_name: name, firm, phone, bar_number: bar, role: 'lawyer' }
     }
   });
-  if (error) showMsg('login-msg', 'error', 'Google sign-in error: ' + error.message);
+
+  if (error) {
+    showMsg('reg-msg','error', error.message.includes('already registered') ? 'This email is already registered. Try signing in.' : error.message);
+    btn.textContent = 'Request Access'; btn.disabled = false;
+    return;
+  }
+
+  // Insert profile (pending approval + email confirmation)
+  if (data.user) {
+    await sb.from('profiles').insert({
+      id: data.user.id, full_name: name, firm, phone, bar_number: bar, email, role: 'lawyer', approved: false
+    });
+  }
+
+  lastRegEmail = email;
+  document.getElementById('confirm-email-display').textContent = email;
+  switchTab('confirm');
 }
 
-// If already logged in, redirect
+// --- GOOGLE AUTH ---
+async function doGoogleAuth() {
+  var { error } = await sb.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: 'https://ihatecaraccidents.com/portal.html' }
+  });
+  if (error) showMsg('login-msg','error','Google sign-in error: ' + error.message);
+}
+
+// --- FORGOT PASSWORD ---
+async function doForgot(e) {
+  e.preventDefault();
+  var email = document.getElementById('login-email').value.trim();
+  if (!email) { showMsg('login-msg','error','Enter your email address above first, then click Forgot password.'); return; }
+  var { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: 'https://ihatecaraccidents.com/portal.html' });
+  if (error) showMsg('login-msg','error','Error: ' + error.message);
+  else showMsg('login-msg','success','✅ Password reset email sent to ' + email + '. Check your inbox.');
+}
+
+// --- RESEND CONFIRMATION ---
+async function resendConfirmation(e) {
+  e.preventDefault();
+  if (!lastRegEmail) { alert('Please register first.'); return; }
+  var { error } = await sb.auth.resend({ type: 'signup', email: lastRegEmail, options: { emailRedirectTo: 'https://ihatecaraccidents.com/portal.html' } });
+  if (error) alert('Error: ' + error.message);
+  else alert('Confirmation email resent to ' + lastRegEmail);
+}
+
+// --- HANDLE CALLBACK (email confirmation + Google redirect) ---
+async function handleCallback() {
+  var hash = window.location.hash;
+  var params = new URLSearchParams(window.location.search);
+
+  // Handle Google OAuth and email confirmation redirects
+  if (hash.includes('access_token') || hash.includes('error')) {
+    var { data: { session }, error } = await sb.auth.getSession();
+    if (error || !session) {
+      var errDesc = new URLSearchParams(hash.replace('#','?')).get('error_description') || 'Authentication failed.';
+      showMsg('login-msg','error', decodeURIComponent(errDesc));
+      return;
+    }
+    // Logged in via OAuth or email confirmation
+    var user = session.user;
+    var meta = user.user_metadata || {};
+
+    // Check if profile exists
+    var { data: profile } = await sb.from('profiles').select('role,approved').eq('id', user.id).single();
+
+    if (!profile) {
+      // New Google user — create profile pending approval
+      await sb.from('profiles').insert({
+        id: user.id, full_name: meta.full_name || meta.name || '',
+        firm: '', phone: '', bar_number: '', email: user.email, role: 'lawyer', approved: false
+      });
+      window.history.replaceState(null, '', '/portal.html');
+      await sb.auth.signOut();
+      showMsg('login-msg','info','✅ Google account linked! Your account is pending approval. You will be notified by email within 24 hours.');
+      return;
+    }
+
+    if (!profile.approved) {
+      window.history.replaceState(null, '', '/portal.html');
+      await sb.auth.signOut();
+      showMsg('login-msg','info','Your email is confirmed. Your account is pending approval — you will be notified within 24 hours.');
+      return;
+    }
+
+    // Approved — redirect
+    window.history.replaceState(null, '', '/portal.html');
+    if (profile.role === 'lawyer') window.location.href = '/portal-lawyer.html';
+    else if (profile.role === 'chiro') window.location.href = '/portal-chiro.html';
+    else if (profile.role === 'admin') window.location.href = '/portal-admin.html';
+  }
+}
+
+// --- INIT ---
 sb.auth.getSession().then(({ data: { session } }) => {
+  if (window.location.hash.includes('access_token') || window.location.hash.includes('error')) {
+    handleCallback();
+    return;
+  }
   if (session) {
-    sb.from('profiles').select('role, approved').eq('id', session.user.id).single().then(({ data }) => {
-      if (!data?.approved) return; // Stay on page if not approved yet
-      if (data?.role === 'lawyer') window.location.href = '/portal-lawyer.html';
-      else if (data?.role === 'chiro') window.location.href = '/portal-chiro.html';
-      else if (data?.role === 'admin') window.location.href = '/portal-admin.html';
+    sb.from('profiles').select('role,approved').eq('id', session.user.id).single().then(({ data }) => {
+      if (!data?.approved) return;
+      if (data.role === 'lawyer') window.location.href = '/portal-lawyer.html';
+      else if (data.role === 'chiro') window.location.href = '/portal-chiro.html';
+      else if (data.role === 'admin') window.location.href = '/portal-admin.html';
     });
-  } else {
-    // Check for auth callback in URL
-    handleAuthCallback();
   }
 });
 </script>
