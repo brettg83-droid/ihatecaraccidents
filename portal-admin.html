@@ -58,6 +58,20 @@
 
   .empty { text-align:center; padding:40px; color:#aaa; }
   footer { background:var(--black); color:#666; text-align:center; padding:16px; font-size:12px; }
+
+  /* EDIT MODAL */
+  .modal-overlay { display:none; position:fixed; top:0;left:0;right:0;bottom:0; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center; }
+  .modal-overlay.open { display:flex; }
+  .modal { background:white; border-radius:10px; width:100%; max-width:560px; max-height:90vh; overflow-y:auto; box-shadow:0 20px 60px rgba(0,0,0,0.3); }
+  .modal-header { background:var(--black); padding:20px 24px; display:flex; align-items:center; justify-content:space-between; border-radius:10px 10px 0 0; }
+  .modal-header h3 { font-family:'Oswald',sans-serif; color:white; font-size:18px; font-weight:700; }
+  .modal-close { color:#aaa; font-size:24px; cursor:pointer; background:none; border:none; line-height:1; }
+  .modal-close:hover { color:white; }
+  .modal-body { padding:24px; }
+  .modal-footer { padding:16px 24px; border-top:1px solid var(--gray-light); display:flex; gap:10px; justify-content:flex-end; }
+  .btn-save { padding:10px 24px; background:var(--red); color:white; border:none; border-radius:4px; font-family:'Oswald',sans-serif; font-size:14px; font-weight:700; cursor:pointer; }
+  .btn-save:hover { background:#a00d25; }
+  .btn-cancel-modal { padding:10px 20px; background:white; color:var(--gray); border:1px solid var(--gray-light); border-radius:4px; font-size:13px; cursor:pointer; }
 </style>
 </head>
 <body>
@@ -77,8 +91,8 @@
 
   <!-- ATTORNEY APPROVALS -->
   <div id="panel-lawyers">
-    <div class="section-title">Attorney Approval Requests</div>
-    <div class="section-sub">Review and approve attorney accounts that have requested portal access.</div>
+    <div class="section-title">Pending Approval Requests</div>
+    <div class="section-sub">Review and approve attorney and chiropractic provider accounts.</div>
     <div id="lawyers-list"><div class="empty">Loading...</div></div>
   </div>
 
@@ -126,6 +140,45 @@
 
 <footer>© 2025 IHateCarAccidents.com — Admin Portal</footer>
 
+<!-- EDIT CHIRO MODAL -->
+<div class="modal-overlay" id="edit-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Edit Provider</h3>
+      <button class="modal-close" onclick="closeEditModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div id="edit-msg"></div>
+      <input type="hidden" id="edit-id">
+      <div class="form-row">
+        <div><label>Doctor Name *</label><input type="text" id="edit-name"></div>
+        <div><label>Practice Name *</label><input type="text" id="edit-practice"></div>
+      </div>
+      <div class="form-row">
+        <div><label>Phone *</label><input type="tel" id="edit-phone"></div>
+        <div><label>Email *</label><input type="email" id="edit-email"></div>
+      </div>
+      <div style="margin-bottom:14px;"><label>Address *</label><input type="text" id="edit-address" style="width:100%;padding:9px 12px;border:1px solid var(--gray-light);border-radius:4px;font-size:13px;font-family:'Barlow',sans-serif;outline:none;"></div>
+      <div class="form-row">
+        <div><label>Website</label><input type="text" id="edit-website"></div>
+        <div><label>Specialties</label><input type="text" id="edit-specialties"></div>
+      </div>
+      <div class="form-row">
+        <div><label>Languages</label><input type="text" id="edit-languages"></div>
+        <div><label>Notes</label><input type="text" id="edit-notes"></div>
+      </div>
+      <div class="form-row">
+        <div><label>Accepts PIP</label><select id="edit-pip" style="width:100%;padding:9px 12px;border:1px solid var(--gray-light);border-radius:4px;font-size:13px;font-family:'Barlow',sans-serif;outline:none;"><option value="true">Yes</option><option value="false">No</option></select></div>
+        <div><label>Accepts Walk-ins</label><select id="edit-walkins" style="width:100%;padding:9px 12px;border:1px solid var(--gray-light);border-radius:4px;font-size:13px;font-family:'Barlow',sans-serif;outline:none;"><option value="true">Yes</option><option value="false">No</option></select></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel-modal" onclick="closeEditModal()">Cancel</button>
+      <button class="btn-save" onclick="saveChiro()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
 <script>
 const SUPABASE_URL = 'https://xlhkduyviqzzyxjqnjxj.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhsaGtkdXl2aXF6enl4anFuanhqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3MzYxNzQsImV4cCI6MjA5MjMxMjE3NH0.QhhkZ8QFYTtlC5cRc9v2EGMSroiavdq69D_-dYFxnqI';
@@ -154,36 +207,42 @@ function showTab(tab) {
 
 // ATTORNEY APPROVALS
 async function loadLawyers() {
-  var { data } = await sb.from('profiles').select('*').eq('role','lawyer').order('created_at',{ascending:false});
+  var { data } = await sb.from('profiles').select('*').in('role',['lawyer','chiro']).order('created_at',{ascending:false});
   var list = document.getElementById('lawyers-list');
-  if (!data?.length) { list.innerHTML = '<div class="empty">No attorney accounts yet.</div>'; return; }
+  if (!data?.length) { list.innerHTML = '<div class="empty">No pending accounts yet.</div>'; return; }
   list.innerHTML = `<table>
-    <thead><tr><th>Name</th><th>Firm</th><th>Bar #</th><th>Email</th><th>Phone</th><th>Registered</th><th>Status</th><th>Actions</th></tr></thead>
+    <thead><tr><th>Type</th><th>Name</th><th>Firm / Practice</th><th>Bar # / Address</th><th>Email</th><th>Phone</th><th>Registered</th><th>Status</th><th>Actions</th></tr></thead>
     <tbody>${data.map(u=>`
       <tr id="row-${u.id}">
+        <td><span class="badge ${u.role==='lawyer'?'approved':'pending'}">${u.role==='lawyer'?'Attorney':'Chiro'}</span></td>
         <td><strong>${u.full_name||'—'}</strong></td>
         <td>${u.firm||'—'}</td>
-        <td>${u.bar_number||'—'}</td>
+        <td style="font-size:12px;">${u.role==='lawyer'?(u.bar_number||'—'):'(see chiros table)'}</td>
         <td>${u.email}</td>
         <td>${u.phone||'—'}</td>
         <td>${new Date(u.created_at).toLocaleDateString()}</td>
         <td><span class="badge ${u.approved?'approved':'pending'}">${u.approved?'Approved':'Pending'}</span></td>
         <td style="display:flex;gap:6px;">
-          ${!u.approved?`<button class="btn btn-approve" onclick="approveLawyer('${u.id}','${u.email}','${u.full_name||''}')">✓ Approve</button>`:''}
-          <button class="btn btn-reject" onclick="rejectLawyer('${u.id}')">✗ Reject</button>
+          ${!u.approved?`<button class="btn btn-approve" onclick="approveUser('${u.id}','${u.email}','${u.full_name||''}','${u.role}')">✓ Approve</button>`:''}
+          <button class="btn btn-reject" onclick="rejectLawyer('${u.id}')">✗ Remove</button>
         </td>
       </tr>`).join('')}
     </tbody>
   </table>`;
 }
 
-async function approveLawyer(id, email, name) {
+async function approveUser(id, email, name, role) {
   var { error } = await sb.from('profiles').update({approved:true}).eq('id',id);
   if (error) { alert('Error: '+error.message); return; }
-  // Send approval notification via Supabase edge function or email
-  alert(`✓ ${name||email} has been approved! They can now log in to the portal.`);
+  // If chiro, also activate their chiros record
+  if (role === 'chiro') {
+    await sb.from('chiros').update({active:true}).eq('email',email);
+  }
+  alert('✓ ' + (name||email) + ' has been approved! They can now log in.');
   loadLawyers();
 }
+
+
 
 async function rejectLawyer(id) {
   if (!confirm('Remove this attorney account?')) return;
@@ -207,7 +266,8 @@ async function loadChiros() {
         <td>${c.email}</td>
         <td>${c.accepts_pip?'✓':'—'}</td>
         <td>${c.languages||'—'}</td>
-        <td><button class="btn btn-reject" onclick="removeChiro('${c.id}')">Remove</button></td>
+        <td><button class="btn btn-gray" onclick="editChiro('${c.id}','${c.doctor_name}','${c.practice_name}','${c.address}','${c.phone}','${c.email}','${c.website||''}','${c.specialties||''}','${c.languages||''}','${c.notes||''}',${c.accepts_pip},${c.accepts_walkins})">Edit</button>
+        <button class="btn btn-reject" onclick="removeChiro('${c.id}')">Remove</button></td>
       </tr>`).join('')}
     </tbody>
   </table>`;
@@ -277,6 +337,86 @@ async function loadAllReferrals() {
       </tr>`).join('')}
     </tbody>
   </table>`;
+}
+
+// EDIT CHIRO MODAL
+function editChiro(id, name, practice, address, phone, email, website, specialties, languages, notes, pip, walkins) {
+  document.getElementById('edit-id').value = id;
+  document.getElementById('edit-name').value = name;
+  document.getElementById('edit-practice').value = practice;
+  document.getElementById('edit-address').value = address;
+  document.getElementById('edit-phone').value = phone;
+  document.getElementById('edit-email').value = email;
+  document.getElementById('edit-website').value = website;
+  document.getElementById('edit-specialties').value = specialties;
+  document.getElementById('edit-languages').value = languages;
+  document.getElementById('edit-notes').value = notes;
+  document.getElementById('edit-pip').value = pip ? 'true' : 'false';
+  document.getElementById('edit-walkins').value = walkins ? 'true' : 'false';
+  document.getElementById('edit-msg').innerHTML = '';
+  document.getElementById('edit-modal').classList.add('open');
+}
+
+function closeEditModal() {
+  document.getElementById('edit-modal').classList.remove('open');
+}
+
+// Close modal if clicking overlay background
+document.getElementById('edit-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeEditModal();
+});
+
+async function saveChiro() {
+  var id = document.getElementById('edit-id').value;
+  var name = document.getElementById('edit-name').value.trim();
+  var practice = document.getElementById('edit-practice').value.trim();
+  var address = document.getElementById('edit-address').value.trim();
+  var phone = document.getElementById('edit-phone').value.trim();
+  var email = document.getElementById('edit-email').value.trim();
+  var msg = document.getElementById('edit-msg');
+
+  if (!name || !practice || !address || !phone || !email) {
+    msg.innerHTML = '<div class="msg error" style="display:block;">Please fill in all required fields.</div>';
+    return;
+  }
+
+  var btn = document.querySelector('.btn-save');
+  btn.textContent = 'Saving...'; btn.disabled = true;
+
+  // Re-geocode if address changed
+  var lat = null, lng = null;
+  try {
+    var geoRes = await fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(address) + '&countrycodes=us&limit=1');
+    var geoData = await geoRes.json();
+    if (geoData[0]) { lat = parseFloat(geoData[0].lat); lng = parseFloat(geoData[0].lon); }
+  } catch(e) {}
+
+  var updates = {
+    doctor_name: name,
+    practice_name: practice,
+    address,
+    phone,
+    email,
+    website: document.getElementById('edit-website').value.trim(),
+    specialties: document.getElementById('edit-specialties').value.trim(),
+    languages: document.getElementById('edit-languages').value.trim(),
+    notes: document.getElementById('edit-notes').value.trim(),
+    accepts_pip: document.getElementById('edit-pip').value === 'true',
+    accepts_walkins: document.getElementById('edit-walkins').value === 'true'
+  };
+  if (lat) { updates.lat = lat; updates.lng = lng; }
+
+  var { error } = await sb.from('chiros').update(updates).eq('id', id);
+
+  if (error) {
+    msg.innerHTML = '<div class="msg error" style="display:block;">Error: ' + error.message + '</div>';
+    btn.textContent = 'Save Changes'; btn.disabled = false;
+    return;
+  }
+
+  closeEditModal();
+  loadChiros();
+  btn.textContent = 'Save Changes'; btn.disabled = false;
 }
 </script>
 </body>
