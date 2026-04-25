@@ -359,7 +359,7 @@ function newReferral() { showTab('new'); window.scrollTo({top:0,behavior:'smooth
 function buildChiroCards() {
   var grid = document.getElementById('chiro-grid');
   grid.innerHTML = providers.map(p => `
-    <div class="chiro-card" id="card-${p.id}" onclick="selectProvider(${p.id})">
+    <div class="chiro-card" id="card-${p.id}" data-pid="${p.id}" onclick="selectProvider(this.dataset.pid)">
       <div class="chiro-name">${p.name}</div>
       <div class="chiro-practice">${p.practice}</div>
       <div class="chiro-detail"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${p.address}</div>
@@ -370,7 +370,7 @@ function buildChiroCards() {
         ${p.walkins ? '<span class="badge">Walk-ins Welcome</span>' : ''}
         ${p.languages.split(',').map(l=>`<span class="badge">${l.trim()}</span>`).join('')}
       </div>
-      <button class="select-btn" id="selbtn-${p.id}">Select This Provider →</button>
+      <button class="select-btn" id="selbtn-${p.id}" data-pid="${p.id}" onclick="event.stopPropagation();selectProvider(this.dataset.pid)">Select This Provider →</button>
     </div>
   `).join('');
 }
@@ -388,8 +388,8 @@ function selectProvider(id) {
   document.getElementById('form-chiro-name').textContent = 'Referring to: ' + selectedProvider.practice + ' — ' + selectedProvider.name;
   document.getElementById('f-sign-date').value = new Date().toISOString().split('T')[0];
   document.getElementById('referral-form-section').scrollIntoView({behavior:'smooth', block:'start'});
-  // Highlight map marker
-  markers.forEach((m,i) => { if(m.providerId===id) map.panTo(m.getPosition()); });
+  // Highlight map marker (Leaflet)
+  markers.forEach(m => { if(m.providerId===id) { map.panTo([selectedProvider.lat, selectedProvider.lng]); m.openPopup(); } });
 }
 
 function cancelForm() {
@@ -529,25 +529,88 @@ function showFormMsg(type, text) {
 // LOAD PAST REFERRALS
 async function loadReferrals() {
   if (!currentUser) return;
-  var { data, error } = await sb.from('referrals').select('*').eq('lawyer_id', currentUser.id).order('created_at', {ascending:false});
+  var { data, error } = await sb.from('referrals').select('*, referral_documents(id, filename, path)').eq('lawyer_id', currentUser.id).order('created_at', {ascending:false});
   var list = document.getElementById('referrals-list');
   if (error || !data?.length) {
     list.innerHTML = '<div style="text-align:center;padding:60px;color:#aaa;background:white;border-radius:8px;border:1px solid var(--gray-light);">No referrals yet. Click "+ New Referral" to get started.</div>';
     return;
   }
-  list.innerHTML = `<table class="referral-table">
-    <thead><tr><th>Date</th><th>Patient</th><th>Provider</th><th>Incident Type</th><th>Insurance</th><th>Status</th></tr></thead>
-    <tbody>${data.map(r=>`
-      <tr>
-        <td>${new Date(r.created_at).toLocaleDateString()}</td>
-        <td><strong>${r.patient_name}</strong></td>
-        <td>${r.chiro_practice}</td>
-        <td>${r.incident_type}</td>
-        <td>${r.insurance||'—'} ${r.claim_number?'<br><small style="color:#aaa;">'+r.claim_number+'</small>':''}</td>
-        <td><span class="status-badge ${r.status}">${r.status}</span></td>
-      </tr>`).join('')}
-    </tbody>
-  </table>`;
+  list.innerHTML = data.map(r => `
+    <div class="referral-card" id="lref-${r.id}" style="background:white;border:1px solid var(--gray-light);border-radius:8px;margin-bottom:12px;overflow:hidden;">
+      <div style="padding:16px 20px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;flex-wrap:wrap;gap:10px;" onclick="toggleLRef('${r.id}')">
+        <div>
+          <div style="font-family:'Oswald',sans-serif;font-size:17px;font-weight:700;">${r.patient_name}</div>
+          <div style="font-size:12px;color:var(--gray);margin-top:2px;">${r.incident_type} · ${new Date(r.created_at).toLocaleDateString()} · ${r.chiro_practice}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="status-badge ${r.status}">${r.status}</span>
+          ${(r.referral_documents||[]).length > 0 ? `<span style="font-size:11px;background:#f5f5f5;padding:3px 8px;border-radius:20px;color:#555;">📎 ${r.referral_documents.length} doc${r.referral_documents.length>1?'s':''}</span>` : ''}
+          <span style="font-size:12px;color:#aaa;" id="lchev-${r.id}">▼</span>
+        </div>
+      </div>
+      <div id="lbody-${r.id}" style="display:none;border-top:1px solid var(--gray-light);">
+        <div style="padding:20px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;">
+          <div>
+            <div style="font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--red);margin-bottom:10px;">Patient</div>
+            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Name</span>${r.patient_name}</div>
+            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">DOB</span>${r.dob||'—'}</div>
+            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Phone</span>${r.patient_phone}</div>
+            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Incident Date</span>${r.incident_date}</div>
+            <div style="font-size:13px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Type</span>${r.incident_type}</div>
+          </div>
+          <div>
+            <div style="font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--red);margin-bottom:10px;">Provider</div>
+            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Practice</span>${r.chiro_practice}</div>
+            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Doctor</span>${r.chiro_name}</div>
+            <div style="font-size:13px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Email</span>${r.chiro_email||'—'}</div>
+          </div>
+          <div>
+            <div style="font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--red);margin-bottom:10px;">Insurance</div>
+            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Company</span>${r.insurance||'—'}</div>
+            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Claim #</span>${r.claim_number||'—'}</div>
+            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Adjuster</span>${r.adjuster_name||'—'}</div>
+            <div style="font-size:13px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Adjuster Phone</span>${r.adjuster_phone||'—'}</div>
+          </div>
+        </div>
+        ${(r.referral_documents||[]).length > 0 ? `
+        <div style="padding:0 20px 20px;">
+          <div style="font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--red);margin-bottom:10px;">Documents</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            ${r.referral_documents.map(d=>`
+              <button onclick="downloadLawyerDoc('${d.path}','${d.filename}')" style="display:flex;align-items:center;gap:6px;padding:8px 14px;background:var(--black);color:white;border:none;border-radius:4px;font-size:12px;cursor:pointer;font-family:'Barlow',sans-serif;">
+                📄 ${d.filename}
+              </button>
+            `).join('')}
+          </div>
+        </div>` : `<div style="padding:0 20px 20px;font-size:13px;color:#aaa;">No documents uploaded with this referral.</div>`}
+        ${r.signature_data ? `
+        <div style="padding:0 20px 20px;">
+          <div style="font-size:11px;color:#aaa;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Your Signature</div>
+          <img src="${r.signature_data}" style="height:40px;border:1px solid var(--gray-light);border-radius:3px;background:white;">
+          <span style="font-size:12px;color:#555;margin-left:10px;">${r.print_name} · ${r.sign_date}</span>
+        </div>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleLRef(id) {
+  var body = document.getElementById('lbody-'+id);
+  var chev = document.getElementById('lchev-'+id);
+  var open = body.style.display === 'none';
+  body.style.display = open ? 'block' : 'none';
+  chev.textContent = open ? '▲' : '▼';
+}
+
+async function downloadLawyerDoc(path, filename) {
+  var { data, error } = await sb.storage.from('documents').download(path);
+  if (error) { alert('Error downloading: ' + error.message); return; }
+  var url = URL.createObjectURL(data);
+  var a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }
 
 // LEAFLET MAP (free, no API key needed)
@@ -578,7 +641,7 @@ function initMap() {
         <span style="font-size:12px;color:#555;">${p.address}</span><br>
         <span style="font-size:12px;">📞 ${p.phone}</span><br>
         ${p.pip ? '<span style="font-size:11px;color:#166534;font-weight:600;">✓ Accepts PIP</span><br>' : ''}
-        <button onclick="selectProvider(${p.id})" style="margin-top:8px;background:#c8102e;color:white;border:none;padding:6px 14px;border-radius:3px;font-size:12px;cursor:pointer;width:100%;font-family:Oswald,sans-serif;font-weight:700;">Select This Provider →</button>
+        <button data-pid="${p.id}" onclick="selectProvider(this.dataset.pid)" style="margin-top:8px;background:#c8102e;color:white;border:none;padding:6px 14px;border-radius:3px;font-size:12px;cursor:pointer;width:100%;font-family:Oswald,sans-serif;font-weight:700;">Select This Provider →</button>
       </div>
     `);
 
@@ -697,7 +760,7 @@ async function findClosest() {
     // Re-render chiro cards sorted by distance
     var grid = document.getElementById('chiro-grid');
     grid.innerHTML = withDistance.map(p => `
-      <div class="chiro-card" id="card-${p.id}" onclick="selectProvider(${p.id})">
+      <div class="chiro-card" id="card-${p.id}" data-pid="${p.id}" onclick="selectProvider(this.dataset.pid)">
         <div class="chiro-name">${p.name} <span class="distance-badge">${p.distance.toFixed(1)} mi</span></div>
         <div class="chiro-practice">${p.practice}</div>
         <div class="chiro-detail"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${p.address}</div>
@@ -708,7 +771,7 @@ async function findClosest() {
           ${p.walkins ? '<span class="badge">Walk-ins Welcome</span>' : ''}
           ${p.languages.split(',').map(l=>`<span class="badge">${l.trim()}</span>`).join('')}
         </div>
-        <button class="select-btn" id="selbtn-${p.id}">Select This Provider →</button>
+        <button class="select-btn" id="selbtn-${p.id}" data-pid="${p.id}" onclick="event.stopPropagation();selectProvider(this.dataset.pid)">Select This Provider →</button>
       </div>
     `).join('');
 
@@ -751,7 +814,7 @@ function findClosestCoords(patLat, patLng, addressLabel) {
 
   var grid = document.getElementById('chiro-grid');
   grid.innerHTML = withDistance.map(function(p) { return `
-    <div class="chiro-card" id="card-${p.id}" onclick="selectProvider(${p.id})">
+    <div class="chiro-card" id="card-${p.id}" data-pid="${p.id}" onclick="selectProvider(this.dataset.pid)">
       <div class="chiro-name">${p.name} <span class="distance-badge">${p.distance.toFixed(1)} mi</span></div>
       <div class="chiro-practice">${p.practice}</div>
       <div class="chiro-detail"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${p.address}</div>
@@ -762,7 +825,7 @@ function findClosestCoords(patLat, patLng, addressLabel) {
         ${p.walkins ? '<span class="badge">Walk-ins Welcome</span>' : ''}
         ${p.languages.split(',').map(function(l){return '<span class="badge">'+l.trim()+'</span>';}).join('')}
       </div>
-      <button class="select-btn" id="selbtn-${p.id}">Select This Provider →</button>
+      <button class="select-btn" id="selbtn-${p.id}" data-pid="${p.id}" onclick="event.stopPropagation();selectProvider(this.dataset.pid)">Select This Provider →</button>
     </div>
   `; }).join('');
 
