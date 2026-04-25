@@ -322,11 +322,8 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 const GOOGLE_MAPS_KEY = 'YOUR_GOOGLE_MAPS_KEY';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// Providers data
-const providers = [
-  { id:1, name:'Dr. Brett Goldstein D.C.', practice:'Sports Chiropractic & Natural Health Solutions', address:'23 S.E. 22nd Ave, Pompano Beach FL 33062', phone:'954-871-1411', email:'BrettG73@gmail.com', website:'www.chiropractorbroward.com', specialties:'Auto Injury, All Major Insurances', pip:true, languages:'English', walkins:true, notes:'Same-day appointments available', lat:26.2307545, lng:-80.1021711 },
-  { id:2, name:'Dr. Ron Fullmore', practice:'Fulmore Chiro', address:'1500 W Gore St, Orlando, FL 32805', phone:'352-999-0999', email:'drronfulmore@gmail.com', website:'', specialties:'Auto Injury, All Major Insurances', pip:true, languages:'English, Creole', walkins:true, notes:'', lat:28.5383, lng:-81.3792 }
-];
+// Providers loaded dynamically from Supabase
+let providers = [];
 
 let selectedProvider = null;
 let uploadedFiles = [];
@@ -774,9 +771,35 @@ function findClosestCoords(patLat, patLng, addressLabel) {
   result.innerHTML = 'Closest: <strong>' + closest.practice + '</strong> — ' + closest.distance.toFixed(1) + ' miles away';
 }
 
-// Init
-buildChiroCards();
-initMap();
+// Load providers from Supabase then init
+async function loadProviders() {
+  var { data, error } = await sb.from('chiros').select('*').eq('active', true).order('practice_name');
+  if (error || !data?.length) {
+    document.getElementById('chiro-grid').innerHTML = '<div style="padding:20px;color:#aaa;">No providers available yet.</div>';
+    return;
+  }
+  // Map Supabase fields to the providers format
+  providers = data.map(c => ({
+    id: c.id,
+    name: c.doctor_name,
+    practice: c.practice_name,
+    address: c.address,
+    phone: c.phone,
+    email: c.email,
+    website: c.website || '',
+    specialties: c.specialties || '',
+    pip: c.accepts_pip,
+    languages: c.languages || 'English',
+    walkins: c.accepts_walkins,
+    notes: c.notes || '',
+    lat: c.lat,
+    lng: c.lng
+  }));
+  buildChiroCards();
+  initMap();
+}
+
+loadProviders();
 </script>
 </body>
 </html>
