@@ -72,6 +72,12 @@
   .btn-save { padding:10px 24px; background:var(--red); color:white; border:none; border-radius:4px; font-family:'Oswald',sans-serif; font-size:14px; font-weight:700; cursor:pointer; }
   .btn-save:hover { background:#a00d25; }
   .btn-cancel-modal { padding:10px 20px; background:white; color:var(--gray); border:1px solid var(--gray-light); border-radius:4px; font-size:13px; cursor:pointer; }
+  .ac-wrap { position:relative; }
+  .ac-wrap input { width:100%; }
+  .ac-list { position:absolute; top:100%; left:0; right:0; background:white; border:1px solid var(--gray-light); border-top:none; border-radius:0 0 6px 6px; box-shadow:0 8px 24px rgba(0,0,0,0.12); z-index:9999; max-height:200px; overflow-y:auto; }
+  .ac-item { padding:9px 12px; font-size:12px; cursor:pointer; border-bottom:1px solid #f5f5f5; line-height:1.4; color:#333; }
+  .ac-item:hover, .ac-item.active { background:#fff8f8; color:var(--red); }
+  .ac-item:last-child { border-bottom:none; }
 </style>
 </head>
 <body>
@@ -110,7 +116,12 @@
         <div><label>Phone *</label><input type="tel" id="nc-phone" placeholder="(555) 000-0000"></div>
       </div>
       <div class="form-row">
-        <div><label>Address *</label><input type="text" id="nc-address" placeholder="123 Main St, Miami, FL 33101"></div>
+        <div><label>Address *</label>
+          <div class="ac-wrap">
+            <input type="text" id="nc-address" placeholder="Start typing address..." oninput="ncAddrInput(this.value)" onkeydown="ncAddrKey(event)" autocomplete="off">
+            <div class="ac-list" id="nc-ac-list" style="display:none;"></div>
+          </div>
+        </div>
         <div><label>Email *</label><input type="email" id="nc-email" placeholder="dr@practice.com"></div>
         <div><label>Website</label><input type="text" id="nc-website" placeholder="www.practice.com"></div>
       </div>
@@ -158,7 +169,12 @@
         <div><label>Phone *</label><input type="tel" id="edit-phone"></div>
         <div><label>Email *</label><input type="email" id="edit-email"></div>
       </div>
-      <div style="margin-bottom:14px;"><label>Address *</label><input type="text" id="edit-address" style="width:100%;padding:9px 12px;border:1px solid var(--gray-light);border-radius:4px;font-size:13px;font-family:'Barlow',sans-serif;outline:none;"></div>
+      <div style="margin-bottom:14px;"><label>Address *</label>
+      <div class="ac-wrap">
+        <input type="text" id="edit-address" style="width:100%;padding:9px 12px;border:1px solid var(--gray-light);border-radius:4px;font-size:13px;font-family:'Barlow',sans-serif;outline:none;" oninput="editAddrInput(this.value)" onkeydown="editAddrKey(event)" autocomplete="off">
+        <div class="ac-list" id="edit-ac-list" style="display:none;"></div>
+      </div>
+    </div>
       <div class="form-row">
         <div><label>Website</label><input type="text" id="edit-website"></div>
         <div><label>Specialties</label><input type="text" id="edit-specialties"></div>
@@ -377,6 +393,83 @@ document.getElementById('edit-modal').addEventListener('click', function(e) {
   if (e.target === this) closeEditModal();
 });
 
+// ── ADDRESS AUTOCOMPLETE (shared helper) ─────────────────────────────────────
+async function fetchAddressSuggestions(val) {
+  if (val.length < 3) return [];
+  try {
+    var res = await fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(val) + '&countrycodes=us&limit=6&addressdetails=1', { headers: {'Accept-Language':'en'} });
+    return await res.json();
+  } catch(e) { return []; }
+}
+
+function renderAcList(listId, results, onSelect) {
+  var list = document.getElementById(listId);
+  if (!results.length) { list.style.display='none'; return; }
+  list.innerHTML = results.map(function(item, i) {
+    return '<div class="ac-item" data-idx="'+i+'" onmousedown="'+onSelect+'('+i+')">' + item.display_name + '</div>';
+  }).join('');
+  list.style.display = 'block';
+}
+
+// ADD FORM autocomplete
+var ncAcTimeout = null, ncAcResults = [], ncAcIdx = -1;
+function ncAddrInput(val) {
+  clearTimeout(ncAcTimeout);
+  if (val.length < 3) { document.getElementById('nc-ac-list').style.display='none'; return; }
+  ncAcTimeout = setTimeout(async function() {
+    ncAcResults = await fetchAddressSuggestions(val);
+    ncAcIdx = -1;
+    renderAcList('nc-ac-list', ncAcResults, 'ncSelectAddr');
+  }, 300);
+}
+function ncSelectAddr(idx) {
+  var item = ncAcResults[idx];
+  if (!item) return;
+  document.getElementById('nc-address').value = item.display_name;
+  document.getElementById('nc-ac-list').style.display = 'none';
+}
+function ncAddrKey(e) {
+  var items = document.querySelectorAll('#nc-ac-list .ac-item');
+  if (e.key==='ArrowDown') { ncAcIdx=Math.min(ncAcIdx+1,items.length-1); items.forEach(function(el,i){el.classList.toggle('active',i===ncAcIdx);}); e.preventDefault(); }
+  else if (e.key==='ArrowUp') { ncAcIdx=Math.max(ncAcIdx-1,0); items.forEach(function(el,i){el.classList.toggle('active',i===ncAcIdx);}); e.preventDefault(); }
+  else if (e.key==='Enter' && ncAcIdx>=0) { ncSelectAddr(ncAcIdx); document.getElementById('nc-ac-list').style.display='none'; }
+  else if (e.key==='Escape') { document.getElementById('nc-ac-list').style.display='none'; }
+}
+
+// EDIT FORM autocomplete
+var editAcTimeout = null, editAcResults = [], editAcIdx = -1;
+function editAddrInput(val) {
+  clearTimeout(editAcTimeout);
+  if (val.length < 3) { document.getElementById('edit-ac-list').style.display='none'; return; }
+  editAcTimeout = setTimeout(async function() {
+    editAcResults = await fetchAddressSuggestions(val);
+    editAcIdx = -1;
+    renderAcList('edit-ac-list', editAcResults, 'editSelectAddr');
+  }, 300);
+}
+function editSelectAddr(idx) {
+  var item = editAcResults[idx];
+  if (!item) return;
+  document.getElementById('edit-address').value = item.display_name;
+  document.getElementById('edit-ac-list').style.display = 'none';
+}
+function editAddrKey(e) {
+  var items = document.querySelectorAll('#edit-ac-list .ac-item');
+  if (e.key==='ArrowDown') { editAcIdx=Math.min(editAcIdx+1,items.length-1); items.forEach(function(el,i){el.classList.toggle('active',i===editAcIdx);}); e.preventDefault(); }
+  else if (e.key==='ArrowUp') { editAcIdx=Math.max(editAcIdx-1,0); items.forEach(function(el,i){el.classList.toggle('active',i===editAcIdx);}); e.preventDefault(); }
+  else if (e.key==='Enter' && editAcIdx>=0) { editSelectAddr(editAcIdx); document.getElementById('edit-ac-list').style.display='none'; }
+  else if (e.key==='Escape') { document.getElementById('edit-ac-list').style.display='none'; }
+}
+
+// Close dropdowns when clicking outside
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.ac-wrap')) {
+    document.getElementById('nc-ac-list').style.display='none';
+    var editList = document.getElementById('edit-ac-list');
+    if (editList) editList.style.display='none';
+  }
+});
+
 async function saveChiro() {
   var id = document.getElementById('edit-id').value;
   var name = document.getElementById('edit-name').value.trim();
@@ -394,14 +487,7 @@ async function saveChiro() {
   var btn = document.querySelector('.btn-save');
   btn.textContent = 'Saving...'; btn.disabled = true;
 
-  // Re-geocode if address changed
-  var lat = null, lng = null;
-  try {
-    var geoRes = await fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(address) + '&countrycodes=us&limit=1');
-    var geoData = await geoRes.json();
-    if (geoData[0]) { lat = parseFloat(geoData[0].lat); lng = parseFloat(geoData[0].lon); }
-  } catch(e) {}
-
+  // Build updates object
   var updates = {
     doctor_name: name,
     practice_name: practice,
@@ -415,7 +501,16 @@ async function saveChiro() {
     accepts_pip: document.getElementById('edit-pip').value === 'true',
     accepts_walkins: document.getElementById('edit-walkins').value === 'true'
   };
-  if (lat) { updates.lat = lat; updates.lng = lng; }
+
+  // Only re-geocode if address changed from original
+  var original = chirosData[id];
+  if (original && address !== original.address) {
+    try {
+      var geoRes = await fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(address) + '&countrycodes=us&limit=1');
+      var geoData = await geoRes.json();
+      if (geoData[0]) { updates.lat = parseFloat(geoData[0].lat); updates.lng = parseFloat(geoData[0].lon); }
+    } catch(e) { console.log('Geocoding skipped:', e); }
+  }
 
   var { error } = await sb.from('chiros').update(updates).eq('id', id);
 
@@ -425,9 +520,12 @@ async function saveChiro() {
     return;
   }
 
+  // Update local cache immediately
+  chirosData[id] = Object.assign(chirosData[id], updates);
+
+  btn.textContent = 'Save Changes'; btn.disabled = false;
   closeEditModal();
   loadChiros();
-  btn.textContent = 'Save Changes'; btn.disabled = false;
 }
 </script>
 </body>
