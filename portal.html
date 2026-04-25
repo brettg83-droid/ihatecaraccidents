@@ -98,7 +98,7 @@ footer{background:var(--black);color:#666;text-align:center;padding:16px;font-si
         <label>Email Address *</label>
         <input type="email" id="reg-email" placeholder="you@lawfirm.com">
         <label>Phone Number *</label>
-        <input type="tel" id="reg-phone" placeholder="(555) 000-0000">
+        <input type="tel" id="reg-phone" placeholder="999-999-9999" oninput="formatPhone(this)" maxlength="12">
         <label>Create Password *</label>
         <input type="password" id="reg-password" placeholder="Minimum 8 characters">
         <label>Confirm Password *</label>
@@ -329,6 +329,17 @@ async function notifyAdmin(name, firm, bar, email, phone) {
     });
   } catch(e) {
     console.log('Admin notification failed:', e);
+  }
+}
+
+function formatPhone(input) {
+  var digits = input.value.replace(/\D/g, '').substring(0, 10);
+  if (digits.length >= 7) {
+    input.value = digits.substring(0,3) + '-' + digits.substring(3,6) + '-' + digits.substring(6);
+  } else if (digits.length >= 4) {
+    input.value = digits.substring(0,3) + '-' + digits.substring(3);
+  } else {
+    input.value = digits;
   }
 }
 
