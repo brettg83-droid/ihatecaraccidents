@@ -251,10 +251,17 @@ async function rejectLawyer(id) {
 }
 
 // CHIRO MANAGEMENT
+var chirosData = {};
+
 async function loadChiros() {
   var { data } = await sb.from('chiros').select('*').order('practice_name');
   var list = document.getElementById('chiros-list');
   if (!data?.length) { list.innerHTML = '<div class="empty">No providers yet. Add your first provider above.</div>'; return; }
+  
+  // Store chiro data in JS object by ID so we don't pass through onclick attrs
+  chirosData = {};
+  data.forEach(c => { chirosData[c.id] = c; });
+
   list.innerHTML = `<table>
     <thead><tr><th>Doctor</th><th>Practice</th><th>Address</th><th>Phone</th><th>Email</th><th>PIP</th><th>Languages</th><th>Actions</th></tr></thead>
     <tbody>${data.map(c=>`
@@ -266,8 +273,10 @@ async function loadChiros() {
         <td>${c.email}</td>
         <td>${c.accepts_pip?'✓':'—'}</td>
         <td>${c.languages||'—'}</td>
-        <td><button class="btn btn-gray" onclick="editChiro('${c.id}','${c.doctor_name}','${c.practice_name}','${c.address}','${c.phone}','${c.email}','${c.website||''}','${c.specialties||''}','${c.languages||''}','${c.notes||''}',${c.accepts_pip},${c.accepts_walkins})">Edit</button>
-        <button class="btn btn-reject" onclick="removeChiro('${c.id}')">Remove</button></td>
+        <td style="display:flex;gap:6px;">
+          <button class="btn btn-gray" onclick="editChiroById('${c.id}')">Edit</button>
+          <button class="btn btn-reject" onclick="removeChiro('${c.id}')">Remove</button>
+        </td>
       </tr>`).join('')}
     </tbody>
   </table>`;
@@ -340,19 +349,21 @@ async function loadAllReferrals() {
 }
 
 // EDIT CHIRO MODAL
-function editChiro(id, name, practice, address, phone, email, website, specialties, languages, notes, pip, walkins) {
-  document.getElementById('edit-id').value = id;
-  document.getElementById('edit-name').value = name;
-  document.getElementById('edit-practice').value = practice;
-  document.getElementById('edit-address').value = address;
-  document.getElementById('edit-phone').value = phone;
-  document.getElementById('edit-email').value = email;
-  document.getElementById('edit-website').value = website;
-  document.getElementById('edit-specialties').value = specialties;
-  document.getElementById('edit-languages').value = languages;
-  document.getElementById('edit-notes').value = notes;
-  document.getElementById('edit-pip').value = pip ? 'true' : 'false';
-  document.getElementById('edit-walkins').value = walkins ? 'true' : 'false';
+function editChiroById(id) {
+  var c = chirosData[id];
+  if (!c) { alert('Provider data not found. Please refresh the page.'); return; }
+  document.getElementById('edit-id').value = c.id;
+  document.getElementById('edit-name').value = c.doctor_name || '';
+  document.getElementById('edit-practice').value = c.practice_name || '';
+  document.getElementById('edit-address').value = c.address || '';
+  document.getElementById('edit-phone').value = c.phone || '';
+  document.getElementById('edit-email').value = c.email || '';
+  document.getElementById('edit-website').value = c.website || '';
+  document.getElementById('edit-specialties').value = c.specialties || '';
+  document.getElementById('edit-languages').value = c.languages || '';
+  document.getElementById('edit-notes').value = c.notes || '';
+  document.getElementById('edit-pip').value = c.accepts_pip ? 'true' : 'false';
+  document.getElementById('edit-walkins').value = c.accepts_walkins ? 'true' : 'false';
   document.getElementById('edit-msg').innerHTML = '';
   document.getElementById('edit-modal').classList.add('open');
 }
