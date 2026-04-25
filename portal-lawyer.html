@@ -132,6 +132,23 @@
   .msg.success { background:#f0fff4; color:#166534; border:1px solid #bbf7d0; display:block; }
 
   @media(max-width:700px) { .form-row { grid-template-columns:1fr; } .chiro-grid { grid-template-columns:1fr; } }
+
+  /* EDIT REFERRAL MODAL */
+  .modal-overlay { display:none; position:fixed; top:0;left:0;right:0;bottom:0; background:rgba(0,0,0,0.6); z-index:2000; align-items:center; justify-content:center; padding:20px; }
+  .modal-overlay.open { display:flex; }
+  .modal-box { background:white; border-radius:10px; width:100%; max-width:680px; max-height:90vh; overflow-y:auto; box-shadow:0 20px 60px rgba(0,0,0,0.3); }
+  .modal-box-header { background:var(--black); padding:20px 28px; display:flex; align-items:center; justify-content:space-between; border-radius:10px 10px 0 0; position:sticky; top:0; z-index:10; }
+  .modal-box-header h3 { font-family:'Oswald',sans-serif; color:white; font-size:18px; font-weight:700; }
+  .modal-x { color:#aaa; font-size:28px; cursor:pointer; background:none; border:none; line-height:1; padding:0; }
+  .modal-x:hover { color:white; }
+  .modal-box-body { padding:24px; }
+  .modal-box-footer { padding:16px 24px; border-top:1px solid var(--gray-light); display:flex; gap:10px; justify-content:flex-end; background:white; position:sticky; bottom:0; border-radius:0 0 10px 10px; }
+  .btn-save-ref { padding:10px 28px; background:var(--red); color:white; border:none; border-radius:4px; font-family:'Oswald',sans-serif; font-size:15px; font-weight:700; cursor:pointer; }
+  .btn-save-ref:hover { background:#a00d25; }
+  .btn-save-ref:disabled { background:#ccc; cursor:not-allowed; }
+  .btn-cancel-ref { padding:10px 20px; background:white; color:var(--gray); border:1px solid var(--gray-light); border-radius:4px; font-size:13px; cursor:pointer; }
+  .edit-section-title { font-family:'Oswald',sans-serif; font-size:14px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--red); padding-bottom:8px; border-bottom:2px solid var(--gray-light); margin-bottom:16px; margin-top:20px; }
+  .edit-section-title:first-child { margin-top:0; }
 </style>
 </head>
 <body>
@@ -863,6 +880,190 @@ async function loadProviders() {
 }
 
 loadProviders();
+</script>
+<!-- EDIT REFERRAL MODAL -->
+<div class="modal-overlay" id="edit-ref-modal">
+  <div class="modal-box">
+    <div class="modal-box-header">
+      <h3>Edit Referral</h3>
+      <button class="modal-x" onclick="closeEditReferral()">×</button>
+    </div>
+    <div class="modal-box-body">
+      <div id="edit-ref-msg"></div>
+      <input type="hidden" id="er-id">
+
+      <div class="edit-section-title">Patient Information</div>
+      <div class="form-row">
+        <div class="form-group"><label>Patient Full Name <span class="required">*</span></label><input type="text" id="er-patient-name"></div>
+        <div class="form-group"><label>Date of Birth</label><input type="date" id="er-dob"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Date of Incident</label><input type="date" id="er-incident-date"></div>
+        <div class="form-group"><label>Type of Incident</label>
+          <select id="er-incident-type">
+            <option value="">Select...</option>
+            <option>Motor Vehicle Accident</option>
+            <option>Slip and Fall</option>
+            <option>Motorcycle Accident</option>
+            <option>Pedestrian Accident</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Patient Phone</label><input type="tel" id="er-patient-phone"></div>
+        <div class="form-group"><label>Preferred Language</label>
+          <select id="er-language">
+            <option value="">Select...</option>
+            <option>English</option>
+            <option>Spanish</option>
+            <option>Creole</option>
+            <option>Portuguese</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="edit-section-title">Insurance Information</div>
+      <div class="form-row">
+        <div class="form-group"><label>Insurance Company</label><input type="text" id="er-insurance"></div>
+        <div class="form-group"><label>Claim Number</label><input type="text" id="er-claim-number"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Adjuster Name</label><input type="text" id="er-adjuster-name"></div>
+        <div class="form-group"><label>Adjuster Phone</label><input type="tel" id="er-adjuster-phone"></div>
+      </div>
+
+      <div class="edit-section-title">Additional Notes</div>
+      <div class="form-group"><textarea id="er-notes" style="width:100%;padding:10px 14px;border:1px solid var(--gray-light);border-radius:4px;font-size:14px;font-family:'Barlow',sans-serif;resize:vertical;min-height:80px;outline:none;" placeholder="Any additional notes or updates..."></textarea></div>
+
+      <div class="edit-section-title">Upload Additional Documents</div>
+      <div class="upload-zone" onclick="document.getElementById('er-file-input').click()" style="margin-bottom:0;">
+        <input type="file" id="er-file-input" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" onchange="handleErFiles(this.files)">
+        <div class="upload-icon">📎</div>
+        <div class="upload-text"><strong>Click to upload</strong> additional documents<br><small style="color:#aaa;">Existing documents will be kept</small></div>
+      </div>
+      <div id="er-file-list" style="margin-top:8px;"></div>
+    </div>
+    <div class="modal-box-footer">
+      <button class="btn-cancel-ref" onclick="closeEditReferral()">Cancel</button>
+      <button class="btn-save-ref" id="er-save-btn" onclick="saveEditReferral()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// EDIT REFERRAL
+var erFiles = [];
+var erReferrals = {};
+
+function openEditReferral(id) {
+  // Find referral data from DOM or re-fetch
+  var ref = erReferrals[id];
+  if (!ref) {
+    // Fetch from Supabase
+    sb.from('referrals').select('*').eq('id', id).single().then(({ data }) => {
+      if (!data) { alert('Referral not found.'); return; }
+      erReferrals[id] = data;
+      populateEditModal(data);
+    });
+  } else {
+    populateEditModal(ref);
+  }
+}
+
+function populateEditModal(r) {
+  document.getElementById('er-id').value = r.id;
+  document.getElementById('er-patient-name').value = r.patient_name || '';
+  document.getElementById('er-dob').value = r.dob || '';
+  document.getElementById('er-incident-date').value = r.incident_date || '';
+  document.getElementById('er-incident-type').value = r.incident_type || '';
+  document.getElementById('er-patient-phone').value = r.patient_phone || '';
+  document.getElementById('er-language').value = r.language || '';
+  document.getElementById('er-insurance').value = r.insurance || '';
+  document.getElementById('er-claim-number').value = r.claim_number || '';
+  document.getElementById('er-adjuster-name').value = r.adjuster_name || '';
+  document.getElementById('er-adjuster-phone').value = r.adjuster_phone || '';
+  document.getElementById('er-notes').value = r.notes || '';
+  document.getElementById('er-file-list').innerHTML = '';
+  document.getElementById('edit-ref-msg').innerHTML = '';
+  erFiles = [];
+  document.getElementById('edit-ref-modal').classList.add('open');
+}
+
+function closeEditReferral() {
+  document.getElementById('edit-ref-modal').classList.remove('open');
+  erFiles = [];
+}
+
+document.getElementById('edit-ref-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeEditReferral();
+});
+
+function handleErFiles(files) {
+  for (var f of files) {
+    if (!erFiles.find(x => x.name === f.name)) erFiles.push(f);
+  }
+  renderErFiles();
+}
+
+function renderErFiles() {
+  document.getElementById('er-file-list').innerHTML = erFiles.map((f, i) =>
+    `<div class="file-item">
+      <span>📄 ${f.name} <span style="color:#aaa;">(${(f.size/1024).toFixed(0)} KB)</span></span>
+      <button class="remove" onclick="erFiles.splice(${i},1);renderErFiles();">×</button>
+    </div>`
+  ).join('');
+}
+
+async function saveEditReferral() {
+  var id = document.getElementById('er-id').value;
+  var name = document.getElementById('er-patient-name').value.trim();
+  if (!name) { 
+    document.getElementById('edit-ref-msg').innerHTML = '<div class="msg error" style="display:block;">Patient name is required.</div>';
+    return; 
+  }
+
+  var btn = document.getElementById('er-save-btn');
+  btn.textContent = 'Saving...'; btn.disabled = true;
+
+  var updates = {
+    patient_name: name,
+    dob: document.getElementById('er-dob').value || null,
+    incident_date: document.getElementById('er-incident-date').value || null,
+    incident_type: document.getElementById('er-incident-type').value,
+    patient_phone: document.getElementById('er-patient-phone').value.trim(),
+    language: document.getElementById('er-language').value,
+    insurance: document.getElementById('er-insurance').value.trim(),
+    claim_number: document.getElementById('er-claim-number').value.trim(),
+    adjuster_name: document.getElementById('er-adjuster-name').value.trim(),
+    adjuster_phone: document.getElementById('er-adjuster-phone').value.trim(),
+    notes: document.getElementById('er-notes').value.trim()
+  };
+
+  var { error } = await sb.from('referrals').update(updates).eq('id', id);
+  if (error) {
+    document.getElementById('edit-ref-msg').innerHTML = '<div class="msg error" style="display:block;">Error: ' + error.message + '</div>';
+    btn.textContent = 'Save Changes'; btn.disabled = false;
+    return;
+  }
+
+  // Upload any new files
+  for (var file of erFiles) {
+    var path = 'referrals/' + id + '/' + file.name;
+    await sb.storage.from('documents').upload(path, file, { upsert: true });
+    await sb.from('referral_documents').insert({ referral_id: id, filename: file.name, path });
+  }
+
+  // Update local cache
+  erReferrals[id] = Object.assign(erReferrals[id] || {}, updates);
+
+  btn.textContent = 'Save Changes'; btn.disabled = false;
+  closeEditReferral();
+
+  // Reload referrals list to show updates
+  loadReferrals();
+}
 </script>
 </body>
 </html>
