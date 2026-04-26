@@ -59,6 +59,12 @@
   .closest-badge { display:flex; align-items:center; gap:6px; background:var(--red); color:white; font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:6px 14px; border-radius:4px; margin-bottom:10px; }
   .closest-badge .star { font-size:16px; animation:pulse-star 1.5s ease-in-out infinite; }
   .closest-badge .arrow { font-size:13px; }
+.chiro-notes-box { background:#f0fff4; border:1px solid #bbf7d0; border-radius:6px; padding:10px 14px; margin:0 20px 16px; }
+.chiro-notes-box h5 { font-family:'Oswald',sans-serif; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:#166534; margin-bottom:6px; }
+.chiro-note-item { border-bottom:1px solid #d1fae5; padding:5px 0; font-size:13px; }
+.chiro-note-item:last-child { border-bottom:none; }
+.chiro-note-date { font-size:11px; color:#6b7280; float:right; }
+.chiro-note-text { color:#111; line-height:1.4; }
   @keyframes pulse-star { 0%,100%{transform:scale(1);} 50%{transform:scale(1.3);} }
   .closest-distance { display:flex; align-items:center; gap:4px; }
   .closest-distance .arrow-icon { color:var(--red); font-size:16px; font-weight:900; }
@@ -612,7 +618,8 @@ async function loadReferrals() {
         </div>
       </div>
     </div>
-  `).join('');
+  
+          <div id="chiro-notes-${r.id}" class="chiro-notes-box" style="display:none;"><small style="color:#999;">Loading notes from provider...</small></div>`).join('');
 }
 
 function toggleLRef(id) {
@@ -621,6 +628,10 @@ function toggleLRef(id) {
   var open = body.style.display === 'none';
   body.style.display = open ? 'block' : 'none';
   if (chev) chev.textContent = open ? '▲' : '▼';
+  // Show and load chiro notes when card opens
+  var notesBox = document.getElementById('chiro-notes-' + id);
+  if (notesBox && open) { notesBox.style.display = 'block'; loadChiroNotes(id); }
+  if (notesBox && !open) { notesBox.style.display = 'none'; }
 }
 
 async function downloadLawyerDoc(path, filename) {
@@ -1129,6 +1140,37 @@ async function saveEditReferral() {
 
   // Reload referrals list to show updates
   loadReferrals();
+}
+
+
+// ── CHIRO NOTES DISPLAY (read-only for attorney) ─────────────────────────────
+async function loadChiroNotes(refId) {
+  var box = document.getElementById('chiro-notes-' + refId);
+  if (!box) return;
+  var { data, error } = await sb.from('chiro_notes')
+    .select('note_text, created_at, chiro_email')
+    .eq('referral_id', refId)
+    .order('created_at', {ascending: true});
+  if (error || !data || !data.length) {
+    box.innerHTML = '<small style="color:#999;">No notes from provider yet.</small>';
+    return;
+  }
+  box.innerHTML = '<h5>📝 Notes from Provider (' + data.length + ')</h5>' +
+    data.map(n =>
+      '<div class="chiro-note-item">' +
+        '<span class="chiro-note-date">' + new Date(n.created_at).toLocaleString() + '</span>' +
+        '<div class="chiro-note-text">' + (n.note_text || '') + '</div>' +
+      '</div>'
+    ).join('');
+}
+
+
+async function loadChiroNotes(refId) {
+  var box = document.getElementById('chiro-notes-' + refId);
+  if (!box) return;
+  var { data, error } = await sb.from('chiro_notes').select('note_text,created_at').eq('referral_id', refId).order('created_at',{ascending:true});
+  if (error || !data || !data.length) { box.innerHTML = '<small style="color:#999;">No notes from provider yet.</small>'; return; }
+  box.innerHTML = '<h5>📝 Provider Notes (' + data.length + ')</h5>' + data.map(n => '<div class="chiro-note-item"><span class="chiro-note-date">' + new Date(n.created_at).toLocaleString() + '</span><div class="chiro-note-text">' + (n.note_text||'')+'</div></div>').join('');
 }
 </script>
 </body>
