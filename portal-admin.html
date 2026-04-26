@@ -536,12 +536,22 @@ async function saveChiro() {
 
 // ── INVITE EMAIL ──────────────────────────────────────────────────────────────
 async function sendInviteEmail(email, name) {
-  var tempPw = Math.random().toString(36).slice(2,10) + 'Aa1!';
-  var { error } = await sb.auth.signUp({ email: email, password: tempPw, options: { data: { full_name: name, role: 'chiro' }, emailRedirectTo: window.location.origin + '/portal-chiro.html' } });
-  // Now send password reset so they set their own password
-  await sb.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin + '/portal-chiro.html' });
-  // Also upsert into profiles
-  var { data: usr } = await sb.auth.admin ? {} : await sb.from('profiles').select('id').eq('email', email).single();
+  // Step 1: Try to create account (will silently fail if already exists)
+  await sb.auth.signUp({
+    email: email,
+    password: Math.random().toString(36).slice(2,10) + 'Aa1!',
+    options: { data: { full_name: name, role: 'chiro' } }
+  });
+  // Step 2: Always send a magic link - works for new AND existing users
+  // Magic link lets them log in AND we redirect to portal-chiro where they set password
+  var { error } = await sb.auth.signInWithOtp({
+    email: email,
+    options: {
+      emailRedirectTo: window.location.origin + '/portal-chiro.html',
+      shouldCreateUser: true
+    }
+  });
+  return error;
 }
 
 async function sendChiroInvite(id, email, name) {
