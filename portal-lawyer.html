@@ -55,6 +55,8 @@
   .chiro-card { background:white; border:2px solid var(--gray-light); border-radius:8px; padding:18px; cursor:pointer; transition:all 0.2s; }
   .chiro-card:hover,.chiro-card.selected { border-color:var(--red); box-shadow:0 4px 20px rgba(200,16,46,0.15); }
   .chiro-card.selected { background:#fff8f8; }
+  .chiro-card.closest-card { border-color:var(--red); border-width:3px; box-shadow:0 4px 24px rgba(200,16,46,0.2); }
+  .closest-badge { display:inline-block; background:var(--red); color:white; font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:3px 10px; border-radius:20px; margin-bottom:8px; }
   .chiro-name { font-family:'Oswald',sans-serif; font-size:16px; font-weight:700; color:var(--black); margin-bottom:2px; }
   .chiro-practice { font-size:13px; font-weight:600; color:var(--red); margin-bottom:8px; }
   .chiro-detail { font-size:12px; color:var(--gray); margin-bottom:3px; display:flex; align-items:flex-start; gap:6px; }
@@ -549,20 +551,23 @@ async function loadReferrals() {
   var { data, error } = await sb.from('referrals').select('*, referral_documents(id, filename, path)').eq('lawyer_id', currentUser.id).order('created_at', {ascending:false});
   var list = document.getElementById('referrals-list');
   if (error || !data?.length) {
-    list.innerHTML = '<div style="text-align:center;padding:60px;color:#aaa;background:white;border-radius:8px;border:1px solid var(--gray-light);">No referrals yet. Click "+ New Referral" to get started.</div>';
+    list.innerHTML = '<div style="text-align:center;padding:60px;color:#aaa;background:white;border-radius:8px;border:1px solid var(--gray-light);">No referrals yet. Click &quot;+ New Referral&quot; to get started.</div>';
     return;
   }
+  window._refData = {};
+  data.forEach(r => window._refData[r.id] = r);
+
   list.innerHTML = data.map(r => `
-    <div class="referral-card" id="lref-${r.id}" style="background:white;border:1px solid var(--gray-light);border-radius:8px;margin-bottom:12px;overflow:hidden;">
+    <div id="lref-${r.id}" style="background:white;border:1px solid var(--gray-light);border-radius:8px;margin-bottom:12px;overflow:hidden;">
       <div style="padding:16px 20px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;flex-wrap:wrap;gap:10px;" onclick="toggleLRef('${r.id}')">
         <div>
           <div style="font-family:'Oswald',sans-serif;font-size:17px;font-weight:700;">${r.patient_name}</div>
-          <div style="font-size:12px;color:var(--gray);margin-top:2px;">${r.incident_type} · ${new Date(r.created_at).toLocaleDateString()} · ${r.chiro_practice}</div>
+          <div style="font-size:12px;color:var(--gray);margin-top:2px;">${r.incident_type||''} · ${new Date(r.created_at).toLocaleDateString()} · ${r.chiro_practice}</div>
         </div>
         <div style="display:flex;align-items:center;gap:10px;">
           <span class="status-badge ${r.status}">${r.status}</span>
-          ${(r.referral_documents||[]).length > 0 ? `<span style="font-size:11px;background:#f5f5f5;padding:3px 8px;border-radius:20px;color:#555;">📎 ${r.referral_documents.length} doc${r.referral_documents.length>1?'s':''}</span>` : ''}
-          <span style="font-size:12px;color:#aaa;" id="lchev-${r.id}">▼</span>
+          ${(r.referral_documents||[]).length > 0 ? `<span style="font-size:11px;background:var(--gray-bg);padding:3px 8px;border-radius:20px;color:var(--gray);">📎 ${r.referral_documents.length} doc${r.referral_documents.length>1?'s':''}</span>` : ''}
+          <span id="lchev-${r.id}" style="font-size:12px;color:#aaa;">▼</span>
         </div>
       </div>
       <div id="lbody-${r.id}" style="display:none;border-top:1px solid var(--gray-light);">
@@ -571,14 +576,14 @@ async function loadReferrals() {
             <div style="font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--red);margin-bottom:10px;">Patient</div>
             <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Name</span>${r.patient_name}</div>
             <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">DOB</span>${r.dob||'—'}</div>
-            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Phone</span>${r.patient_phone}</div>
-            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Incident Date</span>${r.incident_date}</div>
-            <div style="font-size:13px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Type</span>${r.incident_type}</div>
+            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Phone</span>${r.patient_phone||'—'}</div>
+            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Incident Date</span>${r.incident_date||'—'}</div>
+            <div style="font-size:13px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Type</span>${r.incident_type||'—'}</div>
           </div>
           <div>
             <div style="font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--red);margin-bottom:10px;">Provider</div>
             <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Practice</span>${r.chiro_practice}</div>
-            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Doctor</span>${r.chiro_name}</div>
+            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Doctor</span>${r.chiro_name||'—'}</div>
             <div style="font-size:13px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Email</span>${r.chiro_email||'—'}</div>
           </div>
           <div>
@@ -590,22 +595,16 @@ async function loadReferrals() {
           </div>
         </div>
         ${(r.referral_documents||[]).length > 0 ? `
-        <div style="padding:0 20px 20px;">
+        <div style="padding:0 20px 16px;">
           <div style="font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--red);margin-bottom:10px;">Documents</div>
           <div style="display:flex;flex-wrap:wrap;gap:8px;">
-            ${r.referral_documents.map(d=>`
-              <button onclick="downloadLawyerDoc('${d.path}','${d.filename}')" style="display:flex;align-items:center;gap:6px;padding:8px 14px;background:var(--black);color:white;border:none;border-radius:4px;font-size:12px;cursor:pointer;font-family:'Barlow',sans-serif;">
-                📄 ${d.filename}
-              </button>
-            `).join('')}
+            ${(r.referral_documents||[]).map(d=>`<button onclick="downloadLawyerDoc('${d.path}','${d.filename}')" style="display:flex;align-items:center;gap:6px;padding:8px 14px;background:var(--black);color:white;border:none;border-radius:4px;font-size:12px;cursor:pointer;">📄 ${d.filename}</button>`).join('')}
           </div>
-        </div>` : `<div style="padding:0 20px 20px;font-size:13px;color:#aaa;">No documents uploaded with this referral.</div>`}
-        ${r.signature_data ? `
-        <div style="padding:0 20px 20px;">
-          <div style="font-size:11px;color:#aaa;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Your Signature</div>
-          <img src="${r.signature_data}" style="height:40px;border:1px solid var(--gray-light);border-radius:3px;background:white;">
-          <span style="font-size:12px;color:#555;margin-left:10px;">${r.print_name} · ${r.sign_date}</span>
-        </div>` : ''}
+        </div>` : '<div style="padding:0 20px 16px;font-size:13px;color:#aaa;">No documents uploaded with this referral.</div>'}
+        ${r.signature_data ? `<div style="padding:0 20px 16px;"><div style="font-size:11px;color:#aaa;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Your Signature</div><img src="${r.signature_data}" style="height:40px;border:1px solid var(--gray-light);border-radius:3px;"><span style="font-size:12px;color:var(--gray);margin-left:10px;">${r.print_name||''} · ${r.sign_date||''}</span></div>` : ''}
+        <div style="padding:12px 20px;border-top:1px solid var(--gray-light);background:#fafafa;">
+          <button data-rid="${r.id}" onclick="openEditRef(this.dataset.rid)" style="padding:8px 18px;background:var(--black);color:white;border:none;border-radius:4px;font-size:13px;font-family:'Barlow',sans-serif;cursor:pointer;font-weight:600;">✏️ Edit Referral</button>
+        </div>
       </div>
     </div>
   `).join('');
@@ -616,7 +615,7 @@ function toggleLRef(id) {
   var chev = document.getElementById('lchev-'+id);
   var open = body.style.display === 'none';
   body.style.display = open ? 'block' : 'none';
-  chev.textContent = open ? '▲' : '▼';
+  if (chev) chev.textContent = open ? '▲' : '▼';
 }
 
 async function downloadLawyerDoc(path, filename) {
@@ -628,6 +627,67 @@ async function downloadLawyerDoc(path, filename) {
   document.body.appendChild(a); a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+}
+
+function openEditRef(id) {
+  var r = window._refData && window._refData[id];
+  if (!r) { sb.from('referrals').select('*').eq('id', id).single().then(({data}) => { if(data){ if(!window._refData) window._refData={}; window._refData[id]=data; openEditRef(id); } }); return; }
+  var existing = document.getElementById('_editRefModal');
+  if (existing) existing.remove();
+  var modal = document.createElement('div');
+  modal.id = '_editRefModal';
+  modal.style.cssText = 'display:flex;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:9999;align-items:center;justify-content:center;padding:20px;';
+  modal.innerHTML = `<div style="background:white;border-radius:10px;width:100%;max-width:640px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+    <div style="background:var(--black);padding:20px 28px;display:flex;align-items:center;justify-content:space-between;border-radius:10px 10px 0 0;position:sticky;top:0;z-index:10;">
+      <div style="font-family:'Oswald',sans-serif;color:white;font-size:18px;font-weight:700;">Edit Referral — ${r.patient_name}</div>
+      <button onclick="document.getElementById('_editRefModal').remove()" style="color:#aaa;font-size:28px;background:none;border:none;cursor:pointer;line-height:1;">×</button>
+    </div>
+    <div style="padding:24px;">
+      <div id="_editMsg"></div>
+      <input type="hidden" id="_erId" value="${r.id}">
+      <div style="font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--red);padding-bottom:8px;border-bottom:2px solid var(--gray-light);margin-bottom:16px;">Patient Information</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+        <div><label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;color:#555;margin-bottom:4px;">Patient Name *</label><input id="_erName" value="${(r.patient_name||'').replace(/"/g,'&quot;')}" style="width:100%;padding:9px 12px;border:1px solid var(--gray-light);border-radius:4px;font-size:13px;font-family:'Barlow',sans-serif;outline:none;"></div>
+        <div><label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;color:#555;margin-bottom:4px;">Date of Birth</label><input type="date" id="_erDob" value="${r.dob||''}" style="width:100%;padding:9px 12px;border:1px solid var(--gray-light);border-radius:4px;font-size:13px;outline:none;"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+        <div><label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;color:#555;margin-bottom:4px;">Incident Date</label><input type="date" id="_erIncDate" value="${r.incident_date||''}" style="width:100%;padding:9px 12px;border:1px solid var(--gray-light);border-radius:4px;font-size:13px;outline:none;"></div>
+        <div><label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;color:#555;margin-bottom:4px;">Patient Phone</label><input type="tel" id="_erPhone" value="${r.patient_phone||''}" style="width:100%;padding:9px 12px;border:1px solid var(--gray-light);border-radius:4px;font-size:13px;font-family:'Barlow',sans-serif;outline:none;"></div>
+      </div>
+      <div style="font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--red);padding-bottom:8px;border-bottom:2px solid var(--gray-light);margin-bottom:16px;margin-top:20px;">Insurance Information</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+        <div><label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;color:#555;margin-bottom:4px;">Insurance Company</label><input id="_erIns" value="${(r.insurance||'').replace(/"/g,'&quot;')}" style="width:100%;padding:9px 12px;border:1px solid var(--gray-light);border-radius:4px;font-size:13px;font-family:'Barlow',sans-serif;outline:none;"></div>
+        <div><label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;color:#555;margin-bottom:4px;">Claim Number</label><input id="_erClaim" value="${(r.claim_number||'').replace(/"/g,'&quot;')}" style="width:100%;padding:9px 12px;border:1px solid var(--gray-light);border-radius:4px;font-size:13px;font-family:'Barlow',sans-serif;outline:none;"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+        <div><label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;color:#555;margin-bottom:4px;">Adjuster Name</label><input id="_erAdj" value="${(r.adjuster_name||'').replace(/"/g,'&quot;')}" style="width:100%;padding:9px 12px;border:1px solid var(--gray-light);border-radius:4px;font-size:13px;font-family:'Barlow',sans-serif;outline:none;"></div>
+        <div><label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;color:#555;margin-bottom:4px;">Adjuster Phone</label><input id="_erAdjPh" value="${r.adjuster_phone||''}" style="width:100%;padding:9px 12px;border:1px solid var(--gray-light);border-radius:4px;font-size:13px;font-family:'Barlow',sans-serif;outline:none;"></div>
+      </div>
+      <div style="font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--red);padding-bottom:8px;border-bottom:2px solid var(--gray-light);margin-bottom:16px;margin-top:20px;">Notes</div>
+      <textarea id="_erNotes" style="width:100%;padding:10px 14px;border:1px solid var(--gray-light);border-radius:4px;font-size:13px;font-family:'Barlow',sans-serif;resize:vertical;min-height:80px;outline:none;">${r.notes||''}</textarea>
+    </div>
+    <div style="padding:16px 24px;border-top:1px solid var(--gray-light);display:flex;gap:10px;justify-content:flex-end;background:white;position:sticky;bottom:0;border-radius:0 0 10px 10px;">
+      <button onclick="document.getElementById('_editRefModal').remove()" style="padding:10px 20px;background:white;color:var(--gray);border:1px solid var(--gray-light);border-radius:4px;font-size:13px;cursor:pointer;">Cancel</button>
+      <button id="_erSaveBtn" onclick="saveEditRef()" style="padding:10px 28px;background:var(--red);color:white;border:none;border-radius:4px;font-family:'Oswald',sans-serif;font-size:15px;font-weight:700;cursor:pointer;">Save Changes</button>
+    </div>
+  </div>`;
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+  document.body.appendChild(modal);
+}
+
+async function saveEditRef() {
+  var id = document.getElementById('_erId').value;
+  var name = document.getElementById('_erName').value.trim();
+  if (!name) { document.getElementById('_editMsg').innerHTML = '<div style="background:#fff0f0;color:#c00;border:1px solid #fcc;padding:10px;border-radius:4px;margin-bottom:12px;">Patient name is required.</div>'; return; }
+  var btn = document.getElementById('_erSaveBtn');
+  btn.textContent = 'Saving...'; btn.disabled = true;
+  var updates = { patient_name: name, dob: document.getElementById('_erDob').value||null, incident_date: document.getElementById('_erIncDate').value||null, patient_phone: document.getElementById('_erPhone').value.trim(), insurance: document.getElementById('_erIns').value.trim(), claim_number: document.getElementById('_erClaim').value.trim(), adjuster_name: document.getElementById('_erAdj').value.trim(), adjuster_phone: document.getElementById('_erAdjPh').value.trim(), notes: document.getElementById('_erNotes').value.trim() };
+  var { error } = await sb.from('referrals').update(updates).eq('id', id);
+  if (error) { document.getElementById('_editMsg').innerHTML = '<div style="background:#fff0f0;color:#c00;border:1px solid #fcc;padding:10px;border-radius:4px;margin-bottom:12px;">Error: '+error.message+'</div>'; btn.textContent='Save Changes'; btn.disabled=false; return; }
+  if (window._refData) window._refData[id] = Object.assign(window._refData[id]||{}, updates);
+  btn.textContent='Save Changes'; btn.disabled=false;
+  document.getElementById('_editRefModal').remove();
+  loadReferrals();
 }
 
 // LEAFLET MAP (free, no API key needed)
@@ -830,8 +890,9 @@ function findClosestCoords(patLat, patLng, addressLabel) {
   }).sort(function(a, b) { return a.distance - b.distance; });
 
   var grid = document.getElementById('chiro-grid');
-  grid.innerHTML = withDistance.map(function(p) { return `
-    <div class="chiro-card" id="card-${p.id}" data-pid="${p.id}" onclick="selectProvider(this.dataset.pid)">
+  grid.innerHTML = withDistance.map(function(p, idx) { return `
+    <div class="chiro-card ${idx === 0 ? 'closest-card' : ''}" id="card-${p.id}" data-pid="${p.id}" onclick="selectProvider(this.dataset.pid)">
+      ${idx === 0 ? '<div class="closest-badge">⭐ Closest Provider</div>' : ''}
       <div class="chiro-name">${p.name} <span class="distance-badge">${p.distance.toFixed(1)} mi</span></div>
       <div class="chiro-practice">${p.practice}</div>
       <div class="chiro-detail"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${p.address}</div>
