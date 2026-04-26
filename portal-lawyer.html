@@ -724,6 +724,7 @@ function initMap() {
   });
 
   providers.forEach(p => {
+    if (!p.lat || !p.lng) return;
     var marker = L.marker([p.lat, p.lng], { icon: redIcon }).addTo(map);
     marker.providerId = p.id;
 
