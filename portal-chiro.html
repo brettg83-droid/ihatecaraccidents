@@ -141,13 +141,29 @@ let currentUser = null;
 let allReferrals = [];
 let currentFilter = 'all';
 
-// Listen for auth events - show password modal for OTP/magic link logins
+// Listen for auth events - catch magic link / OTP logins
 sb.auth.onAuthStateChange((event, session) => {
+  if (!session) return;
   if (event === 'PASSWORD_RECOVERY') {
-    // Explicit password reset flow
-    if (session) {
+    currentUser = session.user;
+    document.getElementById('pw-modal-overlay').classList.add('active');
+  } else if (event === 'SIGNED_IN') {
+    // Check if this is an OTP login (magic link) - session.factor_id is null for OTP
+    var isOtp = false;
+    try {
+      if (session.amr && Array.isArray(session.amr)) {
+        isOtp = session.amr.some(function(a){return a.method==='otp'||a.method==='magiclink';});
+      }
+      if (!isOtp) {
+        var created = new Date(session.user.created_at).getTime();
+        var lastLogin = new Date(session.user.last_sign_in_at).getTime();
+        isOtp = Math.abs(lastLogin - created) < 10000;
+      }
+    } catch(e){}
+    if (isOtp && !currentUser) {
       currentUser = session.user;
       document.getElementById('pw-modal-overlay').classList.add('active');
+      history.replaceState(null, '', window.location.pathname);
     }
   }
 });
@@ -155,10 +171,28 @@ sb.auth.onAuthStateChange((event, session) => {
 sb.auth.getSession().then(({ data: { session } }) => {
   if (!session) { window.location.href = '/portal.html'; return; }
   currentUser = session.user;
-  // Show password setup if user arrived via magic link (access_token in URL)
-  var urlStr = window.location.hash + window.location.search;
-  var needsPassword = urlStr.includes('access_token') || urlStr.includes('type=magiclink') || urlStr.includes('type=invite') || urlStr.includes('type=recovery');
-  if (needsPassword) {
+  // Most reliable check: use Supabase session AMR to detect OTP/magic link login
+  // amr = [{method:'otp'}] for magic link, [{method:'password'}] for normal login
+  var isOtpLogin = false;
+  try {
+    var amr = session.user.app_metadata && session.user.app_metadata.providers;
+    // Check session for OTP method
+    if (session.amr && Array.isArray(session.amr)) {
+      isOtpLogin = session.amr.some(function(a){return a.method==='otp' || a.method==='magiclink';});
+    }
+    // Fallback: check if created_at and last_sign_in_at are within 5 seconds (brand new account)
+    if (!isOtpLogin) {
+      var created = new Date(session.user.created_at).getTime();
+      var lastLogin = new Date(session.user.last_sign_in_at).getTime();
+      isOtpLogin = Math.abs(lastLogin - created) < 10000;
+    }
+    // Also check URL as last resort
+    var urlStr = window.location.hash + window.location.search;
+    if (!isOtpLogin) {
+      isOtpLogin = urlStr.includes('access_token') || urlStr.includes('type=magiclink') || urlStr.includes('type=invite');
+    }
+  } catch(e) {}
+  if (isOtpLogin) {
     document.getElementById('pw-modal-overlay').classList.add('active');
     history.replaceState(null, '', window.location.pathname);
     return;
