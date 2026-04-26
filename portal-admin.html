@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
 <style>
   :root { --red:#c8102e; --black:#111; --gray:#555; --gray-light:#e8e8e8; --gray-bg:#f5f5f5; }
   * { box-sizing:border-box; margin:0; padding:0; }
@@ -137,7 +138,8 @@
       <button class="btn btn-red" onclick="addChiro()">Add Provider to Map</button>
     </div>
 
-    <div id="chiros-list"><div class="empty">Loading...</div></div>
+    <div class="add-form" style="margin-bottom:16px;"><h3>📊 Import from Excel</h3><p style="font-size:13px;color:#666;margin-bottom:14px;">Upload .xlsx with columns: <strong>Doctor Name, Practice Name, Phone, Address, Email</strong> (+ Website, Specialties, Languages, Notes, Accepts PIP, Accepts Walk-ins)</p><div id="import-msg"></div><div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;"><input type="file" id="excel-file" accept=".xlsx,.xls" style="font-size:13px;"><button class="btn btn-red" onclick="importFromExcel()">Import &amp; Send Invites</button></div><div id="import-progress" style="margin-top:10px;font-size:13px;color:#555;"></div></div>
+      <div id="chiros-list"><div class="empty">Loading...</div></div>
   </div>
 
   <!-- ALL REFERRALS -->
@@ -291,7 +293,8 @@ async function loadChiros() {
         <td>${c.languages||'—'}</td>
         <td style="display:flex;gap:6px;">
           <button class="btn btn-gray" onclick="editChiroById('${c.id}')">Edit</button>
-          <button class="btn btn-reject" onclick="removeChiro('${c.id}')">Remove</button>
+                <button class="btn" style="background:#1a6b3c;color:white;" onclick="sendChiroInvite('${c.id}','${c.email}','${c.doctor_name}')">✉ Invite</button>
+                <button class="btn btn-reject" onclick="removeChiro('${c.id}')">Remove</button>
         </td>
       </tr>`).join('')}
     </tbody>
@@ -331,9 +334,11 @@ async function addChiro() {
   });
 
   if (error) { msg.className='msg error'; msg.textContent='Error: '+error.message; return; }
-  msg.className='msg success'; msg.textContent='✓ Provider added successfully! They will appear on the map.';
+  msg.className='msg success'; msg.textContent='✓ Provider added! Sending invite...';
   ['nc-name','nc-practice','nc-address','nc-phone','nc-email','nc-website','nc-specialties','nc-languages','nc-notes'].forEach(id => document.getElementById(id).value='');
   loadChiros();
+  await sendInviteEmail(email, name);
+  msg.textContent='✓ Provider added & invite sent to ' + email;
 }
 
 async function removeChiro(id) {
@@ -526,6 +531,61 @@ async function saveChiro() {
   btn.textContent = 'Save Changes'; btn.disabled = false;
   closeEditModal();
   loadChiros();
+}
+
+
+// ── INVITE EMAIL ──────────────────────────────────────────────────────────────
+async function sendInviteEmail(email, name) {
+  var tempPw = Math.random().toString(36).slice(2,10) + 'Aa1!';
+  var { error } = await sb.auth.signUp({ email: email, password: tempPw, options: { data: { full_name: name, role: 'chiro' }, emailRedirectTo: window.location.origin + '/portal-chiro.html' } });
+  // Now send password reset so they set their own password
+  await sb.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin + '/portal-chiro.html' });
+  // Also upsert into profiles
+  var { data: usr } = await sb.auth.admin ? {} : await sb.from('profiles').select('id').eq('email', email).single();
+}
+
+async function sendChiroInvite(id, email, name) {
+  if (!confirm('Send login invite to ' + email + '?')) return;
+  var btn = event.target; btn.textContent = 'Sending...'; btn.disabled = true;
+  await sendInviteEmail(email, name);
+  btn.textContent = '✓ Sent!'; btn.style.background = '#166534';
+  setTimeout(() => { btn.textContent = '✉ Invite'; btn.disabled = false; btn.style.background = '#1a6b3c'; }, 3000);
+}
+
+// ── EXCEL IMPORT ─────────────────────────────────────────────────────────────
+async function importFromExcel() {
+  var fileInput = document.getElementById('excel-file');
+  var msg = document.getElementById('import-msg');
+  var progress = document.getElementById('import-progress');
+  if (!fileInput.files.length) { msg.className='msg error'; msg.textContent='Please select an Excel file first.'; return; }
+  var reader = new FileReader();
+  reader.onload = async function(e) {
+    try {
+      var workbook = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
+      var rows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { defval: '' });
+      if (!rows.length) { msg.className='msg error'; msg.textContent='No rows found in file.'; return; }
+      msg.className='msg success'; msg.textContent='Reading ' + rows.length + ' rows...';
+      var added=0, failed=0, invited=0;
+      var get = function(row, keys) {
+        for (var k of keys) { var f=Object.keys(row).find(rk=>rk.toLowerCase().trim()===k.toLowerCase()); if(f&&row[f]) return String(row[f]).trim(); } return '';
+      };
+      for (var i=0; i<rows.length; i++) {
+        var r=rows[i];
+        var dname=get(r,['doctor name','doctor','name','dr name']); var pname=get(r,['practice name','practice','clinic','clinic name']); var phone=get(r,['phone','phone number','tel']); var addr=get(r,['address','location','street address']); var email=get(r,['email','email address','e-mail']);
+        if (!dname||!email) { failed++; continue; }
+        var lat=null,lng=null;
+        if (addr) { try { var g=await fetch('https://nominatim.openstreetmap.org/search?format=json&q='+encodeURIComponent(addr)+'&countrycodes=us&limit=1'); var gd=await g.json(); if(gd[0]){lat=parseFloat(gd[0].lat);lng=parseFloat(gd[0].lon);} } catch(ex){} }
+        var pip=get(r,['accepts pip','pip']); var wi=get(r,['accepts walk-ins','walk-ins','walkins']);
+        var { error } = await sb.from('chiros').insert({ doctor_name:dname, practice_name:pname||dname, phone:phone, address:addr, email:email, website:get(r,['website','web','url']), specialties:get(r,['specialties','specialty']), languages:get(r,['languages','language']), notes:get(r,['notes','note']), accepts_pip:pip.toLowerCase().includes('yes')||pip==='true'||pip==='1', accepts_walkins:wi.toLowerCase().includes('yes')||wi==='true'||wi==='1', lat:lat, lng:lng });
+        if (!error) { added++; try { await sendInviteEmail(email,dname); invited++; } catch(ex){} }
+        else { failed++; }
+        progress.textContent = 'Row '+(i+1)+'/'+rows.length+': ✓ '+added+' added, ✉ '+invited+' invited'+(failed?' ✗ '+failed+' skipped':'');
+      }
+      msg.className='msg success'; msg.textContent='✓ Done! '+added+' providers added, '+invited+' invite emails sent.'+(failed?' '+failed+' rows skipped.':'');
+      fileInput.value=''; loadChiros();
+    } catch(ex) { msg.className='msg error'; msg.textContent='Error: '+ex.message; }
+  };
+  reader.readAsArrayBuffer(fileInput.files[0]);
 }
 </script>
 </body>
