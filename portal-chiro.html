@@ -192,7 +192,20 @@ sb.auth.getSession().then(({ data: { session } }) => {
       isOtpLogin = urlStr.includes('access_token') || urlStr.includes('type=magiclink') || urlStr.includes('type=invite');
     }
   } catch(e) {}
-  if (isOtpLogin) {
+  // MOST RELIABLE: check if user has never set a password
+  // A user has no password if their only identity is email with no password provider
+  var hasPassword = false;
+  try {
+    var identities = session.user.identities || [];
+    var emailIdentity = identities.find(function(i){return i.provider==='email';});
+    // If identity_data has no password_hash, they've never set a password
+    if (emailIdentity && emailIdentity.identity_data) {
+      hasPassword = !!emailIdentity.identity_data.email_verified && 
+                    new Date(emailIdentity.created_at).getTime() < new Date(session.user.last_sign_in_at).getTime() - 5000;
+    }
+  } catch(e) {}
+  var needsPw = isOtpLogin || !hasPassword;
+  if (needsPw) {
     document.getElementById('pw-modal-overlay').classList.add('active');
     history.replaceState(null, '', window.location.pathname);
     return;
