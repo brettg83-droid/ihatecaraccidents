@@ -92,6 +92,18 @@
 .pw-modal .pw-btn { width:100%; padding:13px; background:var(--red); color:white; border:none; border-radius:6px; font-family:'Oswald',sans-serif; font-size:16px; font-weight:700; cursor:pointer; letter-spacing:.05em; }
 .pw-modal .pw-btn:hover { background:#a00d25; }
 .pw-modal .pw-err { color:#c00; font-size:13px; margin-bottom:12px; display:none; }
+
+.chiro-login-overlay { display:none; position:fixed; inset:0; background:var(--gray-bg); z-index:99999; align-items:center; justify-content:center; }
+.chiro-login-overlay.active { display:flex; }
+.chiro-login-box { background:white; border-radius:10px; padding:36px 32px; max-width:420px; width:90%; box-shadow:0 20px 60px rgba(0,0,0,0.15); }
+.chiro-login-box h2 { font-family:'Oswald',sans-serif; font-size:22px; font-weight:700; margin-bottom:4px; }
+.chiro-login-box p { font-size:13px; color:#888; margin-bottom:24px; }
+.chiro-login-box label { display:block; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:#333; margin-bottom:5px; }
+.chiro-login-box input { width:100%; padding:10px 14px; border:1px solid #ddd; border-radius:6px; font-size:14px; margin-bottom:16px; outline:none; box-sizing:border-box; }
+.chiro-login-box input:focus { border-color:var(--red); }
+.chiro-login-btn { width:100%; padding:13px; background:var(--red); color:white; border:none; border-radius:6px; font-family:'Oswald',sans-serif; font-size:16px; font-weight:700; cursor:pointer; }
+.chiro-login-btn:hover { background:#a00d25; }
+.chiro-login-err { color:#c00; font-size:13px; margin-bottom:12px; display:none; }
 </style>
 </head>
 <body>
@@ -161,7 +173,7 @@ sb.auth.onAuthStateChange((event, session) => {
 });
 
 sb.auth.getSession().then(({ data: { session } }) => {
-  if (!session) { window.location.href = '/portal.html'; return; }
+  if (!session) { showChiroLogin(); return; }
   // If currentUser was already set by onAuthStateChange (magic link), skip - modal is showing
   if (currentUser) return;
   currentUser = session.user;
@@ -365,6 +377,35 @@ async function saveNewPassword() {
     loadReferrals();
   });
 }
+
+
+function showChiroLogin() {
+  document.getElementById('chiro-login-overlay').classList.add('active');
+  // Allow Enter key to submit
+  document.getElementById('chiro-login-pw').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') doChiroLogin();
+  });
+}
+
+async function doChiroLogin() {
+  var email = document.getElementById('chiro-login-email').value.trim();
+  var pw = document.getElementById('chiro-login-pw').value;
+  var err = document.getElementById('chiro-login-err');
+  err.style.display = 'none';
+  if (!email || !pw) { err.textContent = 'Please enter your email and password.'; err.style.display = 'block'; return; }
+  var btn = document.querySelector('.chiro-login-btn');
+  btn.textContent = 'Signing in...'; btn.disabled = true;
+  var { data, error } = await sb.auth.signInWithPassword({ email: email, password: pw });
+  if (error) {
+    err.textContent = error.message.includes('Invalid') ? 'Incorrect email or password.' : error.message;
+    err.style.display = 'block';
+    btn.textContent = 'Sign In'; btn.disabled = false;
+    return;
+  }
+  currentUser = data.user;
+  document.getElementById('chiro-login-overlay').classList.remove('active');
+  loadReferrals();
+}
 </script>
 
 <!-- SET PASSWORD MODAL -->
@@ -378,6 +419,19 @@ async function saveNewPassword() {
     <label>Confirm Password</label>
     <input type="password" id="pw-confirm" placeholder="Repeat password" autocomplete="new-password">
     <button class="pw-btn" onclick="saveNewPassword()">Set Password &amp; Continue</button>
+  </div>
+</div>
+
+<div class="chiro-login-overlay" id="chiro-login-overlay">
+  <div class="chiro-login-box">
+    <h2>Provider Portal</h2>
+    <p>IHateCarAccidents.com — Chiropractor Login</p>
+    <div class="chiro-login-err" id="chiro-login-err"></div>
+    <label>Email Address</label>
+    <input type="email" id="chiro-login-email" placeholder="your@email.com" autocomplete="email">
+    <label>Password</label>
+    <input type="password" id="chiro-login-pw" placeholder="Your password" autocomplete="current-password">
+    <button class="chiro-login-btn" onclick="doChiroLogin()">Sign In</button>
   </div>
 </div>
 </body>
