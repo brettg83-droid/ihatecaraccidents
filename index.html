@@ -274,6 +274,8 @@
       </div>
       <div class="nav-item"><a class="nav-link" href="#faq-section" onclick="document.getElementById('faq-section').scrollIntoView({behavior:'smooth'});return false;">FAQ</a></div>
       <div class="nav-item"><a class="nav-link" href="#contact-section" onclick="document.getElementById('contact-section').scrollIntoView({behavior:'smooth'});return false;">Contact Us</a></div>
+    
+      <div class="nav-item"><a class="header-login-btn" href="https://ihatecaraccidents.com/portal">Provider Login</a></div>
     </nav>
     <button class="search-btn" onclick="document.getElementById('search-section').scrollIntoView({behavior:'smooth'})">
       <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -1202,6 +1204,20 @@ window.addEventListener('scroll', () => {
 .chat-msg.user{background:var(--red);color:white;border-bottom-right-radius:4px;align-self:flex-end;}
 .chat-btn{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.8);padding:7px 12px;border-radius:20px;font-size:12px;cursor:pointer;font-family:'Barlow',sans-serif;}
 .chat-btn:hover{background:var(--red);border-color:var(--red);color:white;}
+
+  .header-login-btn {
+    background: var(--red);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.2s;
+    margin-left: 8px;
+  }
+  .header-login-btn:hover { background: #a00d25; color: white; }
 </style>
 <div id="chat-bubble" onclick="toggleChat()">
   <div style="width:60px;height:60px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;animation:bubblePulse 2.5s ease-in-out infinite;position:relative;">
