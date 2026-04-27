@@ -357,9 +357,13 @@ async function saveNewPassword() {
 
   // Password set! Close modal and load dashboard
   document.getElementById('pw-modal-overlay').classList.remove('active');
-  // Clear the hash so it doesn't re-trigger
   history.replaceState(null, '', window.location.pathname);
-  loadDashboard();
+  // Now load the dashboard properly
+  sb.from('profiles').select('full_name, firm').eq('id', currentUser.id).single().then(({ data }) => {
+    document.getElementById('user-name').textContent = data?.full_name || currentUser.email;
+    document.getElementById('practice-name').textContent = data?.firm || 'Provider Dashboard';
+    loadReferrals();
+  });
 }
 </script>
 
