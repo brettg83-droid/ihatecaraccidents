@@ -162,6 +162,34 @@
   .btn-cancel-ref { padding:10px 20px; background:white; color:var(--gray); border:1px solid var(--gray-light); border-radius:4px; font-size:13px; cursor:pointer; }
   .edit-section-title { font-family:'Oswald',sans-serif; font-size:14px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--red); padding-bottom:8px; border-bottom:2px solid var(--gray-light); margin-bottom:16px; margin-top:20px; }
   .edit-section-title:first-child { margin-top:0; }
+
+.referral-success-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 99999;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.referral-success-overlay.active { display: flex; }
+.referral-success-box {
+  background: white;
+  border-radius: 16px;
+  padding: 60px 40px;
+  text-align: center;
+  max-width: 600px;
+  width: 90%;
+  animation: successPop 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
+}
+@keyframes successPop { from { transform: scale(0.7); opacity:0; } to { transform: scale(1); opacity:1; } }
+.referral-success-icon { font-size: 80px; margin-bottom: 20px; }
+.referral-success-box h2 { font-family:'Oswald',sans-serif; font-size: 36px; font-weight:700; color:#166534; margin-bottom: 12px; }
+.referral-success-box p { font-size: 18px; color: #555; margin-bottom: 8px; line-height: 1.5; }
+.referral-success-box .provider-name { font-size: 22px; font-weight: 700; color: #111; margin: 16px 0; }
+.referral-success-close { margin-top: 32px; background: var(--red); color: white; border: none; padding: 14px 40px; border-radius: 8px; font-family:'Oswald',sans-serif; font-size: 18px; font-weight: 700; cursor: pointer; }
+.referral-success-close:hover { background: #a00d25; }
 </style>
 </head>
 <body>
@@ -1174,5 +1202,16 @@ async function loadChiroNotes(refId) {
   box.innerHTML = '<h5>📝 Provider Notes (' + data.length + ')</h5>' + data.map(n => '<div class="chiro-note-item"><span class="chiro-note-date">' + new Date(n.created_at).toLocaleString() + '</span><div class="chiro-note-text">' + (n.note_text||'')+'</div></div>').join('');
 }
 </script>
+
+<div class="referral-success-overlay" id="referral-success-overlay">
+  <div class="referral-success-box">
+    <div class="referral-success-icon">✅</div>
+    <h2>Referral Sent!</h2>
+    <p>Your referral for <strong id="success-patient-name"></strong> has been successfully submitted.</p>
+    <div class="provider-name" id="success-provider-name"></div>
+    <p style="color:#888;font-size:15px;">The provider has been notified by email.</p>
+    <button class="referral-success-close" onclick="document.getElementById('referral-success-overlay').classList.remove('active'); cancelForm(); uploadedFiles=[]; loadMyReferrals();">Done</button>
+  </div>
+</div>
 </body>
 </html>
