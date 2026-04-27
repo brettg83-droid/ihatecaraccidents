@@ -147,37 +147,25 @@ sb.auth.onAuthStateChange((event, session) => {
   if (event === 'PASSWORD_RECOVERY') {
     currentUser = session.user;
     document.getElementById('pw-modal-overlay').classList.add('active');
-  } else if (event === 'SIGNED_IN') {
-    // Check if this is an OTP login (magic link) - session.factor_id is null for OTP
-    var isOtp = false;
-    try {
-      if (session.amr && Array.isArray(session.amr)) {
-        isOtp = session.amr.some(function(a){return a.method==='otp'||a.method==='magiclink';});
-      }
-      if (!isOtp) {
-        var created = new Date(session.user.created_at).getTime();
-        var lastLogin = new Date(session.user.last_sign_in_at).getTime();
-        isOtp = Math.abs(lastLogin - created) < 10000;
-      }
-    } catch(e){}
-    if (isOtp && !currentUser) {
+    return;
+  }
+  if (event === 'SIGNED_IN') {
+    // If this was a magic link login, the dashboard hasn't loaded yet (getSession hasn't resolved)
+    // so we can safely show the password modal here
+    if (!currentUser) {
       currentUser = session.user;
       document.getElementById('pw-modal-overlay').classList.add('active');
-      history.replaceState(null, '', window.location.pathname);
+      return;
     }
   }
 });
 
 sb.auth.getSession().then(({ data: { session } }) => {
   if (!session) { window.location.href = '/portal.html'; return; }
+  // If currentUser was already set by onAuthStateChange (magic link), skip - modal is showing
+  if (currentUser) return;
   currentUser = session.user;
-  // Simple reliable check: onAuthStateChange set this flag for OTP/magic link logins
-  if (sessionStorage.getItem('needs_password_setup') === 'true') {
-    sessionStorage.removeItem('needs_password_setup');
-    document.getElementById('pw-modal-overlay').classList.add('active');
-    return;
-  }
-    sb.from('profiles').select('full_name, firm, chiro_id').eq('id', currentUser.id).single().then(({ data }) => {
+  sb.from('profiles').select('full_name, firm, chiro_id').eq('id', currentUser.id).single().then(({ data }) => {
     document.getElementById('user-name').textContent = data?.full_name || currentUser.email;
     document.getElementById('practice-name').textContent = data?.firm || 'Provider Dashboard';
     loadReferrals();
