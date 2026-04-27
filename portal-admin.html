@@ -318,7 +318,7 @@ async function addChiro() {
   }
 
   // Geocode address using Google Maps Geocoding API
-  var geoRes = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=YOUR_GOOGLE_MAPS_KEY`);
+  var geoRes = await fetch('https://nominatim.openstreetmap.org/search?format=json&countrycodes=us&limit=1&q=' + encodeURIComponent(address), { headers: {'Accept-Language':'en'} });
   var geoData = await geoRes.json();
   var lat = null, lng = null;
   if (geoData && geoData[0]) {
