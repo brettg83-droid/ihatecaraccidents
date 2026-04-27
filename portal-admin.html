@@ -316,9 +316,9 @@ async function addChiro() {
   var geoRes = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=YOUR_GOOGLE_MAPS_KEY`);
   var geoData = await geoRes.json();
   var lat = null, lng = null;
-  if (geoData.results?.[0]) {
-    lat = geoData.results[0].geometry.location.lat;
-    lng = geoData.results[0].geometry.location.lng;
+  if (geoData && geoData[0]) {
+    lat = parseFloat(geoData[0].lat);
+    lng = parseFloat(geoData[0].lon);
   }
 
   var { error } = await sb.from('chiros').insert({
