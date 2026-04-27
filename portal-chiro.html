@@ -162,9 +162,11 @@ sb.auth.onAuthStateChange((event, session) => {
     return;
   }
   if (event === 'SIGNED_IN') {
-    // If this was a magic link login, the dashboard hasn't loaded yet (getSession hasn't resolved)
-    // so we can safely show the password modal here
-    if (!currentUser) {
+    // Only show password modal if this is a brand new account (created within last 60 seconds)
+    // This means they just clicked an invite link for the first time
+    var createdAt = new Date(session.user.created_at).getTime();
+    var isNewAccount = (Date.now() - createdAt) < 60000;
+    if (!currentUser && isNewAccount) {
       currentUser = session.user;
       document.getElementById('pw-modal-overlay').classList.add('active');
       return;
