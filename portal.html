@@ -53,6 +53,15 @@ footer{background:var(--black);color:#666;text-align:center;padding:16px;font-si
 .logo-text{display:flex;flex-direction:column;gap:0}
 .logo-line1{font-size:11px;letter-spacing:.22em;color:#aaa;line-height:1;font-family:'Barlow',sans-serif;font-weight:700;text-transform:uppercase}
 .logo-line2{font-size:24px;letter-spacing:.04em;line-height:.95;font-family:'Bebas Neue',sans-serif;background:linear-gradient(90deg,#fff 0%,#c8102e 40%,#ff3355 70%,#fff 100%);background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+.role-selector { padding: 32px 28px; text-align: center; }
+.role-selector h3 { font-family:'Oswald',sans-serif; font-size:16px; font-weight:600; color:#555; text-transform:uppercase; letter-spacing:.08em; margin-bottom:20px; }
+.role-btns { display:flex; gap:12px; justify-content:center; }
+.role-btn { flex:1; padding:18px 12px; border:2px solid #e5e5e5; border-radius:8px; background:white; cursor:pointer; transition:all 0.2s; text-align:center; }
+.role-btn:hover { border-color:var(--red); background:#fff5f5; }
+.role-btn .role-icon { font-size:28px; display:block; margin-bottom:8px; }
+.role-btn .role-label { font-family:'Oswald',sans-serif; font-size:15px; font-weight:700; color:#111; display:block; }
+.role-btn .role-sub { font-size:12px; color:#888; display:block; margin-top:3px; }
 </style>
 </head>
 <body>
@@ -71,9 +80,24 @@ footer{background:var(--black);color:#666;text-align:center;padding:16px;font-si
   <div class="login-box">
     <div class="login-header">
       <h1>Attorney Portal</h1>
-      <p>Secure access for licensed Florida attorneys</p>
+      <p id="portal-subtitle">Select your portal to continue</p>
     </div>
-    <div class="login-body">
+    <div class="role-selector" id="role-selector">
+      <h3>I am a...</h3>
+      <div class="role-btns">
+        <button class="role-btn" onclick="selectRole('attorney')">
+          <span class="role-icon">⚖️</span>
+          <span class="role-label">Attorney</span>
+          <span class="role-sub">Licensed Florida lawyer</span>
+        </button>
+        <button class="role-btn" onclick="selectRole('chiro')">
+          <span class="role-icon">🏥</span>
+          <span class="role-label">Chiropractor</span>
+          <span class="role-sub">Provider network member</span>
+        </button>
+      </div>
+    </div>
+    <div class="login-body" id="login-body" style="display:none;">
       <div class="tabs">
         <div class="tab active" id="tab-login" onclick="switchTab('login')">Sign In</div>
         <div class="tab" id="tab-register" onclick="switchTab('register')">Register</div>
@@ -401,6 +425,19 @@ sb.auth.getSession().then(({ data: { session } }) => {
     });
   }
 });
+
+
+function selectRole(role) {
+  document.getElementById('role-selector').style.display = 'none';
+  if (role === 'chiro') {
+    // Redirect chiros to their own portal
+    window.location.href = '/portal-chiro.html';
+  } else {
+    // Show attorney login
+    document.getElementById('portal-subtitle').textContent = 'Secure access for licensed Florida attorneys';
+    document.getElementById('login-body').style.display = 'block';
+  }
+}
 </script>
 </body>
 </html>
