@@ -337,8 +337,7 @@ async function addChiro() {
   msg.className='msg success'; msg.textContent='✓ Provider added! Sending invite...';
   ['nc-name','nc-practice','nc-address','nc-phone','nc-email','nc-website','nc-specialties','nc-languages','nc-notes'].forEach(id => document.getElementById(id).value='');
   loadChiros();
-  await sendInviteEmail(email, name);
-  msg.textContent='✓ Provider added & invite sent to ' + email;
+  msg.textContent='✓ Provider added! Click ✉ Invite when ready to send login email.';
 }
 
 async function removeChiro(id) {
@@ -536,14 +535,8 @@ async function saveChiro() {
 
 // ── INVITE EMAIL ──────────────────────────────────────────────────────────────
 async function sendInviteEmail(email, name) {
-  // Step 1: Try to create account (will silently fail if already exists)
-  await sb.auth.signUp({
-    email: email,
-    password: Math.random().toString(36).slice(2,10) + 'Aa1!',
-    options: { data: { full_name: name, role: 'chiro' } }
-  });
-  // Step 2: Always send a magic link - works for new AND existing users
-  // Magic link lets them log in AND we redirect to portal-chiro where they set password
+  // Send ONLY a magic link - no signUp (which would trigger a separate verification email)
+  // shouldCreateUser:true creates the account if needed, all in one email
   var { error } = await sb.auth.signInWithOtp({
     email: email,
     options: {
