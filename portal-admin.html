@@ -225,7 +225,12 @@ function showTab(tab) {
 
 // ATTORNEY APPROVALS
 async function loadLawyers() {
+  // Get chiro emails to exclude from attorney list
+  var { data: chiroData } = await sb.from('chiros').select('email');
+  var chiroEmails = (chiroData || []).map(c => c.email).filter(Boolean);
   var { data } = await sb.from('profiles').select('*').eq('role','lawyer').order('created_at',{ascending:false});
+  // Filter out anyone who is actually a chiro
+  if (data && chiroEmails.length) data = data.filter(p => !chiroEmails.includes(p.email));
   var list = document.getElementById('lawyers-list');
   if (!data?.length) { list.innerHTML = '<div class="empty">No pending accounts yet.</div>'; return; }
   list.innerHTML = `<table>
