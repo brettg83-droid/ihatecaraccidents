@@ -171,46 +171,13 @@ sb.auth.onAuthStateChange((event, session) => {
 sb.auth.getSession().then(({ data: { session } }) => {
   if (!session) { window.location.href = '/portal.html'; return; }
   currentUser = session.user;
-  // Most reliable check: use Supabase session AMR to detect OTP/magic link login
-  // amr = [{method:'otp'}] for magic link, [{method:'password'}] for normal login
-  var isOtpLogin = false;
-  try {
-    var amr = session.user.app_metadata && session.user.app_metadata.providers;
-    // Check session for OTP method
-    if (session.amr && Array.isArray(session.amr)) {
-      isOtpLogin = session.amr.some(function(a){return a.method==='otp' || a.method==='magiclink';});
-    }
-    // Fallback: check if created_at and last_sign_in_at are within 5 seconds (brand new account)
-    if (!isOtpLogin) {
-      var created = new Date(session.user.created_at).getTime();
-      var lastLogin = new Date(session.user.last_sign_in_at).getTime();
-      isOtpLogin = Math.abs(lastLogin - created) < 10000;
-    }
-    // Also check URL as last resort
-    var urlStr = window.location.hash + window.location.search;
-    if (!isOtpLogin) {
-      isOtpLogin = urlStr.includes('access_token') || urlStr.includes('type=magiclink') || urlStr.includes('type=invite');
-    }
-  } catch(e) {}
-  // MOST RELIABLE: check if user has never set a password
-  // A user has no password if their only identity is email with no password provider
-  var hasPassword = false;
-  try {
-    var identities = session.user.identities || [];
-    var emailIdentity = identities.find(function(i){return i.provider==='email';});
-    // If identity_data has no password_hash, they've never set a password
-    if (emailIdentity && emailIdentity.identity_data) {
-      hasPassword = !!emailIdentity.identity_data.email_verified && 
-                    new Date(emailIdentity.created_at).getTime() < new Date(session.user.last_sign_in_at).getTime() - 5000;
-    }
-  } catch(e) {}
-  var needsPw = isOtpLogin || !hasPassword;
-  if (needsPw) {
+  // Simple reliable check: onAuthStateChange set this flag for OTP/magic link logins
+  if (sessionStorage.getItem('needs_password_setup') === 'true') {
+    sessionStorage.removeItem('needs_password_setup');
     document.getElementById('pw-modal-overlay').classList.add('active');
-    history.replaceState(null, '', window.location.pathname);
     return;
   }
-  sb.from('profiles').select('full_name, firm, chiro_id').eq('id', currentUser.id).single().then(({ data }) => {
+    sb.from('profiles').select('full_name, firm, chiro_id').eq('id', currentUser.id).single().then(({ data }) => {
     document.getElementById('user-name').textContent = data?.full_name || currentUser.email;
     document.getElementById('practice-name').textContent = data?.firm || 'Provider Dashboard';
     loadReferrals();
