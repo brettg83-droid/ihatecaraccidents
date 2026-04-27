@@ -99,7 +99,7 @@
   <!-- ATTORNEY APPROVALS -->
   <div id="panel-lawyers">
     <div class="section-title">Pending Approval Requests</div>
-    <div class="section-sub">Review and approve attorney and chiropractic provider accounts.</div>
+    <div class="section-sub">Review and approve attorney account requests.</div>
     <div id="lawyers-list"><div class="empty">Loading...</div></div>
   </div>
 
@@ -138,7 +138,7 @@
       <button class="btn btn-red" onclick="addChiro()">Add Provider to Map</button>
     </div>
 
-    <div class="add-form" style="margin-bottom:16px;"><h3>📊 Import from Excel</h3><p style="font-size:13px;color:#666;margin-bottom:14px;">Upload .xlsx with columns: <strong>Doctor Name, Practice Name, Phone, Address, Email</strong> (+ Website, Specialties, Languages, Notes, Accepts PIP, Accepts Walk-ins)</p><div id="import-msg"></div><div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;"><input type="file" id="excel-file" accept=".xlsx,.xls" style="font-size:13px;"><button class="btn btn-red" onclick="importFromExcel()">Import &amp; Send Invites</button></div><div id="import-progress" style="margin-top:10px;font-size:13px;color:#555;"></div></div>
+    <div class="add-form" style="margin-bottom:16px;"><h3>📊 Import from Excel</h3><p style="font-size:13px;color:#666;margin-bottom:14px;">Upload .xlsx with columns: <strong>Doctor Name, Practice Name, Phone, Address, Email</strong> (+ Website, Specialties, Languages, Notes, Accepts PIP, Accepts Walk-ins)</p><div id="import-msg"></div><div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;"><input type="file" id="excel-file" accept=".xlsx,.xls" style="font-size:13px;"><button class="btn btn-red" onclick="importFromExcel()">Import Providers</button></div><div id="import-progress" style="margin-top:10px;font-size:13px;color:#555;"></div></div>
       <div id="chiros-list"><div class="empty">Loading...</div></div>
   </div>
 
@@ -225,7 +225,7 @@ function showTab(tab) {
 
 // ATTORNEY APPROVALS
 async function loadLawyers() {
-  var { data } = await sb.from('profiles').select('*').in('role',['lawyer','chiro']).order('created_at',{ascending:false});
+  var { data } = await sb.from('profiles').select('*').eq('role','lawyer').order('created_at',{ascending:false});
   var list = document.getElementById('lawyers-list');
   if (!data?.length) { list.innerHTML = '<div class="empty">No pending accounts yet.</div>'; return; }
   list.innerHTML = `<table>
@@ -281,16 +281,15 @@ async function loadChiros() {
   data.forEach(c => { chirosData[c.id] = c; });
 
   list.innerHTML = `<table>
-    <thead><tr><th>Doctor</th><th>Practice</th><th>Address</th><th>Phone</th><th>Email</th><th>PIP</th><th>Languages</th><th>Actions</th></tr></thead>
+    <thead><tr><th>Doctor</th><th>Practice</th><th>Phone</th><th>Email</th><th>PIP</th><th>Invited</th><th>Actions</th></tr></thead>
     <tbody>${data.map(c=>`
       <tr>
-        <td><strong>${c.doctor_name}</strong></td>
+        <td><strong>${c.doctor_name}</strong><br><small style="color:#888;">${c.email}</small></td>
         <td>${c.practice_name}</td>
-        <td style="font-size:12px;">${c.address}</td>
         <td>${c.phone}</td>
         <td>${c.email}</td>
         <td>${c.accepts_pip?'✓':'—'}</td>
-        <td>${c.languages||'—'}</td>
+        <td>${c.last_invited_at ? '<span style="color:#166534;font-size:12px;">✓ ' + new Date(c.last_invited_at).toLocaleDateString() + '</span>' : '<span style="color:#aaa;font-size:12px;">Not yet</span>'}</td>
         <td style="display:flex;gap:6px;">
           <button class="btn btn-gray" onclick="editChiroById('${c.id}')">Edit</button>
                 <button class="btn" style="background:#1a6b3c;color:white;" onclick="sendChiroInvite('${c.id}','${c.email}','${c.doctor_name}')">✉ Invite</button>
@@ -550,9 +549,13 @@ async function sendInviteEmail(email, name) {
 async function sendChiroInvite(id, email, name) {
   if (!confirm('Send login invite to ' + email + '?')) return;
   var btn = event.target; btn.textContent = 'Sending...'; btn.disabled = true;
-  await sendInviteEmail(email, name);
-  btn.textContent = '✓ Sent!'; btn.style.background = '#166534';
-  setTimeout(() => { btn.textContent = '✉ Invite'; btn.disabled = false; btn.style.background = '#1a6b3c'; }, 3000);
+  var err = await sendInviteEmail(email, name);
+  if (err) { alert('Error: ' + err.message); btn.textContent = '✉ Invite'; btn.disabled = false; return; }
+  // Record invite timestamp
+  await sb.from('chiros').update({last_invited_at: new Date().toISOString()}).eq('id', id);
+  btn.textContent = '✓ Sent!';
+  btn.style.background = '#166534';
+  setTimeout(() => { loadChiros(); }, 2000);
 }
 
 // ── EXCEL IMPORT ─────────────────────────────────────────────────────────────
@@ -580,11 +583,11 @@ async function importFromExcel() {
         if (addr) { try { var g=await fetch('https://nominatim.openstreetmap.org/search?format=json&q='+encodeURIComponent(addr)+'&countrycodes=us&limit=1'); var gd=await g.json(); if(gd[0]){lat=parseFloat(gd[0].lat);lng=parseFloat(gd[0].lon);} } catch(ex){} }
         var pip=get(r,['accepts pip','pip']); var wi=get(r,['accepts walk-ins','walk-ins','walkins']);
         var { error } = await sb.from('chiros').insert({ doctor_name:dname, practice_name:pname||dname, phone:phone, address:addr, email:email, website:get(r,['website','web','url']), specialties:get(r,['specialties','specialty']), languages:get(r,['languages','language']), notes:get(r,['notes','note']), accepts_pip:pip.toLowerCase().includes('yes')||pip==='true'||pip==='1', accepts_walkins:wi.toLowerCase().includes('yes')||wi==='true'||wi==='1', lat:lat, lng:lng });
-        if (!error) { added++; try { await sendInviteEmail(email,dname); invited++; } catch(ex){} }
+        if (!error) { added++; }
         else { failed++; }
-        progress.textContent = 'Row '+(i+1)+'/'+rows.length+': ✓ '+added+' added, ✉ '+invited+' invited'+(failed?' ✗ '+failed+' skipped':'');
+        progress.textContent = 'Row '+(i+1)+'/'+rows.length+': ✓ '+added+' added'+(failed?' ✗ '+failed+' skipped':'');
       }
-      msg.className='msg success'; msg.textContent='✓ Done! '+added+' providers added, '+invited+' invite emails sent.'+(failed?' '+failed+' rows skipped.':'');
+      msg.className='msg success'; msg.textContent='✓ Done! '+added+' providers added. Use the ✉ Invite button to send login emails.'+(failed?' '+failed+' rows skipped.':'');
       fileInput.value=''; loadChiros();
     } catch(ex) { msg.className='msg error'; msg.textContent='Error: '+ex.message; }
   };
