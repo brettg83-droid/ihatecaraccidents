@@ -406,7 +406,20 @@ async function doChiroLogin() {
   }
   currentUser = data.user;
   document.getElementById('chiro-login-overlay').classList.remove('active');
-  loadReferrals();
+  // Load profile info (name, practice) then referrals - same as getSession path
+  sb.from('profiles').select('full_name, firm').eq('id', currentUser.id).single().then(({ data: profile }) => {
+    if (profile) {
+      document.getElementById('user-name').textContent = profile.full_name || currentUser.email;
+      document.getElementById('practice-name').textContent = profile.firm || '';
+    } else {
+      document.getElementById('user-name').textContent = currentUser.email;
+    }
+    loadReferrals();
+  }).catch(() => {
+    // Profile not found is fine for chiros - just load referrals
+    document.getElementById('user-name').textContent = currentUser.email;
+    loadReferrals();
+  });
 }
 </script>
 
