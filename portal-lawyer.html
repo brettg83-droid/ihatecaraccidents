@@ -447,7 +447,21 @@ function selectProvider(id) {
   document.getElementById('f-sign-date').value = new Date().toISOString().split('T')[0];
   document.getElementById('referral-form-section').scrollIntoView({behavior:'smooth', block:'start'});
   // Highlight map marker (Leaflet)
-  markers.forEach(m => { if(m.providerId===id) { map.panTo([selectedProvider.lat, selectedProvider.lng]); m.openPopup(); } });
+  markers.forEach(m => { if(m.providerId===id) { 
+      map.panTo([selectedProvider.lat, selectedProvider.lng]);
+      m.bindPopup(
+        '<div style="font-family:Barlow,sans-serif;text-align:center;padding:4px 8px;">' +
+        '<div style="background:#166534;color:white;padding:8px 16px;border-radius:6px;margin-bottom:8px;">' +
+        '<div style="font-size:24px;margin-bottom:2px;">✅</div>' +
+        '<strong style="font-size:16px;letter-spacing:.5px;">SUCCESS!</strong><br>' +
+        '<span style="font-size:12px;">Referral Sent</span>' +
+        '</div>' +
+        '<strong style="font-size:13px;">' + selectedProvider.name + '</strong><br>' +
+        '<span style="font-size:11px;color:#c8102e;">' + (selectedProvider.practice || '') + '</span>' +
+        '</div>'
+      );
+      m.openPopup(); 
+    } });
 }
 
 function cancelForm() {
