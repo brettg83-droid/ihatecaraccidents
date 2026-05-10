@@ -119,7 +119,10 @@
 <div class="main">
   <div class="page-header">
     <div>
-      <div class="page-title">Incoming Referrals</div>
+      <div style="display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;">
+        <div class="page-title">Incoming Referrals</div>
+        <div style="font-family:'Oswald',sans-serif;font-size:18px;color:#555;">Welcome, <span id="chiro-welcome-name" style="color:var(--red);font-weight:700;"></span></div>
+      </div>
       <div class="page-sub" id="practice-name">Loading your dashboard...</div>
     </div>
   </div>
@@ -182,6 +185,7 @@ sb.auth.getSession().then(({ data: { session } }) => {
   sb.from('profiles').select('full_name, firm, chiro_id').eq('id', currentUser.id).single().then(({ data }) => {
     document.getElementById('user-name').textContent = data?.full_name || currentUser.email;
     document.getElementById('practice-name').textContent = data?.firm || 'Provider Dashboard';
+    var cwn = document.getElementById('chiro-welcome-name'); if (cwn) cwn.textContent = (data?.full_name || currentUser.email).split(' ')[0];
     loadReferrals();
   });
 });
