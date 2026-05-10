@@ -213,6 +213,10 @@
 
   <!-- NEW REFERRAL TAB -->
   <div id="panel-new">
+    <div style="text-align:right;margin-bottom:16px;">
+      <span style="font-family:'Oswald',sans-serif;font-size:18px;color:#555;">Welcome, </span>
+      <span id="welcome-name" style="font-family:'Oswald',sans-serif;font-size:18px;font-weight:700;color:var(--red);"></span>
+    </div>
     <div class="section-title">Select a Chiropractic Provider</div>
     <div class="section-sub">Click a provider below or on the map to begin a referral. Providers are sorted by location.</div>
 
@@ -394,6 +398,7 @@ sb.auth.getSession().then(({ data: { session } }) => {
   currentUser = session.user;
   sb.from('profiles').select('full_name, firm').eq('id', currentUser.id).single().then(({ data }) => {
     document.getElementById('user-name').textContent = data?.full_name || currentUser.email;
+    var wn = document.getElementById('welcome-name'); if (wn) wn.textContent = (data?.full_name || currentUser.email).split(' ')[0];
     document.getElementById('f-atty-email').value = currentUser.email;
     if (data?.full_name) document.getElementById('f-atty-name').value = data.full_name;
     if (data?.firm) document.getElementById('f-firm').value = data.firm;
