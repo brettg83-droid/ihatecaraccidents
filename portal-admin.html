@@ -345,7 +345,7 @@ async function addChiro() {
     specialties: document.getElementById('nc-specialties').value.trim(),
     languages: document.getElementById('nc-languages').value.trim(),
     notes: document.getElementById('nc-notes').value.trim(),
-      photo_url: (document.getElementById('nc-photo-html')?.value?.trim() || document.getElementById('nc-photo')?.value?.trim()) || null,
+
     accepts_pip: document.getElementById('nc-pip').value==='true',
     accepts_walkins: document.getElementById('nc-walkins').value==='true',
     lat, lng
@@ -522,8 +522,7 @@ async function saveChiro() {
     languages: document.getElementById('edit-languages').value.trim(),
     notes: document.getElementById('edit-notes').value.trim(),
     accepts_pip: document.getElementById('edit-pip').value === 'true',
-    accepts_walkins: document.getElementById('edit-walkins').value === 'true',
-      photo_url: document.getElementById('edit-photo').value.trim() || null
+    accepts_walkins: document.getElementById('edit-walkins').value === 'true'
   };
 
   // Only re-geocode if address changed from original
