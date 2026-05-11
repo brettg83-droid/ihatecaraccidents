@@ -190,6 +190,11 @@
 .referral-success-box .provider-name { font-size: 22px; font-weight: 700; color: #111; margin: 16px 0; }
 .referral-success-close { margin-top: 32px; background: var(--red); color: white; border: none; padding: 14px 40px; border-radius: 8px; font-family:'Oswald',sans-serif; font-size: 18px; font-weight: 700; cursor: pointer; }
 .referral-success-close:hover { background: #a00d25; }
+
+.chiro-card { display:flex; align-items:center; gap:0; }
+.chiro-card-info { flex:1; }
+.chiro-photo { width:90px; height:90px; border-radius:8px; object-fit:cover; flex-shrink:0; background:#f0f0f0; }
+.chiro-photo-placeholder { width:90px; height:90px; border-radius:8px; background:#e8e8e8; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:32px; color:#bbb; }
 </style>
 </head>
 <body>
@@ -423,6 +428,7 @@ function buildChiroCards() {
   var grid = document.getElementById('chiro-grid');
   grid.innerHTML = providers.map(p => `
     <div class="chiro-card" id="card-${p.id}" data-pid="${p.id}" onclick="selectProvider(this.dataset.pid)">
+      <div class="chiro-card-info">
       <div class="chiro-name">${p.name}</div>
       <div class="chiro-practice">${p.practice}</div>
       <div class="chiro-detail"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${p.address}</div>
@@ -434,6 +440,8 @@ function buildChiroCards() {
         ${p.languages.split(',').map(l=>`<span class="badge">${l.trim()}</span>`).join('')}
       </div>
       <button class="select-btn" id="selbtn-${p.id}" data-pid="${p.id}" onclick="event.stopPropagation();selectProvider(this.dataset.pid)">Select This Provider →</button>
+      </div>
+      ${p.photo ? `<img class="chiro-photo" src="${p.photo}" alt="${p.name}" onerror="this.style.display='none'">` : `<div class="chiro-photo-placeholder">👨‍⚕️</div>`}
     </div>
   `).join('');
 }
@@ -996,6 +1004,7 @@ async function loadProviders() {
     pip: c.accepts_pip,
     languages: c.languages || 'English',
     walkins: c.accepts_walkins,
+    photo: c.photo_url || '',
     notes: c.notes || '',
     lat: c.lat,
     lng: c.lng
