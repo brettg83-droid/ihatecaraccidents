@@ -402,6 +402,7 @@ function editChiroById(id) {
   document.getElementById('edit-notes').value = c.notes || '';
   document.getElementById('edit-pip').value = c.accepts_pip ? 'true' : 'false';
   document.getElementById('edit-walkins').value = c.accepts_walkins ? 'true' : 'false';
+  document.getElementById('edit-photo').value = c.photo_url || '';
   document.getElementById('edit-msg').innerHTML = '';
   document.getElementById('edit-modal').classList.add('open');
 }
@@ -521,7 +522,8 @@ async function saveChiro() {
     languages: document.getElementById('edit-languages').value.trim(),
     notes: document.getElementById('edit-notes').value.trim(),
     accepts_pip: document.getElementById('edit-pip').value === 'true',
-    accepts_walkins: document.getElementById('edit-walkins').value === 'true'
+    accepts_walkins: document.getElementById('edit-walkins').value === 'true',
+      photo_url: document.getElementById('edit-photo').value.trim() || null
   };
 
   // Only re-geocode if address changed from original
@@ -614,4 +616,5 @@ async function importFromExcel() {
 }
 </script>
 </body>
-</html>
+</html>  <div style="padding:0 16px 12px;"><label style="display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#333;margin-bottom:5px;">Doctor Photo URL <small style="font-weight:400;color:#888;">(optional)</small></label><input type="url" id="edit-photo" placeholder="https://example.com/doctor.jpg" style="width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:6px;font-size:13px;box-sizing:border-box;"></div>
+  
