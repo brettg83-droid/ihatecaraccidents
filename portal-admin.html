@@ -342,7 +342,7 @@ async function addChiro() {
     specialties: document.getElementById('nc-specialties').value.trim(),
     languages: document.getElementById('nc-languages').value.trim(),
     notes: document.getElementById('nc-notes').value.trim(),
-      photo_url: document.getElementById('nc-photo').value.trim() || null,
+      photo_url: (document.getElementById('nc-photo-html')?.value?.trim() || document.getElementById('nc-photo')?.value?.trim()) || null,
     accepts_pip: document.getElementById('nc-pip').value==='true',
     accepts_walkins: document.getElementById('nc-walkins').value==='true',
     lat, lng
