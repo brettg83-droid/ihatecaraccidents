@@ -522,7 +522,8 @@ async function saveChiro() {
     languages: document.getElementById('edit-languages').value.trim(),
     notes: document.getElementById('edit-notes').value.trim(),
     accepts_pip: document.getElementById('edit-pip').value === 'true',
-    accepts_walkins: document.getElementById('edit-walkins').value === 'true'
+    accepts_walkins: document.getElementById('edit-walkins').value === 'true',
+      photo_url: document.getElementById('edit-photo')?.value?.trim() || null
   };
 
   // Only re-geocode if address changed from original
