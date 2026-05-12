@@ -19,7 +19,7 @@ header{background:var(--black);padding:16px 24px;display:flex;align-items:center
 .logo span{color:var(--red)}
 .back-link{color:#aaa;font-size:13px;text-decoration:none}
 .back-link:hover{color:white}
-.page{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px}
+.page{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:40px 20px 0}
 .login-box{background:white;border-radius:10px;box-shadow:0 4px 32px rgba(0,0,0,.12);width:100%;max-width:430px;overflow:hidden}
 .login-header{background:var(--black);padding:28px 32px}
 .login-header h1{font-family:'Oswald',sans-serif;color:white;font-size:24px;font-weight:700;margin-bottom:4px}
@@ -63,7 +63,7 @@ footer{background:var(--black);color:#666;text-align:center;padding:16px;font-si
 .role-btn .role-label { font-family:'Oswald',sans-serif; font-size:15px; font-weight:700; color:#111; display:block; }
 .role-btn .role-sub { font-size:12px; color:#888; display:block; margin-top:3px; }
 
-.why-section { padding: 48px 24px 60px; max-width: 900px; margin: 0 auto; }
+.why-section { order: 1;  padding: 48px 24px 60px; max-width: 900px; margin: 0 auto; }
 .why-title { font-family:'Oswald',sans-serif; font-size: 22px; font-weight: 700; color: #111; text-align: center; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 6px; }
 .why-subtitle { font-size: 14px; color: #777; text-align: center; margin-bottom: 36px; }
 .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
@@ -177,6 +177,279 @@ footer{background:var(--black);color:#666;text-align:center;padding:16px;font-si
     </div>
   </div>
 </div>
+<footer>© 2025 IHateCarAccidents.com — Attorney Portal — 256-bit SSL Encrypted&nbsp;·&nbsp; <a href="/legal.html" style="color:#aaa;text-decoration:none;">Privacy Policy &amp; Terms</a></footer>
+
+<script>
+const SUPABASE_URL = 'https://xlhkduyviqzzyxjqnjxj.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhsaGtkdXl2aXF6enl4anFuanhqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3MzYxNzQsImV4cCI6MjA5MjMxMjE3NH0.QhhkZ8QFYTtlC5cRc9v2EGMSroiavdq69D_-dYFxnqI';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+var lastRegEmail = '';
+
+function switchTab(tab) {
+  ['login','register','confirm'].forEach(t => {
+    document.getElementById(t+'-form').style.display = 'none';
+  });
+  document.getElementById(tab+'-form').style.display = 'block';
+  document.querySelectorAll('.tab').forEach((el,i) => {
+    el.classList.toggle('active', (i===0&&tab==='login')||(i===1&&tab==='register'));
+  });
+}
+
+function showMsg(id, type, html) {
+  var el = document.getElementById(id);
+  el.className = 'msg ' + type;
+  el.innerHTML = html;
+}
+
+// --- SIGN IN ---
+async function doLogin() {
+  var email = document.getElementById('login-email').value.trim();
+  var pass = document.getElementById('login-password').value;
+  if (!email || !pass) { showMsg('login-msg','error','Please enter your email and password.'); return; }
+  var btn = document.querySelector('#login-form .btn');
+  btn.textContent = 'Signing in...'; btn.disabled = true;
+
+  var { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
+  if (error) {
+    var msg = error.message.includes('Invalid login') ? 'Incorrect email or password.' :
+              error.message.includes('Email not confirmed') ? 'Please confirm your email first — check your inbox for our verification link.' :
+              error.message;
+    showMsg('login-msg','error', msg);
+    btn.textContent = 'Sign In'; btn.disabled = false;
+    return;
+  }
+
+  var { data: profile } = await sb.from('profiles').select('role,approved').eq('id', data.user.id).single();
+  if (!profile) {
+    // Create profile for Google users who don't have one yet
+    await sb.from('profiles').insert({ id: data.user.id, full_name: data.user.user_metadata?.full_name || '', email: data.user.email, role: 'lawyer', approved: false });
+    showMsg('login-msg','info','Your account is pending approval. You will be notified by email within 24 hours.');
+    await sb.auth.signOut(); btn.textContent = 'Sign In'; btn.disabled = false;
+    return;
+  }
+  if (!profile.approved) {
+    showMsg('login-msg','info','Your account is pending approval. You will be notified by email within 24 hours.');
+    await sb.auth.signOut(); btn.textContent = 'Sign In'; btn.disabled = false;
+    return;
+  }
+  if (profile.role === 'lawyer') window.location.href = '/portal-lawyer.html';
+  else if (profile.role === 'chiro') window.location.href = '/portal-chiro.html';
+  else if (profile.role === 'admin') window.location.href = '/portal-admin.html';
+  else { showMsg('login-msg','error','Unknown account type. Contact support.'); btn.textContent = 'Sign In'; btn.disabled = false; }
+}
+
+// --- REGISTER (ATTORNEYS ONLY) ---
+async function doRegister() {
+  var name = document.getElementById('reg-name').value.trim();
+  var firm = document.getElementById('reg-firm').value.trim();
+  var bar  = document.getElementById('reg-bar').value.trim();
+  var email = document.getElementById('reg-email').value.trim();
+  var phone = document.getElementById('reg-phone').value.trim();
+  var pass  = document.getElementById('reg-password').value;
+  var conf  = document.getElementById('reg-confirm').value;
+
+  if (!name||!firm||!bar||!email||!phone||!pass) { showMsg('reg-msg','error','Please fill in all required fields.'); return; }
+  if (pass.length < 8) { showMsg('reg-msg','error','Password must be at least 8 characters.'); return; }
+  if (pass !== conf) { showMsg('reg-msg','error','Passwords do not match.'); return; }
+  if (!/^\d{5,7}$/.test(bar)) { showMsg('reg-msg','error','Please enter a valid Florida Bar Number (5-7 digits).'); return; }
+
+  var btn = document.querySelector('#register-form .btn');
+  btn.textContent = 'Submitting...'; btn.disabled = true;
+
+  var { data, error } = await sb.auth.signUp({
+    email, password: pass,
+    options: {
+      emailRedirectTo: 'https://ihatecaraccidents.com/portal.html',
+      data: { full_name: name, firm, phone, bar_number: bar, role: 'lawyer' }
+    }
+  });
+
+  if (error) {
+    showMsg('reg-msg','error', error.message.includes('already registered') ? 'This email is already registered. Try signing in.' : error.message);
+    btn.textContent = 'Request Access'; btn.disabled = false;
+    return;
+  }
+
+  // Insert profile (pending approval + email confirmation)
+  if (data.user) {
+    await sb.from('profiles').insert({
+      id: data.user.id, full_name: name, firm, phone, bar_number: bar, email, role: 'lawyer', approved: false
+    });
+  }
+
+  lastRegEmail = email;
+  document.getElementById('confirm-email-display').textContent = email;
+  switchTab('confirm');
+}
+
+// --- GOOGLE AUTH ---
+async function doGoogleAuth() {
+  var { error } = await sb.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: 'https://ihatecaraccidents.com/portal.html' }
+  });
+  if (error) showMsg('login-msg','error','Google sign-in error: ' + error.message);
+}
+
+// --- FORGOT PASSWORD ---
+async function doForgot(e) {
+  e.preventDefault();
+  var email = document.getElementById('login-email').value.trim();
+  if (!email) { showMsg('login-msg','error','Enter your email address above first, then click Forgot password.'); return; }
+  var { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: 'https://ihatecaraccidents.com/portal.html' });
+  if (error) showMsg('login-msg','error','Error: ' + error.message);
+  else showMsg('login-msg','success','✅ Password reset email sent to ' + email + '. Check your inbox.');
+}
+
+// --- RESEND CONFIRMATION ---
+async function resendConfirmation(e) {
+  e.preventDefault();
+  if (!lastRegEmail) { alert('Please register first.'); return; }
+  var { error } = await sb.auth.resend({ type: 'signup', email: lastRegEmail, options: { emailRedirectTo: 'https://ihatecaraccidents.com/portal.html' } });
+  if (error) alert('Error: ' + error.message);
+  else alert('Confirmation email resent to ' + lastRegEmail);
+}
+
+// --- RESET PASSWORD SUBMIT ---
+async function doResetPassword() {
+  var pass = document.getElementById('reset-password').value;
+  var conf = document.getElementById('reset-confirm').value;
+  if (!pass || pass.length < 8) { showMsg('reset-msg','error','Password must be at least 8 characters.'); return; }
+  if (pass !== conf) { showMsg('reset-msg','error','Passwords do not match.'); return; }
+  var btn = document.querySelector('#reset-form .btn');
+  btn.textContent = 'Saving...'; btn.disabled = true;
+  var { error } = await sb.auth.updateUser({ password: pass });
+  if (error) { showMsg('reset-msg','error','Error: ' + error.message); btn.textContent='Set New Password'; btn.disabled=false; return; }
+  showMsg('reset-msg','success','✅ Password updated! You can now sign in with your new password.');
+  btn.textContent = 'Password Updated';
+  setTimeout(() => { switchTab('login'); }, 2000);
+}
+
+// --- HANDLE CALLBACK (email confirmation + Google redirect) ---
+async function handleCallback() {
+  var hash = window.location.hash;
+  var params = new URLSearchParams(window.location.search);
+
+  // Handle password reset recovery link
+  var hashParams = new URLSearchParams(hash.replace('#',''));
+  if (hashParams.get('type') === 'recovery' && hashParams.get('access_token')) {
+    var { error } = await sb.auth.setSession({
+      access_token: hashParams.get('access_token'),
+      refresh_token: hashParams.get('refresh_token') || ''
+    });
+    if (error) { showMsg('login-msg','error','Reset link error: ' + error.message); return; }
+    window.history.replaceState(null, '', '/portal.html');
+    // Hide tabs, show reset form
+    document.querySelector('.tabs').style.display = 'none';
+    switchTab('reset');
+    return;
+  }
+
+  // Handle Google OAuth and email confirmation redirects
+  if (hash.includes('access_token') || hash.includes('error')) {
+    var { data: { session }, error } = await sb.auth.getSession();
+    if (error || !session) {
+      var errDesc = new URLSearchParams(hash.replace('#','?')).get('error_description') || 'Authentication failed.';
+      showMsg('login-msg','error', decodeURIComponent(errDesc));
+      return;
+    }
+    // Logged in via OAuth or email confirmation
+    var user = session.user;
+    var meta = user.user_metadata || {};
+
+    // Check if profile exists
+    var { data: profile } = await sb.from('profiles').select('role,approved').eq('id', user.id).single();
+
+    if (!profile) {
+      // New Google user — create profile pending approval
+      await sb.from('profiles').insert({
+        id: user.id, full_name: meta.full_name || meta.name || '',
+        firm: '', phone: '', bar_number: '', email: user.email, role: 'lawyer', approved: false
+      });
+      window.history.replaceState(null, '', '/portal.html');
+      await sb.auth.signOut();
+      showMsg('login-msg','info','✅ Google account linked! Your account is pending approval. You will be notified by email within 24 hours.');
+      return;
+    }
+
+    if (!profile.approved) {
+      window.history.replaceState(null, '', '/portal.html');
+      await sb.auth.signOut();
+      showMsg('login-msg','info','Your email is confirmed. Your account is pending approval — you will be notified within 24 hours.');
+      return;
+    }
+
+    // Approved — redirect
+    window.history.replaceState(null, '', '/portal.html');
+    if (profile.role === 'lawyer') window.location.href = '/portal-lawyer.html';
+    else if (profile.role === 'chiro') window.location.href = '/portal-chiro.html';
+    else if (profile.role === 'admin') window.location.href = '/portal-admin.html';
+  }
+}
+
+// --- NOTIFY ADMIN ON SIGNUP ---
+(function() {
+  emailjs.init({ publicKey: 'YOUR_EMAILJS_PUBLIC_KEY' });
+})();
+
+async function notifyAdmin(name, firm, bar, email, phone) {
+  try {
+    await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', {
+      to_email: 'brettg83@gmail.com',
+      lawyer_name: name,
+      lawyer_firm: firm,
+      lawyer_bar: bar,
+      lawyer_email: email,
+      lawyer_phone: phone,
+      signup_time: new Date().toLocaleString('en-US', {timeZone:'America/New_York'})
+    });
+  } catch(e) {
+    console.log('Admin notification failed:', e);
+  }
+}
+
+function formatPhone(input) {
+  var digits = input.value.replace(/\D/g, '').substring(0, 10);
+  if (digits.length >= 7) {
+    input.value = digits.substring(0,3) + '-' + digits.substring(3,6) + '-' + digits.substring(6);
+  } else if (digits.length >= 4) {
+    input.value = digits.substring(0,3) + '-' + digits.substring(3);
+  } else {
+    input.value = digits;
+  }
+}
+
+// --- INIT ---
+sb.auth.getSession().then(({ data: { session } }) => {
+  if (window.location.hash.includes('access_token') || window.location.hash.includes('error')) {
+    handleCallback();
+    return;
+  }
+  if (session) {
+    sb.from('profiles').select('role,approved').eq('id', session.user.id).single().then(({ data }) => {
+      if (!data?.approved) return;
+      if (data.role === 'lawyer') window.location.href = '/portal-lawyer.html';
+      else if (data.role === 'chiro') window.location.href = '/portal-chiro.html';
+      else if (data.role === 'admin') window.location.href = '/portal-admin.html';
+    });
+  }
+});
+
+
+function selectRole(role) {
+  document.getElementById('role-selector').style.display = 'none';
+  if (role === 'chiro') {
+    // Redirect chiros to their own portal
+    window.location.href = '/portal-chiro.html';
+  } else {
+    // Show attorney login
+    document.getElementById('portal-subtitle').textContent = 'Secure access for licensed Florida attorneys';
+    document.getElementById('login-body').style.display = 'block';
+  }
+}
+</script>
+
 <section class="why-section">
   <p class="why-title">Why Partner With Our Chiropractors?</p>
   <div class="why-divider"></div>
@@ -240,6 +513,5 @@ footer{background:var(--black);color:#666;text-align:center;padding:16px;font-si
     </div>
   </div>
 </section>
-<footer>© 2025 IHateCarAccidents.com — Attorney Portal — 256-bit SSL Encrypted&nbsp;·&nbsp; <a href="/legal.html" style="color:#aaa;text-decoration:none;">Privacy Policy &amp; Terms</a></footer>
 </body>
 </html>
