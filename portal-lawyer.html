@@ -401,7 +401,7 @@ let currentUser = null;
 sb.auth.getSession().then(({ data: { session } }) => {
   if (!session) { window.location.href = '/portal.html'; return; }
   currentUser = session.user;
-  sb.from('profiles').select('full_name, firm').eq('id', currentUser.id).single().then(({ data }) => {
+  sb.from('profiles').select('full_name, firm, phone, bar_number').eq('id', currentUser.id).single().then(({ data }) => {
     document.getElementById('user-name').textContent = data?.full_name || currentUser.email;
     var wn = document.getElementById('welcome-name'); if (wn) wn.textContent = (data?.full_name || currentUser.email).split(' ')[0];
     document.getElementById('f-atty-email').value = currentUser.email;
@@ -1229,6 +1229,22 @@ async function loadChiroNotes(refId) {
   if (error || !data || !data.length) { box.innerHTML = '<small style="color:#999;">No notes from provider yet.</small>'; return; }
   box.innerHTML = '<h5>📝 Provider Notes (' + data.length + ')</h5>' + data.map(n => '<div class="chiro-note-item"><span class="chiro-note-date">' + new Date(n.created_at).toLocaleString() + '</span><div class="chiro-note-text">' + (n.note_text||'')+'</div></div>').join('');
 }
+
+function formatPhone(val) {
+  var digits = val.replace(/[^0-9]/g, '').substring(0, 10);
+  if (digits.length <= 3) return digits;
+  if (digits.length <= 6) return digits.slice(0,3) + '-' + digits.slice(3);
+  return digits.slice(0,3) + '-' + digits.slice(3,6) + '-' + digits.slice(6);
+}
+(function() {
+  var phoneInput = document.getElementById('f-atty-phone');
+  if (phoneInput) {
+    phoneInput.placeholder = '555-555-5555';
+    phoneInput.addEventListener('input', function() {
+      this.value = formatPhone(this.value);
+    });
+  }
+})();
 </script>
 
 <div class="referral-success-overlay" id="referral-success-overlay">
