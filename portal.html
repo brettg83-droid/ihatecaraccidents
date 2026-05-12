@@ -62,6 +62,16 @@ footer{background:var(--black);color:#666;text-align:center;padding:16px;font-si
 .role-btn .role-icon { font-size:28px; display:block; margin-bottom:8px; }
 .role-btn .role-label { font-family:'Oswald',sans-serif; font-size:15px; font-weight:700; color:#111; display:block; }
 .role-btn .role-sub { font-size:12px; color:#888; display:block; margin-top:3px; }
+
+.why-section { padding: 48px 24px 60px; max-width: 900px; margin: 0 auto; }
+.why-title { font-family:'Oswald',sans-serif; font-size: 22px; font-weight: 700; color: #111; text-align: center; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 6px; }
+.why-subtitle { font-size: 14px; color: #777; text-align: center; margin-bottom: 36px; }
+.why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.why-card { background: white; border: 1px solid #e8e8e8; border-radius: 10px; padding: 22px 20px; display: flex; gap: 14px; align-items: flex-start; box-shadow: 0 2px 8px rgba(0,0,0,.05); }
+.why-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+.why-card h4 { font-family:'Oswald',sans-serif; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing:.04em; color: #111; margin-bottom: 5px; }
+.why-card p { font-size: 13px; color: #555; line-height: 1.55; margin: 0; }
+.why-divider { width: 48px; height: 3px; background: var(--red, #c8102e); margin: 0 auto 32px; border-radius: 2px; }
 </style>
 </head>
 <body>
@@ -439,5 +449,69 @@ function selectRole(role) {
   }
 }
 </script>
+
+<section class="why-section">
+  <p class="why-title">Why Partner With Our Chiropractors?</p>
+  <div class="why-divider"></div>
+  <p class="why-subtitle">Built specifically for personal injury attorneys — every provider in our network is trained to support your cases.</p>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-icon">📋</div>
+      <div>
+        <h4>Case-Ready Documentation</h4>
+        <p>Every chiropractor in our network understands how to write proper SOAP notes and narrative reports that hold up in litigation and maximize settlement value.</p>
+      </div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🏥</div>
+      <div>
+        <h4>Smart Referral Protocols</h4>
+        <p>Our chiros know exactly when to refer for EMG, MRI imaging, and orthopedic consults — only when medically necessary, so your client's treatment is defensible.</p>
+      </div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">📍</div>
+      <div>
+        <h4>Within 10 Minutes of Your Client</h4>
+        <p>We have providers strategically located across Florida. No matter where your client is, there's a vetted chiropractor nearby ready to see them fast.</p>
+      </div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">✅</div>
+      <div>
+        <h4>Every Provider Is Vetted</h4>
+        <p>We personally vet every chiropractor before they join our network. They understand PIP, liens, and the personal injury process inside and out.</p>
+      </div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">👁️</div>
+      <div>
+        <h4>We Stay On Top of Every Case</h4>
+        <p>Nothing slips through the cracks. We actively monitor each referral to ensure your client is being seen, treated, and documented correctly throughout their care.</p>
+      </div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">💼</div>
+      <div>
+        <h4>PIP & Lien Friendly</h4>
+        <p>All providers accept PIP insurance and work on lien when needed. Your clients get treated regardless of their ability to pay upfront — no delays, no excuses.</p>
+      </div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🤝</div>
+      <div>
+        <h4>Your Success Is Our Success</h4>
+        <p>A well-documented, properly treated client leads to better outcomes for everyone. We're aligned with your goals from day one of the referral.</p>
+      </div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">⚡</div>
+      <div>
+        <h4>Same-Day Appointments</h4>
+        <p>Speed matters after an accident. Our providers prioritize accident victims and offer same-day or next-day appointments to get your clients on record quickly.</p>
+      </div>
+    </div>
+  </div>
+</section>
 </body>
 </html>
