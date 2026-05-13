@@ -974,6 +974,7 @@ function findClosestCoords(patLat, patLng, addressLabel) {
         ${p.languages.split(',').map(function(l){return '<span class="badge">'+l.trim()+'</span>';}).join('')}
       </div>
       <button class="select-btn" id="selbtn-${p.id}" data-pid="${p.id}" onclick="event.stopPropagation();selectProvider(this.dataset.pid)">Select This Provider →</button>
+    ${p.photo ? `<img class="chiro-photo" src="${p.photo}" alt="${p.name}" onerror="this.style.display='none'">` : ''}
     </div>
   `; }).join('');
 
