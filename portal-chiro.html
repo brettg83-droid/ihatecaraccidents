@@ -5,7 +5,99 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+
+  // ── Chiro Document Sending ──
+
+  function cdPreview(refId, input) {
+    var pills = document.getElementById('cd-pills-' + refId);
+    if (!pills) return;
+    pills.innerHTML = '';
+    Array.from(input.files).forEach(function(f, i) {
+      var pill = document.createElement('span');
+      pill.className = 'chiro-file-pill';
+      pill.innerHTML = '📄 ' + f.name + ' <span class="rm" onclick="cdRemoveFile(\'' + refId + '\','+ i +')">✕</span>';
+      pills.appendChild(pill);
+    });
+  }
+
+  function cdRemoveFile(refId, idx) {
+    var input = document.getElementById('cd-input-' + refId);
+    if (!input) return;
+    var dt = new DataTransfer();
+    Array.from(input.files).forEach(function(f, i) { if (i !== idx) dt.items.add(f); });
+    input.files = dt.files;
+    cdPreview(refId, input);
+  }
+
+  async function sendChiroDocs(refId, attyEmail, attyName, patientName, btn) {
+    var input = document.getElementById('cd-input-' + refId);
+    var msgEl = document.getElementById('cd-msg-' + refId);
+    if (!input || !input.files.length) {
+      if (msgEl) msgEl.innerHTML = '<span style="color:#c00;">Please select at least one file.</span>';
+      return;
+    }
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    if (msgEl) msgEl.innerHTML = '';
+
+    var chiroName = currentUser.user_metadata && currentUser.user_metadata.full_name
+      ? currentUser.user_metadata.full_name
+      : (currentUser.email || 'Your Chiropractor');
+    var chiroEmail = currentUser.email;
+    var files = Array.from(input.files);
+
+    try {
+      for (var file of files) {
+        var path = 'chiro-docs/' + refId + '/' + Date.now() + '-' + file.name;
+        var upRes = await sb.storage.from('documents').upload(path, file, { upsert: true });
+        if (upRes.error) throw upRes.error;
+        var insRes = await sb.from('chiro_documents').insert({
+          referral_id: refId,
+          filename: file.name,
+          path: path,
+          chiro_name: chiroName,
+          chiro_email: chiroEmail
+        });
+        if (insRes.error) throw insRes.error;
+      }
+
+      // Send email to attorney via Resend
+      await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer re_P9nJy4pt_7BEkzJThE4CQsFyHVBdEAdve',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          from: 'IHateCarAccidents Portal <noreply@ihatecaraccidents.com>',
+          to: [attyEmail],
+          subject: 'New Documents from ' + chiroName + ' | Patient: ' + patientName,
+          html: '<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px;">' +
+            '<div style="background:#c8102e;padding:16px 24px;border-radius:8px 8px 0 0;">' +
+            '<h2 style="color:white;margin:0;font-size:20px;">New Documents Available</h2></div>' +
+            '<div style="background:#f9f9f9;padding:24px;border-radius:0 0 8px 8px;border:1px solid #eee;">' +
+            '<p style="margin-top:0;">Hello <strong>' + attyName + '</strong>,</p>' +
+            '<p><strong>' + chiroName + '</strong> has sent you <strong>' + files.length + ' document(s)</strong> regarding patient <strong>' + patientName + '</strong>.</p>' +
+            '<p>Please log in to your attorney portal to view and download the documents.</p>' +
+            '<a href="https://ihatecaraccidents.com/portal-lawyer" style="display:inline-block;background:#c8102e;color:white;padding:12px 28px;border-radius:5px;text-decoration:none;font-weight:600;margin:8px 0;">View Documents</a>' +
+            '<p style="color:#999;font-size:12px;margin-bottom:0;margin-top:20px;">IHateCarAccidents.com | Attorney Portal</p>' +
+            '</div></div>'
+        })
+      });
+
+      if (msgEl) msgEl.innerHTML = '<span style="color:green;font-weight:600;">✓ ' + files.length + ' document(s) sent to ' + attyName + '!</span>';
+      input.value = '';
+      document.getElementById('cd-pills-' + refId).innerHTML = '';
+      setTimeout(function() { loadReferrals(); }, 2000);
+    } catch(err) {
+      if (msgEl) msgEl.innerHTML = '<span style="color:#c00;">Error: ' + err.message + '</span>';
+    }
+
+    btn.disabled = false;
+    btn.textContent = 'Send to Attorney';
+  }
+</script>
 <style>
   :root { --red:#c8102e; --black:#111; --gray:#555; --gray-light:#e8e8e8; --gray-bg:#f5f5f5; }
   * { box-sizing:border-box; margin:0; padding:0; }
@@ -110,7 +202,21 @@
 .chiro-login-btn { width:100%; padding:13px; background:var(--red); color:white; border:none; border-radius:6px; font-family:'Oswald',sans-serif; font-size:16px; font-weight:700; cursor:pointer; }
 .chiro-login-btn:hover { background:#a00d25; }
 .chiro-login-err { color:#c00; font-size:13px; margin-bottom:12px; display:none; }
-</style>
+
+  .send-docs-section { margin-top:14px; padding-top:14px; border-top:1px solid #eee; }
+  .send-docs-section h4 { font-family:'Oswald',sans-serif; font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--red); margin-bottom:8px; }
+  .chiro-upload-zone { border:2px dashed #ddd; border-radius:6px; padding:12px 14px; text-align:center; cursor:pointer; font-size:13px; color:#777; transition:all .2s; margin-bottom:8px; }
+  .chiro-upload-zone:hover { border-color:var(--red); color:var(--red); }
+  .chiro-file-pill { display:inline-flex; align-items:center; gap:5px; background:#f5f5f5; border-radius:12px; padding:3px 10px; font-size:12px; margin:3px 3px 0 0; }
+  .chiro-file-pill .rm { color:#c00; cursor:pointer; font-weight:700; }
+  .btn-send-chiro { background:var(--red); color:white; border:none; padding:9px 18px; border-radius:5px; font-size:13px; font-weight:600; cursor:pointer; font-family:'Barlow',sans-serif; width:100%; margin-top:6px; }
+  .btn-send-chiro:disabled { background:#aaa; cursor:not-allowed; }
+  .sent-chiro-docs { margin-top:12px; padding-top:12px; border-top:1px solid #eee; }
+  .sent-chiro-docs h4 { font-family:'Oswald',sans-serif; font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#555; margin-bottom:8px; }
+  .sent-doc-row { display:flex; align-items:center; gap:6px; font-size:13px; padding:4px 0; border-bottom:1px solid #f5f5f5; }
+  .sent-doc-row:last-child { border:none; }
+  .sent-doc-date { font-size:11px; color:#aaa; margin-left:auto; }
+  </style>
 </head>
 <body>
 
@@ -206,7 +312,7 @@ function doLogout() { sb.auth.signOut().then(() => window.location.href = '/port
 
 async function loadReferrals() {
   var { data, error } = await sb.from('referrals')
-    .select('*, referral_documents(filename, path)')
+    .select('*, referral_documents(filename, path), chiro_documents(id, filename, path, sent_at)')
     .eq('chiro_email', currentUser.email)
     .order('created_at', {ascending:false});
 
@@ -278,6 +384,23 @@ function renderReferrals() {
           ${(r.referral_documents||[]).map(d=>`<button class="doc-btn" onclick="downloadDoc('${r.id}','${d.path}','${d.filename}')">📄 ${d.filename}</button>`).join('')}
           ${r.signature_data?`<div class="sig-preview"><img src="${r.signature_data}" alt="Signature" title="Attorney signature"></div>`:''}
         </div>
+      <div class="send-docs-section">
+        <h4>📤 Send Documents to Attorney</h4>
+        <div class="chiro-upload-zone" onclick="document.getElementById('cd-input-${r.id}').click()">
+          <input type="file" id="cd-input-${r.id}" multiple style="display:none" onchange="cdPreview('${r.id}',this)" />
+          📎 Click to select files to send to ${r.atty_name}
+        </div>
+        <div id="cd-pills-${r.id}" style="margin-bottom:4px;"></div>
+        <button class="btn-send-chiro" onclick="sendChiroDocs('${r.id}','${r.atty_email}','${r.atty_name}','${r.patient_name}',this)">
+          Send to Attorney
+        </button>
+        <div id="cd-msg-${r.id}" style="font-size:13px;margin-top:6px;min-height:18px;"></div>
+      </div>
+      ${r.chiro_documents && r.chiro_documents.length ? `
+      <div class="sent-chiro-docs">
+        <h4>✅ Documents Sent to Attorney</h4>
+        ${r.chiro_documents.map(d => `<div class="sent-doc-row">📄 <span>${d.filename}</span><span class="sent-doc-date">${new Date(d.sent_at).toLocaleDateString()}</span></div>`).join('')}
+      </div>` : ''}
       </div>
     </div>
   `).join('');
