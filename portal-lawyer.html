@@ -16,8 +16,14 @@
 
   /* HEADER */
   header { background:var(--black); padding:14px 24px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
-  .logo { font-family:'Oswald',sans-serif; color:white; font-size:20px; font-weight:700; text-decoration:none; }
-  .logo span { color:var(--red); }
+  
+  .logo { font-family:'Oswald',sans-serif; line-height:1; flex-shrink:0; cursor:pointer; display:flex; align-items:center; gap:10px; text-decoration:none; }
+  .logo-icon { width:38px; height:38px; background:var(--red); border-radius:6px; display:flex; align-items:center; justify-content:center; flex-shrink:0; position:relative; overflow:hidden; transform:rotate(-2deg); box-shadow:3px 3px 0 #7a0a1a; }
+  .logo-icon::after { content:'✦'; font-size:20px; line-height:1; color:white; }
+  .logo-text { display:flex; flex-direction:column; gap:0px; }
+  .logo-line1 { font-size:13px; letter-spacing:0.22em; color:#aaa; line-height:1; font-family:'Barlow',sans-serif; font-weight:700; text-transform:uppercase; }
+  .logo-line2 { font-size:24px; letter-spacing:0.04em; line-height:0.95; color:white; font-family:'Oswald',sans-serif; font-weight:700; }
+    .logo span { color:var(--red); }
   .header-right { display:flex; align-items:center; gap:16px; }
   .user-name { color:#ccc; font-size:13px; }
   .nav-btn { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:white; padding:7px 16px; border-radius:4px; font-size:13px; cursor:pointer; font-family:'Barlow',sans-serif; }
@@ -149,13 +155,13 @@
   /* EDIT REFERRAL MODAL */
   .modal-overlay { display:none; position:fixed; top:0;left:0;right:0;bottom:0; background:rgba(0,0,0,0.6); z-index:2000; align-items:center; justify-content:center; padding:20px; }
   .modal-overlay.open { display:flex; }
-  .modal-box { background:white; border-radius:10px; width:100%; max-width:680px; max-height:90vh; overflow-y:auto; box-shadow:0 20px 60px rgba(0,0,0,0.3); }
+  .modal-box { background:white; border-radius:10px; width:100%; max-width:680px; max-height:90vh; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,0.3); }
   .modal-box-header { background:var(--black); padding:20px 28px; display:flex; align-items:center; justify-content:space-between; border-radius:10px 10px 0 0; position:sticky; top:0; z-index:10; }
   .modal-box-header h3 { font-family:'Oswald',sans-serif; color:white; font-size:18px; font-weight:700; }
   .modal-x { color:#aaa; font-size:28px; cursor:pointer; background:none; border:none; line-height:1; padding:0; }
   .modal-x:hover { color:white; }
-  .modal-box-body { padding:24px; }
-  .modal-box-footer { padding:16px 24px; border-top:1px solid var(--gray-light); display:flex; gap:10px; justify-content:flex-end; background:white; position:sticky; bottom:0; border-radius:0 0 10px 10px; }
+  .modal-box-body { flex:1; overflow-y:auto; padding:28px 32px; }
+  .modal-box-footer { flex-shrink:0; display:flex; justify-content:flex-end; gap:10px; padding:16px 24px; border-top:1px solid #e8e8e8; background:white; }
   .btn-save-ref { padding:10px 28px; background:var(--red); color:white; border:none; border-radius:4px; font-family:'Oswald',sans-serif; font-size:15px; font-weight:700; cursor:pointer; }
   .btn-save-ref:hover { background:#a00d25; }
   .btn-save-ref:disabled { background:#ccc; cursor:not-allowed; }
@@ -198,7 +204,13 @@
 <body>
 
 <header>
-  <a class="logo" href="/"><span>I Hate</span> Car Accidents — Portal</a>
+  <a class="logo" href="/">
+      <div class="logo-icon"></div>
+      <div class="logo-text">
+        <span class="logo-line1">I Hate</span>
+        <span class="logo-line2">CAR ACCIDENTS</span>
+      </div>
+    </a>
   <div class="header-right">
     <span class="user-name" id="user-name">Loading...</span>
     <button class="nav-btn" onclick="showTab('referrals')">My Referrals</button>
@@ -1067,6 +1079,9 @@ loadProviders();
         <div class="form-group"><label>Adjuster Phone</label><input type="tel" id="er-adjuster-phone"></div>
       </div>
 
+      <div class="edit-section-title">Additional Notes</div>
+      <div class="form-group"><textarea id="er-notes" style="width:100%;padding:10px 14px;border:1px solid var(--gray-light);border-radius:4px;font-size:14px;font-family:'Barlow',sans-serif;resize:vertical;min-height:80px;outline:none;" placeholder="Any additional notes or updates..."></textarea></div>
+
       <div class="edit-section-title">Upload Additional Documents</div>
       <div class="upload-zone" onclick="document.getElementById('er-file-input').click()" style="margin-bottom:0;">
         <input type="file" id="er-file-input" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" onchange="handleErFiles(this.files)">
@@ -1075,10 +1090,7 @@ loadProviders();
       </div>
       <div id="er-file-list" style="margin-top:8px;"></div>
     </div>
-    <div class="edit-section-title">Additional Notes</div>
-      <div class="form-group"><textarea id="er-notes" style="width:100%;padding:10px 14px;border:1px solid var(--gray-light);border-radius:4px;font-size:14px;font-family:'Barlow',sans-serif;resize:vertical;min-height:80px;outline:none;" placeholder="Any additional notes or updates..."></textarea></div>
-
-      <div class="modal-box-footer">
+    <div class="modal-box-footer">
       <button class="btn-cancel-ref" onclick="closeEditReferral()">Cancel</button>
       <button class="btn-save-ref" id="er-save-btn" onclick="saveEditReferral()">Save Changes</button>
     </div>
