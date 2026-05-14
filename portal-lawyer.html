@@ -1257,23 +1257,18 @@ function formatPhone(val) {
   }
 })();
 
-  // Move upload section above notes in edit modal
+  // Fix edit modal: move Notes into modal-box-body so upload section shows
   document.addEventListener('DOMContentLoaded', function() {
-    var body = document.querySelector('#edit-ref-modal .modal-box-body');
+    var modal = document.getElementById('edit-ref-modal');
+    if (!modal) return;
+    var body = modal.querySelector('.modal-box-body');
     if (!body) return;
-    var titles = body.querySelectorAll('.edit-section-title');
-    var uploadTitle, notesTitle;
-    titles.forEach(function(t) {
-      if (t.textContent.trim() === 'Upload Additional Documents') uploadTitle = t;
-      if (t.textContent.trim() === 'Additional Notes') notesTitle = t;
-    });
-    if (uploadTitle && notesTitle && uploadTitle.compareDocumentPosition(notesTitle) & 2) {
-      body.insertBefore(uploadTitle, notesTitle);
-      var uploadZone = uploadTitle.nextElementSibling;
-      if (uploadZone && uploadZone.classList.contains('upload-zone')) {
-        body.insertBefore(uploadZone, notesTitle);
-      }
-    }
+    var allTitles = Array.from(modal.querySelectorAll('.edit-section-title'));
+    var notesTitle = allTitles.find(function(t){ return t.textContent.trim() === 'Additional Notes'; });
+    if (!notesTitle || notesTitle.parentElement === body) return;
+    var notesForm = notesTitle.nextElementSibling;
+    body.appendChild(notesTitle);
+    if (notesForm) body.appendChild(notesForm);
   });
 </script>
 
