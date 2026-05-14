@@ -155,13 +155,13 @@
   /* EDIT REFERRAL MODAL */
   .modal-overlay { display:none; position:fixed; top:0;left:0;right:0;bottom:0; background:rgba(0,0,0,0.6); z-index:2000; align-items:center; justify-content:center; padding:20px; }
   .modal-overlay.open { display:flex; }
-  .modal-box { background:white; border-radius:10px; width:100%; max-width:680px; max-height:90vh; overflow-y:auto; box-shadow:0 20px 60px rgba(0,0,0,0.3); }
+  .modal-box { background:white; border-radius:10px; width:100%; max-width:680px; max-height:90vh; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,0.3); }
   .modal-box-header { background:var(--black); padding:20px 28px; display:flex; align-items:center; justify-content:space-between; border-radius:10px 10px 0 0; position:sticky; top:0; z-index:10; }
   .modal-box-header h3 { font-family:'Oswald',sans-serif; color:white; font-size:18px; font-weight:700; }
   .modal-x { color:#aaa; font-size:28px; cursor:pointer; background:none; border:none; line-height:1; padding:0; }
   .modal-x:hover { color:white; }
-  .modal-box-body { padding:24px; }
-  .modal-box-footer { padding:16px 24px; border-top:1px solid var(--gray-light); display:flex; gap:10px; justify-content:flex-end; background:white; position:sticky; bottom:0; border-radius:0 0 10px 10px; }
+  .modal-box-body { flex:1; overflow-y:auto; padding:28px 32px; }
+  .modal-box-footer { flex-shrink:0; display:flex; justify-content:flex-end; gap:10px; padding:16px 24px; border-top:1px solid #e8e8e8; background:white; }
   .btn-save-ref { padding:10px 28px; background:var(--red); color:white; border:none; border-radius:4px; font-family:'Oswald',sans-serif; font-size:15px; font-weight:700; cursor:pointer; }
   .btn-save-ref:hover { background:#a00d25; }
   .btn-save-ref:disabled { background:#ccc; cursor:not-allowed; }
