@@ -1291,26 +1291,12 @@ function formatPhone(val) {
   function showReferralSuccess(providerName) {
     var overlay = document.createElement('div');
     overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:9999;display:flex;align-items:center;justify-content:center;';
-    overlay.innerHTML = '<div style="background:white;border-radius:12px;padding:40px;max-width:440px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.3);">' +
-      '<div style="font-size:56px;margin-bottom:16px;">✅</div>' +
-      '<div style="font-family:Oswald,sans-serif;font-size:22px;font-weight:700;color:#111;margin-bottom:12px;">Referral Submitted!</div>' +
-      '<div style="color:#555;font-size:15px;margin-bottom:24px;">' + providerName + ' has been notified by email.</div>' +
-      '<button onclick="this.closest('div[style*=fixed]').remove()" style="background:#c8102e;color:white;border:none;padding:12px 32px;border-radius:6px;font-size:15px;font-weight:600;cursor:pointer;font-family:Barlow,sans-serif;">OK</button>' +
-      '</div>';
+    var box = document.createElement('div');
+    box.style.cssText = 'background:white;border-radius:12px;padding:40px;max-width:440px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.3);';
+    box.innerHTML = '<div style="font-size:56px;margin-bottom:16px;">&#9989;</div><div style="font-family:Oswald,sans-serif;font-size:22px;font-weight:700;color:#111;margin-bottom:12px;">Referral Submitted!</div><div style="color:#555;font-size:15px;margin-bottom:24px;">' + providerName + ' has been notified by email.</div><button style="background:#c8102e;color:white;border:none;padding:12px 32px;border-radius:6px;font-size:15px;font-weight:600;cursor:pointer;font-family:Barlow,sans-serif;" id="sr-ok-btn">OK</button>';
+    overlay.appendChild(box);
     document.body.appendChild(overlay);
+    box.querySelector('#sr-ok-btn').onclick = function(){ overlay.remove(); };
     setTimeout(function(){ if(overlay.parentNode) overlay.remove(); }, 6000);
   }
 </script>
-
-<div class="referral-success-overlay" id="referral-success-overlay">
-  <div class="referral-success-box">
-    <div class="referral-success-icon">✅</div>
-    <h2>Referral Sent!</h2>
-    <p>Your referral for <strong id="success-patient-name"></strong> has been successfully submitted.</p>
-    <div class="provider-name" id="success-provider-name"></div>
-    <p style="color:#888;font-size:15px;">The provider has been notified by email.</p>
-    <button class="referral-success-close" onclick="document.getElementById('referral-success-overlay').classList.remove('active'); cancelForm(); uploadedFiles=[]; loadMyReferrals();">Done</button>
-  </div>
-</div>
-</body>
-</html>
