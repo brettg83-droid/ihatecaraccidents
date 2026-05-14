@@ -1256,6 +1256,25 @@ function formatPhone(val) {
     });
   }
 })();
+
+  // Move upload section above notes in edit modal
+  document.addEventListener('DOMContentLoaded', function() {
+    var body = document.querySelector('#edit-ref-modal .modal-box-body');
+    if (!body) return;
+    var titles = body.querySelectorAll('.edit-section-title');
+    var uploadTitle, notesTitle;
+    titles.forEach(function(t) {
+      if (t.textContent.trim() === 'Upload Additional Documents') uploadTitle = t;
+      if (t.textContent.trim() === 'Additional Notes') notesTitle = t;
+    });
+    if (uploadTitle && notesTitle && uploadTitle.compareDocumentPosition(notesTitle) & 2) {
+      body.insertBefore(uploadTitle, notesTitle);
+      var uploadZone = uploadTitle.nextElementSibling;
+      if (uploadZone && uploadZone.classList.contains('upload-zone')) {
+        body.insertBefore(uploadZone, notesTitle);
+      }
+    }
+  });
 </script>
 
 <div class="referral-success-overlay" id="referral-success-overlay">
