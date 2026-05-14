@@ -1118,6 +1118,14 @@ function openEditReferral(id) {
 }
 
 function populateEditModal(r) {
+    // Ensure Notes section is inside modal-box-body
+    (function(){
+      var m = document.getElementById('edit-ref-modal');
+      var b = m && m.querySelector('.modal-box-body');
+      if (!b) return;
+      var nt = Array.from(m.querySelectorAll('.edit-section-title')).find(function(t){ return t.textContent.trim() === 'Additional Notes'; });
+      if (nt && nt.parentElement !== b) { var nf = nt.nextElementSibling; b.appendChild(nt); if(nf) b.appendChild(nf); }
+    })();
   document.getElementById('er-id').value = r.id;
   document.getElementById('er-patient-name').value = r.patient_name || '';
   document.getElementById('er-dob').value = r.dob || '';
