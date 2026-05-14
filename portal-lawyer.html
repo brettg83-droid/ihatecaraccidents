@@ -743,6 +743,14 @@ function openEditRef(id) {
         <div><label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;color:#555;margin-bottom:4px;">Adjuster Name</label><input id="_erAdj" value="${(r.adjuster_name||'').replace(/"/g,'&quot;')}" style="width:100%;padding:9px 12px;border:1px solid var(--gray-light);border-radius:4px;font-size:13px;font-family:'Barlow',sans-serif;outline:none;"></div>
         <div><label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;color:#555;margin-bottom:4px;">Adjuster Phone</label><input id="_erAdjPh" value="${r.adjuster_phone||''}" style="width:100%;padding:9px 12px;border:1px solid var(--gray-light);border-radius:4px;font-size:13px;font-family:'Barlow',sans-serif;outline:none;"></div>
       </div>
+      <div style="font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--red);padding-bottom:8px;border-bottom:2px solid var(--gray-light);margin-bottom:16px;margin-top:20px;">Upload Additional Documents</div>
+      <div onclick="document.getElementById('_erFileInput').click()" ondragover="event.preventDefault()" ondrop="erHandleFileDrop(event)" style="border:2px dashed #ccc;border-radius:6px;padding:24px;text-align:center;cursor:pointer;margin-bottom:16px;">
+        <input type="file" id="_erFileInput" multiple style="display:none" onchange="erHandleFileSelect(event)" />
+        <div style="font-size:24px;margin-bottom:6px;">📎</div>
+        <div style="color:var(--red);font-weight:600;font-size:14px;">Click to upload additional documents</div>
+        <div style="color:#888;font-size:12px;margin-top:6px;">Existing documents will be kept</div>
+        <div id="_erFileList" style="margin-top:8px;"></div>
+      </div>
       <div style="font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--red);padding-bottom:8px;border-bottom:2px solid var(--gray-light);margin-bottom:16px;margin-top:20px;">Notes</div>
       <textarea id="_erNotes" style="width:100%;padding:10px 14px;border:1px solid var(--gray-light);border-radius:4px;font-size:13px;font-family:'Barlow',sans-serif;resize:vertical;min-height:80px;outline:none;">${r.notes||''}</textarea>
     </div>
