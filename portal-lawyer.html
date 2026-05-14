@@ -1079,9 +1079,6 @@ loadProviders();
         <div class="form-group"><label>Adjuster Phone</label><input type="tel" id="er-adjuster-phone"></div>
       </div>
 
-      <div class="edit-section-title">Additional Notes</div>
-      <div class="form-group"><textarea id="er-notes" style="width:100%;padding:10px 14px;border:1px solid var(--gray-light);border-radius:4px;font-size:14px;font-family:'Barlow',sans-serif;resize:vertical;min-height:80px;outline:none;" placeholder="Any additional notes or updates..."></textarea></div>
-
       <div class="edit-section-title">Upload Additional Documents</div>
       <div class="upload-zone" onclick="document.getElementById('er-file-input').click()" style="margin-bottom:0;">
         <input type="file" id="er-file-input" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" onchange="handleErFiles(this.files)">
@@ -1090,7 +1087,10 @@ loadProviders();
       </div>
       <div id="er-file-list" style="margin-top:8px;"></div>
     </div>
-    <div class="modal-box-footer">
+    <div class="edit-section-title">Additional Notes</div>
+      <div class="form-group"><textarea id="er-notes" style="width:100%;padding:10px 14px;border:1px solid var(--gray-light);border-radius:4px;font-size:14px;font-family:'Barlow',sans-serif;resize:vertical;min-height:80px;outline:none;" placeholder="Any additional notes or updates..."></textarea></div>
+
+      <div class="modal-box-footer">
       <button class="btn-cancel-ref" onclick="closeEditReferral()">Cancel</button>
       <button class="btn-save-ref" id="er-save-btn" onclick="saveEditReferral()">Save Changes</button>
     </div>
