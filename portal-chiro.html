@@ -5,99 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
-
-  // ── Chiro Document Sending ──
-
-  function cdPreview(refId, input) {
-    var pills = document.getElementById('cd-pills-' + refId);
-    if (!pills) return;
-    pills.innerHTML = '';
-    Array.from(input.files).forEach(function(f, i) {
-      var pill = document.createElement('span');
-      pill.className = 'chiro-file-pill';
-      pill.innerHTML = '📄 ' + f.name + ' <span class="rm" onclick="cdRemoveFile(\'' + refId + '\','+ i +')">✕</span>';
-      pills.appendChild(pill);
-    });
-  }
-
-  function cdRemoveFile(refId, idx) {
-    var input = document.getElementById('cd-input-' + refId);
-    if (!input) return;
-    var dt = new DataTransfer();
-    Array.from(input.files).forEach(function(f, i) { if (i !== idx) dt.items.add(f); });
-    input.files = dt.files;
-    cdPreview(refId, input);
-  }
-
-  async function sendChiroDocs(refId, attyEmail, attyName, patientName, btn) {
-    var input = document.getElementById('cd-input-' + refId);
-    var msgEl = document.getElementById('cd-msg-' + refId);
-    if (!input || !input.files.length) {
-      if (msgEl) msgEl.innerHTML = '<span style="color:#c00;">Please select at least one file.</span>';
-      return;
-    }
-    btn.disabled = true;
-    btn.textContent = 'Sending...';
-    if (msgEl) msgEl.innerHTML = '';
-
-    var chiroName = currentUser.user_metadata && currentUser.user_metadata.full_name
-      ? currentUser.user_metadata.full_name
-      : (currentUser.email || 'Your Chiropractor');
-    var chiroEmail = currentUser.email;
-    var files = Array.from(input.files);
-
-    try {
-      for (var file of files) {
-        var path = 'chiro-docs/' + refId + '/' + Date.now() + '-' + file.name;
-        var upRes = await sb.storage.from('documents').upload(path, file, { upsert: true });
-        if (upRes.error) throw upRes.error;
-        var insRes = await sb.from('chiro_documents').insert({
-          referral_id: refId,
-          filename: file.name,
-          path: path,
-          chiro_name: chiroName,
-          chiro_email: chiroEmail
-        });
-        if (insRes.error) throw insRes.error;
-      }
-
-      // Send email to attorney via Resend
-      await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': 'Bearer re_P9nJy4pt_7BEkzJThE4CQsFyHVBdEAdve',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          from: 'IHateCarAccidents Portal <noreply@ihatecaraccidents.com>',
-          to: [attyEmail],
-          subject: 'New Documents from ' + chiroName + ' | Patient: ' + patientName,
-          html: '<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px;">' +
-            '<div style="background:#c8102e;padding:16px 24px;border-radius:8px 8px 0 0;">' +
-            '<h2 style="color:white;margin:0;font-size:20px;">New Documents Available</h2></div>' +
-            '<div style="background:#f9f9f9;padding:24px;border-radius:0 0 8px 8px;border:1px solid #eee;">' +
-            '<p style="margin-top:0;">Hello <strong>' + attyName + '</strong>,</p>' +
-            '<p><strong>' + chiroName + '</strong> has sent you <strong>' + files.length + ' document(s)</strong> regarding patient <strong>' + patientName + '</strong>.</p>' +
-            '<p>Please log in to your attorney portal to view and download the documents.</p>' +
-            '<a href="https://ihatecaraccidents.com/portal-lawyer" style="display:inline-block;background:#c8102e;color:white;padding:12px 28px;border-radius:5px;text-decoration:none;font-weight:600;margin:8px 0;">View Documents</a>' +
-            '<p style="color:#999;font-size:12px;margin-bottom:0;margin-top:20px;">IHateCarAccidents.com | Attorney Portal</p>' +
-            '</div></div>'
-        })
-      });
-
-      if (msgEl) msgEl.innerHTML = '<span style="color:green;font-weight:600;">✓ ' + files.length + ' document(s) sent to ' + attyName + '!</span>';
-      input.value = '';
-      document.getElementById('cd-pills-' + refId).innerHTML = '';
-      setTimeout(function() { loadReferrals(); }, 2000);
-    } catch(err) {
-      if (msgEl) msgEl.innerHTML = '<span style="color:#c00;">Error: ' + err.message + '</span>';
-    }
-
-    btn.disabled = false;
-    btn.textContent = 'Send to Attorney';
-  }
-</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   :root { --red:#c8102e; --black:#111; --gray:#555; --gray-light:#e8e8e8; --gray-bg:#f5f5f5; }
   * { box-sizing:border-box; margin:0; padding:0; }
@@ -560,6 +468,99 @@ async function doChiroLogin() {
     loadReferrals();
   });
 }
+
+
+  // ── Chiro Document Sending ──
+
+  function cdPreview(refId, input) {
+    var pills = document.getElementById('cd-pills-' + refId);
+    if (!pills) return;
+    pills.innerHTML = '';
+    Array.from(input.files).forEach(function(f, i) {
+      var pill = document.createElement('span');
+      pill.className = 'chiro-file-pill';
+      pill.innerHTML = '📄 ' + f.name + ' <span class="rm" onclick="cdRemoveFile(\'' + refId + '\','+ i +')">✕</span>';
+      pills.appendChild(pill);
+    });
+  }
+
+  function cdRemoveFile(refId, idx) {
+    var input = document.getElementById('cd-input-' + refId);
+    if (!input) return;
+    var dt = new DataTransfer();
+    Array.from(input.files).forEach(function(f, i) { if (i !== idx) dt.items.add(f); });
+    input.files = dt.files;
+    cdPreview(refId, input);
+  }
+
+  async function sendChiroDocs(refId, attyEmail, attyName, patientName, btn) {
+    var input = document.getElementById('cd-input-' + refId);
+    var msgEl = document.getElementById('cd-msg-' + refId);
+    if (!input || !input.files.length) {
+      if (msgEl) msgEl.innerHTML = '<span style="color:#c00;">Please select at least one file.</span>';
+      return;
+    }
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    if (msgEl) msgEl.innerHTML = '';
+
+    var chiroName = currentUser.user_metadata && currentUser.user_metadata.full_name
+      ? currentUser.user_metadata.full_name
+      : (currentUser.email || 'Your Chiropractor');
+    var chiroEmail = currentUser.email;
+    var files = Array.from(input.files);
+
+    try {
+      for (var file of files) {
+        var path = 'chiro-docs/' + refId + '/' + Date.now() + '-' + file.name;
+        var upRes = await sb.storage.from('documents').upload(path, file, { upsert: true });
+        if (upRes.error) throw upRes.error;
+        var insRes = await sb.from('chiro_documents').insert({
+          referral_id: refId,
+          filename: file.name,
+          path: path,
+          chiro_name: chiroName,
+          chiro_email: chiroEmail
+        });
+        if (insRes.error) throw insRes.error;
+      }
+
+      // Send email to attorney via Resend
+      await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer re_P9nJy4pt_7BEkzJThE4CQsFyHVBdEAdve',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          from: 'IHateCarAccidents Portal <noreply@ihatecaraccidents.com>',
+          to: [attyEmail],
+          subject: 'New Documents from ' + chiroName + ' | Patient: ' + patientName,
+          html: '<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px;">' +
+            '<div style="background:#c8102e;padding:16px 24px;border-radius:8px 8px 0 0;">' +
+            '<h2 style="color:white;margin:0;font-size:20px;">New Documents Available</h2></div>' +
+            '<div style="background:#f9f9f9;padding:24px;border-radius:0 0 8px 8px;border:1px solid #eee;">' +
+            '<p style="margin-top:0;">Hello <strong>' + attyName + '</strong>,</p>' +
+            '<p><strong>' + chiroName + '</strong> has sent you <strong>' + files.length + ' document(s)</strong> regarding patient <strong>' + patientName + '</strong>.</p>' +
+            '<p>Please log in to your attorney portal to view and download the documents.</p>' +
+            '<a href="https://ihatecaraccidents.com/portal-lawyer" style="display:inline-block;background:#c8102e;color:white;padding:12px 28px;border-radius:5px;text-decoration:none;font-weight:600;margin:8px 0;">View Documents</a>' +
+            '<p style="color:#999;font-size:12px;margin-bottom:0;margin-top:20px;">IHateCarAccidents.com | Attorney Portal</p>' +
+            '</div></div>'
+        })
+      });
+
+      if (msgEl) msgEl.innerHTML = '<span style="color:green;font-weight:600;">✓ ' + files.length + ' document(s) sent to ' + attyName + '!</span>';
+      input.value = '';
+      document.getElementById('cd-pills-' + refId).innerHTML = '';
+      setTimeout(function() { loadReferrals(); }, 2000);
+    } catch(err) {
+      if (msgEl) msgEl.innerHTML = '<span style="color:#c00;">Error: ' + err.message + '</span>';
+    }
+
+    btn.disabled = false;
+    btn.textContent = 'Send to Attorney';
+  }
+
 </script>
 
 <!-- SET PASSWORD MODAL -->
