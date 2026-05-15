@@ -3,1341 +3,327 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Attorney Dashboard — IHateCarAccidents Portal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-  :root { --red:#c8102e; --black:#111; --gray:#555; --gray-light:#e8e8e8; --gray-bg:#f5f5f5; }
-  * { box-sizing:border-box; margin:0; padding:0; }
-  body { font-family:'Barlow',sans-serif; background:var(--gray-bg); min-height:100vh; display:flex; flex-direction:column; }
+:root { --red:#c8102e; --black:#111; --gray:#555; --gray-light:#e8e8e8; --gray-bg:#f5f5f5; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Barlow',sans-serif; background:var(--gray-bg); min-height:100vh; display:flex; flex-direction:column; }
+header { background:var(--black); padding:14px 24px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
 
-  /* HEADER */
-  header { background:var(--black); padding:14px 24px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
-  
-  .logo { font-family:'Oswald',sans-serif; line-height:1; flex-shrink:0; cursor:pointer; display:flex; align-items:center; gap:10px; text-decoration:none; }
-  .logo-icon { width:38px; height:38px; background:var(--red); border-radius:6px; display:flex; align-items:center; justify-content:center; flex-shrink:0; position:relative; overflow:hidden; transform:rotate(-2deg); box-shadow:3px 3px 0 #7a0a1a; }
-  .logo-icon::after { content:'✦'; font-size:20px; line-height:1; color:white; }
-  .logo-text { display:flex; flex-direction:column; gap:0px; }
-  .logo-line1 { font-size:13px; letter-spacing:0.22em; color:#aaa; line-height:1; font-family:'Barlow',sans-serif; font-weight:700; text-transform:uppercase; }
-  .logo-line2 { font-size:24px; letter-spacing:0.04em; line-height:0.95; color:white; font-family:'Oswald',sans-serif; font-weight:700; }
-    .logo span { color:var(--red); }
-  .header-right { display:flex; align-items:center; gap:16px; }
-  .user-name { color:#ccc; font-size:13px; }
-  .nav-btn { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:white; padding:7px 16px; border-radius:4px; font-size:13px; cursor:pointer; font-family:'Barlow',sans-serif; }
-  .nav-btn:hover { background:rgba(255,255,255,0.2); }
-  .nav-btn.red { background:var(--red); border-color:var(--red); }
+.logo { font-family:'Oswald',sans-serif; line-height:1; flex-shrink:0; cursor:pointer; display:flex; align-items:center; gap:10px; text-decoration:none; }
+.logo-icon { width:38px; height:38px; background:var(--red); border-radius:6px; display:flex; align-items:center; justify-content:center; flex-shrink:0; position:relative; overflow:hidden; transform:rotate(-2deg); box-shadow:3px 3px 0 #7a0a1a; }
+.logo-icon::after { content:'⚖️'; font-size:20px; line-height:1; }
+.logo-text { display:flex; flex-direction:column; gap:0px; }
+.logo-line1 { font-size:13px; letter-spacing:0.22em; color:#aaa; line-height:1; font-family:'Barlow',sans-serif; font-weight:700; text-transform:uppercase; }
+.logo-line2 { font-size:24px; letter-spacing:0.04em; line-height:0.95; color:white; font-family:'Oswald',sans-serif; font-weight:700; }
+.logo span { color:var(--red); }
+.header-right { display:flex; align-items:center; gap:16px; }
+.user-name { color:#ccc; font-size:13px; }
+.nav-btn { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:white; padding:7px 16px; border-radius:4px; font-size:13px; cursor:pointer; }
+.nav-btn:hover { background:rgba(255,255,255,0.2); }
 
-  /* TABS */
-  .page-tabs { background:white; border-bottom:2px solid var(--gray-light); display:flex; padding:0 24px; }
-  .page-tab { padding:14px 20px; font-family:'Oswald',sans-serif; font-size:14px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; cursor:pointer; color:#aaa; border-bottom:2px solid transparent; margin-bottom:-2px; transition:all 0.2s; }
-  .page-tab.active { color:var(--red); border-bottom-color:var(--red); }
+.main { flex:1; max-width:1100px; margin:0 auto; width:100%; padding:28px 24px; }
+.page-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
+.page-title { font-family:'Oswald',sans-serif; font-size:26px; font-weight:700; }
+.page-sub { font-size:14px; color:var(--gray); margin-top:2px; }
 
-  /* MAIN */
-  .main { flex:1; max-width:1200px; margin:0 auto; width:100%; padding:28px 24px; }
+.stats-row { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:28px; }
+.stat-card { background:white; border-radius:8px; border:1px solid var(--gray-light); padding:20px; text-align:center; }
+.stat-num { font-family:'Oswald',sans-serif; font-size:36px; font-weight:700; color:var(--red); }
+.stat-label { font-size:13px; color:var(--gray); margin-top:4px; }
 
-  /* MAP SECTION */
-  .section-title { font-family:'Oswald',sans-serif; font-size:20px; font-weight:700; color:var(--black); margin-bottom:6px; }
-  .section-sub { font-size:14px; color:var(--gray); margin-bottom:16px; }
+.filter-bar { display:flex; gap:10px; margin-bottom:18px; flex-wrap:wrap; align-items:center; }
+.chiro-filter-select { padding:7px 16px; border:1px solid var(--gray-light); border-radius:20px; font-size:13px; cursor:pointer; background:white; transition:all 0.2s; }
+.chiro-filter-select:hover { border-color:var(--red); }
+.chiro-filter-select:focus { outline:none; border-color:var(--red); }
+.filter-btn { padding:7px 16px; border:1px solid var(--gray-light); border-radius:20px; font-size:13px; cursor:pointer; background:white; transition:all 0.2s; }
+.filter-btn.active { background:var(--red); color:white; border-color:var(--red); }
 
-  .map-wrap { position:relative; border-radius:8px; overflow:hidden; border:1px solid var(--gray-light); margin-bottom:28px; }
-  #portal-map { width:100%; height:480px; z-index:1; }
-  .patient-search-bar { background:white; border:1px solid var(--gray-light); border-radius:8px; padding:16px 20px; margin-bottom:16px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
-  .patient-search-bar input { flex:1; min-width:200px; padding:10px 14px; border:1px solid var(--gray-light); border-radius:4px; font-size:14px; font-family:'Barlow',sans-serif; outline:none; }
-  .patient-search-bar input:focus { border-color:var(--red); }
-  .autocomplete-wrap { position:relative; flex:1; min-width:200px; }
-  .autocomplete-wrap input { width:100%; }
-  .autocomplete-list { position:absolute; top:100%; left:0; right:0; background:white; border:1px solid var(--gray-light); border-top:none; border-radius:0 0 6px 6px; box-shadow:0 8px 24px rgba(0,0,0,0.12); z-index:9999; max-height:240px; overflow-y:auto; }
-  .autocomplete-item { padding:10px 14px; font-size:13px; cursor:pointer; border-bottom:1px solid #f5f5f5; line-height:1.4; }
-  .autocomplete-item:hover, .autocomplete-item.active { background:#fff8f8; color:var(--red); }
-  .autocomplete-item:last-child { border-bottom:none; }
-  .patient-search-bar button { padding:10px 20px; background:var(--red); color:white; border:none; border-radius:4px; font-family:'Oswald',sans-serif; font-size:14px; font-weight:700; cursor:pointer; white-space:nowrap; }
-  .distance-badge { font-size:11px; font-weight:700; color:white; background:var(--red); padding:3px 8px; border-radius:20px; margin-left:6px; }
+.referral-list { display:flex; flex-direction:column; gap:12px; }
+.referral-card { background:white; border-radius:8px; border:1px solid var(--gray-light); overflow:hidden; transition:box-shadow 0.2s; }
+.referral-card:hover { box-shadow:0 4px 20px rgba(0,0,0,0.08); }
+.referral-card.new-ref { border-left:4px solid var(--red); }
 
-  /* CHIRO CARDS */
-  .chiro-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:16px; margin-bottom:28px; }
-  .chiro-card { position:relative; background:white; border:2px solid var(--gray-light); border-radius:8px; padding:18px; cursor:pointer; transition:all 0.2s; }
-  .chiro-card:hover,.chiro-card.selected { border-color:var(--red); box-shadow:0 4px 20px rgba(200,16,46,0.15); }
-  .chiro-card.selected { background:#fff8f8; }
-  .chiro-card.closest-card { border-color:var(--red); border-width:3px; box-shadow:0 6px 28px rgba(200,16,46,0.35); background:linear-gradient(135deg,#fff8f8 0%,#ffffff 100%); }
-  .closest-badge { display:flex; align-items:center; gap:6px; background:var(--red); color:white; font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:6px 14px; border-radius:4px; margin-bottom:10px; }
-  .closest-badge .star { font-size:16px; animation:pulse-star 1.5s ease-in-out infinite; }
-  .closest-badge .arrow { font-size:13px; }
-.chiro-notes-box { background:#f0fff4; border:1px solid #bbf7d0; border-radius:6px; padding:10px 14px; margin:0 20px 16px; }
-.chiro-notes-box h5 { font-family:'Oswald',sans-serif; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:#166534; margin-bottom:6px; }
-.chiro-note-item { border-bottom:1px solid #d1fae5; padding:5px 0; font-size:13px; }
-.chiro-note-item:last-child { border-bottom:none; }
-.chiro-note-date { font-size:11px; color:#6b7280; float:right; }
-.chiro-note-text { color:#111; line-height:1.4; }
-  @keyframes pulse-star { 0%,100%{transform:scale(1);} 50%{transform:scale(1.3);} }
-  .closest-distance { display:flex; align-items:center; gap:4px; }
-  .closest-distance .arrow-icon { color:var(--red); font-size:16px; font-weight:900; }
-  .chiro-name { font-family:'Oswald',sans-serif; font-size:16px; font-weight:700; color:var(--black); margin-bottom:2px; }
-  .chiro-practice { font-size:13px; font-weight:600; color:var(--red); margin-bottom:8px; }
-  .chiro-detail { font-size:12px; color:var(--gray); margin-bottom:3px; display:flex; align-items:flex-start; gap:6px; }
-  .chiro-detail svg { flex-shrink:0; margin-top:2px; }
-  .chiro-badges { display:flex; flex-wrap:wrap; gap:5px; margin-top:10px; }
-  .badge { font-size:11px; font-weight:700; padding:3px 8px; border-radius:20px; background:var(--gray-bg); color:var(--gray); }
-  .badge.pip { background:#f0fff4; color:#166534; }
-  .select-btn { width:100%; margin-top:12px; padding:8px; background:var(--red); color:white; border:none; border-radius:4px; font-family:'Oswald',sans-serif; font-size:13px; font-weight:700; cursor:pointer; letter-spacing:.04em; }
-  .select-btn.selected { background:#166534; }
+.ref-header { padding:16px 20px; display:flex; align-items:center; justify-content:space-between; cursor:pointer; gap:12px; flex-wrap:wrap; }
+.ref-patient { font-family:'Oswald',sans-serif; font-size:17px; font-weight:700; color:var(--black); }
+.ref-meta { font-size:12px; color:var(--gray); margin-top:2px; }
+.ref-right { display:flex; align-items:center; gap:10px; }
+.status-badge { display:inline-block; padding:4px 12px; border-radius:20px; font-size:11px; font-weight:700; text-transform:uppercase; }
+.status-badge.sent { background:#eff6ff; color:#1d4ed8; }
+.status-badge.viewed { background:#fef9c3; color:#854d0e; }
+.status-badge.accepted { background:#f0fff4; color:#166534; }
+.chevron { font-size:12px; color:#aaa; transition:transform 0.2s; }
+.chevron.open { transform:rotate(180deg); }
 
-  /* REFERRAL FORM */
-  #referral-form-section { display:none; background:white; border-radius:8px; border:1px solid var(--gray-light); overflow:hidden; }
-  .form-header { background:var(--black); padding:20px 28px; }
-  .form-header h2 { font-family:'Oswald',sans-serif; color:white; font-size:20px; font-weight:700; }
-  .form-header p { color:#aaa; font-size:13px; margin-top:4px; }
-  .form-body { padding:28px; }
+.ref-body { display:none; border-top:1px solid var(--gray-light); }
+.ref-body.open { display:block; }
+.ref-body-inner { padding:20px; display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; }
 
-  .form-section { margin-bottom:28px; }
-  .form-section-title { font-family:'Oswald',sans-serif; font-size:15px; font-weight:700; color:var(--black); text-transform:uppercase; letter-spacing:.08em; padding-bottom:10px; border-bottom:2px solid var(--gray-light); margin-bottom:18px; display:flex; align-items:center; gap:8px; }
-  .form-section-title .num { width:24px; height:24px; background:var(--red); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; }
+.ref-section h4 { font-family:'Oswald',sans-serif; font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--red); margin-bottom:10px; }
+.ref-field { margin-bottom:7px; font-size:13px; }
+.ref-field .lbl { color:#aaa; font-size:11px; text-transform:uppercase; letter-spacing:.06em; display:block; margin-bottom:1px; }
+.ref-field .val { color:var(--black); font-weight:500; }
 
-  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
-  .form-group { margin-bottom:16px; }
-  .form-group label { display:block; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:#555; margin-bottom:5px; }
-  .form-group input, .form-group select, .form-group textarea { width:100%; padding:10px 14px; border:1px solid var(--gray-light); border-radius:4px; font-size:14px; font-family:'Barlow',sans-serif; outline:none; transition:border 0.2s; }
-  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color:var(--red); }
-  .form-group textarea { resize:vertical; min-height:80px; }
-  .required { color:var(--red); }
+.ref-footer { padding:14px 20px; border-top:1px solid var(--gray-light); background:#fafafa; display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+.btn-accept { padding:8px 20px; background:#166534; color:white; border:none; border-radius:4px; font-family:'Oswald',sans-serif; font-size:13px; font-weight:700; cursor:pointer; }
+.btn-accept:hover { background:#15803d; }
+.doc-btn { padding:7px 14px; background:var(--black); color:white; border:none; border-radius:4px; font-size:12px; cursor:pointer; display:flex; align-items:center; gap:6px; }
+.doc-btn:hover { background:#333; }
+.sig-preview { margin-left:auto; }
+.sig-preview img { height:36px; border:1px solid var(--gray-light); border-radius:3px; background:white; }
 
-  /* ACKNOWLEDGMENT */
-  .ack-box { background:#f8f8f8; border:1px solid var(--gray-light); border-radius:6px; padding:20px; margin-bottom:20px; font-size:13px; color:#444; line-height:1.8; }
-  .ack-box ul { margin:10px 0 0 18px; }
-  .ack-box li { margin-bottom:6px; }
-  .ack-check { display:flex; align-items:flex-start; gap:10px; margin-bottom:16px; font-size:13px; color:var(--gray); }
-  .ack-check input[type=checkbox] { width:16px; height:16px; margin-top:2px; flex-shrink:0; accent-color:var(--red); }
+.empty-state { text-align:center; padding:60px; color:#aaa; background:white; border-radius:8px; border:1px solid var(--gray-light); }
+.empty-icon { font-size:48px; margin-bottom:12px; }
+footer { background:var(--black); color:#666; text-align:center; padding:16px; font-size:12px; }
 
-  /* FILE UPLOAD */
-  .upload-zone { border:2px dashed var(--gray-light); border-radius:6px; padding:24px; text-align:center; cursor:pointer; transition:border 0.2s; }
-  .upload-zone:hover { border-color:var(--red); }
-  .upload-zone input { display:none; }
-  .upload-icon { font-size:32px; margin-bottom:8px; }
-  .upload-text { font-size:14px; color:var(--gray); }
-  .upload-text strong { color:var(--red); }
-  .file-list { margin-top:12px; }
-  .file-item { display:flex; align-items:center; justify-content:space-between; padding:8px 12px; background:white; border:1px solid var(--gray-light); border-radius:4px; margin-top:6px; font-size:13px; }
-  .file-item .remove { color:var(--red); cursor:pointer; font-weight:700; background:none; border:none; font-size:16px; }
+@media(max-width:700px) { .ref-body-inner { grid-template-columns:1fr; } .stats-row { grid-template-columns:1fr; } }
 
-  /* SIGNATURE */
-  .sig-wrap { border:1px solid var(--gray-light); border-radius:6px; overflow:hidden; }
-  canvas#sig-canvas { display:block; width:100%; height:120px; background:white; cursor:crosshair; touch-action:none; }
-  .sig-actions { padding:8px 12px; background:#f9f9f9; border-top:1px solid var(--gray-light); display:flex; gap:8px; }
-  .sig-btn { padding:5px 12px; font-size:12px; border:1px solid var(--gray-light); border-radius:4px; cursor:pointer; background:white; }
-  .sig-btn.clear { color:var(--red); }
-
-  /* SUBMIT */
-  .submit-row { display:flex; gap:12px; margin-top:24px; }
-  .btn-submit { flex:1; padding:14px; background:var(--red); color:white; border:none; border-radius:4px; font-family:'Oswald',sans-serif; font-size:16px; font-weight:700; cursor:pointer; letter-spacing:.06em; }
-  .btn-submit:hover { background:#a00d25; }
-  .btn-submit:disabled { background:#ccc; cursor:not-allowed; }
-  .btn-cancel { padding:14px 24px; background:white; color:var(--gray); border:1px solid var(--gray-light); border-radius:4px; font-family:'Barlow',sans-serif; font-size:14px; cursor:pointer; }
-
-  /* PAST REFERRALS */
-  .referral-table { width:100%; border-collapse:collapse; background:white; border-radius:8px; overflow:hidden; border:1px solid var(--gray-light); }
-  .referral-table th { background:var(--black); color:white; font-family:'Oswald',sans-serif; font-size:13px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; padding:12px 16px; text-align:left; }
-  .referral-table td { padding:12px 16px; font-size:13px; border-bottom:1px solid var(--gray-light); }
-  .referral-table tr:last-child td { border-bottom:none; }
-  .referral-table tr:hover td { background:#fafafa; }
-  .status-badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:700; text-transform:uppercase; }
-  .status-badge.sent { background:#eff6ff; color:#1d4ed8; }
-  .status-badge.viewed { background:#fef9c3; color:#854d0e; }
-  .status-badge.accepted { background:#f0fff4; color:#166534; }
-
-  .msg { font-size:13px; padding:12px 16px; border-radius:4px; margin-bottom:16px; display:none; }
-  .msg.error { background:#fff0f0; color:#c00; border:1px solid #fcc; display:block; }
-  .msg.success { background:#f0fff4; color:#166534; border:1px solid #bbf7d0; display:block; }
-
-  @media(max-width:700px) { .form-row { grid-template-columns:1fr; } .chiro-grid { grid-template-columns:1fr; } }
-
-  /* EDIT REFERRAL MODAL */
-  .modal-overlay { display:none; position:fixed; top:0;left:0;right:0;bottom:0; background:rgba(0,0,0,0.6); z-index:2000; align-items:center; justify-content:center; padding:20px; }
-  .modal-overlay.open { display:flex; }
-  .modal-box { background:white; border-radius:10px; width:100%; max-width:680px; max-height:90vh; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,0.3); }
-  .modal-box-header { background:var(--black); padding:20px 28px; display:flex; align-items:center; justify-content:space-between; border-radius:10px 10px 0 0; position:sticky; top:0; z-index:10; }
-  .modal-box-header h3 { font-family:'Oswald',sans-serif; color:white; font-size:18px; font-weight:700; }
-  .modal-x { color:#aaa; font-size:28px; cursor:pointer; background:none; border:none; line-height:1; padding:0; }
-  .modal-x:hover { color:white; }
-  .modal-box-body { flex:1; overflow-y:auto; padding:28px 32px; }
-  .modal-box-footer { flex-shrink:0; display:flex; justify-content:flex-end; gap:10px; padding:16px 24px; border-top:1px solid #e8e8e8; background:white; }
-  .btn-save-ref { padding:10px 28px; background:var(--red); color:white; border:none; border-radius:4px; font-family:'Oswald',sans-serif; font-size:15px; font-weight:700; cursor:pointer; }
-  .btn-save-ref:hover { background:#a00d25; }
-  .btn-save-ref:disabled { background:#ccc; cursor:not-allowed; }
-  .btn-cancel-ref { padding:10px 20px; background:white; color:var(--gray); border:1px solid var(--gray-light); border-radius:4px; font-size:13px; cursor:pointer; }
-  .edit-section-title { font-family:'Oswald',sans-serif; font-size:14px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--red); padding-bottom:8px; border-bottom:2px solid var(--gray-light); margin-bottom:16px; margin-top:20px; }
-  .edit-section-title:first-child { margin-top:0; }
-
-.referral-success-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.85);
-  z-index: 99999;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-.referral-success-overlay.active { display: flex; }
-.referral-success-box {
-  background: white;
-  border-radius: 16px;
-  padding: 60px 40px;
-  text-align: center;
-  max-width: 600px;
-  width: 90%;
-  animation: successPop 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
-}
-@keyframes successPop { from { transform: scale(0.7); opacity:0; } to { transform: scale(1); opacity:1; } }
-.referral-success-icon { font-size: 80px; margin-bottom: 20px; }
-.referral-success-box h2 { font-family:'Oswald',sans-serif; font-size: 36px; font-weight:700; color:#166534; margin-bottom: 12px; }
-.referral-success-box p { font-size: 18px; color: #555; margin-bottom: 8px; line-height: 1.5; }
-.referral-success-box .provider-name { font-size: 22px; font-weight: 700; color: #111; margin: 16px 0; }
-.referral-success-close { margin-top: 32px; background: var(--red); color: white; border: none; padding: 14px 40px; border-radius: 8px; font-family:'Oswald',sans-serif; font-size: 18px; font-weight: 700; cursor: pointer; }
-.referral-success-close:hover { background: #a00d25; }
-
-.chiro-photo { position:absolute; bottom:10px; right:10px; width:60px; height:75px; border-radius:6px; object-fit:cover; object-position:top; background:#f0f0f0; }
-.chiro-photo-placeholder { position:absolute; bottom:10px; right:10px; width:60px; height:75px; border-radius:6px; background:#e8e8e8; display:flex; align-items:center; justify-content:center; font-size:22px; color:#bbb; }
-
-  .chiro-docs-section { padding:0 20px 16px; }
-  .chiro-docs-section h5 { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:#c8102e; margin:0 0 8px 0; font-family:'Oswald',sans-serif; }
-  .chiro-doc-btn { display:flex; align-items:center; gap:6px; padding:8px 14px; background:#fff3f3; color:#c8102e; border:1px solid #f5c0c0; border-radius:4px; font-size:12px; cursor:pointer; margin:4px 4px 0 0; }
-  .chiro-doc-btn:hover { background:#c8102e; color:white; }
-  </style>
+.notes-panel { background:#f9f9f9; border-top:1px solid var(--gray-light); padding:16px 20px; }
+.notes-panel h4 { font-family:'Oswald',sans-serif; font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--black); margin-bottom:10px; }
+.notes-history { margin-bottom:10px; max-height:150px; overflow-y:auto; }
+.note-item { background:white; border:1px solid var(--gray-light); border-radius:6px; padding:10px 14px; margin-bottom:6px; font-size:13px; }
+.note-item .note-date { font-size:11px; color:#aaa; float:right; }
+</style>
 </head>
 <body>
 
 <header>
-  <a class="logo" href="/">
-      <div class="logo-icon"></div>
-      <div class="logo-text">
-        <span class="logo-line1">I Hate</span>
-        <span class="logo-line2">CAR ACCIDENTS</span>
-      </div>
-    </a>
-  <div class="header-right">
-    <span class="user-name" id="user-name">Loading...</span>
-    <button class="nav-btn" onclick="showTab('referrals')">My Referrals</button>
-    <button class="nav-btn red" onclick="newReferral()">+ New Referral</button>
-    <button class="nav-btn" onclick="doLogout()">Sign Out</button>
-  </div>
+<a class="logo" href="/">
+<div class="logo-icon"></div>
+<div class="logo-text">
+<span class="logo-line1">I Hate</span>
+<span class="logo-line2">CAR ACCIDENTS</span>
+</div>
+</a>
+<div class="header-right">
+<span class="user-name" id="user-name">Loading...</span>
+<button class="nav-btn" onclick="doLogout()">Sign Out</button>
+</div>
 </header>
 
-<div class="page-tabs">
-  <div class="page-tab active" id="tab-new" onclick="showTab('new')">New Referral</div>
-  <div class="page-tab" id="tab-referrals" onclick="showTab('referrals')">My Referrals</div>
-</div>
-
 <div class="main">
-
-  <!-- NEW REFERRAL TAB -->
-  <div id="panel-new">
-    <div style="text-align:right;margin-bottom:16px;">
-      <span style="font-family:'Oswald',sans-serif;font-size:18px;color:#555;">Welcome, </span>
-      <span id="welcome-name" style="font-family:'Oswald',sans-serif;font-size:18px;font-weight:700;color:var(--red);"></span>
-    </div>
-    <div class="section-title">Select a Chiropractic Provider</div>
-    <div class="section-sub">Click a provider below or on the map to begin a referral. Providers are sorted by location.</div>
-
-    <!-- Patient Address Search with Autocomplete -->
-    <div class="patient-search-bar">
-      <span style="font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;color:var(--black);white-space:nowrap;">📍 Find Closest Provider:</span>
-      <div class="autocomplete-wrap">
-        <input type="text" id="patient-address" placeholder="Start typing patient address..." 
-          oninput="onAddressInput(this.value)"
-          onkeydown="onAddressKey(event)"
-          autocomplete="off">
-        <div class="autocomplete-list" id="autocomplete-list" style="display:none;"></div>
-      </div>
-      <button onclick="findClosest()">Find Closest</button>
-      <span id="closest-result" style="font-size:13px;color:var(--gray);"></span>
-    </div>
-
-    <!-- Map -->
-    <div class="map-wrap">
-      <div id="portal-map"></div>
-    </div>
-
-    <!-- Chiro Cards -->
-    <div class="chiro-grid" id="chiro-grid">
-      <!-- Populated by JS -->
-    </div>
-
-    <!-- Referral Form (shown after chiro selected) -->
-    <div id="referral-form-section">
-      <div class="form-header">
-        <h2>Attorney Case Placement Form</h2>
-        <p id="form-chiro-name">Referring to: —</p>
-      </div>
-      <div class="form-body">
-        <div id="form-msg" class="msg"></div>
-
-        <!-- SECTION 1: ATTORNEY INFO -->
-        <div class="form-section">
-          <div class="form-section-title"><span class="num">1</span>Attorney Information</div>
-          <div class="form-row">
-            <div class="form-group"><label>Attorney Name <span class="required">*</span></label><input type="text" id="f-atty-name" placeholder="John Smith, Esq."></div>
-            <div class="form-group"><label>Law Firm Name <span class="required">*</span></label><input type="text" id="f-firm" placeholder="Smith &amp; Associates"></div>
-          </div>
-          <div class="form-row">
-            <div class="form-group"><label>Florida Bar Number <span class="required">*</span></label><input type="text" id="f-bar" placeholder="123456"></div>
-            <div class="form-group"><label>Phone <span class="required">*</span></label><input type="tel" id="f-atty-phone" placeholder="(555) 000-0000"></div>
-          </div>
-          <div class="form-group"><label>Email <span class="required">*</span></label><input type="email" id="f-atty-email" placeholder="attorney@firm.com"></div>
-        </div>
-
-        <!-- SECTION 2: PATIENT INFO -->
-        <div class="form-section">
-          <div class="form-section-title"><span class="num">2</span>Patient Information</div>
-          <div class="form-row">
-            <div class="form-group"><label>Patient Full Name <span class="required">*</span></label><input type="text" id="f-patient-name" placeholder="Jane Doe"></div>
-            <div class="form-group"><label>Date of Birth <span class="required">*</span></label><input type="date" id="f-dob"></div>
-          </div>
-          <div class="form-row">
-            <div class="form-group"><label>Date of Incident <span class="required">*</span></label><input type="date" id="f-incident-date"></div>
-            <div class="form-group"><label>Type of Incident <span class="required">*</span></label>
-              <select id="f-incident-type">
-                <option value="">Select...</option>
-                <option>Motor Vehicle Accident</option>
-                <option>Slip and Fall</option>
-                <option>Motorcycle Accident</option>
-                <option>Pedestrian Accident</option>
-                <option>Other</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group"><label>Patient Phone <span class="required">*</span></label><input type="tel" id="f-patient-phone" placeholder="(555) 000-0000"></div>
-            <div class="form-group"><label>Preferred Language</label>
-              <select id="f-language">
-                <option value="">Select...</option>
-                <option>English</option>
-                <option>Spanish</option>
-                <option>Creole</option>
-                <option>Portuguese</option>
-                <option>Other</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <!-- SECTION 3: INSURANCE INFO -->
-        <div class="form-section">
-          <div class="form-section-title"><span class="num">3</span>Insurance Information</div>
-          <div class="form-row">
-            <div class="form-group"><label>Insurance Company</label><input type="text" id="f-insurance" placeholder="State Farm, Geico, etc."></div>
-            <div class="form-group"><label>Claim Number</label><input type="text" id="f-claim-number" placeholder="CLM-0000000"></div>
-          </div>
-          <div class="form-row">
-            <div class="form-group"><label>Adjuster Name</label><input type="text" id="f-adjuster-name" placeholder="Jane Williams"></div>
-            <div class="form-group"><label>Adjuster Phone</label><input type="tel" id="f-adjuster-phone" placeholder="(555) 000-0000"></div>
-          </div>
-          <div class="form-group"><label>Additional Notes</label><textarea id="f-notes" placeholder="Any additional information about the case..."></textarea></div>
-        </div>
-
-        <!-- SECTION 4: DOCUMENTS -->
-        <div class="form-section">
-          <div class="form-section-title"><span class="num">4</span>Documents</div>
-          <div class="upload-zone" onclick="document.getElementById('file-input').click()">
-            <input type="file" id="file-input" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" onchange="handleFiles(this.files)">
-            <div class="upload-icon">📎</div>
-            <div class="upload-text"><strong>Click to upload</strong> or drag and drop<br><small style="color:#aaa">PDF, Word, or images — patient intake, insurance cards, accident reports</small></div>
-          </div>
-          <div class="file-list" id="file-list"></div>
-        </div>
-
-        <!-- SECTION 5: ACKNOWLEDGMENT -->
-        <div class="form-section">
-          <div class="form-section-title"><span class="num">5</span>Independent Case Placement Acknowledgment</div>
-          <div class="ack-box">
-            I, the undersigned attorney, hereby confirm the following:
-            <ul>
-              <li>I have independently selected the above-named chiropractic practice for the treatment of my client based on my own professional judgment.</li>
-              <li>This case placement is made at my sole discretion. No third party has directed, instructed, or required me to place this case with this specific provider.</li>
-              <li>I have not received, nor have I been promised, any form of compensation, fee, commission, rebate, or other thing of value from this chiropractic practice in connection with this case placement.</li>
-              <li>This case placement does not create any financial arrangement between my firm and the chiropractic practice beyond the standard professional relationship.</li>
-            </ul>
-          </div>
-          <div class="ack-check">
-            <input type="checkbox" id="f-ack">
-            <label for="f-ack" style="font-size:13px;color:#444;cursor:pointer;">I have read and agree to the Independent Case Placement Acknowledgment above.</label>
-          </div>
-          <div class="form-group">
-            <label>Attorney Signature <span class="required">*</span></label>
-            <div class="sig-wrap">
-              <canvas id="sig-canvas" width="800" height="120"></canvas>
-              <div class="sig-actions">
-                <span style="font-size:12px;color:#aaa;flex:1;">Sign above with your mouse or finger</span>
-                <button class="sig-btn clear" onclick="clearSig()">Clear Signature</button>
-              </div>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group"><label>Printed Name <span class="required">*</span></label><input type="text" id="f-print-name" placeholder="John Smith"></div>
-            <div class="form-group"><label>Date</label><input type="date" id="f-sign-date"></div>
-          </div>
-        </div>
-
-        <div class="submit-row">
-          <button class="btn-cancel" onclick="cancelForm()">Cancel</button>
-          <button class="btn-submit" id="submit-btn" onclick="submitReferral()">Submit Referral</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MY REFERRALS TAB -->
-  <div id="panel-referrals" style="display:none;">
-    <div class="section-title" style="margin-bottom:20px;">My Referrals</div>
-    <div id="referrals-list">
-      <div style="text-align:center;padding:40px;color:#aaa;">Loading referrals...</div>
-    </div>
-  </div>
-
+<div class="page-header">
+<div>
+<div style="display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;">
+<div class="page-title">My Referrals</div>
+<div style="font-family:'Oswald',sans-serif;font-size:18px;color:#555;">Welcome, <span id="atty-welcome-name" style="color:var(--red);font-weight:700;"></span></div>
+</div>
+<div class="page-sub" id="practice-name">Loading your dashboard...</div>
+</div>
 </div>
 
-<!-- Google Maps -->
+<div class="stats-row">
+<div class="stat-card"><div class="stat-num" id="stat-total">—</div><div class="stat-label">Total Referrals Sent</div></div>
+<div class="stat-card"><div class="stat-num" id="stat-new">—</div><div class="stat-label">Pending Response</div></div>
+<div class="stat-card"><div class="stat-num" id="stat-accepted">—</div><div class="stat-label">Accepted</div></div>
+</div>
+
+<div class="filter-bar">
+<select id="chiroFilter" class="chiro-filter-select" onchange="filterByChiro()">
+<option value="">All Providers</option>
+</select>
+<button class="filter-btn active" onclick="filterRefs('all', this)">All</button>
+<button class="filter-btn" onclick="filterRefs('sent', this)">Pending</button>
+<button class="filter-btn" onclick="filterRefs('accepted', this)">Accepted</button>
+</div>
+
+<div class="referral-list" id="referral-list">
+<div class="empty-state"><div class="empty-icon">📋</div>Loading referrals...</div>
+</div>
+</div>
+
+<footer>© 2025 IHateCarAccidents.com — Attorney Portal — Secure &amp; Encrypted</footer>
+
 <script>
 const SUPABASE_URL = 'https://xlhkduyviqzzyxjqnjxj.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhsaGtkdXl2aXF6enl4anFuanhqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3MzYxNzQsImV4cCI6MjA5MjMxMjE3NH0.QhhkZ8QFYTtlC5cRc9v2EGMSroiavdq69D_-dYFxnqI';
-const GOOGLE_MAPS_KEY = 'YOUR_GOOGLE_MAPS_KEY';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// Providers loaded dynamically from Supabase
-let providers = [];
-
-let selectedProvider = null;
-let uploadedFiles = [];
-let map, markers = [];
-
-// Auth check
 let currentUser = null;
+let allReferrals = [];
+let currentFilter = 'all';
+let currentChiroFilter = '';
+
 sb.auth.getSession().then(({ data: { session } }) => {
-  if (!session) { window.location.href = '/portal.html'; return; }
-  currentUser = session.user;
-  sb.from('profiles').select('full_name, firm, phone, bar_number').eq('id', currentUser.id).single().then(({ data }) => {
-    document.getElementById('user-name').textContent = data?.full_name || currentUser.email;
-    var wn = document.getElementById('welcome-name'); if (wn) wn.textContent = (data?.full_name || currentUser.email).split(' ')[0];
-    document.getElementById('f-atty-email').value = currentUser.email;
-    if (data?.full_name) document.getElementById('f-atty-name').value = data.full_name;
-    if (data?.firm) document.getElementById('f-firm').value = data.firm;
-  });
+if (!session) { showAttyLogin(); return; }
+currentUser = session.user;
+sb.from('profiles').select('full_name, firm').eq('id', currentUser.id).single().then(({ data }) => {
+document.getElementById('user-name').textContent = data?.full_name || currentUser.email;
+document.getElementById('practice-name').textContent = data?.firm || 'Attorney Dashboard';
+var wwn = document.getElementById('atty-welcome-name'); if (wwn) wwn.textContent = (data?.full_name || currentUser.email).split(' ')[0];
+loadReferrals();
+});
 });
 
 function doLogout() { sb.auth.signOut().then(() => window.location.href = '/portal.html'); }
 
-// TABS
-function showTab(tab) {
-  document.getElementById('panel-new').style.display = tab==='new' ? 'block' : 'none';
-  document.getElementById('panel-referrals').style.display = tab==='referrals' ? 'block' : 'none';
-  document.getElementById('tab-new').classList.toggle('active', tab==='new');
-  document.getElementById('tab-referrals').classList.toggle('active', tab==='referrals');
-  if (tab==='referrals') loadReferrals();
-}
-
-function newReferral() { showTab('new'); window.scrollTo({top:0,behavior:'smooth'}); }
-
-// CHIRO CARDS
-function buildChiroCards() {
-  var grid = document.getElementById('chiro-grid');
-  grid.innerHTML = providers.map(p => `
-    <div class="chiro-card" id="card-${p.id}" data-pid="${p.id}" onclick="selectProvider(this.dataset.pid)">
-      <div class="chiro-card-info">
-      <div class="chiro-name">${p.name}</div>
-      <div class="chiro-practice">${p.practice}</div>
-      <div class="chiro-detail"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${p.address}</div>
-      <div class="chiro-detail"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.81a16 16 0 0 0 6 6l.94-.94a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.5 16.92z"/></svg>${p.phone}</div>
-      ${p.notes ? `<div class="chiro-detail" style="color:#166534;">✓ ${p.notes}</div>` : ''}
-      <div class="chiro-badges">
-        ${p.pip ? '<span class="badge pip">✓ Accepts PIP</span>' : ''}
-        ${p.walkins ? '<span class="badge">Walk-ins Welcome</span>' : ''}
-        ${p.languages.split(',').map(l=>`<span class="badge">${l.trim()}</span>`).join('')}
-      </div>
-      <button class="select-btn" id="selbtn-${p.id}" data-pid="${p.id}" onclick="event.stopPropagation();selectProvider(this.dataset.pid)">Select This Provider →</button>
-      </div>
-      ${p.photo ? `<img class="chiro-photo" src="${p.photo}" alt="${p.name}" onerror="this.style.display='none'">` : `<div class="chiro-photo-placeholder">👨‍⚕️</div>`}
-    </div>
-  `).join('');
-}
-
-function selectProvider(id) {
-  selectedProvider = providers.find(p => p.id === id);
-  // Update card styles
-  providers.forEach(p => {
-    document.getElementById('card-'+p.id)?.classList.toggle('selected', p.id===id);
-    var btn = document.getElementById('selbtn-'+p.id);
-    if (btn) { btn.textContent = p.id===id ? '✓ Selected' : 'Select This Provider →'; btn.classList.toggle('selected', p.id===id); }
-  });
-  // Show form
-  document.getElementById('referral-form-section').style.display = 'block';
-  document.getElementById('form-chiro-name').textContent = 'Referring to: ' + selectedProvider.practice + ' — ' + selectedProvider.name;
-  document.getElementById('f-sign-date').value = new Date().toISOString().split('T')[0];
-  document.getElementById('referral-form-section').scrollIntoView({behavior:'smooth', block:'start'});
-  // Highlight map marker (Leaflet)
-  markers.forEach(m => { if(m.providerId===id) { 
-      map.panTo([selectedProvider.lat, selectedProvider.lng]);
-     
-    } });
-}
-
-function cancelForm() {
-  selectedProvider = null;
-  document.getElementById('referral-form-section').style.display = 'none';
-  providers.forEach(p => {
-    document.getElementById('card-'+p.id)?.classList.remove('selected');
-    var btn = document.getElementById('selbtn-'+p.id);
-    if (btn) { btn.textContent = 'Select This Provider →'; btn.classList.remove('selected'); }
-  });
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-// FILE UPLOAD
-function handleFiles(files) {
-  for (var f of files) {
-    if (!uploadedFiles.find(x => x.name===f.name)) uploadedFiles.push(f);
-  }
-  renderFileList();
-}
-
-function renderFileList() {
-  var list = document.getElementById('file-list');
-  list.innerHTML = uploadedFiles.map((f,i) => `
-    <div class="file-item">
-      <span>📄 ${f.name} <span style="color:#aaa;">(${(f.size/1024).toFixed(0)} KB)</span></span>
-      <button class="remove" onclick="removeFile(${i})">×</button>
-    </div>
-  `).join('');
-}
-
-function removeFile(i) { uploadedFiles.splice(i,1); renderFileList(); }
-
-// Drag & drop
-var zone = document.querySelector('.upload-zone');
-zone.addEventListener('dragover', e => { e.preventDefault(); zone.style.borderColor='var(--red)'; });
-zone.addEventListener('dragleave', () => zone.style.borderColor='');
-zone.addEventListener('drop', e => { e.preventDefault(); zone.style.borderColor=''; handleFiles(e.dataTransfer.files); });
-
-// SIGNATURE
-var sigCanvas = document.getElementById('sig-canvas');
-var ctx = sigCanvas.getContext('2d');
-var drawing = false;
-ctx.strokeStyle = '#111'; ctx.lineWidth = 2; ctx.lineCap = 'round';
-
-function getPos(e) {
-  var r = sigCanvas.getBoundingClientRect();
-  var scaleX = sigCanvas.width / r.width;
-  var scaleY = sigCanvas.height / r.height;
-  var src = e.touches ? e.touches[0] : e;
-  return { x:(src.clientX-r.left)*scaleX, y:(src.clientY-r.top)*scaleY };
-}
-sigCanvas.addEventListener('mousedown', e => { drawing=true; var p=getPos(e); ctx.beginPath(); ctx.moveTo(p.x,p.y); });
-sigCanvas.addEventListener('mousemove', e => { if(!drawing) return; var p=getPos(e); ctx.lineTo(p.x,p.y); ctx.stroke(); });
-sigCanvas.addEventListener('mouseup', () => drawing=false);
-sigCanvas.addEventListener('mouseleave', () => drawing=false);
-sigCanvas.addEventListener('touchstart', e => { e.preventDefault(); drawing=true; var p=getPos(e); ctx.beginPath(); ctx.moveTo(p.x,p.y); });
-sigCanvas.addEventListener('touchmove', e => { e.preventDefault(); if(!drawing) return; var p=getPos(e); ctx.lineTo(p.x,p.y); ctx.stroke(); });
-sigCanvas.addEventListener('touchend', () => drawing=false);
-function clearSig() { ctx.clearRect(0,0,sigCanvas.width,sigCanvas.height); }
-function isSigEmpty() { return !sigCanvas.toDataURL().includes('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAAA'); }
-
-// SUBMIT REFERRAL
-async function submitReferral() {
-  if (!selectedProvider) { alert('Please select a provider first.'); return; }
-  var required = ['f-atty-name','f-firm','f-bar','f-atty-phone','f-atty-email','f-patient-name','f-dob','f-incident-date','f-incident-type','f-patient-phone','f-print-name'];
-  for (var id of required) {
-    if (!document.getElementById(id).value.trim()) {
-      showFormMsg('error', 'Please fill in all required fields marked with *');
-      document.getElementById(id).focus();
-      return;
-    }
-  }
-  if (!document.getElementById('f-ack').checked) { showFormMsg('error','Please check the acknowledgment box to confirm your agreement.'); return; }
-
-  var btn = document.getElementById('submit-btn');
-  btn.textContent = 'Submitting...'; btn.disabled = true;
-
-  try {
-    // Build referral record
-    var referral = {
-      lawyer_id: currentUser.id,
-      chiro_id: selectedProvider.id,
-      chiro_name: selectedProvider.name,
-      chiro_practice: selectedProvider.practice,
-      chiro_email: selectedProvider.email,
-      atty_name: document.getElementById('f-atty-name').value.trim(),
-      firm: document.getElementById('f-firm').value.trim(),
-      bar_number: document.getElementById('f-bar').value.trim(),
-      atty_phone: document.getElementById('f-atty-phone').value.trim(),
-      atty_email: document.getElementById('f-atty-email').value.trim(),
-      patient_name: document.getElementById('f-patient-name').value.trim(),
-      dob: document.getElementById('f-dob').value,
-      incident_date: document.getElementById('f-incident-date').value,
-      incident_type: document.getElementById('f-incident-type').value,
-      patient_phone: document.getElementById('f-patient-phone').value.trim(),
-      language: document.getElementById('f-language').value,
-      insurance: document.getElementById('f-insurance').value.trim(),
-      claim_number: document.getElementById('f-claim-number').value.trim(),
-      adjuster_name: document.getElementById('f-adjuster-name').value.trim(),
-      adjuster_phone: document.getElementById('f-adjuster-phone').value.trim(),
-      notes: document.getElementById('f-notes').value.trim(),
-      print_name: document.getElementById('f-print-name').value.trim(),
-      sign_date: document.getElementById('f-sign-date').value,
-      signature_data: sigCanvas.toDataURL(),
-      status: 'sent',
-      created_at: new Date().toISOString()
-    };
-
-    var { data: ref, error } = await sb.from('referrals').insert(referral).select().single();
-    if (error) throw error;
-
-    // Upload files
-    for (var file of uploadedFiles) {
-      var path = `referrals/${ref.id}/${file.name}`;
-      await sb.storage.from('documents').upload(path, file);
-      await sb.from('referral_documents').insert({ referral_id: ref.id, filename: file.name, path });
-    }
-
-    showReferralSuccess(selectedProvider.name);
-    
-    // Notify chiro via email
-    try {
-      await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': 'Bearer re_P9nJy4pt_7BEkzJThE4CQsFyHVBdEAdve',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          from: 'IHateCarAccidents Portal <noreply@ihatecaraccidents.com>',
-          to: [selectedProvider.email],
-          subject: 'New Referral from ' + document.getElementById('f-atty-name').value + ' | Patient: ' + document.getElementById('f-patient-name').value,
-          html: '<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px;">' +
-            '<div style="background:#c8102e;padding:16px 24px;border-radius:8px 8px 0 0;">' +
-            '<h2 style="color:white;margin:0;font-size:20px;">New Referral Received</h2></div>' +
-            '<div style="background:#f9f9f9;padding:24px;border-radius:0 0 8px 8px;border:1px solid #eee;">' +
-            '<p style="margin-top:0;">Hello ' + selectedProvider.name + ',</p>' +
-            '<p>You have received a new patient referral from attorney <strong>' + document.getElementById('f-atty-name').value + '</strong> of <strong>' + document.getElementById('f-firm').value + '</strong>.</p>' +
-            '<p><strong>Patient:</strong> ' + document.getElementById('f-patient-name').value + '<br>' +
-            '<strong>Incident:</strong> ' + (document.getElementById('f-incident-type').value || 'Not specified') + '<br>' +
-            '<strong>Date:</strong> ' + (document.getElementById('f-incident-date').value || 'Not specified') + '</p>' +
-            '<a href="https://ihatecaraccidents.com/portal-chiro" style="display:inline-block;background:#c8102e;color:white;padding:12px 28px;border-radius:5px;text-decoration:none;font-weight:600;margin:8px 0;">View Referral</a>' +
-            '<p style="color:#999;font-size:12px;margin-bottom:0;margin-top:20px;">IHateCarAccidents.com | Provider Portal</p>' +
-            '</div></div>'
-        })
-      });
-    } catch(emailErr) { console.warn('Chiro email failed:', emailErr.message); }
-    
-    showFormMsg('success', '✓ Referral submitted successfully! ' + selectedProvider.name + ' has been notified by email.');
-    btn.textContent = 'Referral Submitted ✓';
-    if (selectedProvider && markers[selectedProvider.id]) {
-      markers[selectedProvider.id].bindPopup(
-        '<div style="font-family:Barlow,sans-serif;text-align:center;padding:4px 8px;">' +
-        '<div style="background:#166534;color:white;padding:8px 16px;border-radius:6px;margin-bottom:8px;">' +
-        '<div style="font-size:24px;margin-bottom:2px;">&#9989;</div>' +
-        '<strong style="font-size:16px;letter-spacing:.5px;">SUCCESS!</strong><br>' +
-        '<span style="font-size:12px;">Referral Sent</span>' +
-        '</div><strong>' + selectedProvider.name + '</strong></div>'
-      ).openPopup();
-    }
-    setTimeout(() => { cancelForm(); uploadedFiles=[]; renderFileList(); clearSig(); btn.textContent='Submit Referral'; btn.disabled=false; }, 3000);
-
-  } catch(err) {
-    showFormMsg('error', 'Error submitting referral: ' + err.message);
-    btn.textContent = 'Submit Referral'; btn.disabled = false;
-  }
-}
-
-function showFormMsg(type, text) {
-  var el = document.getElementById('form-msg');
-  el.className = 'msg ' + type;
-  el.textContent = text;
-  el.scrollIntoView({behavior:'smooth', block:'nearest'});
-}
-
-// LOAD PAST REFERRALS
 async function loadReferrals() {
-  if (!currentUser) return;
-  var { data, error } = await sb.from('referrals').select('*, referral_documents(id, filename, path), chiro_documents(id, filename, path, chiro_name, sent_at)').eq('lawyer_id', currentUser.id).order('created_at', {ascending:false});
-  var list = document.getElementById('referrals-list');
-  if (error || !data?.length) {
-    list.innerHTML = '<div style="text-align:center;padding:60px;color:#aaa;background:white;border-radius:8px;border:1px solid var(--gray-light);">No referrals yet. Click &quot;+ New Referral&quot; to get started.</div>';
-    return;
-  }
-  window._refData = {};
-  data.forEach(r => window._refData[r.id] = r);
+var { data, error } = await sb.from('referrals')
+.select('*')
+.eq('atty_email', currentUser.email)
+.order('created_at', {ascending:false});
 
-  list.innerHTML = data.map(r => `
-    <div id="lref-${r.id}" style="background:white;border:1px solid var(--gray-light);border-radius:8px;margin-bottom:12px;overflow:hidden;">
-      <div style="padding:16px 20px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;flex-wrap:wrap;gap:10px;" onclick="toggleLRef('${r.id}')">
-        <div>
-          <div style="font-family:'Oswald',sans-serif;font-size:17px;font-weight:700;">${r.patient_name}</div>
-          <div style="font-size:12px;color:var(--gray);margin-top:2px;">${r.incident_type||''} · ${new Date(r.created_at).toLocaleDateString()} · ${r.chiro_practice}</div>
-        </div>
-        <div style="display:flex;align-items:center;gap:10px;">
-          <span class="status-badge ${r.status}">${r.status}</span>
-          ${(r.referral_documents||[]).length > 0 ? `<span style="font-size:11px;background:var(--gray-bg);padding:3px 8px;border-radius:20px;color:var(--gray);">📎 ${r.referral_documents.length} doc${r.referral_documents.length>1?'s':''}</span>` : ''}
-          <span id="lchev-${r.id}" style="font-size:12px;color:#aaa;">▼</span>
-        </div>
-      </div>
-      <div id="lbody-${r.id}" style="display:none;border-top:1px solid var(--gray-light);">
-        <div style="padding:20px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;">
-          <div>
-            <div style="font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--red);margin-bottom:10px;">Patient</div>
-            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Name</span>${r.patient_name}</div>
-            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">DOB</span>${r.dob||'—'}</div>
-            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Phone</span>${r.patient_phone||'—'}</div>
-            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Incident Date</span>${r.incident_date||'—'}</div>
-            <div style="font-size:13px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Type</span>${r.incident_type||'—'}</div>
-          </div>
-          <div>
-            <div style="font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--red);margin-bottom:10px;">Provider</div>
-            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Practice</span>${r.chiro_practice}</div>
-            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Doctor</span>${r.chiro_name||'—'}</div>
-            <div style="font-size:13px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Email</span>${r.chiro_email||'—'}</div>
-          </div>
-          <div>
-            <div style="font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--red);margin-bottom:10px;">Insurance</div>
-            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Company</span>${r.insurance||'—'}</div>
-            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Claim #</span>${r.claim_number||'—'}</div>
-            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Adjuster</span>${r.adjuster_name||'—'}</div>
-            <div style="font-size:13px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Adjuster Phone</span>${r.adjuster_phone||'—'}</div>
-          </div>
-        </div>
-        ${(r.referral_documents||[]).length > 0 ? `
-        <div style="padding:0 20px 16px;">
-          <div style="font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--red);margin-bottom:10px;">Documents</div>
-          <div style="display:flex;flex-wrap:wrap;gap:8px;">
-            ${(r.referral_documents||[]).map(d=>`<button onclick="downloadLawyerDoc('${d.path}','${d.filename}')" style="display:flex;align-items:center;gap:6px;padding:8px 14px;background:var(--black);color:white;border:none;border-radius:4px;font-size:12px;cursor:pointer;">📄 ${d.filename}</button>`).join('')}
-          </div>
-        </div>` : '<div style="padding:0 20px 16px;font-size:13px;color:#aaa;">No documents uploaded with this referral.</div>'}
-        ${(r.chiro_documents||[]).length > 0 ? `
-        <div class="chiro-docs-section">
-          <h5>📨 Documents from Chiropractor</h5>
-          <div style="display:flex;flex-wrap:wrap;">
-            ${r.chiro_documents.map(d => `<button class="chiro-doc-btn" onclick="downloadLawyerDoc('${d.path}','${d.filename}')">📄 ${d.filename}<span style="font-size:10px;color:#999;margin-left:4px;">${new Date(d.sent_at).toLocaleDateString()}</span></button>`).join('')}
-          </div>
-        </div>` : ''}
-        ${r.signature_data ? `<div style="padding:0 20px 16px;"><div style="font-size:11px;color:#aaa;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Your Signature</div><img src="${r.signature_data}" style="height:40px;border:1px solid var(--gray-light);border-radius:3px;"><span style="font-size:12px;color:var(--gray);margin-left:10px;">${r.print_name||''} · ${r.sign_date||''}</span></div>` : ''}
-        <div style="padding:12px 20px;border-top:1px solid var(--gray-light);background:#fafafa;">
-          <button data-rid="${r.id}" onclick="openEditRef(this.dataset.rid)" style="padding:8px 18px;background:var(--black);color:white;border:none;border-radius:4px;font-size:13px;font-family:'Barlow',sans-serif;cursor:pointer;font-weight:600;">✏️ Edit Referral</button>
-        </div>
-      </div>
-    </div>
-  
-          <div id="chiro-notes-${r.id}" class="chiro-notes-box" style="display:none;"><small style="color:#999;">Loading notes from provider...</small></div>`).join('');
+if (error || !data) { document.getElementById('referral-list').innerHTML = '<div class="empty-state"><div class="empty-icon">⚠️</div>Error loading referrals. Please refresh.</div>'; return; }
+
+allReferrals = data;
+document.getElementById('stat-total').textContent = data.length;
+document.getElementById('stat-new').textContent = data.filter(r=>r.status==='sent').length;
+document.getElementById('stat-accepted').textContent = data.filter(r=>r.status==='accepted').length;
+populateChiroFilter();
+renderReferrals();
 }
 
-function toggleLRef(id) {
-  var body = document.getElementById('lbody-'+id);
-  var chev = document.getElementById('lchev-'+id);
-  var open = body.style.display === 'none';
-  body.style.display = open ? 'block' : 'none';
-  if (chev) chev.textContent = open ? '▲' : '▼';
-  // Show and load chiro notes when card opens
-  var notesBox = document.getElementById('chiro-notes-' + id);
-  if (notesBox && open) { notesBox.style.display = 'block'; loadChiroNotes(id); }
-  if (notesBox && !open) { notesBox.style.display = 'none'; }
+function populateChiroFilter() {
+const chiroSet = new Set();
+const chiroNames = [];
+
+allReferrals.forEach(ref => {
+const chiroName = ref.chiro_name || 'Unknown';
+if (!chiroSet.has(chiroName)) {
+chiroSet.add(chiroName);
+chiroNames.push(chiroName);
 }
-
-async function downloadLawyerDoc(path, filename) {
-  var { data, error } = await sb.storage.from('documents').download(path);
-  if (error) { alert('Error downloading: ' + error.message); return; }
-  var url = URL.createObjectURL(data);
-  var a = document.createElement('a');
-  a.href = url; a.download = filename;
-  document.body.appendChild(a); a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-}
-
-function openEditRef(id) {
-  var r = window._refData && window._refData[id];
-  if (!r) { sb.from('referrals').select('*').eq('id', id).single().then(({data}) => { if(data){ if(!window._refData) window._refData={}; window._refData[id]=data; openEditRef(id); } }); return; }
-  var existing = document.getElementById('_editRefModal');
-  if (existing) existing.remove();
-  var modal = document.createElement('div');
-  modal.id = '_editRefModal';
-  modal.style.cssText = 'display:flex;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:9999;align-items:center;justify-content:center;padding:20px;';
-  modal.innerHTML = `<div style="background:white;border-radius:10px;width:100%;max-width:640px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
-    <div style="background:var(--black);padding:20px 28px;display:flex;align-items:center;justify-content:space-between;border-radius:10px 10px 0 0;position:sticky;top:0;z-index:10;">
-      <div style="font-family:'Oswald',sans-serif;color:white;font-size:18px;font-weight:700;">Edit Referral — ${r.patient_name}</div>
-      <button onclick="document.getElementById('_editRefModal').remove()" style="color:#aaa;font-size:28px;background:none;border:none;cursor:pointer;line-height:1;">×</button>
-    </div>
-    <div style="padding:24px;">
-      <div id="_editMsg"></div>
-      <input type="hidden" id="_erId" value="${r.id}">
-      <div style="font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--red);padding-bottom:8px;border-bottom:2px solid var(--gray-light);margin-bottom:16px;">Patient Information</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
-        <div><label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;color:#555;margin-bottom:4px;">Patient Name *</label><input id="_erName" value="${(r.patient_name||'').replace(/"/g,'&quot;')}" style="width:100%;padding:9px 12px;border:1px solid var(--gray-light);border-radius:4px;font-size:13px;font-family:'Barlow',sans-serif;outline:none;"></div>
-        <div><label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;color:#555;margin-bottom:4px;">Date of Birth</label><input type="date" id="_erDob" value="${r.dob||''}" style="width:100%;padding:9px 12px;border:1px solid var(--gray-light);border-radius:4px;font-size:13px;outline:none;"></div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
-        <div><label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;color:#555;margin-bottom:4px;">Incident Date</label><input type="date" id="_erIncDate" value="${r.incident_date||''}" style="width:100%;padding:9px 12px;border:1px solid var(--gray-light);border-radius:4px;font-size:13px;outline:none;"></div>
-        <div><label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;color:#555;margin-bottom:4px;">Patient Phone</label><input type="tel" id="_erPhone" value="${r.patient_phone||''}" style="width:100%;padding:9px 12px;border:1px solid var(--gray-light);border-radius:4px;font-size:13px;font-family:'Barlow',sans-serif;outline:none;"></div>
-      </div>
-      <div style="font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--red);padding-bottom:8px;border-bottom:2px solid var(--gray-light);margin-bottom:16px;margin-top:20px;">Insurance Information</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
-        <div><label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;color:#555;margin-bottom:4px;">Insurance Company</label><input id="_erIns" value="${(r.insurance||'').replace(/"/g,'&quot;')}" style="width:100%;padding:9px 12px;border:1px solid var(--gray-light);border-radius:4px;font-size:13px;font-family:'Barlow',sans-serif;outline:none;"></div>
-        <div><label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;color:#555;margin-bottom:4px;">Claim Number</label><input id="_erClaim" value="${(r.claim_number||'').replace(/"/g,'&quot;')}" style="width:100%;padding:9px 12px;border:1px solid var(--gray-light);border-radius:4px;font-size:13px;font-family:'Barlow',sans-serif;outline:none;"></div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
-        <div><label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;color:#555;margin-bottom:4px;">Adjuster Name</label><input id="_erAdj" value="${(r.adjuster_name||'').replace(/"/g,'&quot;')}" style="width:100%;padding:9px 12px;border:1px solid var(--gray-light);border-radius:4px;font-size:13px;font-family:'Barlow',sans-serif;outline:none;"></div>
-        <div><label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;color:#555;margin-bottom:4px;">Adjuster Phone</label><input id="_erAdjPh" value="${r.adjuster_phone||''}" style="width:100%;padding:9px 12px;border:1px solid var(--gray-light);border-radius:4px;font-size:13px;font-family:'Barlow',sans-serif;outline:none;"></div>
-      </div>
-      <div style="font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--red);padding-bottom:8px;border-bottom:2px solid var(--gray-light);margin-bottom:16px;margin-top:20px;">Upload Additional Documents</div>
-      <div onclick="document.getElementById('_erFileInput').click()" ondragover="event.preventDefault()" ondrop="erHandleFileDrop(event)" style="border:2px dashed #ccc;border-radius:6px;padding:24px;text-align:center;cursor:pointer;margin-bottom:16px;">
-        <input type="file" id="_erFileInput" multiple style="display:none" onchange="handleErFiles(this.files)" />
-        <div style="font-size:24px;margin-bottom:6px;">📎</div>
-        <div style="color:var(--red);font-weight:600;font-size:14px;">Click to upload additional documents</div>
-        <div style="color:#888;font-size:12px;margin-top:6px;">Existing documents will be kept</div>
-        <div id="_erFileList" style="margin-top:8px;"></div>
-      </div>
-      <div style="font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--red);padding-bottom:8px;border-bottom:2px solid var(--gray-light);margin-bottom:16px;margin-top:20px;">Notes</div>
-      <textarea id="_erNotes" style="width:100%;padding:10px 14px;border:1px solid var(--gray-light);border-radius:4px;font-size:13px;font-family:'Barlow',sans-serif;resize:vertical;min-height:80px;outline:none;">${r.notes||''}</textarea>
-    </div>
-    <div style="padding:16px 24px;border-top:1px solid var(--gray-light);display:flex;gap:10px;justify-content:flex-end;background:white;position:sticky;bottom:0;border-radius:0 0 10px 10px;">
-      <button onclick="document.getElementById('_editRefModal').remove()" style="padding:10px 20px;background:white;color:var(--gray);border:1px solid var(--gray-light);border-radius:4px;font-size:13px;cursor:pointer;">Cancel</button>
-      <button id="_erSaveBtn" onclick="saveEditRef()" style="padding:10px 28px;background:var(--red);color:white;border:none;border-radius:4px;font-family:'Oswald',sans-serif;font-size:15px;font-weight:700;cursor:pointer;">Save Changes</button>
-    </div>
-  </div>`;
-  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
-  document.body.appendChild(modal);
-}
-
-async function saveEditRef() {
-  var id = document.getElementById('_erId').value;
-  var name = document.getElementById('_erName').value.trim();
-  if (!name) { document.getElementById('_editMsg').innerHTML = '<div style="background:#fff0f0;color:#c00;border:1px solid #fcc;padding:10px;border-radius:4px;margin-bottom:12px;">Patient name is required.</div>'; return; }
-  var btn = document.getElementById('_erSaveBtn');
-  btn.textContent = 'Saving...'; btn.disabled = true;
-  var updates = { patient_name: name, dob: document.getElementById('_erDob').value||null, incident_date: document.getElementById('_erIncDate').value||null, patient_phone: document.getElementById('_erPhone').value.trim(), insurance: document.getElementById('_erIns').value.trim(), claim_number: document.getElementById('_erClaim').value.trim(), adjuster_name: document.getElementById('_erAdj').value.trim(), adjuster_phone: document.getElementById('_erAdjPh').value.trim(), notes: document.getElementById('_erNotes').value.trim() };
-  var { error } = await sb.from('referrals').update(updates).eq('id', id);
-  if (error) { document.getElementById('_editMsg').innerHTML = '<div style="background:#fff0f0;color:#c00;border:1px solid #fcc;padding:10px;border-radius:4px;margin-bottom:12px;">Error: '+error.message+'</div>'; btn.textContent='Save Changes'; btn.disabled=false; return; }
-  if (window._refData) window._refData[id] = Object.assign(window._refData[id]||{}, updates);
-  btn.textContent='Save Changes'; btn.disabled=false;
-  document.getElementById('_editRefModal').remove();
-  loadReferrals();
-}
-
-// LEAFLET MAP (free, no API key needed)
-function initMap() {
-  map = L.map('portal-map').setView([27.5, -81.5], 7);
-
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors',
-    maxZoom: 19
-  }).addTo(map);
-
-  // Custom red marker icon
-  var redIcon = L.divIcon({
-    html: '<div style="width:20px;height:20px;background:#c8102e;border:3px solid white;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></div>',
-    iconSize: [20, 20],
-    iconAnchor: [10, 10],
-    className: ''
-  });
-
-  providers.forEach(p => {
-    if (!p.lat || !p.lng) return;
-    var marker = L.marker([p.lat, p.lng], { icon: redIcon }).addTo(map);
-    marker.providerId = p.id;
-
-    marker.bindPopup(`
-      <div style="font-family:Barlow,sans-serif;min-width:200px;">
-        <strong style="font-size:14px;">${p.name}</strong><br>
-        <span style="font-size:12px;color:#c8102e;font-weight:600;">${p.practice}</span><br>
-        <span style="font-size:12px;color:#555;">${p.address}</span><br>
-        <span style="font-size:12px;">📞 ${p.phone}</span><br>
-        ${p.pip ? '<span style="font-size:11px;color:#166534;font-weight:600;">✓ Accepts PIP</span><br>' : ''}
-        <button data-pid="${p.id}" onclick="selectProvider(this.dataset.pid)" style="margin-top:8px;background:#c8102e;color:white;border:none;padding:6px 14px;border-radius:3px;font-size:12px;cursor:pointer;width:100%;font-family:Oswald,sans-serif;font-weight:700;">Select This Provider →</button>
-      </div>
-    `);
-
-    markers.push(marker);
-  });
-}
-
-// ADDRESS AUTOCOMPLETE
-var acTimeout = null;
-var acResults = [];
-var acIndex = -1;
-
-async function onAddressInput(val) {
-  var list = document.getElementById('autocomplete-list');
-  clearTimeout(acTimeout);
-  if (val.length < 3) { list.style.display = 'none'; return; }
-
-  acTimeout = setTimeout(async function() {
-    try {
-      var res = await fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(val) + '&countrycodes=us&limit=6&addressdetails=1', {
-        headers: { 'Accept-Language': 'en' }
-      });
-      var data = await res.json();
-      acResults = data;
-      acIndex = -1;
-
-      if (!data.length) { list.style.display = 'none'; return; }
-
-      list.innerHTML = data.map(function(item, i) {
-        return '<div class="autocomplete-item" data-idx="' + i + '" onmousedown="selectAddress(' + i + ')">' + item.display_name + '</div>';
-      }).join('');
-      list.style.display = 'block';
-    } catch(e) {
-      list.style.display = 'none';
-    }
-  }, 300);
-}
-
-function selectAddress(idx) {
-  var item = acResults[idx];
-  if (!item) return;
-  document.getElementById('patient-address').value = item.display_name;
-  document.getElementById('autocomplete-list').style.display = 'none';
-  // Auto-trigger findClosest with selected address
-  findClosestCoords(parseFloat(item.lat), parseFloat(item.lon), item.display_name);
-}
-
-function onAddressKey(e) {
-  var list = document.getElementById('autocomplete-list');
-  var items = list.querySelectorAll('.autocomplete-item');
-  if (e.key === 'ArrowDown') {
-    acIndex = Math.min(acIndex + 1, items.length - 1);
-    items.forEach(function(el, i) { el.classList.toggle('active', i === acIndex); });
-    e.preventDefault();
-  } else if (e.key === 'ArrowUp') {
-    acIndex = Math.max(acIndex - 1, 0);
-    items.forEach(function(el, i) { el.classList.toggle('active', i === acIndex); });
-    e.preventDefault();
-  } else if (e.key === 'Enter') {
-    if (acIndex >= 0) { selectAddress(acIndex); }
-    else { findClosest(); }
-    list.style.display = 'none';
-  } else if (e.key === 'Escape') {
-    list.style.display = 'none';
-  }
-}
-
-// Close autocomplete when clicking outside
-document.addEventListener('click', function(e) {
-  if (!e.target.closest('.autocomplete-wrap')) {
-    document.getElementById('autocomplete-list').style.display = 'none';
-  }
 });
 
-// FIND CLOSEST CHIRO TO PATIENT ADDRESS
-async function findClosest() {
-  var address = document.getElementById('patient-address').value.trim();
-  if (!address) { alert('Please enter a patient address first.'); return; }
-
-  var result = document.getElementById('closest-result');
-  result.textContent = 'Searching...';
-
-  try {
-    // Geocode the patient address using OpenStreetMap Nominatim (free)
-    var res = await fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(address) + '&countrycodes=us&limit=1');
-    var data = await res.json();
-
-    if (!data.length) { result.textContent = 'Address not found. Try adding city and state.'; return; }
-
-    var patLat = parseFloat(data[0].lat);
-    var patLng = parseFloat(data[0].lon);
-
-    // Drop a blue pin for the patient
-    if (window.patientMarker) window.patientMarker.remove();
-    var blueIcon = L.divIcon({
-      html: '<div style="width:24px;height:24px;background:#1d4ed8;border:3px solid white;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;color:white;font-size:12px;">P</div>',
-      iconSize: [24, 24], iconAnchor: [12, 12], className: ''
-    });
-    window.patientMarker = L.marker([patLat, patLng], { icon: blueIcon }).addTo(map);
-    window.patientMarker.bindPopup('<strong>Patient Location</strong><br>' + address).openPopup();
-
-    // Calculate distance to each provider (Haversine formula)
-    function haversine(lat1, lng1, lat2, lng2) {
-      var R = 3958.8; // miles
-      var dLat = (lat2-lat1) * Math.PI/180;
-      var dLng = (lng2-lng1) * Math.PI/180;
-      var a = Math.sin(dLat/2)*Math.sin(dLat/2) + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)*Math.sin(dLng/2);
-      return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    }
-
-    var withDistance = providers.map(p => ({
-      ...p,
-      distance: haversine(patLat, patLng, p.lat, p.lng)
-    })).sort((a, b) => a.distance - b.distance);
-
-    // Re-render chiro cards sorted by distance
-    var grid = document.getElementById('chiro-grid');
-    grid.innerHTML = withDistance.map(p => `
-      <div class="chiro-card" id="card-${p.id}" data-pid="${p.id}" onclick="selectProvider(this.dataset.pid)">
-        <div class="chiro-name">${p.name} <span class="distance-badge">${p.distance.toFixed(1)} mi</span>${idx === 0 ? '<span class="closest-distance"> &nbsp;<span class="arrow-icon">➤</span> Nearest to your client</span>' : ''}</div>
-        <div class="chiro-practice">${p.practice}</div>
-        <div class="chiro-detail"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${p.address}</div>
-        <div class="chiro-detail"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.81a16 16 0 0 0 6 6l.94-.94a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.5 16.92z"/></svg>${p.phone}</div>
-        ${p.notes ? `<div class="chiro-detail" style="color:#166534;">✓ ${p.notes}</div>` : ''}
-        <div class="chiro-badges">
-          ${p.pip ? '<span class="badge pip">✓ Accepts PIP</span>' : ''}
-          ${p.walkins ? '<span class="badge">Walk-ins Welcome</span>' : ''}
-          ${p.languages.split(',').map(l=>`<span class="badge">${l.trim()}</span>`).join('')}
-        </div>
-        <button class="select-btn" id="selbtn-${p.id}" data-pid="${p.id}" onclick="event.stopPropagation();selectProvider(this.dataset.pid)">Select This Provider →</button>
-      </div>
-      ${p.photo ? `<img class="chiro-photo" src="${p.photo}" alt="${p.name}" onerror="this.style.display='none'">` : ''}
-    `).join('');
-
-    // Pan map to show both patient and closest chiro
-    var closest = withDistance[0];
-    map.fitBounds([[patLat, patLng], [closest.lat, closest.lng]], { padding: [60, 60] });
-
-    result.innerHTML = `Closest: <strong>${closest.practice}</strong> — ${closest.distance.toFixed(1)} miles away`;
-
-  } catch(err) {
-    result.textContent = 'Error finding location. Please try again.';
-    console.error(err);
-  }
+const select = document.getElementById('chiroFilter');
+while (select.options.length > 1) {
+select.remove(1);
 }
 
-
-// Called directly from autocomplete selection (skips geocoding)
-function findClosestCoords(patLat, patLng, addressLabel) {
-  var result = document.getElementById('closest-result');
-
-  if (window.patientMarker) window.patientMarker.remove();
-  var blueIcon = L.divIcon({
-    html: '<div style="width:24px;height:24px;background:#1d4ed8;border:3px solid white;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;color:white;font-size:12px;">P</div>',
-    iconSize: [24, 24], iconAnchor: [12, 12], className: ''
-  });
-  window.patientMarker = L.marker([patLat, patLng], { icon: blueIcon }).addTo(map);
-  window.patientMarker.bindPopup('<strong>Patient Location</strong>').openPopup();
-
-  function haversine(lat1, lng1, lat2, lng2) {
-    var R = 3958.8;
-    var dLat = (lat2-lat1) * Math.PI/180;
-    var dLng = (lng2-lng1) * Math.PI/180;
-    var a = Math.sin(dLat/2)*Math.sin(dLat/2) + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)*Math.sin(dLng/2);
-    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-  }
-
-  var withDistance = providers.map(function(p) {
-    return Object.assign({}, p, { distance: haversine(patLat, patLng, p.lat, p.lng) });
-  }).sort(function(a, b) { return a.distance - b.distance; });
-
-  var grid = document.getElementById('chiro-grid');
-  grid.innerHTML = withDistance.map(function(p, idx) { return `
-    <div class="chiro-card ${idx === 0 ? 'closest-card' : ''}" id="card-${p.id}" data-pid="${p.id}" onclick="selectProvider(this.dataset.pid)">
-      ${idx === 0 ? '<div class="closest-badge"><span class="star">⭐</span> Closest Provider <span class="arrow">👆</span></div>' : ''}
-      <div class="chiro-name">${p.name} <span class="distance-badge">${p.distance.toFixed(1)} mi</span>${idx === 0 ? '<span class="closest-distance"> &nbsp;<span class="arrow-icon">➤</span> Nearest to your client</span>' : ''}</div>
-      <div class="chiro-practice">${p.practice}</div>
-      <div class="chiro-detail"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${p.address}</div>
-      <div class="chiro-detail"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.81a16 16 0 0 0 6 6l.94-.94a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.5 16.92z"/></svg>${p.phone}</div>
-      ${p.notes ? `<div class="chiro-detail" style="color:#166534;">✓ ${p.notes}</div>` : ''}
-      <div class="chiro-badges">
-        ${p.pip ? '<span class="badge pip">✓ Accepts PIP</span>' : ''}
-        ${p.walkins ? '<span class="badge">Walk-ins Welcome</span>' : ''}
-        ${p.languages.split(',').map(function(l){return '<span class="badge">'+l.trim()+'</span>';}).join('')}
-      </div>
-      <button class="select-btn" id="selbtn-${p.id}" data-pid="${p.id}" onclick="event.stopPropagation();selectProvider(this.dataset.pid)">Select This Provider →</button>
-    ${p.photo ? `<img class="chiro-photo" src="${p.photo}" alt="${p.name}" onerror="this.style.display='none'">` : ''}
-    </div>
-  `; }).join('');
-
-  var closest = withDistance[0];
-  map.fitBounds([[patLat, patLng], [closest.lat, closest.lng]], { padding: [60, 60] });
-  result.innerHTML = 'Closest: <strong>' + closest.practice + '</strong> — ' + closest.distance.toFixed(1) + ' miles away';
+chiroNames.sort().forEach(name => {
+const option = document.createElement('option');
+option.value = name;
+option.textContent = name;
+select.appendChild(option);
+});
 }
 
-// Load providers from Supabase then init
-async function loadProviders() {
-  var { data, error } = await sb.from('chiros').select('*').eq('active', true).order('practice_name');
-  if (error || !data?.length) {
-    document.getElementById('chiro-grid').innerHTML = '<div style="padding:20px;color:#aaa;">No providers available yet.</div>';
-    return;
-  }
-  // Map Supabase fields to the providers format
-  providers = data.map(c => ({
-    id: c.id,
-    name: c.doctor_name,
-    practice: c.practice_name,
-    address: c.address,
-    phone: c.phone,
-    email: c.email,
-    website: c.website || '',
-    specialties: c.specialties || '',
-    pip: c.accepts_pip,
-    languages: c.languages || 'English',
-    walkins: c.accepts_walkins,
-    photo: c.photo_url || '',
-    notes: c.notes || '',
-    lat: c.lat,
-    lng: c.lng
-  }));
-  buildChiroCards();
-  initMap();
+function filterByChiro() {
+currentChiroFilter = document.getElementById('chiroFilter').value;
+renderReferrals();
 }
 
-loadProviders();
-</script>
-<!-- EDIT REFERRAL MODAL -->
-<div class="modal-overlay" id="edit-ref-modal">
-  <div class="modal-box">
-    <div class="modal-box-header">
-      <h3>Edit Referral</h3>
-      <button class="modal-x" onclick="closeEditReferral()">×</button>
-    </div>
-    <div class="modal-box-body">
-      <div id="edit-ref-msg"></div>
-      <input type="hidden" id="er-id">
+function filterRefs(filter, btn) {
+currentFilter = filter;
+document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+btn.classList.add('active');
+renderReferrals();
+}
 
-      <div class="edit-section-title">Patient Information</div>
-      <div class="form-row">
-        <div class="form-group"><label>Patient Full Name <span class="required">*</span></label><input type="text" id="er-patient-name"></div>
-        <div class="form-group"><label>Date of Birth</label><input type="date" id="er-dob"></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label>Date of Incident</label><input type="date" id="er-incident-date"></div>
-        <div class="form-group"><label>Type of Incident</label>
-          <select id="er-incident-type">
-            <option value="">Select...</option>
-            <option>Motor Vehicle Accident</option>
-            <option>Slip and Fall</option>
-            <option>Motorcycle Accident</option>
-            <option>Pedestrian Accident</option>
-            <option>Other</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label>Patient Phone</label><input type="tel" id="er-patient-phone"></div>
-        <div class="form-group"><label>Preferred Language</label>
-          <select id="er-language">
-            <option value="">Select...</option>
-            <option>English</option>
-            <option>Spanish</option>
-            <option>Creole</option>
-            <option>Portuguese</option>
-            <option>Other</option>
-          </select>
-        </div>
-      </div>
+function renderReferrals() {
+var refs = allReferrals;
 
-      <div class="edit-section-title">Insurance Information</div>
-      <div class="form-row">
-        <div class="form-group"><label>Insurance Company</label><input type="text" id="er-insurance"></div>
-        <div class="form-group"><label>Claim Number</label><input type="text" id="er-claim-number"></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label>Adjuster Name</label><input type="text" id="er-adjuster-name"></div>
-        <div class="form-group"><label>Adjuster Phone</label><input type="tel" id="er-adjuster-phone"></div>
-      </div>
+// Apply chiro filter
+if (currentChiroFilter) {
+refs = refs.filter(r => (r.chiro_name === currentChiroFilter || r.chiro_email === currentChiroFilter));
+}
 
-      <div class="edit-section-title">Upload Additional Documents</div>
-      <div class="upload-zone" onclick="document.getElementById('er-file-input').click()" style="margin-bottom:0;">
-        <input type="file" id="er-file-input" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" onchange="handleErFiles(this.files)">
-        <div class="upload-icon">📎</div>
-        <div class="upload-text"><strong>Click to upload</strong> additional documents<br><small style="color:#aaa;">Existing documents will be kept</small></div>
-      </div>
-      <div id="er-file-list" style="margin-top:8px;"></div>
-    </div>
-    <div class="edit-section-title">Additional Notes</div>
-      <div class="form-group"><textarea id="er-notes" style="width:100%;padding:10px 14px;border:1px solid var(--gray-light);border-radius:4px;font-size:14px;font-family:'Barlow',sans-serif;resize:vertical;min-height:80px;outline:none;" placeholder="Any additional notes or updates..."></textarea></div>
+// Apply status filter
+if (currentFilter !== 'all') {
+refs = refs.filter(r => r.status === currentFilter);
+}
 
-      <div class="modal-box-footer">
-      <button class="btn-cancel-ref" onclick="closeEditReferral()">Cancel</button>
-      <button class="btn-save-ref" id="er-save-btn" onclick="saveEditReferral()">Save Changes</button>
-    </div>
-  </div>
+var list = document.getElementById('referral-list');
+if (!refs.length) {
+list.innerHTML = '<div class="empty-state"><div class="empty-icon">📭</div><p>No referrals found.</p></div>';
+return;
+}
+
+list.innerHTML = refs.map(r => `
+<div class="referral-card ${r.status==='sent'?'new-ref':''}" id="ref-${r.id}">
+<div class="ref-header" onclick="toggleRef('${r.id}')">
+<div>
+<div class="ref-patient">${r.patient_name}</div>
+<div class="ref-meta">${r.incident_type} · ${new Date(r.created_at).toLocaleDateString()} · To: ${r.chiro_name || 'Unknown'}</div>
 </div>
-
-<script>
-// EDIT REFERRAL
-var erFiles = [];
-var erReferrals = {};
-
-function openEditReferral(id) {
-  // Find referral data from DOM or re-fetch
-  var ref = erReferrals[id];
-  if (!ref) {
-    // Fetch from Supabase
-    sb.from('referrals').select('*').eq('id', id).single().then(({ data }) => {
-      if (!data) { alert('Referral not found.'); return; }
-      erReferrals[id] = data;
-      populateEditModal(data);
-    });
-  } else {
-    populateEditModal(ref);
-  }
+<div class="ref-right">
+<span class="status-badge ${r.status}">${r.status==='sent'?'Pending':r.status}</span>
+<span class="chevron" id="chev-${r.id}">▼</span>
+</div>
+</div>
+<div class="ref-body" id="body-${r.id}">
+<div class="ref-body-inner">
+<div class="ref-section">
+<h4>Patient</h4>
+<div class="ref-field"><span class="lbl">Full Name</span><span class="val">${r.patient_name}</span></div>
+<div class="ref-field"><span class="lbl">Date of Birth</span><span class="val">${r.dob||'—'}</span></div>
+<div class="ref-field"><span class="lbl">Phone</span><span class="val">${r.patient_phone}</span></div>
+<div class="ref-field"><span class="lbl">Language</span><span class="val">${r.language||'English'}</span></div>
+<div class="ref-field"><span class="lbl">Date of Incident</span><span class="val">${r.incident_date}</span></div>
+<div class="ref-field"><span class="lbl">Incident Type</span><span class="val">${r.incident_type}</span></div>
+</div>
+<div class="ref-section">
+<h4>Provider</h4>
+<div class="ref-field"><span class="lbl">Name</span><span class="val">${r.chiro_name}</span></div>
+<div class="ref-field"><span class="lbl">Phone</span><span class="val">${r.chiro_phone}</span></div>
+<div class="ref-field"><span class="lbl">Email</span><span class="val">${r.chiro_email}</span></div>
+</div>
+<div class="ref-section">
+<h4>Insurance</h4>
+<div class="ref-field"><span class="lbl">Company</span><span class="val">${r.insurance||'—'}</span></div>
+<div class="ref-field"><span class="lbl">Claim Number</span><span class="val">${r.claim_number||'—'}</span></div>
+<div class="ref-field"><span class="lbl">Adjuster Name</span><span class="val">${r.adjuster_name||'—'}</span></div>
+<div class="ref-field"><span class="lbl">Adjuster Phone</span><span class="val">${r.adjuster_phone||'—'}</span></div>
+${r.notes?`<div class="ref-field"><span class="lbl">Notes</span><span class="val">${r.notes}</span></div>`:''}
+</div>
+</div>
+<div class="ref-footer">
+${r.status!=='accepted'?`Status: Pending response from ${r.chiro_name}`:`<span style="color:#166534;font-weight:600;font-size:13px;">✓ Accepted by ${r.chiro_name}</span>`}
+</div>
+</div>
+`).join('');
 }
 
-function populateEditModal(r) {
-    // Ensure Notes section is inside modal-box-body
-    (function(){
-      var m = document.getElementById('edit-ref-modal');
-      var b = m && m.querySelector('.modal-box-body');
-      if (!b) return;
-      var nt = Array.from(m.querySelectorAll('.edit-section-title')).find(function(t){ return t.textContent.trim() === 'Additional Notes'; });
-      if (nt && nt.parentElement !== b) { var nf = nt.nextElementSibling; b.appendChild(nt); if(nf) b.appendChild(nf); }
-    })();
-  document.getElementById('er-id').value = r.id;
-  document.getElementById('er-patient-name').value = r.patient_name || '';
-  document.getElementById('er-dob').value = r.dob || '';
-  document.getElementById('er-incident-date').value = r.incident_date || '';
-  document.getElementById('er-incident-type').value = r.incident_type || '';
-  document.getElementById('er-patient-phone').value = r.patient_phone || '';
-  document.getElementById('er-language').value = r.language || '';
-  document.getElementById('er-insurance').value = r.insurance || '';
-  document.getElementById('er-claim-number').value = r.claim_number || '';
-  document.getElementById('er-adjuster-name').value = r.adjuster_name || '';
-  document.getElementById('er-adjuster-phone').value = r.adjuster_phone || '';
-  document.getElementById('er-notes').value = r.notes || '';
-  document.getElementById('er-file-list').innerHTML = '';
-  document.getElementById('edit-ref-msg').innerHTML = '';
-  erFiles = [];
-  document.getElementById('edit-ref-modal').classList.add('open');
+function toggleRef(id) {
+var body = document.getElementById('body-'+id);
+var chev = document.getElementById('chev-'+id);
+var open = body.classList.toggle('open');
+chev.classList.toggle('open', open);
 }
 
-function closeEditReferral() {
-  document.getElementById('edit-ref-modal').classList.remove('open');
-  erFiles = [];
+function showAttyLogin() {
+document.body.innerHTML = `
+<div style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--gray-bg);">
+<div style="background:white;border-radius:10px;padding:36px 32px;max-width:420px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.15);">
+<h2 style="font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;margin-bottom:4px;">Attorney Portal</h2>
+<p style="font-size:13px;color:#888;margin-bottom:24px;">IHateCarAccidents.com — Attorney Login</p>
+<div id="atty-login-err" style="color:#c00;font-size:13px;margin-bottom:12px;display:none;"></div>
+<label style="display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#333;margin-bottom:5px;">Email Address</label>
+<input type="email" id="atty-login-email" placeholder="your@email.com" autocomplete="email" style="width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:6px;font-size:14px;margin-bottom:16px;outline:none;box-sizing:border-box;" onkeydown="if(event.key==='Enter')doAttyLogin()">
+<label style="display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#333;margin-bottom:5px;">Password</label>
+<input type="password" id="atty-login-pw" placeholder="Your password" autocomplete="current-password" style="width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:6px;font-size:14px;margin-bottom:16px;outline:none;box-sizing:border-box;" onkeydown="if(event.key==='Enter')doAttyLogin()">
+<button style="width:100%;padding:13px;background:var(--red);color:white;border:none;border-radius:6px;font-family:'Oswald',sans-serif;font-size:16px;font-weight:700;cursor:pointer;letter-spacing:.05em;" onclick="doAttyLogin()">Sign In</button>
+</div>
+</div>
+`;
 }
 
-document.getElementById('edit-ref-modal').addEventListener('click', function(e) {
-  if (e.target === this) closeEditReferral();
+async function doAttyLogin() {
+var email = document.getElementById('atty-login-email').value.trim();
+var pw = document.getElementById('atty-login-pw').value;
+var err = document.getElementById('atty-login-err');
+err.style.display = 'none';
+if (!email || !pw) { err.textContent = 'Please enter your email and password.'; err.style.display = 'block'; return; }
+var { data, error } = await sb.auth.signInWithPassword({ email: email, password: pw });
+if (error) {
+err.textContent = error.message.includes('Invalid') ? 'Incorrect email or password.' : error.message;
+err.style.display = 'block';
+return;
+}
+currentUser = data.user;
+sb.from('profiles').select('full_name, firm').eq('id', currentUser.id).single().then(({ data: profile }) => {
+if (profile) {
+document.getElementById('user-name').textContent = profile.full_name || currentUser.email;
+document.getElementById('practice-name').textContent = profile.firm || '';
+} else {
+document.getElementById('user-name').textContent = currentUser.email;
+}
+location.reload();
 });
-
-function handleErFiles(files) {
-  for (var f of files) {
-    if (!erFiles.find(x => x.name === f.name)) erFiles.push(f);
-  }
-  renderErFiles();
 }
 
-function renderErFiles() {
-  document.getElementById('er-file-list').innerHTML = erFiles.map((f, i) =>
-    `<div class="file-item">
-      <span>📄 ${f.name} <span style="color:#aaa;">(${(f.size/1024).toFixed(0)} KB)</span></span>
-      <button class="remove" onclick="erFiles.splice(${i},1);renderErFiles();">×</button>
-    </div>`
-  ).join('');
-}
-
-async function saveEditReferral() {
-  var id = document.getElementById('er-id').value;
-  var name = document.getElementById('er-patient-name').value.trim();
-  if (!name) { 
-    document.getElementById('edit-ref-msg').innerHTML = '<div class="msg error" style="display:block;">Patient name is required.</div>';
-    return; 
-  }
-
-  var btn = document.getElementById('er-save-btn');
-  btn.textContent = 'Saving...'; btn.disabled = true;
-
-  var updates = {
-    patient_name: name,
-    dob: document.getElementById('er-dob').value || null,
-    incident_date: document.getElementById('er-incident-date').value || null,
-    incident_type: document.getElementById('er-incident-type').value,
-    patient_phone: document.getElementById('er-patient-phone').value.trim(),
-    language: document.getElementById('er-language').value,
-    insurance: document.getElementById('er-insurance').value.trim(),
-    claim_number: document.getElementById('er-claim-number').value.trim(),
-    adjuster_name: document.getElementById('er-adjuster-name').value.trim(),
-    adjuster_phone: document.getElementById('er-adjuster-phone').value.trim(),
-    notes: document.getElementById('er-notes').value.trim()
-  };
-
-  var { error } = await sb.from('referrals').update(updates).eq('id', id);
-  if (error) {
-    document.getElementById('edit-ref-msg').innerHTML = '<div class="msg error" style="display:block;">Error: ' + error.message + '</div>';
-    btn.textContent = 'Save Changes'; btn.disabled = false;
-    return;
-  }
-
-  // Upload any new files
-  for (var file of erFiles) {
-    var path = 'referrals/' + id + '/' + file.name;
-    await sb.storage.from('documents').upload(path, file, { upsert: true });
-    await sb.from('referral_documents').insert({ referral_id: id, filename: file.name, path });
-  }
-
-  // Update local cache
-  erReferrals[id] = Object.assign(erReferrals[id] || {}, updates);
-
-  btn.textContent = 'Save Changes'; btn.disabled = false;
-  closeEditReferral();
-
-  // Reload referrals list to show updates
-  loadReferrals();
-}
-
-
-// ── CHIRO NOTES DISPLAY (read-only for attorney) ─────────────────────────────
-async function loadChiroNotes(refId) {
-  var box = document.getElementById('chiro-notes-' + refId);
-  if (!box) return;
-  var { data, error } = await sb.from('chiro_notes')
-    .select('note_text, created_at, chiro_email')
-    .eq('referral_id', refId)
-    .order('created_at', {ascending: true});
-  if (error || !data || !data.length) {
-    box.innerHTML = '<small style="color:#999;">No notes from provider yet.</small>';
-    return;
-  }
-  box.innerHTML = '<h5>📝 Notes from Provider (' + data.length + ')</h5>' +
-    data.map(n =>
-      '<div class="chiro-note-item">' +
-        '<span class="chiro-note-date">' + new Date(n.created_at).toLocaleString() + '</span>' +
-        '<div class="chiro-note-text">' + (n.note_text || '') + '</div>' +
-      '</div>'
-    ).join('');
-}
-
-
-async function loadChiroNotes(refId) {
-  var box = document.getElementById('chiro-notes-' + refId);
-  if (!box) return;
-  var { data, error } = await sb.from('chiro_notes').select('note_text,created_at').eq('referral_id', refId).order('created_at',{ascending:true});
-  if (error || !data || !data.length) { box.innerHTML = '<small style="color:#999;">No notes from provider yet.</small>'; return; }
-  box.innerHTML = '<h5>📝 Provider Notes (' + data.length + ')</h5>' + data.map(n => '<div class="chiro-note-item"><span class="chiro-note-date">' + new Date(n.created_at).toLocaleString() + '</span><div class="chiro-note-text">' + (n.note_text||'')+'</div></div>').join('');
-}
-
-function formatPhone(val) {
-  var digits = val.replace(/[^0-9]/g, '').substring(0, 10);
-  if (digits.length <= 3) return digits;
-  if (digits.length <= 6) return digits.slice(0,3) + '-' + digits.slice(3);
-  return digits.slice(0,3) + '-' + digits.slice(3,6) + '-' + digits.slice(6);
-}
-(function() {
-  var phoneInput = document.getElementById('f-atty-phone');
-  if (phoneInput) {
-    phoneInput.placeholder = '555-555-5555';
-    phoneInput.addEventListener('input', function() {
-      this.value = formatPhone(this.value);
-    });
-  }
-})();
-
-  // Fix edit modal: move Notes into modal-box-body so upload section shows
-  document.addEventListener('DOMContentLoaded', function() {
-    var modal = document.getElementById('edit-ref-modal');
-    if (!modal) return;
-    var body = modal.querySelector('.modal-box-body');
-    if (!body) return;
-    var allTitles = Array.from(modal.querySelectorAll('.edit-section-title'));
-    var notesTitle = allTitles.find(function(t){ return t.textContent.trim() === 'Additional Notes'; });
-    if (!notesTitle || notesTitle.parentElement === body) return;
-    var notesForm = notesTitle.nextElementSibling;
-    body.appendChild(notesTitle);
-    if (notesForm) body.appendChild(notesForm);
-  });
-
-  function showReferralSuccess(providerName) {
-    var overlay = document.createElement('div');
-    overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:9999;display:flex;align-items:center;justify-content:center;';
-    var box = document.createElement('div');
-    box.style.cssText = 'background:white;border-radius:12px;padding:40px;max-width:440px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.3);';
-    box.innerHTML = '<div style="font-size:56px;margin-bottom:16px;">&#9989;</div><div style="font-family:Oswald,sans-serif;font-size:22px;font-weight:700;color:#111;margin-bottom:12px;">Referral Submitted!</div><div style="color:#555;font-size:15px;margin-bottom:24px;">' + providerName + ' has been notified by email.</div><button style="background:#c8102e;color:white;border:none;padding:12px 32px;border-radius:6px;font-size:15px;font-weight:600;cursor:pointer;font-family:Barlow,sans-serif;" id="sr-ok-btn">OK</button>';
-    overlay.appendChild(box);
-    document.body.appendChild(overlay);
-    box.querySelector('#sr-ok-btn').onclick = function(){ overlay.remove(); };
-    setTimeout(function(){ if(overlay.parentNode) overlay.remove(); }, 6000);
-  }
 </script>
+</body>
+</html>
