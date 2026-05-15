@@ -745,6 +745,7 @@ async function loadReferrals() {
     </div>
   
           <div id="chiro-notes-${r.id}" class="chiro-notes-box" style="display:none;"><small style="color:#999;">Loading notes from provider...</small></div>`).join('');
+  setTimeout(populateChiroFilter, 100);
 }
 
 function toggleLRef(id) {
