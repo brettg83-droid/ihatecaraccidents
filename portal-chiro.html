@@ -7,75 +7,76 @@
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-  :root { --red:#c8102e; --black:#111; --gray:#555; --gray-light:#e8e8e8; --gray-bg:#f5f5f5; }
-  * { box-sizing:border-box; margin:0; padding:0; }
-  body { font-family:'Barlow',sans-serif; background:var(--gray-bg); min-height:100vh; display:flex; flex-direction:column; }
-  header { background:var(--black); padding:14px 24px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
-  
-  .logo { font-family:'Oswald',sans-serif; line-height:1; flex-shrink:0; cursor:pointer; display:flex; align-items:center; gap:10px; text-decoration:none; }
-  .logo-icon { width:38px; height:38px; background:var(--red); border-radius:6px; display:flex; align-items:center; justify-content:center; flex-shrink:0; position:relative; overflow:hidden; transform:rotate(-2deg); box-shadow:3px 3px 0 #7a0a1a; }
-  .logo-icon::after { content:'✦'; font-size:20px; line-height:1; color:white; }
-  .logo-text { display:flex; flex-direction:column; gap:0px; }
-  .logo-line1 { font-size:13px; letter-spacing:0.22em; color:#aaa; line-height:1; font-family:'Barlow',sans-serif; font-weight:700; text-transform:uppercase; }
-  .logo-line2 { font-size:24px; letter-spacing:0.04em; line-height:0.95; color:white; font-family:'Oswald',sans-serif; font-weight:700; }
-    .logo span { color:var(--red); }
-  .header-right { display:flex; align-items:center; gap:16px; }
-  .user-name { color:#ccc; font-size:13px; }
-  .nav-btn { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:white; padding:7px 16px; border-radius:4px; font-size:13px; cursor:pointer; }
-  .nav-btn:hover { background:rgba(255,255,255,0.2); }
+:root { --red:#c8102e; --black:#111; --gray:#555; --gray-light:#e8e8e8; --gray-bg:#f5f5f5; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Barlow',sans-serif; background:var(--gray-bg); min-height:100vh; display:flex; flex-direction:column; }
+header { background:var(--black); padding:14px 24px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
 
-  .main { flex:1; max-width:1100px; margin:0 auto; width:100%; padding:28px 24px; }
-  .page-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
-  .page-title { font-family:'Oswald',sans-serif; font-size:26px; font-weight:700; }
-  .page-sub { font-size:14px; color:var(--gray); margin-top:2px; }
+.logo { font-family:'Oswald',sans-serif; line-height:1; flex-shrink:0; cursor:pointer; display:flex; align-items:center; gap:10px; text-decoration:none; }
+.logo-icon { width:38px; height:38px; background:var(--red); border-radius:6px; display:flex; align-items:center; justify-content:center; flex-shrink:0; position:relative; overflow:hidden; transform:rotate(-2deg); box-shadow:3px 3px 0 #7a0a1a; }
+.logo-icon::after { content:'✦'; font-size:20px; line-height:1; color:white; }
+.logo-text { display:flex; flex-direction:column; gap:0px; }
+.logo-line1 { font-size:13px; letter-spacing:0.22em; color:#aaa; line-height:1; font-family:'Barlow',sans-serif; font-weight:700; text-transform:uppercase; }
+.logo-line2 { font-size:24px; letter-spacing:0.04em; line-height:0.95; color:white; font-family:'Oswald',sans-serif; font-weight:700; }
+.logo span { color:var(--red); }
+.header-right { display:flex; align-items:center; gap:16px; }
+.user-name { color:#ccc; font-size:13px; }
+.nav-btn { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:white; padding:7px 16px; border-radius:4px; font-size:13px; cursor:pointer; }
+.nav-btn:hover { background:rgba(255,255,255,0.2); }
 
-  .stats-row { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:28px; }
-  .stat-card { background:white; border-radius:8px; border:1px solid var(--gray-light); padding:20px; text-align:center; }
-  .stat-num { font-family:'Oswald',sans-serif; font-size:36px; font-weight:700; color:var(--red); }
-  .stat-label { font-size:13px; color:var(--gray); margin-top:4px; }
+.main { flex:1; max-width:1100px; margin:0 auto; width:100%; padding:28px 24px; }
+.page-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
+.page-title { font-family:'Oswald',sans-serif; font-size:26px; font-weight:700; }
+.page-sub { font-size:14px; color:var(--gray); margin-top:2px; }
 
-  .filter-bar { display:flex; gap:10px; margin-bottom:18px; flex-wrap:wrap; }
-  .filter-btn { padding:7px 16px; border:1px solid var(--gray-light); border-radius:20px; font-size:13px; cursor:pointer; background:white; transition:all 0.2s; }
-  .filter-btn.active { background:var(--red); color:white; border-color:var(--red); }
+.stats-row { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:28px; }
+.stat-card { background:white; border-radius:8px; border:1px solid var(--gray-light); padding:20px; text-align:center; }
+.stat-num { font-family:'Oswald',sans-serif; font-size:36px; font-weight:700; color:var(--red); }
+.stat-label { font-size:13px; color:var(--gray); margin-top:4px; }
 
-  .referral-list { display:flex; flex-direction:column; gap:12px; }
-  .referral-card { background:white; border-radius:8px; border:1px solid var(--gray-light); overflow:hidden; transition:box-shadow 0.2s; }
-  .referral-card:hover { box-shadow:0 4px 20px rgba(0,0,0,0.08); }
-  .referral-card.new-ref { border-left:4px solid var(--red); }
+.filter-bar { display:flex; gap:10px; margin-bottom:18px; flex-wrap:wrap; align-items:center; }
+.filter-btn { padding:7px 16px; border:1px solid var(--gray-light); border-radius:20px; font-size:13px; cursor:pointer; background:white; transition:all 0.2s; }
+.filter-btn.active { background:var(--red); color:white; border-color:var(--red); }
+#lawyerFilter { padding:7px 16px; border:1px solid var(--gray-light); border-radius:20px; font-size:13px; cursor:pointer; background:white; transition:all 0.2s; }
 
-  .ref-header { padding:16px 20px; display:flex; align-items:center; justify-content:space-between; cursor:pointer; gap:12px; flex-wrap:wrap; }
-  .ref-patient { font-family:'Oswald',sans-serif; font-size:17px; font-weight:700; color:var(--black); }
-  .ref-meta { font-size:12px; color:var(--gray); margin-top:2px; }
-  .ref-right { display:flex; align-items:center; gap:10px; }
-  .status-badge { display:inline-block; padding:4px 12px; border-radius:20px; font-size:11px; font-weight:700; text-transform:uppercase; }
-  .status-badge.sent { background:#eff6ff; color:#1d4ed8; }
-  .status-badge.viewed { background:#fef9c3; color:#854d0e; }
-  .status-badge.accepted { background:#f0fff4; color:#166534; }
-  .chevron { font-size:12px; color:#aaa; transition:transform 0.2s; }
-  .chevron.open { transform:rotate(180deg); }
+.referral-list { display:flex; flex-direction:column; gap:12px; }
+.referral-card { background:white; border-radius:8px; border:1px solid var(--gray-light); overflow:hidden; transition:box-shadow 0.2s; }
+.referral-card:hover { box-shadow:0 4px 20px rgba(0,0,0,0.08); }
+.referral-card.new-ref { border-left:4px solid var(--red); }
 
-  .ref-body { display:none; border-top:1px solid var(--gray-light); }
-  .ref-body.open { display:block; }
-  .ref-body-inner { padding:20px; display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; }
+.ref-header { padding:16px 20px; display:flex; align-items:center; justify-content:space-between; cursor:pointer; gap:12px; flex-wrap:wrap; }
+.ref-patient { font-family:'Oswald',sans-serif; font-size:17px; font-weight:700; color:var(--black); }
+.ref-meta { font-size:12px; color:var(--gray); margin-top:2px; }
+.ref-right { display:flex; align-items:center; gap:10px; }
+.status-badge { display:inline-block; padding:4px 12px; border-radius:20px; font-size:11px; font-weight:700; text-transform:uppercase; }
+.status-badge.sent { background:#eff6ff; color:#1d4ed8; }
+.status-badge.viewed { background:#fef9c3; color:#854d0e; }
+.status-badge.accepted { background:#f0fff4; color:#166534; }
+.chevron { font-size:12px; color:#aaa; transition:transform 0.2s; }
+.chevron.open { transform:rotate(180deg); }
 
-  .ref-section h4 { font-family:'Oswald',sans-serif; font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--red); margin-bottom:10px; }
-  .ref-field { margin-bottom:7px; font-size:13px; }
-  .ref-field .lbl { color:#aaa; font-size:11px; text-transform:uppercase; letter-spacing:.06em; display:block; margin-bottom:1px; }
-  .ref-field .val { color:var(--black); font-weight:500; }
+.ref-body { display:none; border-top:1px solid var(--gray-light); }
+.ref-body.open { display:block; }
+.ref-body-inner { padding:20px; display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; }
 
-  .ref-footer { padding:14px 20px; border-top:1px solid var(--gray-light); background:#fafafa; display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
-  .btn-accept { padding:8px 20px; background:#166534; color:white; border:none; border-radius:4px; font-family:'Oswald',sans-serif; font-size:13px; font-weight:700; cursor:pointer; }
-  .btn-accept:hover { background:#15803d; }
-  .doc-btn { padding:7px 14px; background:var(--black); color:white; border:none; border-radius:4px; font-size:12px; cursor:pointer; display:flex; align-items:center; gap:6px; }
-  .doc-btn:hover { background:#333; }
-  .sig-preview { margin-left:auto; }
-  .sig-preview img { height:36px; border:1px solid var(--gray-light); border-radius:3px; background:white; }
+.ref-section h4 { font-family:'Oswald',sans-serif; font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--red); margin-bottom:10px; }
+.ref-field { margin-bottom:7px; font-size:13px; }
+.ref-field .lbl { color:#aaa; font-size:11px; text-transform:uppercase; letter-spacing:.06em; display:block; margin-bottom:1px; }
+.ref-field .val { color:var(--black); font-weight:500; }
 
-  .empty-state { text-align:center; padding:60px; color:#aaa; background:white; border-radius:8px; border:1px solid var(--gray-light); }
-  .empty-icon { font-size:48px; margin-bottom:12px; }
-  footer { background:var(--black); color:#666; text-align:center; padding:16px; font-size:12px; }
+.ref-footer { padding:14px 20px; border-top:1px solid var(--gray-light); background:#fafafa; display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+.btn-accept { padding:8px 20px; background:#166534; color:white; border:none; border-radius:4px; font-family:'Oswald',sans-serif; font-size:13px; font-weight:700; cursor:pointer; }
+.btn-accept:hover { background:#15803d; }
+.doc-btn { padding:7px 14px; background:var(--black); color:white; border:none; border-radius:4px; font-size:12px; cursor:pointer; display:flex; align-items:center; gap:6px; }
+.doc-btn:hover { background:#333; }
+.sig-preview { margin-left:auto; }
+.sig-preview img { height:36px; border:1px solid var(--gray-light); border-radius:3px; background:white; }
 
-  @media(max-width:700px) { .ref-body-inner { grid-template-columns:1fr; } .stats-row { grid-template-columns:1fr; } }
+.empty-state { text-align:center; padding:60px; color:#aaa; background:white; border-radius:8px; border:1px solid var(--gray-light); }
+.empty-icon { font-size:48px; margin-bottom:12px; }
+footer { background:var(--black); color:#666; text-align:center; padding:16px; font-size:12px; }
+
+@media(max-width:700px) { .ref-body-inner { grid-template-columns:1fr; } .stats-row { grid-template-columns:1fr; } }
 
 .notes-panel { background:#f9f9f9; border-top:1px solid var(--gray-light); padding:16px 20px; }
 .notes-panel h4 { font-family:'Oswald',sans-serif; font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--black); margin-bottom:10px; }
@@ -111,64 +112,67 @@
 .chiro-login-btn:hover { background:#a00d25; }
 .chiro-login-err { color:#c00; font-size:13px; margin-bottom:12px; display:none; }
 
-  .send-docs-section { margin-top:14px; padding-top:14px; border-top:1px solid #eee; }
-  .send-docs-section h4 { font-family:'Oswald',sans-serif; font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--red); margin-bottom:8px; }
-  .chiro-upload-zone { border:2px dashed #ddd; border-radius:6px; padding:12px 14px; text-align:center; cursor:pointer; font-size:13px; color:#777; transition:all .2s; margin-bottom:8px; }
-  .chiro-upload-zone:hover { border-color:var(--red); color:var(--red); }
-  .chiro-file-pill { display:inline-flex; align-items:center; gap:5px; background:#f5f5f5; border-radius:12px; padding:3px 10px; font-size:12px; margin:3px 3px 0 0; }
-  .chiro-file-pill .rm { color:#c00; cursor:pointer; font-weight:700; }
-  .btn-send-chiro { background:var(--red); color:white; border:none; padding:9px 18px; border-radius:5px; font-size:13px; font-weight:600; cursor:pointer; font-family:'Barlow',sans-serif; width:100%; margin-top:6px; }
-  .btn-send-chiro:disabled { background:#aaa; cursor:not-allowed; }
-  .sent-chiro-docs { margin-top:12px; padding-top:12px; border-top:1px solid #eee; }
-  .sent-chiro-docs h4 { font-family:'Oswald',sans-serif; font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#555; margin-bottom:8px; }
-  .sent-doc-row { display:flex; align-items:center; gap:6px; font-size:13px; padding:4px 0; border-bottom:1px solid #f5f5f5; }
-  .sent-doc-row:last-child { border:none; }
-  .sent-doc-date { font-size:11px; color:#aaa; margin-left:auto; }
-  </style>
+.send-docs-section { margin-top:14px; padding-top:14px; border-top:1px solid #eee; }
+.send-docs-section h4 { font-family:'Oswald',sans-serif; font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--red); margin-bottom:8px; }
+.chiro-upload-zone { border:2px dashed #ddd; border-radius:6px; padding:12px 14px; text-align:center; cursor:pointer; font-size:13px; color:#777; transition:all .2s; margin-bottom:8px; }
+.chiro-upload-zone:hover { border-color:var(--red); color:var(--red); }
+.chiro-file-pill { display:inline-flex; align-items:center; gap:5px; background:#f5f5f5; border-radius:12px; padding:3px 10px; font-size:12px; margin:3px 3px 0 0; }
+.chiro-file-pill .rm { color:#c00; cursor:pointer; font-weight:700; }
+.btn-send-chiro { background:var(--red); color:white; border:none; padding:9px 18px; border-radius:5px; font-size:13px; font-weight:600; cursor:pointer; font-family:'Barlow',sans-serif; width:100%; margin-top:6px; }
+.btn-send-chiro:disabled { background:#aaa; cursor:not-allowed; }
+.sent-chiro-docs { margin-top:12px; padding-top:12px; border-top:1px solid #eee; }
+.sent-chiro-docs h4 { font-family:'Oswald',sans-serif; font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#555; margin-bottom:8px; }
+.sent-doc-row { display:flex; align-items:center; gap:6px; font-size:13px; padding:4px 0; border-bottom:1px solid #f5f5f5; }
+.sent-doc-row:last-child { border:none; }
+.sent-doc-date { font-size:11px; color:#aaa; margin-left:auto; }
+</style>
 </head>
 <body>
 
 <header>
-  <a class="logo" href="/">
-      <div class="logo-icon"></div>
-      <div class="logo-text">
-        <span class="logo-line1">I Hate</span>
-        <span class="logo-line2">CAR ACCIDENTS</span>
-      </div>
-    </a>
-  <div class="header-right">
-    <span class="user-name" id="user-name">Loading...</span>
-    <button class="nav-btn" onclick="doLogout()">Sign Out</button>
-  </div>
+<a class="logo" href="/">
+<div class="logo-icon"></div>
+<div class="logo-text">
+<span class="logo-line1">I Hate</span>
+<span class="logo-line2">CAR ACCIDENTS</span>
+</div>
+</a>
+<div class="header-right">
+<span class="user-name" id="user-name">Loading...</span>
+<button class="nav-btn" onclick="doLogout()">Sign Out</button>
+</div>
 </header>
 
 <div class="main">
-  <div class="page-header">
-    <div>
-      <div style="display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;">
-        <div class="page-title">Incoming Referrals</div>
-        <div style="font-family:'Oswald',sans-serif;font-size:18px;color:#555;">Welcome, <span id="chiro-welcome-name" style="color:var(--red);font-weight:700;"></span></div>
-      </div>
-      <div class="page-sub" id="practice-name">Loading your dashboard...</div>
-    </div>
-  </div>
+<div class="page-header">
+<div>
+<div style="display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;">
+<div class="page-title">Incoming Referrals</div>
+<div style="font-family:'Oswald',sans-serif;font-size:18px;color:#555;">Welcome, <span id="chiro-welcome-name" style="color:var(--red);font-weight:700;"></span></div>
+</div>
+<div class="page-sub" id="practice-name">Loading your dashboard...</div>
+</div>
+</div>
 
-  <div class="stats-row">
-    <div class="stat-card"><div class="stat-num" id="stat-total">—</div><div class="stat-label">Total Referrals</div></div>
-    <div class="stat-card"><div class="stat-num" id="stat-new">—</div><div class="stat-label">New / Unread</div></div>
-    <div class="stat-card"><div class="stat-num" id="stat-accepted">—</div><div class="stat-label">Accepted</div></div>
-  </div>
+<div class="stats-row">
+<div class="stat-card"><div class="stat-num" id="stat-total">—</div><div class="stat-label">Total Referrals</div></div>
+<div class="stat-card"><div class="stat-num" id="stat-new">—</div><div class="stat-label">New / Unread</div></div>
+<div class="stat-card"><div class="stat-num" id="stat-accepted">—</div><div class="stat-label">Accepted</div></div>
+</div>
 
-  <div class="filter-bar">
-    <button class="filter-btn active" onclick="filterRefs('all', this)">All</button>
-    <button class="filter-btn" onclick="filterRefs('sent', this)">New</button>
-    <button class="filter-btn" onclick="filterRefs('viewed', this)">Viewed</button>
-    <button class="filter-btn" onclick="filterRefs('accepted', this)">Accepted</button>
-  </div>
+<div class="filter-bar">
+<select id="lawyerFilter" onchange="filterByLawyer()">
+<option value="">All Lawyers</option>
+</select>
+<button class="filter-btn active" onclick="filterRefs('all', this)">All</button>
+<button class="filter-btn" onclick="filterRefs('sent', this)">New</button>
+<button class="filter-btn" onclick="filterRefs('viewed', this)">Viewed</button>
+<button class="filter-btn" onclick="filterRefs('accepted', this)">Accepted</button>
+</div>
 
-  <div class="referral-list" id="referral-list">
-    <div class="empty-state"><div class="empty-icon">📋</div>Loading referrals...</div>
-  </div>
+<div class="referral-list" id="referral-list">
+<div class="empty-state"><div class="empty-icon">📋</div>Loading referrals...</div>
+</div>
 </div>
 
 <footer>© 2025 IHateCarAccidents.com — Provider Portal — Secure &amp; Encrypted</footer>
@@ -181,413 +185,443 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 let currentUser = null;
 let allReferrals = [];
 let currentFilter = 'all';
+let currentLawyerFilter = '';
 
 // Listen for auth events - catch magic link / OTP logins
 sb.auth.onAuthStateChange((event, session) => {
-  if (!session) return;
-  if (event === 'PASSWORD_RECOVERY') {
-    currentUser = session.user;
-    document.getElementById('pw-modal-overlay').classList.add('active');
-    return;
-  }
-  if (event === 'SIGNED_IN') {
-    // Only show password modal if this is a brand new account (created within last 60 seconds)
-    // This means they just clicked an invite link for the first time
-    var createdAt = new Date(session.user.created_at).getTime();
-    var isNewAccount = (Date.now() - createdAt) < 60000;
-    if (!currentUser && isNewAccount) {
-      currentUser = session.user;
-      document.getElementById('pw-modal-overlay').classList.add('active');
-      return;
-    }
-  }
+if (!session) return;
+if (event === 'PASSWORD_RECOVERY') {
+currentUser = session.user;
+document.getElementById('pw-modal-overlay').classList.add('active');
+return;
+}
+if (event === 'SIGNED_IN') {
+// Only show password modal if this is a brand new account (created within last 60 seconds)
+// This means they just clicked an invite link for the first time
+var createdAt = new Date(session.user.created_at).getTime();
+var isNewAccount = (Date.now() - createdAt) < 60000;
+if (!currentUser && isNewAccount) {
+currentUser = session.user;
+document.getElementById('pw-modal-overlay').classList.add('active');
+return;
+}
+}
 });
 
 sb.auth.getSession().then(({ data: { session } }) => {
-  if (!session) { showChiroLogin(); return; }
-  // If currentUser was already set by onAuthStateChange (magic link), skip - modal is showing
-  if (currentUser) return;
-  currentUser = session.user;
-  sb.from('profiles').select('full_name, firm, chiro_id').eq('id', currentUser.id).single().then(({ data }) => {
-    document.getElementById('user-name').textContent = data?.full_name || currentUser.email;
-    document.getElementById('practice-name').textContent = data?.firm || 'Provider Dashboard';
-    var cwn = document.getElementById('chiro-welcome-name'); if (cwn) cwn.textContent = (data?.full_name || currentUser.email).split(' ')[0];
-    loadReferrals();
-  });
+if (!session) { showChiroLogin(); return; }
+// If currentUser was already set by onAuthStateChange (magic link), skip - modal is showing
+if (currentUser) return;
+currentUser = session.user;
+sb.from('profiles').select('full_name, firm, chiro_id').eq('id', currentUser.id).single().then(({ data }) => {
+document.getElementById('user-name').textContent = data?.full_name || currentUser.email;
+document.getElementById('practice-name').textContent = data?.firm || 'Provider Dashboard';
+var cwn = document.getElementById('chiro-welcome-name'); if (cwn) cwn.textContent = (data?.full_name || currentUser.email).split(' ')[0];
+loadReferrals();
+});
 });
 
 function doLogout() { sb.auth.signOut().then(() => window.location.href = '/portal.html'); }
 
 async function loadReferrals() {
-  var { data, error } = await sb.from('referrals')
-    .select('*, referral_documents(filename, path), chiro_documents(id, filename, path, sent_at)')
-    .eq('chiro_email', currentUser.email)
-    .order('created_at', {ascending:false});
+var { data, error } = await sb.from('referrals')
+.select('*, referral_documents(filename, path), chiro_documents(id, filename, path, sent_at)')
+.eq('chiro_email', currentUser.email)
+.order('created_at', {ascending:false});
 
-  if (error || !data) { document.getElementById('referral-list').innerHTML = '<div class="empty-state"><div class="empty-icon">⚠️</div>Error loading referrals. Please refresh.</div>'; return; }
+if (error || !data) { document.getElementById('referral-list').innerHTML = '<div class="empty-state"><div class="empty-icon">⚠️</div>Error loading referrals. Please refresh.</div>'; return; }
 
-  allReferrals = data;
-  document.getElementById('stat-total').textContent = data.length;
-  document.getElementById('stat-new').textContent = data.filter(r=>r.status==='sent').length;
-  document.getElementById('stat-accepted').textContent = data.filter(r=>r.status==='accepted').length;
-  renderReferrals();
+allReferrals = data;
+document.getElementById('stat-total').textContent = data.length;
+document.getElementById('stat-new').textContent = data.filter(r=>r.status==='sent').length;
+document.getElementById('stat-accepted').textContent = data.filter(r=>r.status==='accepted').length;
+populateLawyerFilter();
+renderReferrals();
+}
+
+function populateLawyerFilter() {
+const lawyerSet = new Set();
+const lawyerNames = [];
+allReferrals.forEach(ref => {
+const name = ref.atty_name || ref.firm;
+if (name && !lawyerSet.has(name)) {
+lawyerSet.add(name);
+lawyerNames.push(name);
+}
+});
+const select = document.getElementById('lawyerFilter');
+while (select.options.length > 1) select.remove(1);
+lawyerNames.sort().forEach(name => {
+const option = document.createElement('option');
+option.value = name;
+option.textContent = name;
+select.appendChild(option);
+});
+}
+
+function filterByLawyer() {
+currentLawyerFilter = document.getElementById('lawyerFilter').value;
+renderReferrals();
 }
 
 function filterRefs(filter, btn) {
-  currentFilter = filter;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderReferrals();
+currentFilter = filter;
+document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+btn.classList.add('active');
+renderReferrals();
 }
 
 function renderReferrals() {
-  var refs = currentFilter==='all' ? allReferrals : allReferrals.filter(r=>r.status===currentFilter);
-  var list = document.getElementById('referral-list');
-  if (!refs.length) {
-    list.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div><p>No referrals found.</p></div>';
-    return;
-  }
-  list.innerHTML = refs.map(r => `
-    <div class="referral-card ${r.status==='sent'?'new-ref':''}" id="ref-${r.id}">
-      <div class="ref-header" onclick="toggleRef('${r.id}')">
-        <div>
-          <div class="ref-patient">${r.patient_name}</div>
-          <div class="ref-meta">${r.incident_type} · ${new Date(r.created_at).toLocaleDateString()} · From: ${r.atty_name}, ${r.firm}</div>
-        </div>
-        <div class="ref-right">
-          <span class="status-badge ${r.status}">${r.status==='sent'?'New':r.status}</span>
-          <span class="chevron" id="chev-${r.id}">▼</span>
-        </div>
-      </div>
-      <div class="ref-body" id="body-${r.id}">
-        <div class="ref-body-inner">
-          <div class="ref-section">
-            <h4>Patient</h4>
-            <div class="ref-field"><span class="lbl">Full Name</span><span class="val">${r.patient_name}</span></div>
-            <div class="ref-field"><span class="lbl">Date of Birth</span><span class="val">${r.dob||'—'}</span></div>
-            <div class="ref-field"><span class="lbl">Phone</span><span class="val">${r.patient_phone}</span></div>
-            <div class="ref-field"><span class="lbl">Language</span><span class="val">${r.language||'English'}</span></div>
-            <div class="ref-field"><span class="lbl">Date of Incident</span><span class="val">${r.incident_date}</span></div>
-            <div class="ref-field"><span class="lbl">Incident Type</span><span class="val">${r.incident_type}</span></div>
-          </div>
-          <div class="ref-section">
-            <h4>Attorney</h4>
-            <div class="ref-field"><span class="lbl">Name</span><span class="val">${r.atty_name}</span></div>
-            <div class="ref-field"><span class="lbl">Firm</span><span class="val">${r.firm}</span></div>
-            <div class="ref-field"><span class="lbl">Bar Number</span><span class="val">${r.bar_number||'—'}</span></div>
-            <div class="ref-field"><span class="lbl">Phone</span><span class="val">${r.atty_phone}</span></div>
-            <div class="ref-field"><span class="lbl">Email</span><span class="val">${r.atty_email}</span></div>
-          </div>
-          <div class="ref-section">
-            <h4>Insurance</h4>
-            <div class="ref-field"><span class="lbl">Company</span><span class="val">${r.insurance||'—'}</span></div>
-            <div class="ref-field"><span class="lbl">Claim Number</span><span class="val">${r.claim_number||'—'}</span></div>
-            <div class="ref-field"><span class="lbl">Adjuster Name</span><span class="val">${r.adjuster_name||'—'}</span></div>
-            <div class="ref-field"><span class="lbl">Adjuster Phone</span><span class="val">${r.adjuster_phone||'—'}</span></div>
-            ${r.notes?`<div class="ref-field"><span class="lbl">Notes</span><span class="val">${r.notes}</span></div>`:''}
-          </div>
-        </div>
-        <div class="ref-footer">
-          ${r.status!=='accepted'?`<button class="btn-accept" onclick="acceptReferral('${r.id}')">✓ Accept Referral</button>`:'<span style="color:#166534;font-weight:600;font-size:13px;">✓ Accepted</span>'}
-          ${(r.referral_documents||[]).map(d=>`<button class="doc-btn" onclick="downloadDoc('${r.id}','${d.path}','${d.filename}')">📄 ${d.filename}</button>`).join('')}
-          ${r.signature_data?`<div class="sig-preview"><img src="${r.signature_data}" alt="Signature" title="Attorney signature"></div>`:''}
-        </div>
-      <div class="send-docs-section">
-        <h4>📤 Send Documents to Attorney</h4>
-        <div class="chiro-upload-zone" onclick="document.getElementById('cd-input-${r.id}').click()">
-          <input type="file" id="cd-input-${r.id}" multiple style="display:none" onchange="cdPreview('${r.id}',this)" />
-          📎 Click to select files to send to ${r.atty_name}
-        </div>
-        <div id="cd-pills-${r.id}" style="margin-bottom:4px;"></div>
-        <button class="btn-send-chiro" onclick="sendChiroDocs('${r.id}','${r.atty_email}','${r.atty_name}','${r.patient_name}',this)">
-          Send to Attorney
-        </button>
-        <div id="cd-msg-${r.id}" style="font-size:13px;margin-top:6px;min-height:18px;"></div>
-      </div>
-      ${r.chiro_documents && r.chiro_documents.length ? `
-      <div class="sent-chiro-docs">
-        <h4>✅ Documents Sent to Attorney</h4>
-        ${r.chiro_documents.map(d => `<div class="sent-doc-row">📄 <span>${d.filename}</span><span class="sent-doc-date">${new Date(d.sent_at).toLocaleDateString()}</span></div>`).join('')}
-      </div>` : ''}
-      </div>
-    </div>
-  `).join('');
+var refs = allReferrals;
+if (currentLawyerFilter) {
+refs = refs.filter(r => (r.atty_name === currentLawyerFilter || r.firm === currentLawyerFilter));
+}
+if (currentLawyerFilter) {
+refs = refs.filter(r => (r.atty_name === currentLawyerFilter || r.firm === currentLawyerFilter));
+}
+refs = currentFilter==='all' ? refs : refs.filter(r=>r.status===currentFilter);
+var list = document.getElementById('referral-list');
+if (!refs.length) {
+list.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div><p>No referrals found.</p></div>';
+return;
+}
+list.innerHTML = refs.map(r => `
+<div class="referral-card ${r.status==='sent'?'new-ref':''}" id="ref-${r.id}">
+<div class="ref-header" onclick="toggleRef('${r.id}')">
+<div>
+<div class="ref-patient">${r.patient_name}</div>
+<div class="ref-meta">${r.incident_type} · ${new Date(r.created_at).toLocaleDateString()} · From: ${r.atty_name}, ${r.firm}</div>
+</div>
+<div class="ref-right">
+<span class="status-badge ${r.status}">${r.status==='sent'?'New':r.status}</span>
+<span class="chevron" id="chev-${r.id}">▼</span>
+</div>
+</div>
+<div class="ref-body" id="body-${r.id}">
+<div class="ref-body-inner">
+<div class="ref-section">
+<h4>Patient</h4>
+<div class="ref-field"><span class="lbl">Full Name</span><span class="val">${r.patient_name}</span></div>
+<div class="ref-field"><span class="lbl">Date of Birth</span><span class="val">${r.dob||'—'}</span></div>
+<div class="ref-field"><span class="lbl">Phone</span><span class="val">${r.patient_phone}</span></div>
+<div class="ref-field"><span class="lbl">Language</span><span class="val">${r.language||'English'}</span></div>
+<div class="ref-field"><span class="lbl">Date of Incident</span><span class="val">${r.incident_date}</span></div>
+<div class="ref-field"><span class="lbl">Incident Type</span><span class="val">${r.incident_type}</span></div>
+</div>
+<div class="ref-section">
+<h4>Attorney</h4>
+<div class="ref-field"><span class="lbl">Name</span><span class="val">${r.atty_name}</span></div>
+<div class="ref-field"><span class="lbl">Firm</span><span class="val">${r.firm}</span></div>
+<div class="ref-field"><span class="lbl">Bar Number</span><span class="val">${r.bar_number||'—'}</span></div>
+<div class="ref-field"><span class="lbl">Phone</span><span class="val">${r.atty_phone}</span></div>
+<div class="ref-field"><span class="lbl">Email</span><span class="val">${r.atty_email}</span></div>
+</div>
+<div class="ref-section">
+<h4>Insurance</h4>
+<div class="ref-field"><span class="lbl">Company</span><span class="val">${r.insurance||'—'}</span></div>
+<div class="ref-field"><span class="lbl">Claim Number</span><span class="val">${r.claim_number||'—'}</span></div>
+<div class="ref-field"><span class="lbl">Adjuster Name</span><span class="val">${r.adjuster_name||'—'}</span></div>
+<div class="ref-field"><span class="lbl">Adjuster Phone</span><span class="val">${r.adjuster_phone||'—'}</span></div>
+${r.notes?`<div class="ref-field"><span class="lbl">Notes</span><span class="val">${r.notes}</span></div>`:''}
+</div>
+</div>
+<div class="ref-footer">
+${r.status!=='accepted'?`<button class="btn-accept" onclick="acceptReferral('${r.id}')">✓ Accept Referral</button>`:'<span style="color:#166534;font-weight:600;font-size:13px;">✓ Accepted</span>'}
+${(r.referral_documents||[]).map(d=>`<button class="doc-btn" onclick="downloadDoc('${r.id}','${d.path}','${d.filename}')">📄 ${d.filename}</button>`).join('')}
+${r.signature_data?`<div class="sig-preview"><img src="${r.signature_data}" alt="Signature" title="Attorney signature"></div>`:''}
+</div>
+<div class="send-docs-section">
+<h4>📤 Send Documents to Attorney</h4>
+<div class="chiro-upload-zone" onclick="document.getElementById('cd-input-${r.id}').click()">
+<input type="file" id="cd-input-${r.id}" multiple style="display:none" onchange="cdPreview('${r.id}',this)" />
+📎 Click to select files to send to ${r.atty_name}
+</div>
+<div id="cd-pills-${r.id}" style="margin-bottom:4px;"></div>
+<button class="btn-send-chiro" onclick="sendChiroDocs('${r.id}','${r.atty_email}','${r.atty_name}','${r.patient_name}',this)">
+Send to Attorney
+</button>
+<div id="cd-msg-${r.id}" style="font-size:13px;margin-top:6px;min-height:18px;"></div>
+</div>
+${r.chiro_documents && r.chiro_documents.length ? `
+<div class="sent-chiro-docs">
+<h4>✅ Documents Sent to Attorney</h4>
+${r.chiro_documents.map(d => `<div class="sent-doc-row">📄 <span>${d.filename}</span><span class="sent-doc-date">${new Date(d.sent_at).toLocaleDateString()}</span></div>`).join('')}
+</div>` : ''}
+</div>
+</div>
+`).join('');
 
-  // Load notes for all displayed referrals
-  refs.forEach(r => loadNotes(r.id));
-  // Mark new referrals as viewed
-  refs.filter(r=>r.status==='sent').forEach(r => {
-    sb.from('referrals').update({status:'viewed'}).eq('id',r.id);
-  });
+// Load notes for all displayed referrals
+refs.forEach(r => loadNotes(r.id));
+// Mark new referrals as viewed
+refs.filter(r=>r.status==='sent').forEach(r => {
+sb.from('referrals').update({status:'viewed'}).eq('id',r.id);
+});
 }
 
 function toggleRef(id) {
-  var body = document.getElementById('body-'+id);
-  var chev = document.getElementById('chev-'+id);
-  var open = body.classList.toggle('open');
-  chev.classList.toggle('open', open);
+var body = document.getElementById('body-'+id);
+var chev = document.getElementById('chev-'+id);
+var open = body.classList.toggle('open');
+chev.classList.toggle('open', open);
 }
 
 async function acceptReferral(id) {
-  var { error } = await sb.from('referrals').update({status:'accepted'}).eq('id',id);
-  if (error) { alert('Error: ' + error.message); return; }
-  var ref = allReferrals.find(r=>r.id==id);
-  if (ref) ref.status = 'accepted';
-  renderReferrals();
-  document.getElementById('stat-accepted').textContent = allReferrals.filter(r=>r.status==='accepted').length;
-  document.getElementById('stat-new').textContent = allReferrals.filter(r=>r.status==='sent').length;
+var { error } = await sb.from('referrals').update({status:'accepted'}).eq('id',id);
+if (error) { alert('Error: ' + error.message); return; }
+var ref = allReferrals.find(r=>r.id==id);
+if (ref) ref.status = 'accepted';
+renderReferrals();
+document.getElementById('stat-accepted').textContent = allReferrals.filter(r=>r.status==='accepted').length;
+document.getElementById('stat-new').textContent = allReferrals.filter(r=>r.status==='sent').length;
 }
 
 async function downloadDoc(refId, path, filename) {
-  var { data, error } = await sb.storage.from('documents').download(path);
-  if (error) { alert('Error downloading file: ' + error.message); return; }
-  var url = URL.createObjectURL(data);
-  var a = document.createElement('a');
-  a.href = url; a.download = filename;
-  document.body.appendChild(a); a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+var { data, error } = await sb.storage.from('documents').download(path);
+if (error) { alert('Error downloading file: ' + error.message); return; }
+var url = URL.createObjectURL(data);
+var a = document.createElement('a');
+a.href = url; a.download = filename;
+document.body.appendChild(a); a.click();
+document.body.removeChild(a);
+URL.revokeObjectURL(url);
 }
-
 
 // ── CHIRO NOTES ───────────────────────────────────────────────────────────────
 async function loadNotes(refId) {
-  var { data } = await sb.from('chiro_notes').select('*').eq('referral_id', refId).order('created_at', {ascending:true});
-  var container = document.getElementById('notes-history-' + refId);
-  if (!container) return;
-  if (!data || !data.length) { container.innerHTML = '<small style="color:#aaa">No notes sent yet.</small>'; return; }
-  container.innerHTML = data.map(n => '<div class="note-item"><span class="note-date">' + new Date(n.created_at).toLocaleString() + '</span>' + n.note_text + '</div>').join('');
-  container.scrollTop = container.scrollHeight;
+var { data } = await sb.from('chiro_notes').select('*').eq('referral_id', refId).order('created_at', {ascending:true});
+var container = document.getElementById('notes-history-' + refId);
+if (!container) return;
+if (!data || !data.length) { container.innerHTML = '<small style="color:#aaa">No notes sent yet.</small>'; return; }
+container.innerHTML = data.map(n => '<div class="note-item"><span class="note-date">' + new Date(n.created_at).toLocaleString() + '</span>' + n.note_text + '</div>').join('');
+container.scrollTop = container.scrollHeight;
 }
 
 async function sendNote(refId, attyEmail, attyName, patientName) {
-  var input = document.getElementById('note-input-' + refId);
-  var text = input ? input.value.trim() : '';
-  if (!text) { alert('Please type a note before sending.'); return; }
-  
-  var btn = event.target;
-  btn.textContent = 'Sending...'; btn.disabled = true;
-  
-  var { error } = await sb.from('chiro_notes').insert({
-    referral_id: refId,
-    note_text: text,
-    chiro_email: currentUser.email,
-    atty_email: attyEmail,
-    patient_name: patientName,
-    created_at: new Date().toISOString()
-  });
-  
-  if (error) {
-    alert('Error sending note: ' + error.message);
-    btn.textContent = 'Send Note to Attorney'; btn.disabled = false;
-    return;
-  }
-  
-  input.value = '';
-  btn.textContent = '✓ Sent!'; btn.style.background = '#166534';
-  setTimeout(() => { btn.textContent = 'Send Note to Attorney'; btn.disabled = false; btn.style.background = ''; }, 2000);
-  loadNotes(refId);
+var input = document.getElementById('note-input-' + refId);
+var text = input ? input.value.trim() : '';
+if (!text) { alert('Please type a note before sending.'); return; }
+
+var btn = event.target;
+btn.textContent = 'Sending...'; btn.disabled = true;
+
+var { error } = await sb.from('chiro_notes').insert({
+referral_id: refId,
+note_text: text,
+chiro_email: currentUser.email,
+atty_email: attyEmail,
+patient_name: patientName,
+created_at: new Date().toISOString()
+});
+
+if (error) {
+alert('Error sending note: ' + error.message);
+btn.textContent = 'Send Note to Attorney'; btn.disabled = false;
+return;
 }
 
+input.value = '';
+btn.textContent = '✓ Sent!'; btn.style.background = '#166534';
+setTimeout(() => { btn.textContent = 'Send Note to Attorney'; btn.disabled = false; btn.style.background = ''; }, 2000);
+loadNotes(refId);
+}
 
 async function saveNewPassword() {
-  var pw = document.getElementById('pw-new').value;
-  var confirm = document.getElementById('pw-confirm').value;
-  var errEl = document.getElementById('pw-error');
-  errEl.style.display = 'none';
+var pw = document.getElementById('pw-new').value;
+var confirm = document.getElementById('pw-confirm').value;
+var errEl = document.getElementById('pw-error');
+errEl.style.display = 'none';
 
-  if (pw.length < 8) {
-    errEl.textContent = 'Password must be at least 8 characters.';
-    errEl.style.display = 'block'; return;
-  }
-  if (pw !== confirm) {
-    errEl.textContent = 'Passwords do not match.';
-    errEl.style.display = 'block'; return;
-  }
-
-  var btn = document.querySelector('.pw-btn');
-  btn.textContent = 'Saving...'; btn.disabled = true;
-
-  var { error } = await sb.auth.updateUser({ password: pw });
-  if (error) {
-    errEl.textContent = 'Error: ' + error.message;
-    errEl.style.display = 'block';
-    btn.textContent = 'Set Password & Continue'; btn.disabled = false;
-    return;
-  }
-
-  // Password set! Close modal and load dashboard
-  document.getElementById('pw-modal-overlay').classList.remove('active');
-  history.replaceState(null, '', window.location.pathname);
-  // Now load the dashboard properly
-  sb.from('profiles').select('full_name, firm').eq('id', currentUser.id).single().then(({ data }) => {
-    document.getElementById('user-name').textContent = data?.full_name || currentUser.email;
-    document.getElementById('practice-name').textContent = data?.firm || 'Provider Dashboard';
-    loadReferrals();
-  });
+if (pw.length < 8) {
+errEl.textContent = 'Password must be at least 8 characters.';
+errEl.style.display = 'block'; return;
+}
+if (pw !== confirm) {
+errEl.textContent = 'Passwords do not match.';
+errEl.style.display = 'block'; return;
 }
 
+var btn = document.querySelector('.pw-btn');
+btn.textContent = 'Saving...'; btn.disabled = true;
+
+var { error } = await sb.auth.updateUser({ password: pw });
+if (error) {
+errEl.textContent = 'Error: ' + error.message;
+errEl.style.display = 'block';
+btn.textContent = 'Set Password & Continue'; btn.disabled = false;
+return;
+}
+
+// Password set! Close modal and load dashboard
+document.getElementById('pw-modal-overlay').classList.remove('active');
+history.replaceState(null, '', window.location.pathname);
+// Now load the dashboard properly
+sb.from('profiles').select('full_name, firm').eq('id', currentUser.id).single().then(({ data }) => {
+document.getElementById('user-name').textContent = data?.full_name || currentUser.email;
+document.getElementById('practice-name').textContent = data?.firm || 'Provider Dashboard';
+loadReferrals();
+});
+}
 
 function showChiroLogin() {
-  document.getElementById('chiro-login-overlay').classList.add('active');
-  // Allow Enter key to submit
-  document.getElementById('chiro-login-pw').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') doChiroLogin();
-  });
+document.getElementById('chiro-login-overlay').classList.add('active');
+// Allow Enter key to submit
+document.getElementById('chiro-login-pw').addEventListener('keydown', function(e) {
+if (e.key === 'Enter') doChiroLogin();
+});
 }
 
 async function doChiroLogin() {
-  var email = document.getElementById('chiro-login-email').value.trim();
-  var pw = document.getElementById('chiro-login-pw').value;
-  var err = document.getElementById('chiro-login-err');
-  err.style.display = 'none';
-  if (!email || !pw) { err.textContent = 'Please enter your email and password.'; err.style.display = 'block'; return; }
-  var btn = document.querySelector('.chiro-login-btn');
-  btn.textContent = 'Signing in...'; btn.disabled = true;
-  var { data, error } = await sb.auth.signInWithPassword({ email: email, password: pw });
-  if (error) {
-    err.textContent = error.message.includes('Invalid') ? 'Incorrect email or password.' : error.message;
-    err.style.display = 'block';
-    btn.textContent = 'Sign In'; btn.disabled = false;
-    return;
-  }
-  currentUser = data.user;
-  document.getElementById('chiro-login-overlay').classList.remove('active');
-  // Load profile info (name, practice) then referrals - same as getSession path
-  sb.from('profiles').select('full_name, firm').eq('id', currentUser.id).single().then(({ data: profile }) => {
-    if (profile) {
-      document.getElementById('user-name').textContent = profile.full_name || currentUser.email;
-      document.getElementById('practice-name').textContent = profile.firm || '';
-    } else {
-      document.getElementById('user-name').textContent = currentUser.email;
-    }
-    loadReferrals();
-  }).catch(() => {
-    // Profile not found is fine for chiros - just load referrals
-    document.getElementById('user-name').textContent = currentUser.email;
-    loadReferrals();
-  });
+var email = document.getElementById('chiro-login-email').value.trim();
+var pw = document.getElementById('chiro-login-pw').value;
+var err = document.getElementById('chiro-login-err');
+err.style.display = 'none';
+if (!email || !pw) { err.textContent = 'Please enter your email and password.'; err.style.display = 'block'; return; }
+var btn = document.querySelector('.chiro-login-btn');
+btn.textContent = 'Signing in...'; btn.disabled = true;
+var { data, error } = await sb.auth.signInWithPassword({ email: email, password: pw });
+if (error) {
+err.textContent = error.message.includes('Invalid') ? 'Incorrect email or password.' : error.message;
+err.style.display = 'block';
+btn.textContent = 'Sign In'; btn.disabled = false;
+return;
+}
+currentUser = data.user;
+document.getElementById('chiro-login-overlay').classList.remove('active');
+// Load profile info (name, practice) then referrals - same as getSession path
+sb.from('profiles').select('full_name, firm').eq('id', currentUser.id).single().then(({ data: profile }) => {
+if (profile) {
+document.getElementById('user-name').textContent = profile.full_name || currentUser.email;
+document.getElementById('practice-name').textContent = profile.firm || '';
+} else {
+document.getElementById('user-name').textContent = currentUser.email;
+}
+loadReferrals();
+}).catch(() => {
+// Profile not found is fine for chiros - just load referrals
+document.getElementById('user-name').textContent = currentUser.email;
+loadReferrals();
+});
 }
 
+// ── Chiro Document Sending ──
 
-  // ── Chiro Document Sending ──
+function cdPreview(refId, input) {
+var pills = document.getElementById('cd-pills-' + refId);
+if (!pills) return;
+pills.innerHTML = '';
+Array.from(input.files).forEach(function(f, i) {
+var pill = document.createElement('span');
+pill.className = 'chiro-file-pill';
+pill.innerHTML = '📄 ' + f.name + ' <span class="rm" onclick="cdRemoveFile(\'' + refId + '\','+ i +')">✕</span>';
+pills.appendChild(pill);
+});
+}
 
-  function cdPreview(refId, input) {
-    var pills = document.getElementById('cd-pills-' + refId);
-    if (!pills) return;
-    pills.innerHTML = '';
-    Array.from(input.files).forEach(function(f, i) {
-      var pill = document.createElement('span');
-      pill.className = 'chiro-file-pill';
-      pill.innerHTML = '📄 ' + f.name + ' <span class="rm" onclick="cdRemoveFile(\'' + refId + '\','+ i +')">✕</span>';
-      pills.appendChild(pill);
-    });
-  }
+function cdRemoveFile(refId, idx) {
+var input = document.getElementById('cd-input-' + refId);
+if (!input) return;
+var dt = new DataTransfer();
+Array.from(input.files).forEach(function(f, i) { if (i !== idx) dt.items.add(f); });
+input.files = dt.files;
+cdPreview(refId, input);
+}
 
-  function cdRemoveFile(refId, idx) {
-    var input = document.getElementById('cd-input-' + refId);
-    if (!input) return;
-    var dt = new DataTransfer();
-    Array.from(input.files).forEach(function(f, i) { if (i !== idx) dt.items.add(f); });
-    input.files = dt.files;
-    cdPreview(refId, input);
-  }
+async function sendChiroDocs(refId, attyEmail, attyName, patientName, btn) {
+var input = document.getElementById('cd-input-' + refId);
+var msgEl = document.getElementById('cd-msg-' + refId);
+if (!input || !input.files.length) {
+if (msgEl) msgEl.innerHTML = '<span style="color:#c00;">Please select at least one file.</span>';
+return;
+}
+btn.disabled = true;
+btn.textContent = 'Sending...';
+if (msgEl) msgEl.innerHTML = '';
 
-  async function sendChiroDocs(refId, attyEmail, attyName, patientName, btn) {
-    var input = document.getElementById('cd-input-' + refId);
-    var msgEl = document.getElementById('cd-msg-' + refId);
-    if (!input || !input.files.length) {
-      if (msgEl) msgEl.innerHTML = '<span style="color:#c00;">Please select at least one file.</span>';
-      return;
-    }
-    btn.disabled = true;
-    btn.textContent = 'Sending...';
-    if (msgEl) msgEl.innerHTML = '';
+var chiroName = currentUser.user_metadata && currentUser.user_metadata.full_name
+? currentUser.user_metadata.full_name
+: (currentUser.email || 'Your Chiropractor');
+var chiroEmail = currentUser.email;
+var files = Array.from(input.files);
 
-    var chiroName = currentUser.user_metadata && currentUser.user_metadata.full_name
-      ? currentUser.user_metadata.full_name
-      : (currentUser.email || 'Your Chiropractor');
-    var chiroEmail = currentUser.email;
-    var files = Array.from(input.files);
+try {
+for (var file of files) {
+var path = 'chiro-docs/' + refId + '/' + Date.now() + '-' + file.name;
+var upRes = await sb.storage.from('documents').upload(path, file, { upsert: true });
+if (upRes.error) throw upRes.error;
+var insRes = await sb.from('chiro_documents').insert({
+referral_id: refId,
+filename: file.name,
+path: path,
+chiro_name: chiroName,
+chiro_email: chiroEmail
+});
+if (insRes.error) throw insRes.error;
+}
 
-    try {
-      for (var file of files) {
-        var path = 'chiro-docs/' + refId + '/' + Date.now() + '-' + file.name;
-        var upRes = await sb.storage.from('documents').upload(path, file, { upsert: true });
-        if (upRes.error) throw upRes.error;
-        var insRes = await sb.from('chiro_documents').insert({
-          referral_id: refId,
-          filename: file.name,
-          path: path,
-          chiro_name: chiroName,
-          chiro_email: chiroEmail
-        });
-        if (insRes.error) throw insRes.error;
-      }
+// Send email to attorney via Resend
+fetch('https://api.resend.com/emails', {
+method: 'POST',
+headers: {
+'Authorization': 'Bearer re_P9nJy4pt_7BEkzJThE4CQsFyHVBdEAdve',
+'Content-Type': 'application/json'
+},
+body: JSON.stringify({
+from: 'IHateCarAccidents Portal <noreply@ihatecaraccidents.com>',
+to: [attyEmail],
+subject: 'New Documents from ' + chiroName + ' | Patient: ' + patientName,
+html: '<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px;">' +
+'<div style="background:#c8102e;padding:16px 24px;border-radius:8px 8px 0 0;">' +
+'<h2 style="color:white;margin:0;font-size:20px;">New Documents Available</h2></div>' +
+'<div style="background:#f9f9f9;padding:24px;border-radius:0 0 8px 8px;border:1px solid #eee;">' +
+'<p style="margin-top:0;">Hello <strong>' + attyName + '</strong>,</p>' +
+'<p><strong>' + chiroName + '</strong> has sent you <strong>' + files.length + ' document(s)</strong> regarding patient <strong>' + patientName + '</strong>.</p>' +
+'<p>Please log in to your attorney portal to view and download the documents.</p>' +
+'<a href="https://ihatecaraccidents.com/portal-lawyer" style="display:inline-block;background:#c8102e;color:white;padding:12px 28px;border-radius:5px;text-decoration:none;font-weight:600;margin:8px 0;">View Documents</a>' +
+'<p style="color:#999;font-size:12px;margin-bottom:0;margin-top:20px;">IHateCarAccidents.com | Attorney Portal</p>' +
+'</div></div>'
+})
+}).catch(function(e){ console.warn('Email notification failed (CORS):', e.message); });
 
-      // Send email to attorney via Resend
-      fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': 'Bearer re_P9nJy4pt_7BEkzJThE4CQsFyHVBdEAdve',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          from: 'IHateCarAccidents Portal <noreply@ihatecaraccidents.com>',
-          to: [attyEmail],
-          subject: 'New Documents from ' + chiroName + ' | Patient: ' + patientName,
-          html: '<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px;">' +
-            '<div style="background:#c8102e;padding:16px 24px;border-radius:8px 8px 0 0;">' +
-            '<h2 style="color:white;margin:0;font-size:20px;">New Documents Available</h2></div>' +
-            '<div style="background:#f9f9f9;padding:24px;border-radius:0 0 8px 8px;border:1px solid #eee;">' +
-            '<p style="margin-top:0;">Hello <strong>' + attyName + '</strong>,</p>' +
-            '<p><strong>' + chiroName + '</strong> has sent you <strong>' + files.length + ' document(s)</strong> regarding patient <strong>' + patientName + '</strong>.</p>' +
-            '<p>Please log in to your attorney portal to view and download the documents.</p>' +
-            '<a href="https://ihatecaraccidents.com/portal-lawyer" style="display:inline-block;background:#c8102e;color:white;padding:12px 28px;border-radius:5px;text-decoration:none;font-weight:600;margin:8px 0;">View Documents</a>' +
-            '<p style="color:#999;font-size:12px;margin-bottom:0;margin-top:20px;">IHateCarAccidents.com | Attorney Portal</p>' +
-            '</div></div>'
-        })
-      }).catch(function(e){ console.warn('Email notification failed (CORS):', e.message); });
+if (msgEl) msgEl.innerHTML = '<span style="color:green;font-weight:600;">✓ ' + files.length + ' document(s) sent to ' + attyName + '!</span>';
+input.value = '';
+document.getElementById('cd-pills-' + refId).innerHTML = '';
+setTimeout(function() { loadReferrals(); }, 2000);
+} catch(err) {
+if (msgEl) msgEl.innerHTML = '<span style="color:#c00;">Error: ' + err.message + '</span>';
+}
 
-      if (msgEl) msgEl.innerHTML = '<span style="color:green;font-weight:600;">✓ ' + files.length + ' document(s) sent to ' + attyName + '!</span>';
-      input.value = '';
-      document.getElementById('cd-pills-' + refId).innerHTML = '';
-      setTimeout(function() { loadReferrals(); }, 2000);
-    } catch(err) {
-      if (msgEl) msgEl.innerHTML = '<span style="color:#c00;">Error: ' + err.message + '</span>';
-    }
-
-    btn.disabled = false;
-    btn.textContent = 'Send to Attorney';
-  }
+btn.disabled = false;
+btn.textContent = 'Send to Attorney';
+}
 
 </script>
 
 <!-- SET PASSWORD MODAL -->
 <div class="pw-modal-overlay" id="pw-modal-overlay">
-  <div class="pw-modal">
-    <h2>🔐 Set Your Password</h2>
-    <p>Welcome! You logged in via an invite link. Please set a password so you can log in normally in the future.</p>
-    <div class="pw-err" id="pw-error"></div>
-    <label>New Password</label>
-    <input type="password" id="pw-new" placeholder="Min. 8 characters" autocomplete="new-password">
-    <label>Confirm Password</label>
-    <input type="password" id="pw-confirm" placeholder="Repeat password" autocomplete="new-password">
-    <button class="pw-btn" onclick="saveNewPassword()">Set Password &amp; Continue</button>
-  </div>
+<div class="pw-modal">
+<h2>🔐 Set Your Password</h2>
+<p>Welcome! You logged in via an invite link. Please set a password so you can log in normally in the future.</p>
+<div class="pw-err" id="pw-error"></div>
+<label>New Password</label>
+<input type="password" id="pw-new" placeholder="Min. 8 characters" autocomplete="new-password">
+<label>Confirm Password</label>
+<input type="password" id="pw-confirm" placeholder="Repeat password" autocomplete="new-password">
+<button class="pw-btn" onclick="saveNewPassword()">Set Password &amp; Continue</button>
+</div>
 </div>
 
 <div class="chiro-login-overlay" id="chiro-login-overlay">
-  <div class="chiro-login-box">
-    <h2>Provider Portal</h2>
-    <p>IHateCarAccidents.com — Chiropractor Login</p>
-    <div class="chiro-login-err" id="chiro-login-err"></div>
-    <label>Email Address</label>
-    <input type="email" id="chiro-login-email" placeholder="your@email.com" autocomplete="email">
-    <label>Password</label>
-    <input type="password" id="chiro-login-pw" placeholder="Your password" autocomplete="current-password">
-    <button class="chiro-login-btn" onclick="doChiroLogin()">Sign In</button>
-  </div>
+<div class="chiro-login-box">
+<h2>Provider Portal</h2>
+<p>IHateCarAccidents.com — Chiropractor Login</p>
+<div class="chiro-login-err" id="chiro-login-err"></div>
+<label>Email Address</label>
+<input type="email" id="chiro-login-email" placeholder="your@email.com" autocomplete="email">
+<label>Password</label>
+<input type="password" id="chiro-login-pw" placeholder="Your password" autocomplete="current-password">
+<button class="chiro-login-btn" onclick="doChiroLogin()">Sign In</button>
+</div>
 </div>
 </body>
 </html>
