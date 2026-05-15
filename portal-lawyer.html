@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Attorney Dashboard — IHateCarAccidents Portal</title>
+<title>Attorney Dashboard â IHateCarAccidents Portal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
@@ -19,7 +19,7 @@
   
   .logo { font-family:'Oswald',sans-serif; line-height:1; flex-shrink:0; cursor:pointer; display:flex; align-items:center; gap:10px; text-decoration:none; }
   .logo-icon { width:38px; height:38px; background:var(--red); border-radius:6px; display:flex; align-items:center; justify-content:center; flex-shrink:0; position:relative; overflow:hidden; transform:rotate(-2deg); box-shadow:3px 3px 0 #7a0a1a; }
-  .logo-icon::after { content:'✦'; font-size:20px; line-height:1; color:white; }
+  .logo-icon::after { content:'â¦'; font-size:20px; line-height:1; color:white; }
   .logo-text { display:flex; flex-direction:column; gap:0px; }
   .logo-line1 { font-size:13px; letter-spacing:0.22em; color:#aaa; line-height:1; font-family:'Barlow',sans-serif; font-weight:700; text-transform:uppercase; }
   .logo-line2 { font-size:24px; letter-spacing:0.04em; line-height:0.95; color:white; font-family:'Oswald',sans-serif; font-weight:700; }
@@ -242,7 +242,7 @@
 
     <!-- Patient Address Search with Autocomplete -->
     <div class="patient-search-bar">
-      <span style="font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;color:var(--black);white-space:nowrap;">📍 Find Closest Provider:</span>
+      <span style="font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;color:var(--black);white-space:nowrap;">ð Find Closest Provider:</span>
       <div class="autocomplete-wrap">
         <input type="text" id="patient-address" placeholder="Start typing patient address..." 
           oninput="onAddressInput(this.value)"
@@ -268,7 +268,7 @@
     <div id="referral-form-section">
       <div class="form-header">
         <h2>Attorney Case Placement Form</h2>
-        <p id="form-chiro-name">Referring to: —</p>
+        <p id="form-chiro-name">Referring to: â</p>
       </div>
       <div class="form-body">
         <div id="form-msg" class="msg"></div>
@@ -341,8 +341,8 @@
           <div class="form-section-title"><span class="num">4</span>Documents</div>
           <div class="upload-zone" onclick="document.getElementById('file-input').click()">
             <input type="file" id="file-input" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" onchange="handleFiles(this.files)">
-            <div class="upload-icon">📎</div>
-            <div class="upload-text"><strong>Click to upload</strong> or drag and drop<br><small style="color:#aaa">PDF, Word, or images — patient intake, insurance cards, accident reports</small></div>
+            <div class="upload-icon">ð</div>
+            <div class="upload-text"><strong>Click to upload</strong> or drag and drop<br><small style="color:#aaa">PDF, Word, or images â patient intake, insurance cards, accident reports</small></div>
           </div>
           <div class="file-list" id="file-list"></div>
         </div>
@@ -390,7 +390,8 @@
   <!-- MY REFERRALS TAB -->
   <div id="panel-referrals" style="display:none;">
     <div class="section-title" style="margin-bottom:20px;">My Referrals</div>
-    <div id="referrals-list">
+    <select id="chiroFilter" onchange="filterByChiro()" style="padding:7px 16px;border:1px solid #ddd;border-radius:20px;font-size:13px;cursor:pointer;background:white;margin-bottom:12px;"><option value="">All Providers</option></select>
+<div id="referrals-list">
       <div style="text-align:center;padding:40px;color:#aaa;">Loading referrals...</div>
     </div>
   </div>
@@ -413,6 +414,7 @@ let map, markers = [];
 
 // Auth check
 let currentUser = null;
+let currentChiroFilter = '';
 sb.auth.getSession().then(({ data: { session } }) => {
   if (!session) { window.location.href = '/portal.html'; return; }
   currentUser = session.user;
@@ -448,15 +450,15 @@ function buildChiroCards() {
       <div class="chiro-practice">${p.practice}</div>
       <div class="chiro-detail"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${p.address}</div>
       <div class="chiro-detail"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.81a16 16 0 0 0 6 6l.94-.94a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.5 16.92z"/></svg>${p.phone}</div>
-      ${p.notes ? `<div class="chiro-detail" style="color:#166534;">✓ ${p.notes}</div>` : ''}
+      ${p.notes ? `<div class="chiro-detail" style="color:#166534;">â ${p.notes}</div>` : ''}
       <div class="chiro-badges">
-        ${p.pip ? '<span class="badge pip">✓ Accepts PIP</span>' : ''}
+        ${p.pip ? '<span class="badge pip">â Accepts PIP</span>' : ''}
         ${p.walkins ? '<span class="badge">Walk-ins Welcome</span>' : ''}
         ${p.languages.split(',').map(l=>`<span class="badge">${l.trim()}</span>`).join('')}
       </div>
-      <button class="select-btn" id="selbtn-${p.id}" data-pid="${p.id}" onclick="event.stopPropagation();selectProvider(this.dataset.pid)">Select This Provider →</button>
+      <button class="select-btn" id="selbtn-${p.id}" data-pid="${p.id}" onclick="event.stopPropagation();selectProvider(this.dataset.pid)">Select This Provider â</button>
       </div>
-      ${p.photo ? `<img class="chiro-photo" src="${p.photo}" alt="${p.name}" onerror="this.style.display='none'">` : `<div class="chiro-photo-placeholder">👨‍⚕️</div>`}
+      ${p.photo ? `<img class="chiro-photo" src="${p.photo}" alt="${p.name}" onerror="this.style.display='none'">` : `<div class="chiro-photo-placeholder">ð¨ââï¸</div>`}
     </div>
   `).join('');
 }
@@ -467,11 +469,11 @@ function selectProvider(id) {
   providers.forEach(p => {
     document.getElementById('card-'+p.id)?.classList.toggle('selected', p.id===id);
     var btn = document.getElementById('selbtn-'+p.id);
-    if (btn) { btn.textContent = p.id===id ? '✓ Selected' : 'Select This Provider →'; btn.classList.toggle('selected', p.id===id); }
+    if (btn) { btn.textContent = p.id===id ? 'â Selected' : 'Select This Provider â'; btn.classList.toggle('selected', p.id===id); }
   });
   // Show form
   document.getElementById('referral-form-section').style.display = 'block';
-  document.getElementById('form-chiro-name').textContent = 'Referring to: ' + selectedProvider.practice + ' — ' + selectedProvider.name;
+  document.getElementById('form-chiro-name').textContent = 'Referring to: ' + selectedProvider.practice + ' â ' + selectedProvider.name;
   document.getElementById('f-sign-date').value = new Date().toISOString().split('T')[0];
   document.getElementById('referral-form-section').scrollIntoView({behavior:'smooth', block:'start'});
   // Highlight map marker (Leaflet)
@@ -487,7 +489,7 @@ function cancelForm() {
   providers.forEach(p => {
     document.getElementById('card-'+p.id)?.classList.remove('selected');
     var btn = document.getElementById('selbtn-'+p.id);
-    if (btn) { btn.textContent = 'Select This Provider →'; btn.classList.remove('selected'); }
+    if (btn) { btn.textContent = 'Select This Provider â'; btn.classList.remove('selected'); }
   });
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -504,8 +506,8 @@ function renderFileList() {
   var list = document.getElementById('file-list');
   list.innerHTML = uploadedFiles.map((f,i) => `
     <div class="file-item">
-      <span>📄 ${f.name} <span style="color:#aaa;">(${(f.size/1024).toFixed(0)} KB)</span></span>
-      <button class="remove" onclick="removeFile(${i})">×</button>
+      <span>ð ${f.name} <span style="color:#aaa;">(${(f.size/1024).toFixed(0)} KB)</span></span>
+      <button class="remove" onclick="removeFile(${i})">Ã</button>
     </div>
   `).join('');
 }
@@ -628,8 +630,8 @@ async function submitReferral() {
       });
     } catch(emailErr) { console.warn('Chiro email failed:', emailErr.message); }
     
-    showFormMsg('success', '✓ Referral submitted successfully! ' + selectedProvider.name + ' has been notified by email.');
-    btn.textContent = 'Referral Submitted ✓';
+    showFormMsg('success', 'â Referral submitted successfully! ' + selectedProvider.name + ' has been notified by email.');
+    btn.textContent = 'Referral Submitted â';
     if (selectedProvider && markers[selectedProvider.id]) {
       markers[selectedProvider.id].bindPopup(
         '<div style="font-family:Barlow,sans-serif;text-align:center;padding:4px 8px;">' +
@@ -655,6 +657,23 @@ function showFormMsg(type, text) {
   el.scrollIntoView({behavior:'smooth', block:'nearest'});
 }
 
+function populateChiroFilter() {
+  const chiroSet = new Set(); const chiroNames = [];
+  document.querySelectorAll('#referrals-list [id^="lref-"]').forEach(card => {
+    const name = card.dataset.chiro;
+    if (name && !chiroSet.has(name)) { chiroSet.add(name); chiroNames.push(name); }
+  });
+  const sel = document.getElementById('chiroFilter');
+  if (!sel) return;
+  while (sel.options.length > 1) sel.remove(1);
+  chiroNames.sort().forEach(n => { const o = document.createElement('option'); o.value=n; o.textContent=n; sel.appendChild(o); });
+}
+function filterByChiro() {
+  currentChiroFilter = document.getElementById('chiroFilter').value;
+  document.querySelectorAll('#referrals-list [id^="lref-"]').forEach(card => {
+    card.style.display = (!currentChiroFilter || card.dataset.chiro===currentChiroFilter) ? '' : 'none';
+  });
+}
 // LOAD PAST REFERRALS
 async function loadReferrals() {
   if (!currentUser) return;
@@ -668,16 +687,16 @@ async function loadReferrals() {
   data.forEach(r => window._refData[r.id] = r);
 
   list.innerHTML = data.map(r => `
-    <div id="lref-${r.id}" style="background:white;border:1px solid var(--gray-light);border-radius:8px;margin-bottom:12px;overflow:hidden;">
+    <div id="lref-${r.id}" data-chiro="${r.chiro_name||''}" style="background:white;border:1px solid var(--gray-light);border-radius:8px;margin-bottom:12px;overflow:hidden;">
       <div style="padding:16px 20px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;flex-wrap:wrap;gap:10px;" onclick="toggleLRef('${r.id}')">
         <div>
           <div style="font-family:'Oswald',sans-serif;font-size:17px;font-weight:700;">${r.patient_name}</div>
-          <div style="font-size:12px;color:var(--gray);margin-top:2px;">${r.incident_type||''} · ${new Date(r.created_at).toLocaleDateString()} · ${r.chiro_practice}</div>
+          <div style="font-size:12px;color:var(--gray);margin-top:2px;">${r.incident_type||''} Â· ${new Date(r.created_at).toLocaleDateString()} Â· ${r.chiro_practice}</div>
         </div>
         <div style="display:flex;align-items:center;gap:10px;">
           <span class="status-badge ${r.status}">${r.status}</span>
-          ${(r.referral_documents||[]).length > 0 ? `<span style="font-size:11px;background:var(--gray-bg);padding:3px 8px;border-radius:20px;color:var(--gray);">📎 ${r.referral_documents.length} doc${r.referral_documents.length>1?'s':''}</span>` : ''}
-          <span id="lchev-${r.id}" style="font-size:12px;color:#aaa;">▼</span>
+          ${(r.referral_documents||[]).length > 0 ? `<span style="font-size:11px;background:var(--gray-bg);padding:3px 8px;border-radius:20px;color:var(--gray);">ð ${r.referral_documents.length} doc${r.referral_documents.length>1?'s':''}</span>` : ''}
+          <span id="lchev-${r.id}" style="font-size:12px;color:#aaa;">â¼</span>
         </div>
       </div>
       <div id="lbody-${r.id}" style="display:none;border-top:1px solid var(--gray-light);">
@@ -685,42 +704,42 @@ async function loadReferrals() {
           <div>
             <div style="font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--red);margin-bottom:10px;">Patient</div>
             <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Name</span>${r.patient_name}</div>
-            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">DOB</span>${r.dob||'—'}</div>
-            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Phone</span>${r.patient_phone||'—'}</div>
-            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Incident Date</span>${r.incident_date||'—'}</div>
-            <div style="font-size:13px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Type</span>${r.incident_type||'—'}</div>
+            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">DOB</span>${r.dob||'â'}</div>
+            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Phone</span>${r.patient_phone||'â'}</div>
+            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Incident Date</span>${r.incident_date||'â'}</div>
+            <div style="font-size:13px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Type</span>${r.incident_type||'â'}</div>
           </div>
           <div>
             <div style="font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--red);margin-bottom:10px;">Provider</div>
             <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Practice</span>${r.chiro_practice}</div>
-            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Doctor</span>${r.chiro_name||'—'}</div>
-            <div style="font-size:13px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Email</span>${r.chiro_email||'—'}</div>
+            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Doctor</span>${r.chiro_name||'â'}</div>
+            <div style="font-size:13px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Email</span>${r.chiro_email||'â'}</div>
           </div>
           <div>
             <div style="font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--red);margin-bottom:10px;">Insurance</div>
-            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Company</span>${r.insurance||'—'}</div>
-            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Claim #</span>${r.claim_number||'—'}</div>
-            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Adjuster</span>${r.adjuster_name||'—'}</div>
-            <div style="font-size:13px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Adjuster Phone</span>${r.adjuster_phone||'—'}</div>
+            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Company</span>${r.insurance||'â'}</div>
+            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Claim #</span>${r.claim_number||'â'}</div>
+            <div style="font-size:13px;margin-bottom:6px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Adjuster</span>${r.adjuster_name||'â'}</div>
+            <div style="font-size:13px;"><span style="color:#aaa;font-size:11px;text-transform:uppercase;display:block;">Adjuster Phone</span>${r.adjuster_phone||'â'}</div>
           </div>
         </div>
         ${(r.referral_documents||[]).length > 0 ? `
         <div style="padding:0 20px 16px;">
           <div style="font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--red);margin-bottom:10px;">Documents</div>
           <div style="display:flex;flex-wrap:wrap;gap:8px;">
-            ${(r.referral_documents||[]).map(d=>`<button onclick="downloadLawyerDoc('${d.path}','${d.filename}')" style="display:flex;align-items:center;gap:6px;padding:8px 14px;background:var(--black);color:white;border:none;border-radius:4px;font-size:12px;cursor:pointer;">📄 ${d.filename}</button>`).join('')}
+            ${(r.referral_documents||[]).map(d=>`<button onclick="downloadLawyerDoc('${d.path}','${d.filename}')" style="display:flex;align-items:center;gap:6px;padding:8px 14px;background:var(--black);color:white;border:none;border-radius:4px;font-size:12px;cursor:pointer;">ð ${d.filename}</button>`).join('')}
           </div>
         </div>` : '<div style="padding:0 20px 16px;font-size:13px;color:#aaa;">No documents uploaded with this referral.</div>'}
         ${(r.chiro_documents||[]).length > 0 ? `
         <div class="chiro-docs-section">
-          <h5>📨 Documents from Chiropractor</h5>
+          <h5>ð¨ Documents from Chiropractor</h5>
           <div style="display:flex;flex-wrap:wrap;">
-            ${r.chiro_documents.map(d => `<button class="chiro-doc-btn" onclick="downloadLawyerDoc('${d.path}','${d.filename}')">📄 ${d.filename}<span style="font-size:10px;color:#999;margin-left:4px;">${new Date(d.sent_at).toLocaleDateString()}</span></button>`).join('')}
+            ${r.chiro_documents.map(d => `<button class="chiro-doc-btn" onclick="downloadLawyerDoc('${d.path}','${d.filename}')">ð ${d.filename}<span style="font-size:10px;color:#999;margin-left:4px;">${new Date(d.sent_at).toLocaleDateString()}</span></button>`).join('')}
           </div>
         </div>` : ''}
-        ${r.signature_data ? `<div style="padding:0 20px 16px;"><div style="font-size:11px;color:#aaa;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Your Signature</div><img src="${r.signature_data}" style="height:40px;border:1px solid var(--gray-light);border-radius:3px;"><span style="font-size:12px;color:var(--gray);margin-left:10px;">${r.print_name||''} · ${r.sign_date||''}</span></div>` : ''}
+        ${r.signature_data ? `<div style="padding:0 20px 16px;"><div style="font-size:11px;color:#aaa;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Your Signature</div><img src="${r.signature_data}" style="height:40px;border:1px solid var(--gray-light);border-radius:3px;"><span style="font-size:12px;color:var(--gray);margin-left:10px;">${r.print_name||''} Â· ${r.sign_date||''}</span></div>` : ''}
         <div style="padding:12px 20px;border-top:1px solid var(--gray-light);background:#fafafa;">
-          <button data-rid="${r.id}" onclick="openEditRef(this.dataset.rid)" style="padding:8px 18px;background:var(--black);color:white;border:none;border-radius:4px;font-size:13px;font-family:'Barlow',sans-serif;cursor:pointer;font-weight:600;">✏️ Edit Referral</button>
+          <button data-rid="${r.id}" onclick="openEditRef(this.dataset.rid)" style="padding:8px 18px;background:var(--black);color:white;border:none;border-radius:4px;font-size:13px;font-family:'Barlow',sans-serif;cursor:pointer;font-weight:600;">âï¸ Edit Referral</button>
         </div>
       </div>
     </div>
@@ -733,7 +752,7 @@ function toggleLRef(id) {
   var chev = document.getElementById('lchev-'+id);
   var open = body.style.display === 'none';
   body.style.display = open ? 'block' : 'none';
-  if (chev) chev.textContent = open ? '▲' : '▼';
+  if (chev) chev.textContent = open ? 'â²' : 'â¼';
   // Show and load chiro notes when card opens
   var notesBox = document.getElementById('chiro-notes-' + id);
   if (notesBox && open) { notesBox.style.display = 'block'; loadChiroNotes(id); }
@@ -761,8 +780,8 @@ function openEditRef(id) {
   modal.style.cssText = 'display:flex;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:9999;align-items:center;justify-content:center;padding:20px;';
   modal.innerHTML = `<div style="background:white;border-radius:10px;width:100%;max-width:640px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
     <div style="background:var(--black);padding:20px 28px;display:flex;align-items:center;justify-content:space-between;border-radius:10px 10px 0 0;position:sticky;top:0;z-index:10;">
-      <div style="font-family:'Oswald',sans-serif;color:white;font-size:18px;font-weight:700;">Edit Referral — ${r.patient_name}</div>
-      <button onclick="document.getElementById('_editRefModal').remove()" style="color:#aaa;font-size:28px;background:none;border:none;cursor:pointer;line-height:1;">×</button>
+      <div style="font-family:'Oswald',sans-serif;color:white;font-size:18px;font-weight:700;">Edit Referral â ${r.patient_name}</div>
+      <button onclick="document.getElementById('_editRefModal').remove()" style="color:#aaa;font-size:28px;background:none;border:none;cursor:pointer;line-height:1;">Ã</button>
     </div>
     <div style="padding:24px;">
       <div id="_editMsg"></div>
@@ -788,7 +807,7 @@ function openEditRef(id) {
       <div style="font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--red);padding-bottom:8px;border-bottom:2px solid var(--gray-light);margin-bottom:16px;margin-top:20px;">Upload Additional Documents</div>
       <div onclick="document.getElementById('_erFileInput').click()" ondragover="event.preventDefault()" ondrop="erHandleFileDrop(event)" style="border:2px dashed #ccc;border-radius:6px;padding:24px;text-align:center;cursor:pointer;margin-bottom:16px;">
         <input type="file" id="_erFileInput" multiple style="display:none" onchange="handleErFiles(this.files)" />
-        <div style="font-size:24px;margin-bottom:6px;">📎</div>
+        <div style="font-size:24px;margin-bottom:6px;">ð</div>
         <div style="color:var(--red);font-weight:600;font-size:14px;">Click to upload additional documents</div>
         <div style="color:#888;font-size:12px;margin-top:6px;">Existing documents will be kept</div>
         <div id="_erFileList" style="margin-top:8px;"></div>
@@ -825,7 +844,7 @@ function initMap() {
   map = L.map('portal-map').setView([27.5, -81.5], 7);
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors',
+    attribution: 'Â© OpenStreetMap contributors',
     maxZoom: 19
   }).addTo(map);
 
@@ -847,9 +866,9 @@ function initMap() {
         <strong style="font-size:14px;">${p.name}</strong><br>
         <span style="font-size:12px;color:#c8102e;font-weight:600;">${p.practice}</span><br>
         <span style="font-size:12px;color:#555;">${p.address}</span><br>
-        <span style="font-size:12px;">📞 ${p.phone}</span><br>
-        ${p.pip ? '<span style="font-size:11px;color:#166534;font-weight:600;">✓ Accepts PIP</span><br>' : ''}
-        <button data-pid="${p.id}" onclick="selectProvider(this.dataset.pid)" style="margin-top:8px;background:#c8102e;color:white;border:none;padding:6px 14px;border-radius:3px;font-size:12px;cursor:pointer;width:100%;font-family:Oswald,sans-serif;font-weight:700;">Select This Provider →</button>
+        <span style="font-size:12px;">ð ${p.phone}</span><br>
+        ${p.pip ? '<span style="font-size:11px;color:#166534;font-weight:600;">â Accepts PIP</span><br>' : ''}
+        <button data-pid="${p.id}" onclick="selectProvider(this.dataset.pid)" style="margin-top:8px;background:#c8102e;color:white;border:none;padding:6px 14px;border-radius:3px;font-size:12px;cursor:pointer;width:100%;font-family:Oswald,sans-serif;font-weight:700;">Select This Provider â</button>
       </div>
     `);
 
@@ -969,17 +988,17 @@ async function findClosest() {
     var grid = document.getElementById('chiro-grid');
     grid.innerHTML = withDistance.map(p => `
       <div class="chiro-card" id="card-${p.id}" data-pid="${p.id}" onclick="selectProvider(this.dataset.pid)">
-        <div class="chiro-name">${p.name} <span class="distance-badge">${p.distance.toFixed(1)} mi</span>${idx === 0 ? '<span class="closest-distance"> &nbsp;<span class="arrow-icon">➤</span> Nearest to your client</span>' : ''}</div>
+        <div class="chiro-name">${p.name} <span class="distance-badge">${p.distance.toFixed(1)} mi</span>${idx === 0 ? '<span class="closest-distance"> &nbsp;<span class="arrow-icon">â¤</span> Nearest to your client</span>' : ''}</div>
         <div class="chiro-practice">${p.practice}</div>
         <div class="chiro-detail"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${p.address}</div>
         <div class="chiro-detail"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.81a16 16 0 0 0 6 6l.94-.94a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.5 16.92z"/></svg>${p.phone}</div>
-        ${p.notes ? `<div class="chiro-detail" style="color:#166534;">✓ ${p.notes}</div>` : ''}
+        ${p.notes ? `<div class="chiro-detail" style="color:#166534;">â ${p.notes}</div>` : ''}
         <div class="chiro-badges">
-          ${p.pip ? '<span class="badge pip">✓ Accepts PIP</span>' : ''}
+          ${p.pip ? '<span class="badge pip">â Accepts PIP</span>' : ''}
           ${p.walkins ? '<span class="badge">Walk-ins Welcome</span>' : ''}
           ${p.languages.split(',').map(l=>`<span class="badge">${l.trim()}</span>`).join('')}
         </div>
-        <button class="select-btn" id="selbtn-${p.id}" data-pid="${p.id}" onclick="event.stopPropagation();selectProvider(this.dataset.pid)">Select This Provider →</button>
+        <button class="select-btn" id="selbtn-${p.id}" data-pid="${p.id}" onclick="event.stopPropagation();selectProvider(this.dataset.pid)">Select This Provider â</button>
       </div>
       ${p.photo ? `<img class="chiro-photo" src="${p.photo}" alt="${p.name}" onerror="this.style.display='none'">` : ''}
     `).join('');
@@ -988,7 +1007,7 @@ async function findClosest() {
     var closest = withDistance[0];
     map.fitBounds([[patLat, patLng], [closest.lat, closest.lng]], { padding: [60, 60] });
 
-    result.innerHTML = `Closest: <strong>${closest.practice}</strong> — ${closest.distance.toFixed(1)} miles away`;
+    result.innerHTML = `Closest: <strong>${closest.practice}</strong> â ${closest.distance.toFixed(1)} miles away`;
 
   } catch(err) {
     result.textContent = 'Error finding location. Please try again.';
@@ -1024,25 +1043,25 @@ function findClosestCoords(patLat, patLng, addressLabel) {
   var grid = document.getElementById('chiro-grid');
   grid.innerHTML = withDistance.map(function(p, idx) { return `
     <div class="chiro-card ${idx === 0 ? 'closest-card' : ''}" id="card-${p.id}" data-pid="${p.id}" onclick="selectProvider(this.dataset.pid)">
-      ${idx === 0 ? '<div class="closest-badge"><span class="star">⭐</span> Closest Provider <span class="arrow">👆</span></div>' : ''}
-      <div class="chiro-name">${p.name} <span class="distance-badge">${p.distance.toFixed(1)} mi</span>${idx === 0 ? '<span class="closest-distance"> &nbsp;<span class="arrow-icon">➤</span> Nearest to your client</span>' : ''}</div>
+      ${idx === 0 ? '<div class="closest-badge"><span class="star">â­</span> Closest Provider <span class="arrow">ð</span></div>' : ''}
+      <div class="chiro-name">${p.name} <span class="distance-badge">${p.distance.toFixed(1)} mi</span>${idx === 0 ? '<span class="closest-distance"> &nbsp;<span class="arrow-icon">â¤</span> Nearest to your client</span>' : ''}</div>
       <div class="chiro-practice">${p.practice}</div>
       <div class="chiro-detail"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${p.address}</div>
       <div class="chiro-detail"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.81a16 16 0 0 0 6 6l.94-.94a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.5 16.92z"/></svg>${p.phone}</div>
-      ${p.notes ? `<div class="chiro-detail" style="color:#166534;">✓ ${p.notes}</div>` : ''}
+      ${p.notes ? `<div class="chiro-detail" style="color:#166534;">â ${p.notes}</div>` : ''}
       <div class="chiro-badges">
-        ${p.pip ? '<span class="badge pip">✓ Accepts PIP</span>' : ''}
+        ${p.pip ? '<span class="badge pip">â Accepts PIP</span>' : ''}
         ${p.walkins ? '<span class="badge">Walk-ins Welcome</span>' : ''}
         ${p.languages.split(',').map(function(l){return '<span class="badge">'+l.trim()+'</span>';}).join('')}
       </div>
-      <button class="select-btn" id="selbtn-${p.id}" data-pid="${p.id}" onclick="event.stopPropagation();selectProvider(this.dataset.pid)">Select This Provider →</button>
+      <button class="select-btn" id="selbtn-${p.id}" data-pid="${p.id}" onclick="event.stopPropagation();selectProvider(this.dataset.pid)">Select This Provider â</button>
     ${p.photo ? `<img class="chiro-photo" src="${p.photo}" alt="${p.name}" onerror="this.style.display='none'">` : ''}
     </div>
   `; }).join('');
 
   var closest = withDistance[0];
   map.fitBounds([[patLat, patLng], [closest.lat, closest.lng]], { padding: [60, 60] });
-  result.innerHTML = 'Closest: <strong>' + closest.practice + '</strong> — ' + closest.distance.toFixed(1) + ' miles away';
+  result.innerHTML = 'Closest: <strong>' + closest.practice + '</strong> â ' + closest.distance.toFixed(1) + ' miles away';
 }
 
 // Load providers from Supabase then init
@@ -1081,7 +1100,7 @@ loadProviders();
   <div class="modal-box">
     <div class="modal-box-header">
       <h3>Edit Referral</h3>
-      <button class="modal-x" onclick="closeEditReferral()">×</button>
+      <button class="modal-x" onclick="closeEditReferral()">Ã</button>
     </div>
     <div class="modal-box-body">
       <div id="edit-ref-msg"></div>
@@ -1132,7 +1151,7 @@ loadProviders();
       <div class="edit-section-title">Upload Additional Documents</div>
       <div class="upload-zone" onclick="document.getElementById('er-file-input').click()" style="margin-bottom:0;">
         <input type="file" id="er-file-input" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" onchange="handleErFiles(this.files)">
-        <div class="upload-icon">📎</div>
+        <div class="upload-icon">ð</div>
         <div class="upload-text"><strong>Click to upload</strong> additional documents<br><small style="color:#aaa;">Existing documents will be kept</small></div>
       </div>
       <div id="er-file-list" style="margin-top:8px;"></div>
@@ -1213,8 +1232,8 @@ function handleErFiles(files) {
 function renderErFiles() {
   document.getElementById('er-file-list').innerHTML = erFiles.map((f, i) =>
     `<div class="file-item">
-      <span>📄 ${f.name} <span style="color:#aaa;">(${(f.size/1024).toFixed(0)} KB)</span></span>
-      <button class="remove" onclick="erFiles.splice(${i},1);renderErFiles();">×</button>
+      <span>ð ${f.name} <span style="color:#aaa;">(${(f.size/1024).toFixed(0)} KB)</span></span>
+      <button class="remove" onclick="erFiles.splice(${i},1);renderErFiles();">Ã</button>
     </div>`
   ).join('');
 }
@@ -1269,7 +1288,7 @@ async function saveEditReferral() {
 }
 
 
-// ── CHIRO NOTES DISPLAY (read-only for attorney) ─────────────────────────────
+// ââ CHIRO NOTES DISPLAY (read-only for attorney) âââââââââââââââââââââââââââââ
 async function loadChiroNotes(refId) {
   var box = document.getElementById('chiro-notes-' + refId);
   if (!box) return;
@@ -1281,7 +1300,7 @@ async function loadChiroNotes(refId) {
     box.innerHTML = '<small style="color:#999;">No notes from provider yet.</small>';
     return;
   }
-  box.innerHTML = '<h5>📝 Notes from Provider (' + data.length + ')</h5>' +
+  box.innerHTML = '<h5>ð Notes from Provider (' + data.length + ')</h5>' +
     data.map(n =>
       '<div class="chiro-note-item">' +
         '<span class="chiro-note-date">' + new Date(n.created_at).toLocaleString() + '</span>' +
@@ -1296,7 +1315,7 @@ async function loadChiroNotes(refId) {
   if (!box) return;
   var { data, error } = await sb.from('chiro_notes').select('note_text,created_at').eq('referral_id', refId).order('created_at',{ascending:true});
   if (error || !data || !data.length) { box.innerHTML = '<small style="color:#999;">No notes from provider yet.</small>'; return; }
-  box.innerHTML = '<h5>📝 Provider Notes (' + data.length + ')</h5>' + data.map(n => '<div class="chiro-note-item"><span class="chiro-note-date">' + new Date(n.created_at).toLocaleString() + '</span><div class="chiro-note-text">' + (n.note_text||'')+'</div></div>').join('');
+  box.innerHTML = '<h5>ð Provider Notes (' + data.length + ')</h5>' + data.map(n => '<div class="chiro-note-item"><span class="chiro-note-date">' + new Date(n.created_at).toLocaleString() + '</span><div class="chiro-note-text">' + (n.note_text||'')+'</div></div>').join('');
 }
 
 function formatPhone(val) {
