@@ -526,7 +526,7 @@ async function doChiroLogin() {
       }
 
       // Send email to attorney via Resend
-      await fetch('https://api.resend.com/emails', {
+      fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: {
           'Authorization': 'Bearer re_P9nJy4pt_7BEkzJThE4CQsFyHVBdEAdve',
@@ -547,7 +547,7 @@ async function doChiroLogin() {
             '<p style="color:#999;font-size:12px;margin-bottom:0;margin-top:20px;">IHateCarAccidents.com | Attorney Portal</p>' +
             '</div></div>'
         })
-      });
+      }).catch(function(e){ console.warn('Email notification failed (CORS):', e.message); });
 
       if (msgEl) msgEl.innerHTML = '<span style="color:green;font-weight:600;">✓ ' + files.length + ' document(s) sent to ' + attyName + '!</span>';
       input.value = '';
