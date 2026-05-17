@@ -377,7 +377,23 @@ document.getElementById('stat-new').textContent = allReferrals.filter(r=>r.statu
 }
 
 async function downloadDoc(refId, path, filename) {
-var { data, error } = await sb.storage.from('documents').download(path);
+    // HIPAA: check if S3 key or legacy Supabase path
+    if (path && path.startsWith('referrals/')) {
+      try {
+        var session = await sb.auth.getSession();
+        var token = session.data.session.access_token;
+        var resp = await fetch('https://xlhkduyviqzzyxjqnjxj.supabase.co/functions/v1/generate-download-url', {
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ s3_key: path, referral_id: refId, action: 'download' })
+        });
+        var result = await resp.json();
+        if (result.error) { alert('Error: ' + result.error); return; }
+        window.open(result.download_url, '_blank');
+        return;
+      } catch(e) { alert('Download error: ' + e.message); return; }
+    }
+    var { data, error } = await sb.storage.from('documents').download(path);
 if (error) { alert('Error downloading file: ' + error.message); return; }
 var url = URL.createObjectURL(data);
 var a = document.createElement('a');
@@ -546,9 +562,20 @@ var files = Array.from(input.files);
 
 try {
 for (var file of files) {
-var path = 'chiro-docs/' + refId + '/' + Date.now() + '-' + file.name;
-var upRes = await sb.storage.from('documents').upload(path, file, { upsert: true });
-if (upRes.error) throw upRes.error;
+        // HIPAA S3 Upload
+        var session = await sb.auth.getSession();
+        var token = session.data.session.access_token;
+        var urlResp = await fetch('https://xlhkduyviqzzyxjqnjxj.supabase.co/functions/v1/generate-upload-url', {
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ referral_id: refId, file_name: file.name, mime_type: file.type, file_size: file.size })
+        });
+        var urlResult = await urlResp.json();
+        if (urlResult.error) throw new Error(urlResult.error);
+        var s3Resp = await fetch(urlResult.upload_url, { method: 'PUT', headers: { 'Content-Type': file.type || 'application/octet-stream' }, body: file });
+        if (!s3Resp.ok) throw new Error('S3 upload failed: ' + s3Resp.status);
+        var path = urlResult.s3_key;
+        // S3 upload complete, now save metadata
 var insRes = await sb.from('chiro_documents').insert({
 referral_id: refId,
 filename: file.name,
@@ -560,11 +587,12 @@ if (insRes.error) throw insRes.error;
 }
 
 // Send email to attorney via Resend
-fetch('https://api.resend.com/emails', {
-method: 'POST',
-headers: {
-'Authorization': 'Bearer re_P9nJy4pt_7BEkzJThE4CQsFyHVBdEAdve',
-'Content-Type': 'application/json'
+        var emailSess = await sb.auth.getSession();
+        fetch('https://xlhkduyviqzzyxjqnjxj.supabase.co/functions/v1/send-email', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ' + emailSess.data.session.access_token,
+          'Content-Type': 'application/json'
 },
 body: JSON.stringify({
 from: 'IHateCarAccidents Portal <noreply@ihatecaraccidents.com>',
