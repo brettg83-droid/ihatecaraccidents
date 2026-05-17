@@ -604,9 +604,10 @@ async function submitReferral() {
     
     // Notify chiro via email
     try {
-      await fetch('https://xlhkduyviqzzyxjqnjxj.supabase.co/functions/v1/send-email', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+      await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer re_P9nJy4pt_7BEkzJThE4CQsFyHVBdEAdve',
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
@@ -744,7 +745,6 @@ async function loadReferrals() {
     </div>
   
           <div id="chiro-notes-${r.id}" class="chiro-notes-box" style="display:none;"><small style="color:#999;">Loading notes from provider...</small></div>`).join('');
-  setTimeout(populateChiroFilter, 200);
 }
 
 function toggleLRef(id) {
