@@ -560,9 +560,10 @@ if (insRes.error) throw insRes.error;
 }
 
 // Send email to attorney via Resend
-fetch('https://xlhkduyviqzzyxjqnjxj.supabase.co/functions/v1/send-email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+fetch('https://api.resend.com/emails', {
+method: 'POST',
+headers: {
+'Authorization': 'Bearer re_P9nJy4pt_7BEkzJThE4CQsFyHVBdEAdve',
 'Content-Type': 'application/json'
 },
 body: JSON.stringify({
