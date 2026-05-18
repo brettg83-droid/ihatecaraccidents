@@ -727,14 +727,14 @@ async function loadReferrals() {
         <div style="padding:0 20px 16px;">
           <div style="font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--red);margin-bottom:10px;">Documents</div>
           <div style="display:flex;flex-wrap:wrap;gap:8px;">
-            ${(r.referral_documents||[]).map(d=>`<button onclick="downloadLawyerDoc('${d.path}','${d.filename}')" style="display:flex;align-items:center;gap:6px;padding:8px 14px;background:var(--black);color:white;border:none;border-radius:4px;font-size:12px;cursor:pointer;">📄 ${d.filename}</button>`).join('')}
+            ${(r.referral_documents||[]).map(d=>`<button onclick="downloadLawyerDoc('${r.id}','${d.path}','${d.filename}')" style="display:flex;align-items:center;gap:6px;padding:8px 14px;background:var(--black);color:white;border:none;border-radius:4px;font-size:12px;cursor:pointer;">📄 ${d.filename}</button>`).join('')}
           </div>
         </div>` : '<div style="padding:0 20px 16px;font-size:13px;color:#aaa;">No documents uploaded with this referral.</div>'}
         ${(r.chiro_documents||[]).length > 0 ? `
         <div class="chiro-docs-section">
           <h5>📨 Documents from Chiropractor</h5>
           <div style="display:flex;flex-wrap:wrap;">
-            ${r.chiro_documents.map(d => `<button class="chiro-doc-btn" onclick="downloadLawyerDoc('${d.path}','${d.filename}')">📄 ${d.filename}<span style="font-size:10px;color:#999;margin-left:4px;">${new Date(d.sent_at).toLocaleDateString()}</span></button>`).join('')}
+            ${r.chiro_documents.map(d => `<button class="chiro-doc-btn" onclick="downloadLawyerDoc('${r.id}','${d.path}','${d.filename}')">📄 ${d.filename}<span style="font-size:10px;color:#999;margin-left:4px;">${new Date(d.sent_at).toLocaleDateString()}</span></button>`).join('')}
           </div>
         </div>` : ''}
         ${r.signature_data ? `<div style="padding:0 20px 16px;"><div style="font-size:11px;color:#aaa;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Your Signature</div><img src="${r.signature_data}" style="height:40px;border:1px solid var(--gray-light);border-radius:3px;"><span style="font-size:12px;color:var(--gray);margin-left:10px;">${r.print_name||''} · ${r.sign_date||''}</span></div>` : ''}
@@ -759,15 +759,30 @@ function toggleLRef(id) {
   if (notesBox && !open) { notesBox.style.display = 'none'; }
 }
 
-async function downloadLawyerDoc(path, filename) {
-  var { data, error } = await sb.storage.from('documents').download(path);
-  if (error) { alert('Error downloading: ' + error.message); return; }
-  var url = URL.createObjectURL(data);
-  var a = document.createElement('a');
-  a.href = url; a.download = filename;
-  document.body.appendChild(a); a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+async function downloadLawyerDoc(refId, path, filename) {
+    if (path && path.startsWith('referrals/')) {
+        try {
+            var session = await sb.auth.getSession();
+            var token = session.data.session.access_token;
+            var resp = await fetch('https://xlhkduyviqzzyxjqnjxj.supabase.co/functions/v1/generate-download-url', {
+                method: 'POST',
+                headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ s3_key: path, referral_id: refId, action: 'download' })
+            });
+            var result = await resp.json();
+            if (result.error) { alert('Error: ' + result.error); return; }
+            window.open(result.download_url, '_blank');
+            return;
+        } catch(e) { alert('Download error: ' + e.message); return; }
+    }
+    var { data, error } = await sb.storage.from('documents').download(path);
+    if (error) { alert('Error downloading: ' + error.message); return; }
+    var url = URL.createObjectURL(data);
+    var a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
 }
 
 function openEditRef(id) {
