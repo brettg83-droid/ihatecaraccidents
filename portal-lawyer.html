@@ -594,7 +594,7 @@ async function submitReferral() {
     if (error) throw error;
 
     // Upload files
-    for (const file of files) {
+    for (const file of uploadedFiles) {
         const _sess = await sb.auth.getSession();
         const _tok = _sess.data.session.access_token;
         const _r = await fetch('https://xlhkduyviqzzyxjqnjxj.supabase.co/functions/v1/generate-upload-url', {
@@ -1296,7 +1296,7 @@ async function saveEditReferral() {
   }
 
   // Upload any new files
-  for (const file of files) {
+  for (const file of erFiles) {
       const _sess = await sb.auth.getSession();
       const _tok = _sess.data.session.access_token;
       const _r = await fetch('https://xlhkduyviqzzyxjqnjxj.supabase.co/functions/v1/generate-upload-url', {
