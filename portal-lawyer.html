@@ -594,11 +594,19 @@ async function submitReferral() {
     if (error) throw error;
 
     // Upload files
-    for (var file of uploadedFiles) {
-      var path = `referrals/${ref.id}/${file.name}`;
-      await sb.storage.from('documents').upload(path, file);
-      await sb.from('referral_documents').insert({ referral_id: ref.id, filename: file.name, path });
-    }
+    for (const file of files) {
+        const _sess = await sb.auth.getSession();
+        const _tok = _sess.data.session.access_token;
+        const _r = await fetch('https://xlhkduyviqzzyxjqnjxj.supabase.co/functions/v1/generate-upload-url', {
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + _tok, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ referral_id: ref.id, file_name: file.name, mime_type: file.type, file_size: file.size })
+        });
+        const _d = await _r.json();
+        if (!_d.upload_url) throw new Error(_d.error || 'Upload URL failed');
+        const _p = await fetch(_d.upload_url, { method: 'PUT', headers: { 'Content-Type': file.type || 'application/octet-stream' }, body: file });
+        if (!_p.ok) throw new Error('S3 upload failed: ' + _p.status);
+      }
 
     showReferralSuccess(selectedProvider.name);
     
@@ -1286,11 +1294,19 @@ async function saveEditReferral() {
   }
 
   // Upload any new files
-  for (var file of erFiles) {
-    var path = 'referrals/' + id + '/' + file.name;
-    await sb.storage.from('documents').upload(path, file, { upsert: true });
-    await sb.from('referral_documents').insert({ referral_id: id, filename: file.name, path });
-  }
+  for (const file of files) {
+      const _sess = await sb.auth.getSession();
+      const _tok = _sess.data.session.access_token;
+      const _r = await fetch('https://xlhkduyviqzzyxjqnjxj.supabase.co/functions/v1/generate-upload-url', {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + _tok, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ referral_id: id, file_name: file.name, mime_type: file.type, file_size: file.size })
+      });
+      const _d = await _r.json();
+      if (!_d.upload_url) throw new Error(_d.error || 'Upload URL failed');
+      const _p = await fetch(_d.upload_url, { method: 'PUT', headers: { 'Content-Type': file.type || 'application/octet-stream' }, body: file });
+      if (!_p.ok) throw new Error('S3 upload failed: ' + _p.status);
+    }
 
   // Update local cache
   erReferrals[id] = Object.assign(erReferrals[id] || {}, updates);
