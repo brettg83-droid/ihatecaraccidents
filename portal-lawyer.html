@@ -613,10 +613,11 @@ async function submitReferral() {
     
     // Notify chiro via email
     try {
-      await fetch('https://api.resend.com/emails', {
+      var _emSess = await sb.auth.getSession();
+      await fetch('https://xlhkduyviqzzyxjqnjxj.supabase.co/functions/v1/send-email', {
         method: 'POST',
         headers: {
-          'Authorization': 'Bearer re_P9nJy4pt_7BEkzJThE4CQsFyHVBdEAdve',
+          'Authorization': 'Bearer ' + _emSess.data.session.access_token,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
