@@ -232,6 +232,25 @@ var { data, error } = await sb.from('referrals')
 if (error || !data) { document.getElementById('referral-list').innerHTML = '<div class="empty-state"><div class="empty-icon">⚠️</div>Error loading referrals. Please refresh.</div>'; return; }
 
 allReferrals = data;
+// Fetch PHI from S3 for each referral (HIPAA: PHI lives in S3, not Supabase)
+try {
+  var _sess = await sb.auth.getSession();
+  var _tok = _sess.data.session.access_token;
+  await Promise.all(allReferrals.map(async function(r){
+    try {
+      var _resp = await fetch('https://xlhkduyviqzzyxjqnjxj.supabase.co/functions/v1/get-case-details?case_id=' + encodeURIComponent(r.id), {
+        headers: { 'Authorization': 'Bearer ' + _tok }
+      });
+      if (_resp.ok) {
+        var _intake = await _resp.json();
+        if (_intake && _intake.phi) {
+          // Merge PHI fields into r, overriding the initials/nulls from Supabase
+          Object.keys(_intake.phi).forEach(function(k){ if (_intake.phi[k] != null) r[k] = _intake.phi[k]; });
+        }
+      }
+    } catch(e){ console.warn('PHI fetch failed for ' + r.id, e); }
+  }));
+} catch(e){ console.warn('PHI merge skipped:', e); }
 document.getElementById('stat-total').textContent = data.length;
 document.getElementById('stat-new').textContent = data.filter(r=>r.status==='sent').length;
 document.getElementById('stat-accepted').textContent = data.filter(r=>r.status==='accepted').length;
