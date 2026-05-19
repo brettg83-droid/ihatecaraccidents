@@ -606,6 +606,7 @@ async function submitReferral() {
         if (!_d.upload_url) throw new Error(_d.error || 'Upload URL failed');
         const _p = await fetch(_d.upload_url, { method: 'PUT', headers: { 'Content-Type': file.type || 'application/octet-stream' }, body: file });
         if (!_p.ok) throw new Error('S3 upload failed: ' + _p.status);
+        await sb.from('referral_documents').insert({ referral_id: ref.id, filename: file.name, path: _d.s3_key });
       }
 
     showReferralSuccess(selectedProvider.name);
@@ -1306,6 +1307,7 @@ async function saveEditReferral() {
       if (!_d.upload_url) throw new Error(_d.error || 'Upload URL failed');
       const _p = await fetch(_d.upload_url, { method: 'PUT', headers: { 'Content-Type': file.type || 'application/octet-stream' }, body: file });
       if (!_p.ok) throw new Error('S3 upload failed: ' + _p.status);
+      await sb.from('referral_documents').insert({ referral_id: id, filename: file.name, path: _d.s3_key });
     }
 
   // Update local cache
